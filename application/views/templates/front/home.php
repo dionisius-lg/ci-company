@@ -16,20 +16,24 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-6 order-1 order-lg-2">
-				<img src="<?php echo base_url('assets/img/about.jpg'); ?>" class="img-fluid" alt="about">
+				<img src="<?php echo base_url('assets/img/ptarj.jpg'); ?>" class="img-fluid" alt="about">
 			</div>
 			<div class="col-lg-6 pt-4 pt-lg-0 order-2 order-lg-1 content">
-				<h3><?php echo $this->lang->line('welcome'); ?> Company Name</h3>
+				<h3><?php echo $this->lang->line('welcome'); ?> PT. AMALIA ROZIKIN JAYA</h3>
+				<hr>
 				<p class="font-italic">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+					PERUSAHAAN JASA PENEMPATAN TENAGA KERJA LUAR NEGERI 
 				</p>
 				<ul>
-					<li><i class="icofont-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-					<li><i class="icofont-check-circled"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-					<li><i class="icofont-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
+					<li><i class="icofont-check-circled"></i> PT. Amalia Rozikin Jaya adalah Perusahaan Rekrutmen dan Penempatan yang mengkhususkan diri dalam tenaga kerja trampil Indonesia di luar negeri. Kami berdedikasi untuk memberikan kesempatan yang lebih besar kepada sesama orang Indonesia tidak hanya untuk berbagi kemampuan dan bakat mereka dalam bekerja di berbagai bidang di mana kualifikasi mereka paling sesuai, tetapi juga untuk mendapatkan lebih banyak dan diberi kompensasi dengan manfaat yang lebih baik juga.  </li>
+					<li><i class="icofont-check-circled"></i> PT Amalia Rozikin Jaya memahami bahwa modal kepemimpinan memainkan peran kunci dalam kinerja organisasi mana pun. Kemampuan organisasi untuk memperoleh keuntungan, berkembang, dan tumbuh bergantung pada bakat dan kinerja orang-orangnya. Di era mobilitas, mempekerjakan orang-orang yang berkinerja terbaik dapat membuat perbedaan nyata antara kesuksesan dan kegagalan.</li>
+					<li><i class="icofont-check-circled"></i> PT. Amalia Rozikin Jaya telah memasok banyak tenaga kerja Indonesia dan profesional untuk berbagai sektor industri yang mencakup sektor manufaktur, konstruksi, rumah sakit, pertanian, perkebunan, teknik, nelayan, restoran, layanan kebersihan, hotel, asisten rumah tangga, perawat lansia.
+					Calon Pekerja Migran Indonesia selalu dapat mengandalkan perwakilan bisnis PT. Amalia Rozikin Jaya untuk melakukan yang terbaik serta memberikan pelayanan yang baik dan efisien untuk memenuhi setiap kebutuhan Pekerja Migran Indonesia selama di luar negeri.
+					 Semua biaya yang di tetapkan di PT. Amalia Rozikin Jaya selalu mengacu kepada peraturan pemerintah Republik Indonesia. Dengan kepemimpinan baru, PT.Amalia Rozikin Jaya akan berkembang dan memberikan pelayanan yang lebih baik lagi kepada seluruh Calon Pekerja Migran Indonesia yang bergabung. 
+					</li>
 				</ul>
-				<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-				<button type="button" class="btn btn-outline-secondary rounded-0">See more</button>
+				<!-- <p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p> -->
+				<!-- <button type="button" class="btn btn-outline-secondary rounded-0">See more</button> -->
 			</div>
 		</div>
 	</div>
@@ -39,13 +43,15 @@
 <section class="serviceso section-bg">
 	<div class="container">
 		<div class="section-title">
-			<h2>Advantages</h2>
-			<p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+			<h2>Visi Dan Misi</h2>
+			<p>
+				Membantu pemerintah dalam penanggulan masalah pengangguran dalam negeri dan mencetak tenaga kerja yang memiliki keterampilan, pengetahuan, attitude dan pemasukan devisa negara. Mensejahterakan kehidupan tenaga kerja sendiri dan keluarga. Menyalurkan calon tenaga kerja Indonesia ke negara-negara yang membutuhkan tenaga kerja asing yang professional. Memberikan pengawasan dan perlindungan kepada Tenaga Kerja Indonesia di luar negeri.
+			</p>
 		</div>
 
 		<div class="row">
 			<?php foreach ($advantages as $advantage) { ?>
-			<div class="col-lg-4 col-md-6 mt-md-0 mb-3">
+			<div class="col-lg-6 col-md-6 mt-md-0 mb-3">
 				<div class="item text-center match-height">
 					<i class="fa fa-check-square-o"></i>
 					<?php if ($site_lang == 'english') {
