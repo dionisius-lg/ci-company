@@ -1,0 +1,72 @@
+@font-face {
+	font-family: 'poppins';
+	src: url('../font/poppins/Poppins-Regular.ttf');
+}
+@font-face {
+	font-family: 'poppins-light'
+	src: url('../font/poppins/Poppins-Thin.ttf');
+}
+@font-face {
+	font-family: 'poppins-medium';
+	src: url('../font/poppins/Poppins-Medium.ttf');
+}
+@font-face {
+	font-family: 'poppins-bold';
+	src: url('../font/poppins/Poppins-Bold.ttf');
+}
+@font-face {
+	font-family: 'poppins-black';
+	src: url('../font/poppins/Poppins-Black.ttf');
+}
+
+body {
+	font-family: "Poppins";
+	color: #444444;
+}
+
+a {
+	color: #5cb874;
+	text-decoration: none;
+}
+
+a:hover,
+a:focus {
+	color: #80c792;
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "poppins-medium";
+}
+
+a,
+button {
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	outline: none;
+}
+
+ul {
+	list-style: none;
+	padding: 0;
+}
+
+ul > li {
+	padding-left: 1.3em;
+}
+
+ul > li:before {
+	content: "\f05d";
+	font-family: FontAwesome;
+	display: inline-block;
+	margin-left: -1.3em;
+	width: 1.3em;
+}
+
+ol {
+	padding: 20px;
+}
+
+div.row {
+	margin-bottom: 30px !important;
+}

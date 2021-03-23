@@ -1,0 +1,281 @@
+.uppercase {
+	text-transform: uppercase;
+}
+
+.lowercase {
+	text-transform: lowercase;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
+.hidden,
+[hidden] {
+	display: none;
+}
+
+.page-sm .pagination {
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.page-sm .pagination .page-link {
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+ 	line-height: 1.5;
+}
+
+.page-sm .pagination-sm.page-item:first-child .page-link {
+	border-top-left-radius: 0.2rem;
+	border-bottom-left-radius: 0.2rem;
+}
+
+.page-sm .pagination .page-item:last-child .page-link {
+	border-top-right-radius: 0.2rem;
+	border-bottom-right-radius: 0.2rem;
+}
+
+.page-right .pagination {
+	float: right !important;
+}
+
+.invalid-feedback {
+	font-size: 14px !important;
+}
+
+#formAttachment .custom-file-input + .custom-file-label::after {
+	font-family: FontAwesome;
+	content: "\f07c";
+	padding-top: 10px;
+}
+
+#formAttachment .custom-file-input + .custom-file-label {
+	padding: 0.475rem 0.75rem;
+}
+
+#formUserPhoto > div,
+#previewAttachment .item > div {
+	position: relative;
+	margin: 0;
+}
+
+#formUserPhoto .img {
+	width: 100%;
+	height: 200;
+	object-fit: cover;
+}
+
+#previewAttachment .item img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+	border: 1px solid #ccc;
+}
+
+#formUserPhoto .layer,
+#previewAttachment .item .layer {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.6);
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	opacity: 0;
+	z-index: 1;
+}
+
+#formUserPhoto > div:hover .layer,
+#previewAttachment .item:hover .layer {
+	opacity: 0.9;
+}
+
+#formUserPhoto .btn {
+	color: #fff;
+	border: 1px solid #fff;
+	margin: -13px 1px 0;
+	position: relative;
+	top: 50%;
+}
+
+#previewAttachment .item .btn {
+	color: #fff;
+	border: 1px solid #fff;
+	margin: -13px 5px 0;
+	position: relative;
+	top: 50%;
+}
+
+.bootstrap-tagsinput {
+	display: block;
+	width: 100%;
+	min-height: calc(2.25rem + 2px);
+	padding: 0.375rem auto;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #ffffff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: 0;
+	box-shadow: inset 0 0 0 rgba(0, 0, 0, 0);
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.bootstrap-tagsinput .label-info{
+	background-color: #17a2b8;
+}
+
+.bootstrap-tagsinput .label {
+	display: inline-block;
+	padding: .2rem .4rem;
+	margin-left: 0.375rem;
+	margin-right: 0;
+	font-size: 90%;
+	line-height: 1;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: baseline;
+	border-radius: 5%;
+}
+
+.swal2-popup {
+	font-size: 0.8rem !important;
+}
+
+.select2-container--bootstrap4 .select2-selection {
+	border-radius: 0 !important;
+}
+
+.select2-container--bootstrap4 .select2-selection__rendered {
+	line-height: 30px !important;
+}
+
+.select2-container--bootstrap4 .select2-selection--single {
+	height: 31px !important;
+}
+
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+	box-shadow: none !important;
+}
+
+.datepicker table tr td.year,
+.datepicker table tr th.year {
+	width: 90px;
+}
+
+.datepicker table tr td.month,
+.datepicker table tr th.month {
+	width: 60px;
+}
+
+.datepicker table tr td.day,
+.datepicker table tr th.day {
+	width: 30px;
+}
+
+.alert-sm .close {
+	padding-top: 8px;
+}
+
+#tableDataOption {
+	padding: 10px 0;
+}
+
+#tableData_length label {
+	font-weight: normal;
+}
+
+#tableData_length select {
+	width: auto;
+}
+
+@media (max-width: 576px) {
+	#tableData_length,
+	#tableData_info,
+	#tableData_paginate {
+		position: relative;
+		float: none;
+		text-align: center;
+		margin: auto;
+	}
+
+	#tableData_paginate {
+		margin-top: 15px;
+	}
+
+	.table-menu {
+		text-align: center;
+		margin-bottom: 15px;
+	}
+}
+
+#formEmployeesPhoto > div {
+	position: relative;
+	margin: 0;
+}
+
+#formEmployeesPhoto .img {
+	width: 100%;
+	height: 300px;
+	object-fit: cover;
+}
+
+#formEmployeesPhoto .layer {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background-color: rgba(0, 0, 0, 0.6);
+	-webkit-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	opacity: 0;
+	z-index: 1;
+}
+
+#formEmployeesPhoto > div:hover .layer {
+	opacity: 0.9;
+}
+
+#formEmployeesPhoto .btn {
+	color: #fff;
+	border: 1px solid #fff;
+	margin: -13px 1px 0;
+	position: relative;
+	top: 50%;
+}
+
+.modal .modal-header {
+	padding: 8px 15px;
+}
+
+.modal .modal-header .modal-title {
+	font-size: 16px;
+}
+
+.modal .modal-header .close {
+	position: relative;
+	top: 8px !important;
+	padding: 8px 10px 12px !important;
+	font-size: 22px;
+	color: #fff !important;
+	line-height: 0.9em;
+}
+
+.custom-file-sm .custom-file-label,
+.custom-file-sm .custom-file-label::after {
+	height: calc(1.5em + 0.5rem + 2px);
+	padding: 0.25rem 0.5rem;
+	font-size: 0.875rem;
+	line-height: 1.5;
+	border-radius: 0.2rem;
+}
