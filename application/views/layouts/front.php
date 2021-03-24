@@ -17,6 +17,7 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/animate/animate.min.css'); ?>">
 		<?php echo $this->template->stylesheet; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/main.css'); ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/my-style.css'); ?>">
 
 		<script src="<?php echo base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
@@ -62,8 +63,10 @@
 
 					<ul>
 						<li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
-						<li><a href="<?php echo base_url('gallery'); ?>">Gallery</a></li>
-						<li class="drop-down"><a href="">Drop Down</a>
+						<li><a href="<?php echo base_url('about'); ?>">About Us</a></li>
+						<li><a href="<?php echo base_url('employees'); ?>">Employees</a></li>
+						<li><a href="<?php echo base_url('contact'); ?>">Contact Us</a></li>
+						<!-- <li class="drop-down"><a href="">Drop Down</a>
 							<ul>
 								<li><a href="#">Drop Down 1</a></li>
 								<li class="drop-down"><a href="#">Deep Drop Down</a>
@@ -79,9 +82,7 @@
 								<li><a href="#">Drop Down 3</a></li>
 								<li><a href="#">Drop Down 4</a></li>
 							</ul>
-						</li>
-						<li><a href="<?php echo base_url('about'); ?>">About Us</a></li>
-						<li><a href="<?php echo base_url('contact'); ?>">Contact Us</a></li>
+						</li> -->
 					</ul>
 				</nav>
 
