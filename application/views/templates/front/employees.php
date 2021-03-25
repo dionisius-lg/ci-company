@@ -13,44 +13,21 @@
 <section class="employees">
 	<div class="container">
        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail box">
-                <img src="..." alt="...">
-                    <div class="caption">
-                        <h5>Thumbnail label</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, at.</p>
-                        <p>
-                            <a href="#" class="btn btn-sm btn-primary" role="button">Detail</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
 
+        <?php foreach ($employees as $employee) : ?>
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail box">
-                <img src="..." alt="...">
+                <img class="img-thumbnail" src="<?= base_url('files/employees/'. $employee['photo']); ?>">
                     <div class="caption">
                         <h5>Thumbnail label</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, at.</p>
+                        <p><?= $employee['fullname']; ?></p>
                         <p>
                             <a href="#" class="btn btn-sm btn-primary" role="button">Detail</a>
                         </p>
                     </div>
                 </div>
             </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail box">
-                <img src="..." alt="...">
-                    <div class="caption">
-                        <h5>Thumbnail label</h5>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, at.</p>
-                        <p>
-                            <a href="#" class="btn btn-sm btn-primary" role="button">Detail</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <?php endforeach; ?>
         </div>
 	</div>
 </section>

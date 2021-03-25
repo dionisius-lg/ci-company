@@ -166,7 +166,6 @@ class EmployeesModel extends CI_Model {
 		$column		= $this->_getColumn($this->table);
 		$protected	= ['id'];
 		$data		= [];
-
 		if (!empty($data_temp) && is_array($data_temp)) {
 			foreach ($data_temp as $key => $val) {
 				if (!in_array($key, $column) || in_array($key, $protected)) {

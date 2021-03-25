@@ -106,8 +106,8 @@ class Employees extends CI_Controller {
 
 	public function create()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
+		$result = [];
 
 		if ($this->input->method() == 'post') {
 			$input = array_map('trim', $this->input->post());
@@ -130,19 +130,21 @@ class Employees extends CI_Controller {
 			}
 
 			$data = [
-				'nik'				=> $input['nik'],
-				'fullname'			=> ucwords($input['fullname']),
-				'email'				=> strtolower($input['email']),
-				'phone_1'			=> $input['phone_1'],
-				'phone_2'			=> $input['phone_2'],
-				'birth_place'		=> ucwords($input['birth_place']),
-				'birth_date'		=> $input['birth_date'],
-				'gender_id'			=> $input['gender'],
-				'address'			=> nl2space(ucwords($input['address'])),
-				'city_id'			=> $input['city'],
-				'province_id'		=> $input['province'],
-				'religion_id'		=> $input['religion'],
-				'create_user_id'	=> $session['id']
+				'nik' => $input['nik'],
+				'fullname' => ucwords($input['fullname']),
+				'email' => strtolower($input['email']),
+				'phone_1' => $input['phone_1'],
+				'phone_2' => $input['phone_2'],
+				'birth_place' => ucwords($input['birth_place']),
+				'birth_date' => $input['birth_date'],
+				'gender_id' => $input['gender'],
+				'address' => nl2space(ucwords($input['address'])),
+				'city_id' => $input['city'],
+				'province_id' => $input['province'],
+				'religion_id' => $input['religion'],
+				'create_user_id' => $session['id'],
+				'country_id' => 1,
+				'description' => $input['description']
 			];
 
 			$data = array_map('strClean', $data);
@@ -189,20 +191,21 @@ class Employees extends CI_Controller {
 			}
 
 			$data = [
-				'nik'				=> $input['nik'],
-				'fullname'			=> ucwords($input['fullname']),
-				'email'				=> strtolower($input['email']),
-				'phone_1'			=> $input['phone_1'],
-				'phone_2'			=> $input['phone_2'],
-				'birth_place'		=> ucwords($input['birth_place']),
-				'birth_date'		=> $input['birth_date'],
-				'gender_id'			=> $input['gender'],
-				'address'			=> nl2space(ucwords($input['address'])),
-				'city_id'			=> $input['city'],
-				'province_id'		=> $input['province'],
-				'religion_id'		=> $input['religion'],
-				'user_id'			=> $input['user_id'],
-				'update_user_id'	=> $session['id']
+				'nik' => $input['nik'],
+				'fullname' => ucwords($input['fullname']),
+				'email' => strtolower($input['email']),
+				'phone_1' => $input['phone_1'],
+				'phone_2' => $input['phone_2'],
+				'birth_place' => ucwords($input['birth_place']),
+				'birth_date' => $input['birth_date'],
+				'gender_id' => $input['gender'],
+				'address' => nl2space(ucwords($input['address'])),
+				'city_id' => $input['city'],
+				'province_id' => $input['province'],
+				'religion_id' => $input['religion'],
+				'create_user_id' => $session['id'],
+				'country_id' => 1,
+				'description' => $input['description']
 			];
 
 			$data = array_map('strClean', $data);

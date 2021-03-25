@@ -116,6 +116,20 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-4">
+							<label>Countries</label>
+							<select name="countries" class="form-control select2 <?php echo (hasFlashError('countries')) ? 'is-invalid' : ''; ?>">
+								<option value="">Please Select</option>
+							</select>
+							<span class="invalid-feedback"><?php echo flashError('countries'); ?></span>
+						</div>
+						<div class="form-group col-md-8">
+						<label>Description</label>
+							<textarea name="description" class="form-control form-control-sm rounded-0  <?php echo (hasFlashError('description')) ? 'is-invalid' : ''; ?>" rows="3" style="resize:none;"><?php echo oldInput('description'); ?><?php echo oldInput('description', $employees['description']); ?></textarea>
+							<span class="invalid-feedback"><?php echo flashError('description'); ?></span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-md-4">
 							<label>Username</label>
 							<input type="text" name="username" class="form-control form-control-sm rounded-0 <?php echo (hasFlashError('user_id')) ? 'is-invalid' : ''; ?>" maxlength="30" value="<?php echo oldInput('username', (!empty($employees['user_id']) ? $employees['username'] : 'Not Register')); ?>" readonly>
 							<span class="invalid-feedback"><?php echo flashError('user_id'); ?></span>
