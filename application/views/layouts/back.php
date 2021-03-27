@@ -105,25 +105,11 @@
 									<p>Employees Data</p>
 								</a>
 							</li>
-							<li class="nav-item has-treeview">
-								<a href="#" class="nav-link">
+							<li class="nav-item">
+								<a href="<?php echo site_url('admin/company'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-building-o"></i>
-									<p>Company <i class="right fa fa-angle-left"></i></p>
+									<p>Company Profile</p>
 								</a>
-								<ul class="nav nav-treeview">
-									<li class="nav-item">
-										<a href="<?php echo site_url('admin/company'); ?>" class="nav-link">
-											<i class="fa fa-circle-o nav-icon"></i>
-											<p>Profile</p>
-										</a>
-									</li>
-									<li class="nav-item">
-										<a href="<?php echo site_url('admin/company-advantages'); ?>" class="nav-link">
-											<i class="fa fa-circle-o nav-icon"></i>
-											<p>Advantages</p>
-										</a>
-									</li>
-								</ul>
 							</li>
 							<li class="nav-item">
 								<a href="<?php echo site_url('admin/sliders'); ?>" class="nav-link">

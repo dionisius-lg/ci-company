@@ -54,7 +54,13 @@
 
 				<!-- <h1 class="logo mr-auto"><a href="index.html">Green</a></h1> -->
 				<!-- Uncomment below if you prefer to use an image logo -->
-				 <a href="index.html" class="logo mr-auto"><img src="<?php echo base_url('assets/img/bootstrap.png'); ?>" alt="" class="img-fluid"></a>
+				<a href="index.html" class="logo mr-auto">
+					<?php if (@getimagesize(base_url('files/company/thumb/'.$company['logo']))) {
+						echo '<img src="' . base_url('files/company/thumb/'.$company['logo']) . '" alt="Company Logo" class="img-fluid">';
+					} else {
+						echo 'Company Logo';
+					} ?>
+				</a>
 
 				<nav class="nav-menu d-none d-lg-block">
 					<div class="mobile-nav-close d-sm-none">
@@ -108,6 +114,7 @@
 							<h4><?php echo $this->lang->line('footer')['link']['title']; ?></h4>
 							<ul>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('footer')['link']['home']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('employees'); ?>"><?php echo $this->lang->line('footer')['link']['employees']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('footer')['link']['about']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('footer')['link']['contact']; ?></a></li>
 							</ul>

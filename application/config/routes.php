@@ -73,13 +73,6 @@ $route['admin/employees/get-list'] = 'admin/employees/getList';
 $route['admin/employees/upload-photo/(:any)'] = 'admin/employees/uploadPhoto/$1';
 
 /**
- * CompanyController
- */
-$route['admin/company/update-profile'] = 'admin/company/updateProfile';
-$route['admin/company/update-about'] = 'admin/company/updateAbout';
-$route['admin/company/update-vision'] = 'admin/company/updateVision';
-
-/**
  * CompanyAdvantagesController
  */
 $route['admin/company-advantages'] = 'admin/companyAdvantages';

@@ -11,6 +11,7 @@ $lang['header'] = [
 	],
 	'navbar' => [
 		'home'		=> 'Beranda',
+		'employees'	=> 'Pekerja',
 		'gallery'	=> 'Galleri',
 		'dropdown'	=> 'Turunan',
 		'about'		=> 'Tentang Kami',
@@ -26,6 +27,7 @@ $lang['footer'] = [
 	'link'		=> [
 		'title'		=> 'Tautan',
 		'home'		=> 'Beranda',
+		'employees'	=> 'Pekerja',
 		'gallery'	=> 'Galleri',
 		'dropdown'	=> 'Turunan',
 		'about'		=> 'Tentang Kami',

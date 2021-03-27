@@ -6,14 +6,16 @@ class Employees extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
+
 		date_default_timezone_set('Asia/Jakarta');
-		
+		setReferrer(current_url());
+
+		sitelang();
+		$this->config->set_item('language', sitelang());
+
 		$this->template->set_template('layouts/front');
 
-		if (!$this->session->has_userdata('site_lang')) {
-			$this->session->set_userdata('site_lang', 'english');
-		}
-
+		$this->load->model('CompanyModel');
 		$this->load->model('EmployeesModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
@@ -22,6 +24,7 @@ class Employees extends CI_Controller {
 	public function index()
 	{
 		$request = [
+			'company' => $this->CompanyModel->getDetail(),
 			'employees' => $this->EmployeesModel->getAll(['limit' => 10]),
 			'provinces' => $this->ProvincesModel->getAll(['limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll()

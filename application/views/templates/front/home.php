@@ -16,7 +16,7 @@
 
 <?php $this->load->view('templates/front/element/section_advantage'); ?>
 
-<section class="blog">
+<section class="blog" hidden>
 	<div class="container">
 		<div class="section-title">
 			<h2><?php echo $this->lang->line('section_title')['news']; ?></h2>

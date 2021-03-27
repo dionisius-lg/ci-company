@@ -58,9 +58,7 @@ class Company extends CI_Controller {
 		$this->template->publish();
 	}
 
-/* Company Profile
--------------------------------------*/
-	public function updateProfile()
+	public function update()
 	{
 		$session	= $this->session->userdata('AuthUser');
 		$result		= [];
@@ -73,7 +71,7 @@ class Company extends CI_Controller {
 				$input['logo'] = $_FILES['logo'];
 				$file = true;
 			}
-
+// print_r($input['logo']); exit;
 			if ($file) {
 				$file_path = './files/company/';
 				$thumb_path = $file_path.'thumb/';
@@ -120,7 +118,7 @@ class Company extends CI_Controller {
 				}
 			}
 
-			$validate = $this->validateProfile($file);
+			$validate = $this->validate($file);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
@@ -149,7 +147,6 @@ class Company extends CI_Controller {
 				'city_id'			=> $input['city'],
 				'province_id'		=> $input['province'],
 				'zip_code'			=> $input['zip_code'],
-				'maps'				=> $input['maps'],
 				'phone_1'			=> $input['phone_1'],
 				'phone_2'			=> $input['phone_2'],
 				'email_1'			=> $input['email_1'],
@@ -206,7 +203,7 @@ class Company extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	private function validateProfile($file = false, $id = 0)
+	private function validate($file = false, $id = 0)
 	{
 		$validate = [
 			[
@@ -281,148 +278,6 @@ class Company extends CI_Controller {
 
 		return $validate;
 	}
-/*-------------------------------------
--- End Company Profile */
-
-
-/* Company About
--------------------------------------*/
-	public function updateAbout()
-	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
-
-		if ($this->input->method() == 'post') {
-			$input = array_map('trim', $this->input->post());
-			$file = false;
-
-			$validate = $this->validateAbout($file);
-
-			$this->form_validation->set_rules($validate);
-			$this->form_validation->set_error_delimiters('','');
-
-			if ($this->form_validation->run() == false) {
-				foreach ($input as $key => $val) {
-					if (!empty(form_error($key))) {
-						setFlashError(form_error($key), $key);
-					}
-				}
-
-				setOldInput($input);
-				redirect('admin/company#About');
-			}
-
-			$data = [
-				'about_eng'			=> $input['about_eng'],
-				'about_ind'			=> $input['about_ind'],
-				'update_user_id'	=> $session['id']
-			];
-
-			//$data = array_map('strClean', $data);
-
-			$request = $this->CompanyModel->update($data);
-
-			if ($request['status'] == 'success') {
-				setFlashSuccess('Data successfully updated.');
-			} else {
-				setFlashError('An error occurred, please try again.');
-			}
-
-			redirect('admin/company#About');
-		}
-
-		redirect($_SERVER['HTTP_REFERER']);
-	}
-
-	private function validateAbout($file = false)
-	{
-		$validate = [
-			[
-				'field' => 'about_eng',
-				'label' => 'About (English)',
-				'rules' => 'trim|xss_clean'
-			],
-			[
-				'field' => 'about_ind',
-				'label' => 'About (Indonesian)',
-				'rules' => 'trim|xss_clean'
-			],
-		];
-
-		return $validate;
-	}
-/*-------------------------------------
--- End Company About */
-
-/* Company Vision
--------------------------------------*/
-	public function updateVision()
-	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
-
-		if ($this->input->method() == 'post') {
-			$input = array_map('trim', $this->input->post());
-			$file = false;
-
-			$validate = $this->validateVision($file);
-
-			$this->form_validation->set_rules($validate);
-			$this->form_validation->set_error_delimiters('','');
-
-			if ($this->form_validation->run() == false) {
-				foreach ($input as $key => $val) {
-					if (!empty(form_error($key))) {
-						setFlashError(form_error($key), $key);
-					}
-				}
-
-				setOldInput($input);
-				redirect('admin/company#Vision');
-			}
-
-			$data = [
-				'vision_eng'		=> $input['vision_eng'],
-				'vision_ind'		=> $input['vision_ind'],
-				'update_user_id'	=> $session['id']
-			];
-
-			//$data = array_map('strClean', $data);
-
-			$request = $this->CompanyModel->update($data);
-
-			if ($request['status'] == 'success') {
-				setFlashSuccess('Data successfully updated.');
-			} else {
-				setFlashError('An error occurred, please try again.');
-			}
-
-			redirect('admin/company#Vision');
-		}
-
-		hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect('admin', 'refresh');
-		// redirect($_SERVER['HTTP_REFERER']);
-	}
-
-	private function validateVision($file = false)
-	{
-		$validate = [
-			[
-				'field' => 'vision_eng',
-				'label' => 'Vision Mission (English)',
-				'rules' => 'trim|xss_clean'
-			],
-			[
-				'field' => 'vision_ind',
-				'label' => 'Vision Mission (Indonesian)',
-				'rules' => 'trim|xss_clean'
-			],
-		];
-
-		return $validate;
-	}
-/*-------------------------------------
--- End Company About */
 
 	public function _regexName($str = false)
 	{

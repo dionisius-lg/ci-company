@@ -10,6 +10,7 @@ $lang['header'] = [
 	],
 	'navbar' => [
 		'home'		=> 'Home',
+		'employees'	=> 'Employees',
 		'gallery'	=> 'Gallery',
 		'dropdown'	=> 'Dropdown',
 		'about'		=> 'About Us',
@@ -24,6 +25,7 @@ $lang['footer'] = [
 	'link'		=> [
 		'title'		=> 'Useful Links',
 		'home'		=> 'Home',
+		'employees'	=> 'Employees',
 		'gallery'	=> 'Gallery',
 		'dropdown'	=> 'Dropdown',
 		'about'		=> 'About Us',
