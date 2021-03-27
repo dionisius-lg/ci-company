@@ -64,7 +64,7 @@ $lang['page_contact'] = [
 ];
 
 $lang['button'] = [
-	'seemore'		=> 'See More',
-	'contact'		=> 'Contact Us',
-	'send_message'	=> 'Send Message'
+	'readmore'		=> 'Selengkapnya',
+	'contact'		=> 'Hubungi Kami',
+	'send_message'	=> 'Kirim Pesan'
 ];

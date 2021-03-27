@@ -198,7 +198,7 @@ button {
 #header {
 	background: #fff;
 	top: 40px;
-	padding: 20px 0;
+	padding: 15px 0;
 	z-index: 997;
 	-webkit-transition: all 0.3s;
 	transition: all 0.3s;
@@ -219,14 +219,16 @@ button {
 	font-weight: 700;
 	letter-spacing: 1px;
 	text-transform: uppercase;
+	color: #3598db;
 }
 
-#header .logo a {
-	color: #5cb874;
-}
+/* #header .logo img {
+	max-height: 40px;
+} */
 
 #header .logo img {
-	max-height: 40px;
+	width: 100%;
+	max-height: 50px;
 }
 
 @media (max-width: 992px) {
@@ -1177,7 +1179,7 @@ section {
 
 @media (max-width: 992px) {
 	.breadcrumbs {
-		margin-top: 66px;
+		margin-top: 116px;
 	}
 }
 

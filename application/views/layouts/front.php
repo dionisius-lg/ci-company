@@ -36,14 +36,20 @@
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 							<a class="dropdown-item" href="<?php echo base_url('lang/english'); ?>"><img src="<?php echo base_url('assets/img/lang/english.png'); ?>" class="img-fluid"> English</a>
 							<a class="dropdown-item" href="<?php echo base_url('lang/indonesian'); ?>"><img src="<?php echo base_url('assets/img/lang/indonesian.png'); ?>" class="img-fluid"> Indonesian</a>
+							<a class="dropdown-item" href="<?php echo base_url('lang/japanese'); ?>"><img src="<?php echo base_url('assets/img/lang/japanese.png'); ?>" class="img-fluid"> Japanese</a>
+							<a class="dropdown-item" href="<?php echo base_url('lang/korean'); ?>"><img src="<?php echo base_url('assets/img/lang/korean.png'); ?>" class="img-fluid"> Korean</a>
+							<a class="dropdown-item" href="<?php echo base_url('lang/mandarin'); ?>"><img src="<?php echo base_url('assets/img/lang/mandarin.png'); ?>" class="img-fluid"> Mandarin</a>
 						</div>
 					</div>
 				</div>
 				<div class="menu-user">
 					<ul class="list-inline mb-0">
-						<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['login']; ?></a></li>
-						<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['register']; ?></a></li>
-						<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['logout']; ?></a></li>
+						<?php if (!$this->session->has_userdata('AuthUser')) { ?>
+							<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['login']; ?></a></li>
+							<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['register']; ?></a></li>
+						<?php } else { ?>
+							<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['logout']; ?></a></li>
+						<?php } ?>
 					</ul>
 				</div>
 			</div>

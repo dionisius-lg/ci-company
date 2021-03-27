@@ -28,6 +28,9 @@ if (!function_exists('sitelang')) {
 		$allowed_lang = [
 			'english',
 			'indonesian',
+			'japanese',
+			'korean',
+			'mandarin'
 		];
 
 		if (!empty($lang) && in_array($lang, $allowed_lang)) {
