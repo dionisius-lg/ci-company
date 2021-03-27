@@ -3,7 +3,7 @@
 	src: url('../font/poppins/Poppins-Regular.ttf');
 }
 @font-face {
-	font-family: 'poppins-light'
+	font-family: 'poppins-light';
 	src: url('../font/poppins/Poppins-Thin.ttf');
 }
 @font-face {
@@ -673,14 +673,14 @@ section {
 /*--------------------------------------------------------------
 # Services Section
 --------------------------------------------------------------*/
-.serviceso .item {
+#services .item {
 	padding: 20px;
 	background: #fff;
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
 
-.serviceso .item i {
+#services .item i {
 	margin-top: 20px;
 	margin-bottom: 20px;
 	color: #c5c5c5;
@@ -689,83 +689,159 @@ section {
 	transition: all 0.3s;
 }
 
-.serviceso .item h4 {
+#services .item h4 {
 	font-weight: 700;
 	margin-bottom: 15px;
 	font-size: 18px;
 	
 }
 
-.serviceso .item a {
+#services .item a {
 	color: #c5c5c5;
 	-webkit-transition: all 0.3s;
 	transition: all 0.3s;
 }
 
-.serviceso .item:hover i,
-.serviceso .item:hover a {
+#services .item:hover i,
+#services .item:hover a {
 	color: #424242;
 }
 
-.serviceso .item p {
+#services .item p {
 	line-height: 24px;
 	font-size: 14px;
 }
 
 /*--------------------------------------------------------------
-# About Section
+# Abouts Section
 --------------------------------------------------------------*/
-.about .content h3 {
-	font-weight: 700;
-	font-size: 28px;
+#about a {
+	color: #5cb874;
+	text-decoration: none;
 }
 
-.about .content ul {
+#about a:hover,
+#about a:focus {
+	color: #80c792;
+	text-decoration: none;
+}
+
+#about h1, #about h2, #about h3, #about h4, #about h5, #about h6 {
+	font-family: "poppins-medium";
+	color: #3598db;
+	text-transform: capitalize;
+}
+
+#about p {
+	text-align: justify;
+	font-size: 14px;
+}
+
+#about a,
+#about button {
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	outline: none;
+}
+
+#about ul {
 	list-style: none;
 	padding: 0;
 }
 
-.about .content ul li {
-	padding-bottom: 10px;
+#about ul > li {
+	padding-left: 1.3em;
+	font-size: 14px;
 }
 
-.about .content ul i {
-	font-size: 20px;
-	padding-right: 4px;
-	color: #5cb874;
+#about ul > li:before {
+	content: "\f05d";
+	font-family: FontAwesome;
+	display: inline-block;
+	margin-left: -1.3em;
+	width: 1.3em;
 }
 
-.about .content p:last-child {
-	margin-bottom: 0;
+#about ol {
+	padding: 20px;
+}
+
+#about ol > li {
+	font-size: 14px;
+}
+
+#about img {
+	width: 100%;
+}
+
+#about img.float {
+	width: 100%;
+	max-width: 480px;
+	float: right;
+	margin-left: 15px;
+}
+
+#about .btn-more {
+	color: #6c757d !important;
+	border-color: #6c757d !important;
+	border-radius: 0 !important;
+}
+
+#about .btn-more:hover {
+	color: #fff !important;
+	background-color: #6c757d !important;
+	border-color: #6c757d !important;
+}
+
+@media (max-width: 991.98px) {
+	#about .btn-more {
+		margin-bottom: 30px;
+	}
+
+	#about img.float {
+		float: none;
+		max-width: 100%;
+		margin: 0 auto 15px;
+	}
+}
+
+@media (max-width: 575.98px) {
+	#about h3 {
+		font-size: 22px;
+	}
+
+	#about p {
+		text-align: left;
+	}
 }
 
 /*--------------------------------------------------------------
 # Clients Section
 --------------------------------------------------------------*/
-.clients .client-slider .item {
+#clients .client-slider .item {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	padding: 0 20px;
 }
 
-.clients .client-slider .item img {
+#clients .client-slider .item img {
 	width: 80%;
 	opacity: 0.5;
 	transition: 0.3s;
 }
 
 /*--------------------------------------------------------------
-# Gallery Section
+# Galleries Section
 --------------------------------------------------------------*/
-.gallery .gallery-filter {
+#galleries .filter {
 	padding: 0;
 	margin: 0 auto 20px auto;
 	list-style: none;
 	text-align: center;
 }
 
-.gallery .gallery-filter li {
+#galleries .filter li {
 	cursor: pointer;
 	display: inline-block;
 	padding: 8px 15px 10px 15px;
@@ -779,23 +855,23 @@ section {
 	transition: all 0.3s;
 }
 
-.gallery .gallery-filter li:hover,
-.gallery .gallery-filter li.active {
+#galleries .filter li:hover,
+#galleries .filter li.active {
 	color: #fff;
 	background: rgba(34, 34, 34, 0.6);
 }
 
-.gallery .gallery-filter li:last-child {
+#galleries .filter li:last-child {
 	margin-right: 0;
 }
 
-.gallery .gallery-item {
+#galleries .item {
 	margin-bottom: 30px;
 	/*position: relative;
 	overflow: hidden;*/
 }
 
-.gallery .wrapper {
+#galleries .wrapper {
 	position: relative;
 	overflow: hidden;
 	background: rgba(34, 34, 34, 0.6);
@@ -804,7 +880,7 @@ section {
 	z-index: 1;
 }
 
-.gallery .wrapper:before {
+#galleries .wrapper:before {
 	content: "";
 	background: rgba(34, 34, 34, 0.6);
 	position: absolute;
@@ -818,11 +894,11 @@ section {
 	opacity: 0;
 }
 
-.gallery .wrapper img {
+#galleries .wrapper img {
 	transition: all ease-in-out 0.3s;
 }
 
-.gallery .wrapper .gallery-info {
+#galleries .wrapper .info {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -839,13 +915,13 @@ section {
 	opacity: 0;
 }
 
-.gallery .wrapper .gallery-info h4 {
+#galleries .wrapper .info h4 {
 	color: #fff;
 	font-size: 20px;
 	font-weight: 600;
 }
 
-.gallery .wrapper .gallery-info p {
+#galleries .wrapper .info p {
 	color: rgba(255, 255, 255, 0.7);
 	font-size: 14px;
 	/*font-style: italic;*/
@@ -854,12 +930,12 @@ section {
 	margin: 0;
 }
 
-.gallery .wrapper .gallery-link {
+#galleries .wrapper .link {
 	text-align: center;
 	z-index: 4;
 }
 
-.gallery .wrapper .gallery-link a {
+#galleries .wrapper .link a {
 	display: inline-block;
 	color: #fff;
 	margin: 0 5px 0 0;
@@ -867,19 +943,19 @@ section {
 	transition: all 0.3s;
 }
 
-.gallery .wrapper .gallery-link a:hover {
+#galleries .wrapper .link a:hover {
 	color: #6ec083;
 }
 
-.gallery .wrapper:hover:before {
+#galleries .wrapper:hover:before {
 	opacity: 1;
 }
 
-.gallery .wrapper:hover img {
+#galleries .wrapper:hover img {
 	transform: scale(1.2);
 }
 
-.gallery .wrapper:hover .gallery-info {
+#galleries .wrapper:hover .info {
 	opacity: 1;
 }
 
@@ -1162,7 +1238,7 @@ section {
 }
 
 #footer .footer-top .footer-info h3 {
-	font-size: 34px;
+	font-size: 26px;
 	margin: 0 0 20px 0;
 	padding: 2px 0 2px 0;
 	line-height: 1;

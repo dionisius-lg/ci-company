@@ -31,19 +31,19 @@
 				<div class="menu-lang mr-auto">
 					<div class="btn-group">
 						<button class="btn btn-outline-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<img src="<?php echo base_url('assets/img/lang/'.$_SESSION['site_lang'].'.png'); ?>" alt=""> <?php echo $this->session->userdata('site_lang'); ?>
+							<img src="<?php echo base_url('assets/img/lang/'.sitelang().'.png'); ?>" alt=""> <?php echo sitelang(); ?>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item" href="<?php echo base_url('language/switch/english'); ?>"><img src="<?php echo base_url('assets/img/lang/english.png'); ?>" class="img-fluid"> English</a>
-							<a class="dropdown-item" href="<?php echo base_url('language/switch/indonesian'); ?>"><img src="<?php echo base_url('assets/img/lang/indonesian.png'); ?>" class="img-fluid"> Indonesian</a>
+							<a class="dropdown-item" href="<?php echo base_url('lang/english'); ?>"><img src="<?php echo base_url('assets/img/lang/english.png'); ?>" class="img-fluid"> English</a>
+							<a class="dropdown-item" href="<?php echo base_url('lang/indonesian'); ?>"><img src="<?php echo base_url('assets/img/lang/indonesian.png'); ?>" class="img-fluid"> Indonesian</a>
 						</div>
 					</div>
 				</div>
 				<div class="menu-user">
 					<ul class="list-inline mb-0">
-						<li class="list-inline-item"><a href="#">Login</a></li>
-						<li class="list-inline-item"><a href="#">Register</a></li>
-						<li class="list-inline-item"><a href="#">Logout</a></li>
+						<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['login']; ?></a></li>
+						<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['register']; ?></a></li>
+						<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['logout']; ?></a></li>
 					</ul>
 				</div>
 			</div>
@@ -62,10 +62,10 @@
 					</div>
 
 					<ul>
-						<li class="active"><a href="<?php echo base_url(); ?>">Home</a></li>
-						<li><a href="<?php echo base_url('about'); ?>">About Us</a></li>
-						<li><a href="<?php echo base_url('employees'); ?>">Employees</a></li>
-						<li><a href="<?php echo base_url('contact'); ?>">Contact Us</a></li>
+						<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
+						<li><a href="<?php echo base_url('employees'); ?>"><?php echo $this->lang->line('header')['navbar']['employees']; ?></a></li>
+						<li><a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('header')['navbar']['about']; ?></a></li>
+						<li><a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('header')['navbar']['contact']; ?></a></li>
 						<!-- <li class="drop-down"><a href="">Drop Down</a>
 							<ul>
 								<li><a href="#">Drop Down 1</a></li>
@@ -101,27 +101,24 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-4 col-md-6 footer-info">
-							<h3>Company Name</h3>
-							<p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies darta donna mare fermentum iaculis eu non diam phasellus.</p>
+							<h3><?php echo $company['name']; ?></h3>
+							<p><?php echo $company['name'] . $this->lang->line('footer')['company']['desc']; ?></p>
 						</div>
 						<div class="col-lg-4 col-md-6 footer-link">
-							<h4>Useful Links</h4>
+							<h4><?php echo $this->lang->line('footer')['link']['title']; ?></h4>
 							<ul>
-								<li><i class="fa fa-chevron-right"></i> <a href="#">Home</a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="#">Gallery</a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="#">About us</a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="#">Contact Us</a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('footer')['link']['home']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('footer')['link']['about']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('footer')['link']['contact']; ?></a></li>
 							</ul>
 						</div>
 						<div class="col-lg-4 col-md-6 footer-contact">
-							<h4>Contact Us</h4>
+							<h4><?php echo $this->lang->line('footer')['contact']['title']; ?></h4>
+							<p><?php echo ((sitelang() == 'english') ? $company['address_eng'] : $company['address_ind']) . ', ' . $company['city'] . ', ' . $company['province'] . (!empty($company['zip_code']) ? ' - ' . $company['zip_code'] : ''); ?></p>
 							<p>
-								A108 Adam Street <br>
-								New York, NY 535022<br>
-								United States <br>
-								<strong>Phone:</strong> +1 5589 55488 55<br>
-								<strong>Email:</strong>
-								<a href="#">info@example.com</a><br>
+								<?php echo '<strong>' . $this->lang->line('footer')['contact']['phone'] . ':</strong> ' . $company['phone_1'] . (!empty($company['phone_2']) ? ', ' . $company['phone_2'] : ''); ?>
+								<br>
+								<?php echo '<strong>' . $this->lang->line('footer')['contact']['email'] . ':</strong> <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a> ' . (!empty($company['email_2']) ? ', <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a>' : ''); ?>
 							</p>
 							<div class="social">
 								<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
@@ -137,7 +134,7 @@
 
 			<div class="container">
 				<div class="copyright">
-					&copy; Copyright <strong>Company Name</strong>. All Rights Reserved
+					&copy; 2021 <strong><?php echo $company['name']; ?></strong>. All Rights Reserved
 				</div>
 			</div>
 		</footer>

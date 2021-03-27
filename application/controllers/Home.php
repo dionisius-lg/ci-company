@@ -7,17 +7,30 @@ class Home extends CI_Controller {
 	{
 		parent::__construct();
 
-		if (!$this->session->has_userdata('site_lang')) {
-			$this->session->set_userdata('site_lang', 'english');
-		}
-
-		$this->config->set_item('language', $this->session->userdata('site_lang')); 
-
 		date_default_timezone_set('Asia/Jakarta');
+		setReferrer(current_url());
+
+		sitelang();
+		$this->config->set_item('language', sitelang());
+
+		// if (!$this->session->has_userdata('site_lang')) {
+		// 	$this->session->set_userdata('site_lang', 'english');
+		// }
+
+		// $this->config->set_item('language', $this->session->userdata('site_lang'));
+
+		// if (!$this->session->has_userdata('AuthUser')) {
+		// 	setFlashError('Please login first', 'auth');
+		// 	redirect('auth');
+		// }
+
+		// if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
+		// 	hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
+		// }
 		
 		$this->template->set_template('layouts/front');
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
 		$this->load->model('CompanyModel');
 	}
@@ -65,8 +78,6 @@ class Home extends CI_Controller {
 				}
 			}
 		}
-
-		$result['site_lang'] = $this->session->userdata('site_lang');
 
 		$this->template->content->view('templates/front/home', $result);
 

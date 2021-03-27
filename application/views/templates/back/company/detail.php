@@ -9,6 +9,9 @@
 					<li class="nav-item">
 						<a class="nav-link rounded-0" data-toggle="tab" href="#About">About</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link rounded-0" data-toggle="tab" href="#Vision">Vision Mission</a>
+					</li>
 				</ul>
 			</div>
 			<div class="card-body">
@@ -51,6 +54,11 @@
 										<option value="">Please Select</option>
 									</select>
 									<span class="invalid-feedback"><?php echo flashError('city'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<label>Zip Code</label>
+									<input type="text" name="zip_code" class="form-control form-control-sm rounded-0 numeric <?php echo (hasFlashError('zip_code')) ? 'is-invalid' : ''; ?>" value="<?php echo oldInput('zip_code', $company['zip_code']); ?>">
+									<span class="invalid-feedback"><?php echo flashError('zip_code'); ?></span>
 								</div>
 							</div>
 							<div class="row">
@@ -114,15 +122,39 @@
 							<div class="row">
 								<div class="form-group col-md-12">
 									<label>About (English)</label>
-									<textarea id="editor1" name="about_eng" class="form-control form-control-sm rounded-0 editor <?php echo (hasFlashError('about_eng')) ? 'is-invalid' : ''; ?>" rows="3" style="resize:none;"><?php echo $company['about_eng']; ?></textarea>
+									<textarea name="about_eng" class="form-control form-control-sm rounded-0 editor-about <?php echo (hasFlashError('about_eng')) ? 'is-invalid' : ''; ?>" rows="3" style="resize:none;"><?php echo $company['about_eng']; ?></textarea>
 									<span class="invalid-feedback"><?php echo flashError('about_eng'); ?></span>
 								</div>
 							</div>
 							<div class="row">
 								<div class="form-group col-md-12">
 									<label>About (Indonesian)</label>
-									<textarea id="editor" name="about_ind" class="form-control form-control-sm rounded-0 editor <?php echo (hasFlashError('about_ind')) ? 'is-invalid' : ''; ?>" rows="3" style="resize:none;"><?php echo $company['about_ind']; ?></textarea>
+									<textarea name="about_ind" class="form-control form-control-sm rounded-0 editor-about <?php echo (hasFlashError('about_ind')) ? 'is-invalid' : ''; ?>" rows="3" style="resize:none;"><?php echo $company['about_ind']; ?></textarea>
 									<span class="invalid-feedback"><?php echo flashError('about_ind'); ?></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12 text-right border-top mt-2 pt-3">
+									<button type="submit" class="btn btn-primary rounded-0">Update</button>
+								</div>
+							</div>
+						<?php echo form_close(); ?>
+					</div>
+
+					<div class="tab-pane container fade" id="Vision">
+						<?php echo form_open('admin/company/update-vision', ['method' => 'post', 'id' => 'formCompanyVision', 'autocomplete' => 'off']); ?>
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label>Vission Mission (English)</label>
+									<textarea name="vision_eng" class="form-control form-control-sm rounded-0 editor-vision-mission <?php echo (hasFlashError('vision_eng')) ? 'is-invalid' : ''; ?>" rows="3" style="resize:none;"><?php echo $company['vision_eng']; ?></textarea>
+									<span class="invalid-feedback"><?php echo flashError('vision_eng'); ?></span>
+								</div>
+							</div>
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label>Vission Mission (Indonesian)</label>
+									<textarea name="vision_ind" class="form-control form-control-sm rounded-0 editor-vision-mission <?php echo (hasFlashError('vision_ind')) ? 'is-invalid' : ''; ?>" rows="3" style="resize:none;"><?php echo $company['vision_ind']; ?></textarea>
+									<span class="invalid-feedback"><?php echo flashError('vision_ind'); ?></span>
 								</div>
 							</div>
 							<div class="row">
@@ -162,7 +194,7 @@
 	$('a[data-toggle="tab"][href="#' + tabActive + '"]').tab('show');
 
 	//disable submit on submitted form
-	$('#formCompanyProfile, #formCompanyAbout').on('submit', function(e) {
+	$('#formCompanyProfile, #formCompanyAbout, #formCompanyVision').on('submit', function(e) {
 		$(this).find('[type="submit"]').attr({'disabled': true});
 	});
 
@@ -187,7 +219,7 @@
 
 
 tinymce.init({
-	selector: '.editor',
+	selector: '.editor-about',
 	theme: 'silver',
 	//convert_fonts_to_spans: false,
 	//fix_list_elements: true,
@@ -215,9 +247,9 @@ tinymce.init({
 		'<?php echo base_url("assets//css/company-editor.css"); ?>'
 	],
 	templates : [{
-		title: 'Default',
-		description: 'Adds a template About Us.',
-		content: '<div class="row"><div class="col-md-6"><img class="img-fluid" src="http://localhost/ci-company/files/editor/about.jpg" alt="" width="1024" height="768" /></div><div class="col-md-6"><p><span style="color: #3598db;"><strong><span style="font-size: 20pt;">Company Name</span></strong></span></p><p><span style="font-size: 12pt;"><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</em></span></p><ul><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li><li><span style="font-size: 12pt;">Duis aute irure dolor in reprehenderit in voluptate velit.</span></li><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li></ul><p><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></p></div></div><div class="row"><div class="col-md-6"><p><span style="color: #3598db;"><strong><span style="font-size: 20pt;">Vision<br /></span></strong></span></p><p><span style="font-size: 12pt;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p><p><span style="font-size: 12pt;"><span style="color: #3598db;"><strong><span style="font-size: 20pt;">Mission</span></strong></span></span></p><p><span style="font-size: 12pt;"><span style="font-size: 12pt;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</span></span></p><ul><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li><li><span style="font-size: 12pt;">Duis aute irure dolor in reprehenderit in voluptate velit.</span></li><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li></ul></div><div class="col-md-6"><p><span style="color: #3598db;"><strong><span style="font-size: 20pt;">Goals</span></strong></span></p><p><span style="font-size: 12pt;"><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</em></span></p><ul><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li><li><span style="font-size: 12pt;">Duis aute irure dolor in reprehenderit in voluptate velit.</span></li><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li><li><span style="font-size: 12pt;">Duis aute irure dolor in reprehenderit in voluptate velit.</span></li><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</span></li></ul></div></div>'
+		title: 'Default Template',
+		description: 'Default template for About.',
+		content: '<div class="row"><div class="col-lg-6 col-12 order-2 order-lg-1"><img class="img-fluid" src="http://localhost/ci-company/files/editor/about.jpg" alt="" width="1024" height="768" /></div><div class="col-lg-6 col-12 order-1 order-lg-2"><p><span style="color: #3598db;"><strong><span style="font-size: 20pt;">Company Name</span></strong></span></p><p><span style="font-size: 12pt;"><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</em></span></p><ul><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat</span></li><li><span style="font-size: 12pt;">Duis aute irure dolor in reprehenderit in voluptate velit</span></li></ul><p><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</span></p></div></div>'
 	}],
 	external_filemanager_path: '<?php echo base_url('filemanager/'); ?>',
 	filemanager_title: 'File Manager',
@@ -235,6 +267,47 @@ tinymce.init({
 	}
 });
 
-
+tinymce.init({
+	selector: '.editor-vision-mission',
+	theme: 'silver',
+	invalid_elements: 'script',
+	plugins: 'print preview importcss searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons code',
+	menubar: false,
+	toolbar: 'undo redo | ontsizeselect | alignleft aligncenter alignright | outdent indent | numlist bullist | insertfile image media template link | fullscreen preview code',
+	fontsize_formats: '8pt 10pt 12pt 14pt 16pt 18pt',
+	//block_formats: 'Paragraph=p;Header 3=h3;Header 4=h4',
+	quickbars_selection_toolbar: 'bold italic underline | blockquote quicktable hr | forecolor removeformat',
+	quickbars_insert_toolbar: 'quicktable hr',
+	noneditable_noneditable_class: 'mceNonEditable',
+	toolbar_mode: 'sliding',
+	image_advtab: true,
+	importcss_append: true,
+	image_caption: false,
+	height: 300,
+	content_css: [
+		'<?php echo base_url("assets/vendor/font-awesome/css/font-awesome.min.css"); ?>',
+		'<?php echo base_url("assets/vendor/bootstrap/css/bootstrap.min.css"); ?>',
+		'<?php echo base_url("assets//css/company-editor.css"); ?>'
+	],
+	templates : [{
+		title: 'Default Template',
+		description: 'Default template for Vision Mission.',
+		content: '<div class="row"><div class="col-lg-6"><p><span style="color: #3598db;"><strong><span style="font-size: 20pt;">Vision<br /></span></strong></span></p><p><span style="font-size: 12pt;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</span></p></div><div class="col-lg-6"><p><span style="font-size: 12pt;"><span style="color: #3598db;"><strong><span style="font-size: 20pt;">Mission</span></strong></span></span></p><ul><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li><li><span style="font-size: 12pt;">Duis aute irure dolor in reprehenderit in voluptate velit.</span></li><li><span style="font-size: 12pt;">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li></ul></div></div>'
+	}],
+	external_filemanager_path: '<?php echo base_url('filemanager/'); ?>',
+	filemanager_title: 'File Manager',
+	filemanager_access_key: 'DionisiusLumrangGesangie',
+	external_plugins: {
+		'responsivefilemanager': '<?php echo base_url("assets/vendor/tinymce/plugins/responsivefilemanager/plugin.min.js"); ?>',
+		'filemanager': '<?php echo base_url("filemanager/plugin.min.js"); ?>',
+	},
+	relative_urls: false,
+	remove_script_host: false,
+	setup: function(editor) {
+		editor.on('change', function () {
+			tinymce.triggerSave();
+		});
+	}
+});
 
 </script>

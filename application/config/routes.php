@@ -77,6 +77,7 @@ $route['admin/employees/upload-photo/(:any)'] = 'admin/employees/uploadPhoto/$1'
  */
 $route['admin/company/update-profile'] = 'admin/company/updateProfile';
 $route['admin/company/update-about'] = 'admin/company/updateAbout';
+$route['admin/company/update-vision'] = 'admin/company/updateVision';
 
 /**
  * CompanyAdvantagesController
@@ -96,3 +97,8 @@ $route['remote/get-employees-list'] = 'remote/getEmployeesDatatable';
 $route['remote/get-company-advantages-list'] = 'remote/getCompanyAdvantagesDatatable';
 $route['remote/get-sliders-list'] = 'remote/getSlidersDatatable';
 $route['remote/get-users'] = 'remote/getUsers';
+
+/**
+ * LanguageController
+ */
+$route['lang/(:any)'] = 'Language/change/$1';

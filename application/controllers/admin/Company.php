@@ -148,6 +148,7 @@ class Company extends CI_Controller {
 				'address_ind'		=> nl2space(ucwords($input['address_ind'])),
 				'city_id'			=> $input['city'],
 				'province_id'		=> $input['province'],
+				'zip_code'			=> $input['zip_code'],
 				'maps'				=> $input['maps'],
 				'phone_1'			=> $input['phone_1'],
 				'phone_2'			=> $input['phone_2'],
@@ -227,6 +228,11 @@ class Company extends CI_Controller {
 				'field' => 'province',
 				'label' => 'Province',
 				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+			],
+			[
+				'field' => 'zip_code',
+				'label' => 'Zip Code',
+				'rules' => 'trim|required|max_length[6]|callback__regexNumeric|xss_clean'
 			],
 			[
 				'field' => 'city',
@@ -339,6 +345,76 @@ class Company extends CI_Controller {
 			[
 				'field' => 'about_ind',
 				'label' => 'About (Indonesian)',
+				'rules' => 'trim|xss_clean'
+			],
+		];
+
+		return $validate;
+	}
+/*-------------------------------------
+-- End Company About */
+
+/* Company Vision
+-------------------------------------*/
+	public function updateVision()
+	{
+		$session	= $this->session->userdata('AuthUser');
+		$result		= [];
+
+		if ($this->input->method() == 'post') {
+			$input = array_map('trim', $this->input->post());
+			$file = false;
+
+			$validate = $this->validateVision($file);
+
+			$this->form_validation->set_rules($validate);
+			$this->form_validation->set_error_delimiters('','');
+
+			if ($this->form_validation->run() == false) {
+				foreach ($input as $key => $val) {
+					if (!empty(form_error($key))) {
+						setFlashError(form_error($key), $key);
+					}
+				}
+
+				setOldInput($input);
+				redirect('admin/company#Vision');
+			}
+
+			$data = [
+				'vision_eng'		=> $input['vision_eng'],
+				'vision_ind'		=> $input['vision_ind'],
+				'update_user_id'	=> $session['id']
+			];
+
+			//$data = array_map('strClean', $data);
+
+			$request = $this->CompanyModel->update($data);
+
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Data successfully updated.');
+			} else {
+				setFlashError('An error occurred, please try again.');
+			}
+
+			redirect('admin/company#Vision');
+		}
+
+		hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect('admin', 'refresh');
+		// redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	private function validateVision($file = false)
+	{
+		$validate = [
+			[
+				'field' => 'vision_eng',
+				'label' => 'Vision Mission (English)',
+				'rules' => 'trim|xss_clean'
+			],
+			[
+				'field' => 'vision_ind',
+				'label' => 'Vision Mission (Indonesian)',
 				'rules' => 'trim|xss_clean'
 			],
 		];
