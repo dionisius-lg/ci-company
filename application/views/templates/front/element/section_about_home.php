@@ -27,9 +27,9 @@
 				<?php } ?>
 
 				<?php if (sitelang() == 'korean') { ?>
-					<p><?php echo $company['name']; ?> adalah Perusahaan Rekrutmen dan Penempatan yang mengkhususkan diri dalam tenaga kerja trampil Indonesia di luar negeri. Kami berdedikasi untuk memberikan kesempatan yang lebih besar kepada sesama orang Indonesia tidak hanya untuk berbagi kemampuan dan bakat mereka dalam bekerja di berbagai bidang di mana kualifikasi mereka paling sesuai, tetapi juga untuk mendapatkan lebih banyak dan diberi kompensasi dengan manfaat yang lebih baik juga.</p>
+					<p><?php echo $company['name']; ?> 는 해외에서 숙련 된 인도네시아 인력을 전문으로하는 채용 및 배치 회사입니다. 우리는 인도네시아 동료들이 자신의 자격이 가장 적합한 분야에서 일하면서 자신의 능력과 재능을 공유 할뿐만 아니라 더 많은 것을 얻고 더 나은 혜택으로 보상을받을 수있는 더 큰 기회를 제공하기 위해 최선을 다하고 있습니다.</p>
 
-					<p><?php echo $company['name']; ?> memahami bahwa modal kepemimpinan memainkan peran kunci dalam kinerja organisasi mana pun.</p>
+					<p><?php echo $company['name']; ?> 은 리더십 자본이 모든 조직의 성과에서 핵심적인 역할을한다는 것을 이해합니다.</p>
 				<?php } ?>
 
 				<?php if (sitelang() == 'mandarin') { ?>

@@ -340,8 +340,8 @@ button {
 }
 
 .nav-menu .drop-down > a:after {
-	content: "\ea99";
-	font-family: IcoFont;
+	content: "\f0d7";
+	font-family: "FontAwesome";
 	padding-left: 5px;
 }
 
@@ -361,8 +361,8 @@ button {
 }
 
 .nav-menu .drop-down .drop-down > a:after {
-	content: "\eaa0";
-	font-family: IcoFont;
+	content: "\f0d7";
+	font-family: "FontAwesome";
 	position: absolute;
 	right: 15px;
 }
@@ -375,7 +375,7 @@ button {
 		left: -100%;
 	}
 	.nav-menu .drop-down .drop-down > a:after {
-		content: "\ea9d";
+		content: "\f0d9";
 	}
 }
 
@@ -427,7 +427,7 @@ button {
 
 .mobile-nav {
 	position: fixed;
-	top: 55px;
+	top: 60px;
 	right: 15px;
 	bottom: 15px;
 	left: 15px;
@@ -439,6 +439,10 @@ button {
 	visibility: hidden;
 	/*border-radius: 10px;*/
 	padding: 10px 0;
+}
+
+.mobile-nav.scrolled {
+	top: 15px;
 }
 
 .mobile-nav * {
@@ -462,15 +466,15 @@ button {
 }
 
 .mobile-nav .drop-down > a:after {
-	content: "\ea99";
-	font-family: IcoFont;
+	content: "\f0d7";
+	font-family: "FontAwesome";
 	padding-left: 10px;
 	position: absolute;
 	right: 15px;
 }
 
 .mobile-nav .active.drop-down > a:after {
-	content: "\eaa1";
+	content: "\f0d8";
 }
 
 .mobile-nav .drop-down > a {

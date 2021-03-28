@@ -4,65 +4,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $lang['header'] = [
 	'topbar' => [
-		'login'		=> 'Login',
-		'register'	=> 'Register',
-		'logout'	=> 'Logout'
+		'login'		=> '로그인',
+		'register'	=> '레지스터',
+		'logout'	=> '로그 아웃'
 	],
 	'navbar' => [
-		'home'		=> 'Home',
-		'employees'	=> 'Employees',
-		'gallery'	=> 'Gallery',
-		'dropdown'	=> 'Dropdown',
-		'about'		=> 'About Us',
-		'contact'	=> 'Contact Us'
+		'home'		=> '집',
+		'employees'	=> '직원',
+		'gallery'	=> '갤러리',
+		'dropdown'	=> '쓰러지 다',
+		'about'		=> '회사 소개',
+		'contact'	=> '문의하기'
 	]
 ];
 
 $lang['footer'] = [
 	'company'	=> [
-		'desc'	=> ' is a Recruitment and Placement Company that specializes in skilled Indonesian workforce abroad.'
+		'desc'	=> ' 은 해외에서 숙련 된 인도네시아 인력을 전문으로하는 채용 및 배치 회사입니다.'
 	],
 	'link'		=> [
-		'title'		=> 'Useful Links',
-		'home'		=> 'Home',
-		'employees'	=> 'Employees',
-		'gallery'	=> 'Gallery',
-		'dropdown'	=> 'Dropdown',
-		'about'		=> 'About Us',
-		'contact'	=> 'Contact Us'
+		'title'		=> '유용한 링크',
+		'home'		=> '집',
+		'employees'	=> '직원',
+		'gallery'	=> '갤러리',
+		'dropdown'	=> '쓰러지 다',
+		'about'		=> '회사 소개',
+		'contact'	=> '문의하기'
 	],
 	'contact'	=> [
-		'title'		=> 'Contact Us',
-		'phone'		=> 'Phone',
-		'email'		=> 'Email'
+		'title'		=> '문의하기',
+		'phone'		=> '전화',
+		'email'		=> '이메일'
 	]
 ];
 
 $lang['section_title'] = [
-	'advantages'	=> 'Our Advantages',
-	'clients'		=> 'Our Clients',
-	'news'			=> 'News'
+	'advantages'	=> '우리의 장점',
+	'clients'		=> '우리의 클라이언트 ',
+	'news'			=> '뉴스'
 ];
 
 $lang['page_contact'] = [
 	'info'		=> [
-		'title'		=> 'Contact Info',
-		'location'	=> 'Location',
-		'email'		=> 'Email',
-		'phone'		=> 'Call'
+		'title'		=> '연락처 정보',
+		'location'	=> '위치',
+		'email'		=> '이메일',
+		'phone'		=> '전화'
 	],
 	'message'	=> [
-		'title'		=> 'Get In Touch',
-		'name'		=> 'Your Name',
-		'email'		=> 'Your Email',
-		'subject'	=> 'Subject',
-		'message'	=> 'Message',
-		'send'		=> 'Send Message'
+		'title'		=> '대기 중',
+		'name'		=> '당신의 이름',
+		'email'		=> '귀하의 이메일',
+		'subject'	=> '제목',
+		'message'	=> '메시지',
+		'send'		=> '문자 보내'
 	]
 ];
 
 $lang['button'] = [
-	'readmore'		=> 'See More',
-	'contact'		=> 'Contact Us',
-	'send_message'	=> 'Send Message'
+	'readmore'		=> '더 읽어보기',
+	'contact'		=> '문의하기',
+	'send_message'	=> '문자 보내'
 ];

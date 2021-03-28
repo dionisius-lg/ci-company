@@ -13,7 +13,6 @@
 
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/font-awesome/css/font-awesome.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/bootstrap/css/bootstrap.min.css'); ?>">
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/icofont/icofont.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/animate/animate.min.css'); ?>">
 		<?php echo $this->template->stylesheet; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/main.css'); ?>">
@@ -31,25 +30,24 @@
 				<div class="menu-lang mr-auto">
 					<div class="btn-group">
 						<button class="btn btn-outline-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<img src="<?php echo base_url('assets/img/lang/'.sitelang().'.png'); ?>" alt=""> <?php echo sitelang(); ?>
+						<?php echo '<img src="' . base_url('assets/img/lang/' . sitelang() . '.png') . '" alt="' . sitelang() . '"> ' . sitelang(); ?>
 						</button>
 						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<a class="dropdown-item" href="<?php echo base_url('lang/english'); ?>"><img src="<?php echo base_url('assets/img/lang/english.png'); ?>" class="img-fluid"> English</a>
-							<a class="dropdown-item" href="<?php echo base_url('lang/indonesian'); ?>"><img src="<?php echo base_url('assets/img/lang/indonesian.png'); ?>" class="img-fluid"> Indonesian</a>
-							<a class="dropdown-item" href="<?php echo base_url('lang/japanese'); ?>"><img src="<?php echo base_url('assets/img/lang/japanese.png'); ?>" class="img-fluid"> Japanese</a>
-							<a class="dropdown-item" href="<?php echo base_url('lang/korean'); ?>"><img src="<?php echo base_url('assets/img/lang/korean.png'); ?>" class="img-fluid"> Korean</a>
-							<a class="dropdown-item" href="<?php echo base_url('lang/mandarin'); ?>"><img src="<?php echo base_url('assets/img/lang/mandarin.png'); ?>" class="img-fluid"> Mandarin</a>
+							<?php echo '<a class="dropdown-item" href="' . base_url('lang/english') . '"><img src="' . base_url('assets/img/lang/english.png') . '" class="img-fluid"> English</a>
+							<a class="dropdown-item" href="' . base_url('lang/indonesian') . '"><img src="' . base_url('assets/img/lang/indonesian.png') . '" class="img-fluid"> Indonesian</a>
+							<a class="dropdown-item" href="' . base_url('lang/japanese') . '"><img src="' . base_url('assets/img/lang/japanese.png') . '" class="img-fluid"> Japanese</a>
+							<a class="dropdown-item" href="' . base_url('lang/korean') . '"><img src="' . base_url('assets/img/lang/korean.png') . '" class="img-fluid"> Korean</a>
+							<a class="dropdown-item" href="' . base_url('lang/mandarin') . '"><img src="' . base_url('assets/img/lang/mandarin.png') . '" class="img-fluid"> Mandarin</a>'; ?>
 						</div>
 					</div>
 				</div>
 				<div class="menu-user">
 					<ul class="list-inline mb-0">
-						<?php if (!$this->session->has_userdata('AuthUser')) { ?>
-							<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['login']; ?></a></li>
-							<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['register']; ?></a></li>
-						<?php } else { ?>
-							<li class="list-inline-item"><a href="#"><?php echo $this->lang->line('header')['topbar']['logout']; ?></a></li>
-						<?php } ?>
+						<?php if (!$this->session->has_userdata('AuthUser')) {
+							echo '<li class="list-inline-item"><a href="' . base_url('auth') . '">' . $this->lang->line('header')['topbar']['login'] , '</a></li> <li class="list-inline-item"><a href="' . base_url('auth/register') . '">' . $this->lang->line('header')['topbar']['register'] , '</a></li>';
+						} else {
+							echo '<li class="list-inline-item"><a href="' . base_url('auth/logout') . '">' . $this->lang->line('header')['topbar']['logout'] , '</a></li>';
+						} ?>
 					</ul>
 				</div>
 			</div>
@@ -74,10 +72,10 @@
 					</div>
 
 					<ul>
-						<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
-						<li><a href="<?php echo base_url('employees'); ?>"><?php echo $this->lang->line('header')['navbar']['employees']; ?></a></li>
-						<li><a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('header')['navbar']['about']; ?></a></li>
-						<li><a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('header')['navbar']['contact']; ?></a></li>
+						<li><?php echo '<a href="' . base_url() . '">' . $this->lang->line('header')['navbar']['home'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('employees') . '">' . $this->lang->line('header')['navbar']['employees'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('header')['navbar']['about'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('header')['navbar']['contact'] . '</a>'; ?></li>
 						<!-- <li class="drop-down"><a href="">Drop Down</a>
 							<ul>
 								<li><a href="#">Drop Down 1</a></li>
@@ -97,8 +95,6 @@
 						</li> -->
 					</ul>
 				</nav>
-
-				<!-- <a href="#about" class="get-started-btn scrollto">Get Started</a> -->
 
 			</div>
 		</header>
@@ -152,7 +148,7 @@
 			</div>
 		</footer>
 
-		<a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+		<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 	</body>
 </html>

@@ -19,13 +19,13 @@
 					<?php } ?>
 
 					<?php if (sitelang() == 'japanese') { ?>
-						<h4><a href="#">Reliable</a></h4>
-						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
+						<h4><a href="#">信頼性のある</a></h4>
+						<p>これは日本語の例です. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
 
 					<?php if (sitelang() == 'korean') { ?>
-						<h4><a href="#">Reliable</a></h4>
-						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
+						<h4><a href="#">신뢰할 수있는</a></h4>
+						<p>이것은 한국어의 예입니다. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
 
 					<?php if (sitelang() == 'mandarin') { ?>
@@ -48,13 +48,13 @@
 					<?php } ?>
 
 					<?php if (sitelang() == 'japanese') { ?>
-						<h4><a href="#">Trusted</a></h4>
-						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
+						<h4><a href="#">信頼できる</a></h4>
+						<p>これは日本語の例です. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
 
 					<?php if (sitelang() == 'korean') { ?>
-						<h4><a href="#">值得信赖 </a></h4>
-						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
+						<h4><a href="#">신뢰할 수있는 </a></h4>
+						<p>이것은 한국어의 예입니다. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
 
 					<?php if (sitelang() == 'mandarin') { ?>
@@ -77,13 +77,13 @@
 					<?php } ?>
 
 					<?php if (sitelang() == 'japanese') { ?>
-						<h4><a href="#">The Best</a></h4>
-						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
+						<h4><a href="#">最高の</a></h4>
+						<p>これは日本語の例です. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
 
 					<?php if (sitelang() == 'korean') { ?>
-						<h4><a href="#">The Best</a></h4>
-						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
+						<h4><a href="#">최고</a></h4>
+						<p>이것은 한국어의 예입니다. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
 
 					<?php if (sitelang() == 'mandarin') { ?>
