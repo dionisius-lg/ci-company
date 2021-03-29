@@ -58,6 +58,31 @@ class Employees extends CI_Controller {
 		$this->template->publish();
 	}
 
+	public function detail($id)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$request = [
+			'employees' => $this->EmployeesModel->getAll(['limit' => 10]),
+			'provinces' => $this->ProvincesModel->getAll(['limit' => 100]),
+			'user_levels' => $this->UserLevelsModel->getAll()
+		];
+
+		foreach ($request as $key => $val) {
+			$this->result[$key] = [];
+
+			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
+				if ($request[$key]['status'] == 'success') {
+					$this->result[$key] = $val['data'];
+				}
+			}
+		}
+
+		$this->template->title = $this->pageTitle(sitelang());
+		$this->template->content->view('templates/front/employees_detail', $this->result);
+		$this->template->publish();
+	}
+
 	// page title in multi language
 	private function pageTitle($lang) {
 		switch ($lang) {

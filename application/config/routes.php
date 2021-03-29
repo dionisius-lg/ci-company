@@ -90,6 +90,7 @@ $route['remote/get-employees-list'] = 'remote/getEmployeesDatatable';
 $route['remote/get-company-advantages-list'] = 'remote/getCompanyAdvantagesDatatable';
 $route['remote/get-sliders-list'] = 'remote/getSlidersDatatable';
 $route['remote/get-users'] = 'remote/getUsers';
+$route['remote/get-employees'] = 'remote/getEmployees';
 
 /**
  * LanguageController

@@ -134,6 +134,47 @@ class Remote extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	public function getEmployees()
+	{
+		$session	= $this->session->userdata('AuthUser');
+		$result		= [];
+
+		if ($this->input->is_ajax_request()) {
+			$this->load->model('EmployeesModel');
+
+			$input = array_map('trim', $this->input->post());
+
+			if (array_key_exists('id', $input)) {
+				if (is_numeric($input['id'])) {
+					$request = $this->EmployeesModel->getDetail($input['id']);
+				}
+			} else {
+				$condition = [];
+
+				if (!array_key_exists('is_active', $input)) {
+					$input['is_active'] = 1;
+				}
+
+				foreach ($input as $key => $val) {
+					if (!empty($val)) {
+						$condition[$key] = $val;
+					}
+				}
+
+				$request = $this->EmployeesModel->getAll($condition);
+
+			}
+
+			if ($request['status'] == 'success') {
+				echo json_encode($request);
+			}
+
+			exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
 	public function getEmployeesDatatable()
 	{
 		$session	= $this->session->userdata('AuthUser');
