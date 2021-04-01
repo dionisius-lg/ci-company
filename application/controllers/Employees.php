@@ -63,6 +63,7 @@ class Employees extends CI_Controller {
 		$session = $this->session->userdata('AuthUser');
 
 		$request = [
+			'data_employe' => $this->EmployeesModel->getDetail($id), 
 			'employees' => $this->EmployeesModel->getAll(['limit' => 10]),
 			'provinces' => $this->ProvincesModel->getAll(['limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll()
