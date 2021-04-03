@@ -68,3 +68,20 @@ $lang['button'] = [
 	'contact'		=> 'Hubungi Kami',
 	'send_message'	=> 'Kirim Pesan'
 ];
+
+$lang['page_login'] = [
+	'intro'		=> 'Masuk untuk memulai sesi anda',
+	'username'	=> 'Email',
+	'password'	=> 'Kata sandi',
+	'submit'	=> 'Masuk'
+];
+
+$lang['page_register'] = [
+	'intro'				=> 'Daftar keanggotaan baru',
+	'fullname'			=> 'Nama lengkap',
+	'email'				=> 'Email',
+	'company'			=> 'Perusahaan',
+	'city'				=> 'Kota',
+	'country'			=> 'Negara',
+	'submit'			=> 'Daftar'
+];

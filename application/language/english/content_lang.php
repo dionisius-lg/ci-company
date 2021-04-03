@@ -66,3 +66,20 @@ $lang['button'] = [
 	'contact'		=> 'Contact Us',
 	'send_message'	=> 'Send Message'
 ];
+
+$lang['page_login'] = [
+	'intro'		=> 'Login to start your session',
+	'username'	=> 'Email',
+	'password'	=> 'Password',
+	'submit'	=> 'Login'
+];
+
+$lang['page_register'] = [
+	'intro'				=> 'Register a new membership',
+	'fullname'			=> 'Fullname',
+	'email'				=> 'Email',
+	'company'			=> 'Company',
+	'city'				=> 'City',
+	'country'			=> 'Country',
+	'submit'			=> 'Register'
+];

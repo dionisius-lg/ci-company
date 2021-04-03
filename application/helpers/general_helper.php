@@ -19,6 +19,25 @@ if (!function_exists('slugify')) {
 	}
 }
 
+if (!function_exists('strRandom')) {
+	function strRandom($length = '') {
+		if (is_numeric($length)) {
+			$result    = "";
+			$chars     = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+			$charArray = str_split($chars);
+
+			for ($i = 0; $i < $length; $i++) {
+				$randItem = array_rand($charArray);
+				$result  .= "". $charArray[$randItem];
+			}
+
+			return $result;
+		}
+		
+		return false;
+	}
+}
+
 if (!function_exists('sitelang')) {
 	function sitelang($lang = null) {
 		$ci = &get_instance();

@@ -53,6 +53,9 @@ $route['default_controller'] = 'Home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
 
+/**
+ * AuthController
+ */
 $route['auth'] = 'auth/login';
 
 /**
@@ -67,7 +70,14 @@ $route['admin/users/get-list'] = 'admin/users/getList';
 $route['admin/users/reset-password/(:any)'] = 'admin/users/resetPassword/$1';
 
 /**
- * UsersController
+ * RequestUsersController
+ */
+$route['admin/user-requests'] = 'admin/UserRequests';
+$route['admin/user-requests/detail/(:any)'] = 'admin/UserRequests/detail/$1';
+$route['admin/user-requests/update/(:any)'] = 'admin/UserRequests/update/$1';
+
+/**
+ * EmployeesController
  */
 $route['admin/employees/get-list'] = 'admin/employees/getList';
 $route['admin/employees/upload-photo/(:any)'] = 'admin/employees/uploadPhoto/$1';

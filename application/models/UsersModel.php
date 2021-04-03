@@ -31,6 +31,8 @@ class UsersModel extends CI_Model {
 		$condition_like	= [];
 
 		$column_like = [
+			'like_fullname',
+			'like_email',
 			'like_username',
 			'like_user_level'
 		];
@@ -52,6 +54,10 @@ class UsersModel extends CI_Model {
 							$error[$key] = DateTime::getLastErrors();
 						} else {
 							$clause[$key] = $val;
+						}
+					} else {
+						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_employees']) && $val === '0') {
+							$clause[$key] = '\'0\'';
 						}
 					}
 				}
@@ -243,7 +249,7 @@ class UsersModel extends CI_Model {
 							$data[$key] = $val;
 						}
 					} else {
-						if (in_array($key, ['is_active', 'is_register']) && $val === '0') {
+						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_employees']) && $val === '0') {
 							$data[$key] = '0';
 						}
 					}

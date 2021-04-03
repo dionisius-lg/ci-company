@@ -1,51 +1,140 @@
-<div class="card">
-	<div class="card-body login-card-body">
-		<p class="login-box-msg">Sign in to start your session</p>
-		<form action="" method="post" autocomplete="off">
-			<div class="input-group mb-3">
-				<input type="text" name="username" class="form-control" placeholder="Username" required autofocus>
-				<div class="input-group-append">
-					<div class="input-group-text">
-						<span class="fa fa-fw fa-envelope"></span>
-					</div>
-				</div>
-			</div>
-			<div class="input-group mb-3">
-				<input type="password" name="password" class="form-control" placeholder="Password" required>
-				<div class="input-group-append">
-					<div class="input-group-text">
-						<span class="fa fa-fw fa-lock"></span>
-					</div>
-				</div>
-			</div>
-			<div class="custom-control custom-checkbox">
-				<input type="checkbox" name="remember" id="RememberMe" class="custom-control-input">
-				<label for="RememberMe" class="custom-control-label">Remember Me</label>
-			</div>
-			<div class="row">
-				<div class="col-12 text-right">
-					<button type="submit" class="btn btn-primary rounded-0">Sign In</button>
-				</div>
-			</div>
-		</form>
-
-		<p class="mb-1">
-			
-		</p>
-		<p class="mb-1">
-			<a href="#">I forgot my password</a>
-		</p>
-		<p class="mb-0">
-			<a href="#" class="text-center">Register new account</a>
-		</p>
+<section class="breadcrumbs">
+	<div class="container">
+		<div class="d-flex justify-content-between align-items-center">
+			<h2><?php echo $this->template->title; ?></h2>
+			<ol>
+				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
+				<li><?php echo $this->template->title; ?></li>
+			</ol>
+		</div>
 	</div>
-</div>
+</section>
 
-<?php if (hasFlashError('auth')) { ?>
-	<div class="alert alert-light alert-sm alert-dismissible fade show rounded-0" role="alert">
-		<i class="fa fa-lg fa-warning"></i> <?php echo flashError('auth'); ?>
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button>
+<section id="login">
+	<div class="container">
+		<div class="col-md-5 col-sm-10 mx-auto">
+			<div class="box mx-auto">
+				<div class="message">
+					<?php echo (hasFlashError()) ? '<span class="text-danger"><i class="fa fa-warning"></i> ' . flashError() . '</span>' : $this->lang->line('page_login')['intro']; ?>
+				</div>
+				<?php echo form_open('auth', ['id' => 'formAuth', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
+					<div class="form-group">
+						<?php echo form_input(['type' => 'email', 'name' => 'username', 'id' => 'username', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['username'], 'data-parsley-errors-container' => '.parsley-username', 'required' => true, 'autofocus' => true]); ?>
+						<span class="text-danger parsley-username"></span>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<?php echo form_input(['type' => 'password', 'name' => 'password', 'id' => 'password', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['password'], 'data-parsley-errors-container' => '.parsley-password', 'required' => true]); ?>
+							<div class="input-group-append">
+								<div class="input-group-text">
+									<i class="fa fa-fw fa-eye toggle-password"></i>
+								</div>
+							</div>
+						</div>
+						<span class="text-danger parsley-password"></span>
+					</div>
+					<div class="form-group text-center">
+						<?php echo $recaptcha ?>
+					</div>
+					<div class="text-right">
+						<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('page_login')['submit']; ?></button>
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
-<?php } ?>
+</section>
+
+<!-- load required builded stylesheet for this page -->
+<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/parsley/parsley.css', ['type' => 'text/css', 'media' => 'all']); ?>
+
+<!-- load required builded script for this page -->
+<?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
+<?php $this->template->javascript->add('assets/vendor/parsley/parsley.min.js'); ?>
+<?php switch (sitelang()) {
+	case 'indonesian':
+		$this->template->javascript->add('assets/vendor/parsley/i18n/id.js');
+		break;
+	case 'japanese':
+		$this->template->javascript->add('assets/vendor/parsley/i18n/ja.js');
+		break;
+	case 'korean':
+		$this->template->javascript->add('assets/vendor/parsley/i18n/ko.js');
+		break;
+	case 'mandarin':
+		$this->template->javascript->add('assets/vendor/parsley/i18n/zh_tw.js');
+		break;
+} ?>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		function rescaleCaptcha(){
+			var width = $('.g-recaptcha').parent().width();
+			var scale;
+			if (width < 302) {
+				scale = width / 302;
+			} else {
+				scale = 1.0; 
+			}
+
+			$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
+			$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
+			$('.g-recaptcha').css('transform-origin', '0 0');
+			$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
+		}
+
+		rescaleCaptcha();
+		$( window ).resize(function() { rescaleCaptcha(); });
+	});
+
+	$('.toggle-password').click(function() {
+		$(this).toggleClass('fa-eye fa-eye-slash');
+
+		if ($('#password').attr('type') == 'password') {
+			$('#password').attr('type', 'text');
+		} else {
+			$('#password').attr('type', 'password');
+		}
+	});
+
+	$('#formAuth').on('submit', function(e) {
+		e.preventDefault();
+
+		$(this).parsley().validate();
+
+		if (!$(this).parsley().isValid()) return false;
+
+		var captcha = $('#g-recaptcha-response').val();
+
+		if (captcha == "" || captcha == undefined || captcha.length == 0) {
+			var errorMessage;
+
+			switch ('<?php echo sitelang(); ?>') {
+				case 'indonesian':
+					errorMessage = 'Captcha diperlukan';
+					break;
+				case 'japanese':
+					errorMessage = 'キャプチャが必要です';
+					break;
+				case 'korean':
+					errorMessage = '보안 문자가 필요합니다';
+					break;
+				case 'mandarin':
+					errorMessage = '必須輸入驗證碼';
+					break;
+				default:
+					errorMessage = 'Captcha is required';
+			}
+
+			Swal.fire({
+				icon: 'error',
+				title: errorMessage
+			});
+
+			return false;
+		}
+
+		e.currentTarget.submit();
+	});
+</script>

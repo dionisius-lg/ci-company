@@ -94,6 +94,12 @@
 								</a>
 							</li>
 							<li class="nav-item">
+								<a href="<?php echo site_url('admin/user-requests'); ?>" class="nav-link">
+									<i class="nav-icon fa fa-users"></i>
+									<p>User Requests Data</p>
+								</a>
+							</li>
+							<li class="nav-item">
 								<a href="<?php echo site_url('admin/users'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-users"></i>
 									<p>Users Data</p>

@@ -15,26 +15,24 @@
 	display: none;
 }
 
-.page-sm .pagination {
-	padding: 0.25rem 0.5rem;
-	font-size: 0.875rem;
-	line-height: 1.5;
+.pagination .page-link {
+	box-shadow: none;
+}
+
+.pagination .page-item:first-child .page-link {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.pagination .page-item:last-child .page-link {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 .page-sm .pagination .page-link {
-	padding: 0.25rem 0.5rem;
+	padding: 0.25rem 0.65rem;
 	font-size: 0.875rem;
  	line-height: 1.5;
-}
-
-.page-sm .pagination-sm.page-item:first-child .page-link {
-	border-top-left-radius: 0.2rem;
-	border-bottom-left-radius: 0.2rem;
-}
-
-.page-sm .pagination .page-item:last-child .page-link {
-	border-top-right-radius: 0.2rem;
-	border-bottom-right-radius: 0.2rem;
 }
 
 .page-right .pagination {

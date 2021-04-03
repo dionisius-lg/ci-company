@@ -66,3 +66,20 @@ $lang['button'] = [
 	'contact'		=> '联系我们',
 	'send_message'	=> '发信息'
 ];
+
+$lang['page_login'] = [
+	'intro'		=> '登錄以開始您的會議',
+	'username'	=> '電子郵件',
+	'password'	=> '密碼',
+	'submit'	=> '登錄'
+];
+
+$lang['page_register'] = [
+	'intro'				=> '註冊新會員',
+	'fullname'			=> '全名',
+	'email'				=> '電子郵件',
+	'company'			=> '公司',
+	'city'				=> '城市',
+	'country'			=> '國家',
+	'submit'			=> '登記'
+];

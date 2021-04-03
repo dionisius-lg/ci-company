@@ -66,3 +66,20 @@ $lang['button'] = [
 	'contact'		=> 'お問い合わせ',
 	'send_message'	=> 'メッセージを送る'
 ];
+
+$lang['page_login'] = [
+	'intro'		=> 'ログインしてセッションを開始します',
+	'username'	=> '電子メイル',
+	'password'	=> 'パスワード',
+	'submit'	=> 'ログイン'
+];
+
+$lang['page_register'] = [
+	'intro'				=> '新しいメンバーシップを登録する',
+	'fullname'			=> 'フルネーム',
+	'email'				=> '電子メイル',
+	'company'			=> '会社',
+	'city'				=> '市',
+	'country'			=> '国',
+	'submit'			=> '登録'
+];

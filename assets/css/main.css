@@ -25,15 +25,15 @@ body {
 }
 
 a {
-	color: #5cb874;
+	color: #747474;
+  }
+  
+  a:hover,
+  a:active,
+  a.active {
+	color: #141414;
 	text-decoration: none;
-}
-
-a:hover,
-a:focus {
-	color: #80c792;
-	text-decoration: none;
-}
+  }
 
 h1, h2, h3, h4, h5, h6 {
 	font-family: "poppins-medium";
@@ -1356,3 +1356,330 @@ section {
 	text-align: center;
 	padding-top: 30px;
 }
+
+/*--------------------------------------------------------------
+# Section Login
+--------------------------------------------------------------*/
+#login .box {
+	width: 360px;
+	margin: auto;
+	border: 0;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+@media (max-width: 575.98px) {
+	#login .box {
+		width: 100%;
+	}
+}
+
+#login .box .form-group {
+	padding: 0;
+    overflow: hidden;
+}
+
+#login .box .parsley-errors-list.filled {
+	margin-top: 3px !important;
+}
+
+#login .box .form-control,
+#login .box .input-group .form-control {
+	border-radius: 0;
+}
+
+#login .box .input-group .form-control {
+	border-right: 0;
+}
+
+#login .box .form-control,
+#login .box .input-group .form-control:focus {
+	box-shadow: none;
+}
+
+#login .box .form-control:focus {
+	border-color: #787878;
+}
+
+#login .box .form-control::placeholder,
+#login .box .form-control:focus::placeholder {
+	color: #a4a4a4;
+}
+
+#login .box .form-control:-ms-input-placeholder,
+#login .box .form-control:focus:-ms-input-placeholder {
+	color: #a4a4a4;
+}
+
+#login .box .form-control::-ms-input-placeholder,
+#login .box .form-control:focus:-ms-input-placeholder {
+	color: #a4a4a4;
+}
+
+#login .box .input-group .form-control:focus ~ .input-group-append .input-group-text {
+	border-color: #787878;
+}
+
+#login .box .input-group .form-control.is-invalid:focus {
+	box-shadow: none;
+}
+
+#login .box .input-group .form-control.is-invalid ~ .input-group-append .input-group-text {
+	border-color: #dc3545;
+}
+
+#login .box .input-group .input-group-text {
+	background-color: transparent;
+	border-bottom-right-radius: 0;
+	border-left: 0;
+	border-top-right-radius: 0;
+	color: #777;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#login .box .message {
+	text-align: center;
+}
+
+#login .box .message p {
+	margin-bottom: 0;
+}
+
+#login .box .message p:not(:first-child) {
+	margin-top: 5px;
+}
+
+#login .box form {
+	margin-top: 20px;
+}
+
+#login .box p > a + a:before {
+	content: "|";
+	margin-right: 5px;
+}
+
+#login .box .g-recaptcha {
+	display: inline-block !important;
+}
+
+#login .forgot-password {
+	margin: 0;
+}
+
+/*--------------------------------------------------------------
+# Section Register
+--------------------------------------------------------------*/
+#register .box {
+	/* width: 360px; */
+	margin: auto;
+	border: 0;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+@media (max-width: 575.98px) {
+	#register .box {
+		width: 100%;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+}
+
+#register .box .form-row:not(:last-child) > [class*="col-"] {
+	padding-bottom: 15px;
+}
+
+@media (max-width: 991.98px) {
+	#register .box .form-row:not(:last-child) > [class*="col-"] {
+		padding-bottom: 0;
+	}
+
+	#register .box .form-row:last-child > [class*="col-"]:first-child {
+		padding-top: 15px;
+		padding-bottom: 5px;
+	}
+
+	#register .box .form-row:last-child > [class*="col-"]:last-child {
+		margin: 0;
+	}
+
+	#register .box .form-row .g-recaptcha > div {
+		margin: auto;
+	}
+}
+
+#register .box .parsley-errors-list.filled {
+	margin-top: 3px !important;
+}
+
+#register .box label {
+	margin: 0 0 1px 0;
+}
+
+#register .box .form-control,
+#register .box .input-group .form-control {
+	border-radius: 0;
+}
+
+#register .box .input-group .form-control {
+	border-right: 0;
+}
+
+#register .box .form-control,
+#register .box .input-group .form-control:focus {
+	box-shadow: none;
+}
+
+#register .box .form-control:focus {
+	border-color: #787878;
+}
+
+#register .box .form-control::placeholder,
+#register .box .form-control:focus::placeholder {
+	color: #a4a4a4;
+}
+
+#register .box .form-control:-ms-input-placeholder,
+#register .box .form-control:focus:-ms-input-placeholder {
+	color: #a4a4a4;
+}
+
+#register .box .form-control::-ms-input-placeholder,
+#register .box .form-control:focus:-ms-input-placeholder {
+	color: #a4a4a4;
+}
+
+#register .box .input-group .form-control:focus ~ .input-group-append .input-group-text {
+	border-color: #787878;
+}
+
+#register .box .input-group .form-control.is-invalid:focus {
+	box-shadow: none;
+}
+
+#register .box .input-group .form-control.is-invalid ~ .input-group-append .input-group-text {
+	border-color: #dc3545;
+}
+
+#register .box .input-group .input-group-text {
+	background-color: transparent;
+	border-bottom-right-radius: 0;
+	border-left: 0;
+	border-top-right-radius: 0;
+	color: #777;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#register .box .message {
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+#register .box button[type="submit"] {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+@media (max-width: 991.98px) {
+	#register .box button[type="submit"] {
+		position: relative;
+	}
+}
+
+/* .swal-wide {
+    width: 400px !important;
+	font-size: 16px !important;
+} */
+
+/* #register .box .form-group {
+	padding: 0;
+    overflow: hidden;
+}
+
+#register .box .parsley-errors-list.filled {
+	margin-top: 3px !important;
+}
+
+#register .box .form-control,
+#register .box .input-group .form-control {
+	border-radius: 0;
+}
+
+#register .box .input-group .form-control {
+	border-right: 0;
+}
+
+#register .box .form-control,
+#register .box .input-group .form-control:focus {
+	box-shadow: none;
+}
+
+#register .box .form-control:focus {
+	border-color: #787878;
+}
+
+#register .box .form-control::placeholder,
+#register .box .form-control:focus::placeholder {
+	color: #a4a4a4;
+}
+
+#register .box .form-control:-ms-input-placeholder,
+#register .box .form-control:focus:-ms-input-placeholder {
+	color: #a4a4a4;
+}
+
+#register .box .form-control::-ms-input-placeholder,
+#register .box .form-control:focus:-ms-input-placeholder {
+	color: #a4a4a4;
+}
+
+#register .box .input-group .form-control:focus ~ .input-group-append .input-group-text {
+	border-color: #787878;
+}
+
+#register .box .input-group .form-control.is-invalid:focus {
+	box-shadow: none;
+}
+
+#register .box .input-group .form-control.is-invalid ~ .input-group-append .input-group-text {
+	border-color: #dc3545;
+}
+
+#register .box .input-group .input-group-text {
+	background-color: transparent;
+	border-bottom-right-radius: 0;
+	border-left: 0;
+	border-top-right-radius: 0;
+	color: #777;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+#register .box .message {
+	text-align: center;
+}
+
+#register .box .message p {
+	margin-bottom: 0;
+}
+
+#register .box .message p:not(:first-child) {
+	margin-top: 5px;
+}
+
+#register .box form {
+	margin-top: 20px;
+}
+
+#register .box p > a + a:before {
+	content: "|";
+	margin-right: 5px;
+}
+
+#register .box .g-recaptcha {
+	display: inline-block !important;
+}
+
+#register .forgot-password {
+	margin: 0;
+} */

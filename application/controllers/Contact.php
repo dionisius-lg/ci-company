@@ -30,17 +30,24 @@ class Contact extends CI_Controller {
 		}
 	}
 
+	/**
+	 *  index method
+	 *  index page
+	 */
 	public function index()
 	{
 		$session	= $this->session->userdata('AuthUser');
 
-		$this->template->title = $this->pageTitle(sitelang());
+		$this->template->title = $this->_callbackPageTitle(sitelang());
 		$this->template->content->view('templates/front/contact', $this->result);
 		$this->template->publish();
 	}
 
-	// page title in multi language
-	private function pageTitle($lang) {
+	/**
+	 *  _callbackPageTitle method
+	 *  return title for login & register in multi lang
+	 */
+	private function _callbackPageTitle($lang) {
 		switch ($lang) {
 			case 'english':
 				return 'Contact Us';

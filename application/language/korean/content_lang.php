@@ -66,3 +66,20 @@ $lang['button'] = [
 	'contact'		=> '문의하기',
 	'send_message'	=> '문자 보내'
 ];
+
+$lang['page_login'] = [
+	'intro'		=> '세션을 시작하려면 로그인하세요',
+	'username'	=> '이메일',
+	'password'	=> '암호',
+	'submit'	=> '로그인'
+];
+
+$lang['page_register'] = [
+	'intro'				=> '새 멤버십 등록',
+	'fullname'			=> '성명',
+	'email'				=> '이메일',
+	'company'			=> '회사',
+	'city'				=> '시티',
+	'country'			=> '국가',
+	'submit'			=> '레지스터'
+];
