@@ -69,7 +69,7 @@ $lang['button'] = [
 
 $lang['page_login'] = [
 	'intro'		=> 'ログインしてセッションを開始します',
-	'username'	=> '電子メイル',
+	'username'	=> 'ユーザー名または電子メール',
 	'password'	=> 'パスワード',
 	'submit'	=> 'ログイン'
 ];

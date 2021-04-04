@@ -69,7 +69,7 @@ $lang['button'] = [
 
 $lang['page_login'] = [
 	'intro'		=> '세션을 시작하려면 로그인하세요',
-	'username'	=> '이메일',
+	'username'	=> '아이디 또는 이메일',
 	'password'	=> '암호',
 	'submit'	=> '로그인'
 ];

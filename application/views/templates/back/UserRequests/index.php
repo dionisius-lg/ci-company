@@ -113,6 +113,11 @@
 							<?php echo form_input(['type' => 'password', 'name' => 'password_repeat', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
+						<div class="form-group col-md-6" hidden>
+							<?php echo form_label('Email', null, ['hidden' => true]); ?>
+							<?php echo form_input(['type' => 'email', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '100', 'readonly' => true, 'hidden' => true]); ?>
+							<span class="invalid-feedback" hidden></span>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -164,9 +169,10 @@
 				success: function(response) {
 					if (response !== null && typeof response === 'object') {
 						if (response.status === 'success') {
-							$.each(response.data, function(key, val) {
-								formData.find('[name="' + key + '"]').val(val);
-							});
+							formData.find('input[name="username"]').val(response.data['email']);
+							// $.each(response.data, function(key, val) {
+							// 	formData.find('[name="' + key + '"]').val(val);
+							// });
 
 							modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 						}

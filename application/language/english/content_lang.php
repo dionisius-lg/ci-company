@@ -69,7 +69,7 @@ $lang['button'] = [
 
 $lang['page_login'] = [
 	'intro'		=> 'Login to start your session',
-	'username'	=> 'Email',
+	'username'	=> 'Username or email',
 	'password'	=> 'Password',
 	'submit'	=> 'Login'
 ];

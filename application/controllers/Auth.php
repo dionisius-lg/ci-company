@@ -70,14 +70,14 @@ class Auth extends CI_Controller {
 			$verify_recaptcha = $this->recaptcha->verifyResponse($input['g-recaptcha-response']);
 
 			if (!isset($verify_recaptcha['success']) || $verify_recaptcha['success'] <> true) {
-				setFlashError($this->_callbackErrorCaptcha(sitelang()));
+				setFlashError($this->_errorCaptcha(sitelang()));
 				redirect('auth', 'refresh');
 			}
 
-			$verify = $this->UsersModel->login(['username' => $input['username'], 'password' => $input['password']]);
+			$verify = $this->UsersModel->login($input['username'], $input['password']);
 
 			if ($verify['status'] != 'success') {
-				setFlashError($this->_callbackErrorAuth(sitelang()));
+				setFlashError($this->_errorAuth(sitelang()));
 				redirect('auth', 'refresh');
 			}
 
@@ -93,7 +93,7 @@ class Auth extends CI_Controller {
 				}
 			}
 
-			setFlashError($this->_callbackErrorDefault(sitelang()));
+			setFlashError($this->_errorDefault(sitelang()));
 			redirect('auth', 'refresh');
 		}
 
@@ -129,7 +129,7 @@ class Auth extends CI_Controller {
 				foreach ($input as $key => $val) {
 					if (!empty(form_error($key))) {
 						if ($key == 'g-recaptcha-response') {
-							setFlashError($this->_callbackErrorCaptcha(sitelang()));
+							setFlashError($this->_errorCaptcha(sitelang()));
 						} else {
 							setFlashError(form_error($key), $key);
 						}
@@ -159,17 +159,17 @@ class Auth extends CI_Controller {
 			$request = $this->UsersModel->insert($data);
 
 			if ($request['status'] == 'success') {
-				setFlashSuccess($this->_callbackSuccessRegister(sitelang()));
+				setFlashSuccess($this->_successRegister(sitelang()));
 
 				// if ($this->mailVerification($data)) {
-				// 	setFlashSuccess($this->_callbackSuccessMailer(sitelang()));
+				// 	setFlashSuccess($this->_successMailer(sitelang()));
 				// } else {
-				// 	setFlashError($this->_callbackErrorMailer(sitelang()));
+				// 	setFlashError($this->_errorMailer(sitelang()));
 				// }
 
 				// redirect('auth/register');
 			} else {
-				setFlashError($this->_callbackErrorDefault(sitelang()));
+				setFlashError($this->_errorDefault(sitelang()));
 				setOldInput($input);
 			}
 
@@ -303,10 +303,10 @@ class Auth extends CI_Controller {
 	}
 
 	/**
-	 *  _callbackErrorCaptcha method
+	 *  _errorCaptcha method
 	 *  return invalid message for captcha in multi lang
 	 */
-	private function _callbackErrorCaptcha($lang) {
+	private function _errorCaptcha($lang) {
 		switch ($lang) {
 			case 'english':
 				return 'Captcha is required';
@@ -327,10 +327,10 @@ class Auth extends CI_Controller {
 	}
 
 	/**
-	 *  _callbackErrorAuth method
+	 *  _errorAuth method
 	 *  return invalid message for login in multi lang
 	 */
-	private function _callbackErrorAuth($lang) {
+	private function _errorAuth($lang) {
 		switch ($lang) {
 			case 'english':
 				return 'Invalid login credentials';
@@ -351,10 +351,10 @@ class Auth extends CI_Controller {
 	}
 
 	/**
-	 *  _callbackErrorDefault method
+	 *  _errorDefault method
 	 *  return default error message system in multi lang
 	 */
-	private function _callbackErrorDefault($lang) {
+	private function _errorDefault($lang) {
 		switch ($lang) {
 			case 'english':
 				return 'An error occurred, please try again';
@@ -375,10 +375,10 @@ class Auth extends CI_Controller {
 	}
 
 	/**
-	 *  _callbackSuccessRegister method
+	 *  _successRegister method
 	 *  return default error message system in multi lang
 	 */
-	private function _callbackSuccessRegister($lang) {
+	private function _successRegister($lang) {
 		switch ($lang) {
 			case 'english':
 				return 'We are currently processing your request, please wait for confirmation via email';
@@ -399,10 +399,10 @@ class Auth extends CI_Controller {
 	}
 
 	/**
-	 *  _callbackSuccessMailer method
+	 *  _successMailer method
 	 *  return success message for (send) mailer in multi lang
 	 */
-	private function _callbackSuccessMailer($lang) {
+	private function _successMailer($lang) {
 		switch ($lang) {
 			case 'english':
 				return 'Verification has been sent, please check your email';
@@ -423,10 +423,10 @@ class Auth extends CI_Controller {
 	}
 
 	/**
-	 *  _callbackErrorMailer method
+	 *  _errorMailer method
 	 *  return invalid message for (send) mailer in multi lang
 	 */
-	private function _callbackErrorMailer($lang) {
+	private function _errorMailer($lang) {
 		switch ($lang) {
 			case 'english':
 				return 'Email not found';
@@ -448,7 +448,7 @@ class Auth extends CI_Controller {
 
 	/**
 	 *  _regexName method
-	 *  check regex input data
+	 *  validation data to regex
 	 */
 	public function _regexName($str = false)
 	{
@@ -464,7 +464,7 @@ class Auth extends CI_Controller {
 
 	/**
 	 *  _checkEmail method
-	 *  check email if exist
+	 *  validation data to regex
 	 */
 	public function _checkEmail($str = false, $id = 0)
 	{

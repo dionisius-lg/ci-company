@@ -19,7 +19,7 @@
 				</div>
 				<?php echo form_open('auth', ['id' => 'formAuth', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-group">
-						<?php echo form_input(['type' => 'email', 'name' => 'username', 'id' => 'username', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['username'], 'data-parsley-errors-container' => '.parsley-username', 'required' => true, 'autofocus' => true]); ?>
+						<?php echo form_input(['type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['username'], 'data-parsley-errors-container' => '.parsley-username', 'required' => true, 'autofocus' => true]); ?>
 						<span class="text-danger parsley-username"></span>
 					</div>
 					<div class="form-group">
@@ -39,7 +39,7 @@
 					<div class="text-right">
 						<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('page_login')['submit']; ?></button>
 					</div>
-				</form>
+				<?php echo form_close(); ?>
 			</div>
 		</div>
 	</div>

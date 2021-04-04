@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class UsersModel extends CI_Model {
+class EmailsModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'users';
-	public $view_table = 'view_users';
+	public $table = 'emails';
+	public $view_table = 'emails';
 
 	/**
 	 *  getAll method
@@ -17,11 +17,7 @@ class UsersModel extends CI_Model {
 	public function getAll($data_temp = [])
 	{
 		$column		= $this->_getColumn($this->view_table);
-		$protected	= ['id', 'password'];
-
-		if (in_array('password', $column)) {
-			$column = array_diff($column, ['password']);
-		}
+		$protected	= ['id'];
 
 		$sort			= ['ASC', 'DESC'];
 		$clause			= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
@@ -31,16 +27,12 @@ class UsersModel extends CI_Model {
 		$condition_like	= [];
 
 		$column_like = [
-			'like_fullname',
-			'like_email',
-			'like_username',
-			'like_user_level'
+			
 		];
 
 		$column_date = [
-			'request_date',
-			'register_date',
-			'update_date'
+			'email_date',
+			'create_date'
 		];
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -54,10 +46,6 @@ class UsersModel extends CI_Model {
 							$error[$key] = DateTime::getLastErrors();
 						} else {
 							$clause[$key] = $val;
-						}
-					} else {
-						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_employees']) && $val === '0') {
-							$clause[$key] = '\'0\'';
 						}
 					}
 				}
@@ -144,10 +132,6 @@ class UsersModel extends CI_Model {
 		$column		= $this->_getColumn($this->view_table);
 		$protected	= ['id'];
 
-		if (in_array('password', $column)) {
-			$column = array_diff($column, ['password']);
-		}
-
 		if (empty($id)) {
 			return responseBadRequest();
 		}
@@ -184,11 +168,7 @@ class UsersModel extends CI_Model {
 					return responseBadRequest();
 				} else {
 					if (!empty($val)) {
-						if ($key == 'password') {
-							$data[$key] = password_hash($val, PASSWORD_DEFAULT);
-						} else {
-							$data[$key] = $val;
-						}
+						$data[$key] = $val;
 					}
 				}
 			}
@@ -196,18 +176,6 @@ class UsersModel extends CI_Model {
 
 		if (empty($data)) {
 			return responseBadRequest('Empty data');
-		}
-
-		if (array_key_exists('username', $data)) {
-			$check = $this->_getCount($this->table, ['username' => $data['username']]);
-
-			if ($check > 0) {
-				return responseBadRequest('Username already exist');
-			}
-		}
-
-		if (!array_key_exists('password', $data)) {
-			$data['password'] = password_hash('12345678', PASSWORD_DEFAULT);
 		}
 
 		$inserted = $this->db->insert($this->table, $data);
@@ -243,13 +211,9 @@ class UsersModel extends CI_Model {
 					return responseBadRequest();
 				} else {
 					if (!empty($val)) {
-						if ($key == 'password') {
-							$data[$key] = password_hash($val, PASSWORD_DEFAULT);
-						} else {
-							$data[$key] = $val;
-						}
+						$data[$key] = $val;
 					} else {
-						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_employees']) && $val === '0') {
+						if (in_array($key, ['is_active']) && $val === '0') {
 							$data[$key] = '0';
 						}
 					}
@@ -265,14 +229,6 @@ class UsersModel extends CI_Model {
 
 		if ($check == 0) {
 			return responseNotFound();
-		}
-
-		if (array_key_exists('username', $data)) {
-			$check = $this->_getCount($this->table, ['username' => $data['username'], 'id !=' => $id]);
-
-			if ($check > 0) {
-				return responseBadRequest('Username already exist');
-			}
 		}
 
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);
@@ -348,101 +304,5 @@ class UsersModel extends CI_Model {
 		}
 
 		return 0;
-	}
-
-	/**
-	 *  login method
-	 *  verify username & password
-	 */
-	public function login($username = null, $password = null)
-	{
-		if (empty($username) && empty($password)) {
-			return responseBadRequest('Empty data');
-		}
-
-		$condition_1 = [
-			'username' => $username,
-			'is_active' => 1
-		];
-
-		$condition_2 = [
-			'email' => $username,
-			'is_active' => 1
-		];
-
-		$query = $this->db->where($condition_1)->get($this->table);
-
-		if ($query->num_rows() == 0) {
-			$query = $this->db->where($condition_2)->get($this->table);
-
-			if ($query->num_rows() == 0) {
-				return responseNotFound();
-			}
-		}
-
-		if (password_verify($password, $query->row()->password)) {
-			return responseSuccess(['id' => $query->row()->id], $query->num_rows());
-		}
-
-		return responseUnauthorized();
-	}
-
-	/**
-	 *  private _getDatatablesQuery method
-	 *  return query
-	 */
-	private function _getDatatablesQuery() {
-		$search	= ['username', 'user_level'];
-		$order	= ['id', 'username', 'user_level', 'register_date', 'register_by', 'update_date', 'update_by', 'is_employees'];
-
-		$this->db->from($this->view_table)->where(['is_active' => 1]);
-
-		$i = 0;
-
-		foreach ($search as $item) {
-			if ($_POST['search']['value']) {
-				if ($i===0) {
-					$this->db->group_start(); 
-					$this->db->like($item, $_POST['search']['value']);
-				} else {
-					$this->db->or_like($item, $_POST['search']['value']);
-				}
-
-				if (count($search) - 1 == $i) {
-					$this->db->group_end();
-				}
-			}
-
-			$i++;
-		}
-
-		if (isset($_POST['order'])) {
-			$this->db->order_by($order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-		}
-	}
-
-	/**
-	 *  getDatatables method
-	 *  get all data for datatables
-	 */
-	public function getDatatables()
-	{
-		$this->_getDatatablesQuery();
-
-		if ($_POST['length'] != -1) {
-			$this->db->limit($_POST['length'], $_POST['start']);
-		}
-
-		$result = $this->db->get()->result();
-
-		return json_decode(json_encode($result), true);
-	}
-
-	public function countDatatablesFilter()
-	{
-		$this->_getDatatablesQuery();
-		$result = $this->db->get()->num_rows();
-
-		return $result;
 	}
 }

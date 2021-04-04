@@ -69,7 +69,7 @@ $lang['button'] = [
 
 $lang['page_login'] = [
 	'intro'		=> '登錄以開始您的會議',
-	'username'	=> '電子郵件',
+	'username'	=> '用戶名或電子郵件',
 	'password'	=> '密碼',
 	'submit'	=> '登錄'
 ];

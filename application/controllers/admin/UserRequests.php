@@ -21,8 +21,9 @@ class UserRequests extends CI_Controller {
 
 		$this->load->library('user_agent');
 
-		$this->load->model('UsersModel');
+		$this->load->model('EmailsModel');
 		$this->load->model('EmployeesModel');
+		$this->load->model('UsersModel');
 		$this->load->model('UserLevelsModel');
 
 		$this->result = [];
@@ -30,11 +31,10 @@ class UserRequests extends CI_Controller {
 
 	private $upload_errors = [];
 
-	// public function index()
-	// {
-	// 	print_r('asd'); exit;
-	// }
-
+	/**
+	 *  index method
+	 *  index page
+	 */
 	public function index()
 	{
 		$session	= $this->session->userdata('AuthUser');
@@ -111,6 +111,10 @@ class UserRequests extends CI_Controller {
 		$this->template->publish();
 	}
 
+	/**
+	 *  detail method
+	 *  detail data, return json
+	 */
 	public function detail($id)
 	{
 		$session	= $this->session->userdata('AuthUser');
@@ -141,6 +145,10 @@ class UserRequests extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  update method
+	 *  update data, return json
+	 */
 	public function update($id)
 	{
 		$session	= $this->session->userdata('AuthUser');
@@ -184,11 +192,19 @@ class UserRequests extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-                setFlashSuccess('Data successfully registered.');
+				$request = $this->UsersModel->getDetail($request['data']['id']);
 
-                $result['status'] = 'success';
-                unset($result['message']);
-				// $result['message'] = 'Data successfully registered.';
+				if ($request['status'] == 'success') {
+					$data_email = $request['data'];
+					$data_email['password'] = $data['password'];
+					
+					if ($this->_emailNotification($data_email)) {
+						setFlashSuccess('Data successfully registered.');
+
+						$result['status'] = 'success';
+						unset($result['message']);
+					}
+				}
 			}
 
 			echo json_encode($result); exit();
@@ -197,6 +213,10 @@ class UserRequests extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  validate method
+	 *  validate data before action
+	 */
 	private function validate($file = false, $id = 0)
 	{
 		$validate = [
@@ -208,7 +228,7 @@ class UserRequests extends CI_Controller {
             [
 				'field' => 'password',
 				'label' => 'Password',
-				'rules' => 'trim|required|min_length[4]|max_length[10]|xss_clean'
+				'rules' => 'trim|required|min_length[3]|max_length[10]|xss_clean'
 			],
             [
 				'field' => 'password_repeat',
@@ -225,6 +245,10 @@ class UserRequests extends CI_Controller {
 		return $validate;
 	}
 
+	/**
+	 *  _regexName method
+	 *  validation data to regex
+	 */
 	public function _regexName($str = false)
 	{
 		if ($str) {
@@ -237,6 +261,10 @@ class UserRequests extends CI_Controller {
 		return true;
 	}
 
+	/**
+	 *  _regexAddress method
+	 *  validation data to regex
+	 */
 	public function _regexAddress($str = false)
 	{
 		if ($str) {
@@ -249,6 +277,10 @@ class UserRequests extends CI_Controller {
 		return true;
 	}
 
+	/**
+	 *  _regexNumeric method
+	 *  validation data to regex
+	 */
 	public function _regexNumeric($str = false)
 	{
 		if ($str) {
@@ -261,6 +293,10 @@ class UserRequests extends CI_Controller {
 		return true;
 	}
 
+	/**
+	 *  _formatDate method
+	 *  validation data to format date
+	 */
 	public function _formatDate($str = false)
 	{
 		if ($str) {
@@ -276,6 +312,10 @@ class UserRequests extends CI_Controller {
 		return true;
 	}
 
+	/**
+	 *  _errorFile method
+	 *  display file upload error
+	 */
 	public function _errorFile($str)
 	{
 		if (isset($this->upload_errors['file'])) {
@@ -286,6 +326,10 @@ class UserRequests extends CI_Controller {
 		return true;
 	}
 
+	/**
+	 *  _checkUsername method
+	 *  check exist data email
+	 */
 	public function _checkUsername($str = false, $id = 0)
 	{
 		if ($str) {
@@ -304,5 +348,52 @@ class UserRequests extends CI_Controller {
 		}
 
 		return true;
+	}
+
+	/**
+	 *  _emailNotification method
+	 *  send email notification after register user
+	 */
+	private function _emailNotification($data = []) {
+		if (is_array($data) && !empty($data)) {
+
+			$this->load->model('CompanyModel');
+
+			$request  = $this->CompanyModel->getDetail();
+
+			if ($request['status'] != 'success') {
+				return false;
+			}
+
+			$company = $request['data'];
+
+			$subject = $company['name'] . ' - Confirmation Register Account';
+			$body    = '<p>Dear <b>' . $data['fullname'] . '</b>,</p>
+						<p>You have just made a request to register an account on our website on ' . $data['request_date'] . '.<br>
+						Here is your information access,<br>
+						Username: ' . $data['username'] . '<br>
+						Password: ' . $data['password'] . '<br>
+						Thank you</p>';
+			$body    = preg_replace('/([\s])\1+/', '', $body);
+
+			$data = [
+				'subject' 			=> $subject,
+				'email_to'			=> $data['email'],
+				'content'			=> $body,
+				'content_html'		=> $body,
+				'create_date'		=> date('Y-m-d H:i:s'),
+				'create_user_id'	=> $this->session->userdata('AuthUser')['id'],
+				'email_status_id'	=> 9,
+				'direction_id'		=> 2
+			];
+
+			$request = $this->EmailsModel->insert($data);
+
+			if ($request['status'] == 'success') {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

@@ -71,7 +71,7 @@ $lang['button'] = [
 
 $lang['page_login'] = [
 	'intro'		=> 'Masuk untuk memulai sesi anda',
-	'username'	=> 'Email',
+	'username'	=> 'Username atau email',
 	'password'	=> 'Kata sandi',
 	'submit'	=> 'Masuk'
 ];

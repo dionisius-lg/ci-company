@@ -10,20 +10,16 @@ require APPPATH.'libraries/phpmailer/src/SMTP.php';
 
 if (!function_exists('sendMail')) {
 	function sendMail($subject = '', $body = '', $data = []) {
+		if (empty($subject) || empty($content) || empty($data) || !is_array($data)) {
+            return $response;
+        }
+
         $ci = &get_instance();
         $ci->load->model('MailerConfigModel');
 
         // PHPMailer object
 		$response = false;
 		$request  = $ci->MailerConfigModel->get();
-
-        if (empty($subject) || empty($body) || empty($data)) {
-            return $response;
-        }
-
-        if (!is_array($data)) {
-            return $response;
-        }
 
         if ($request['status'] != 'success') {
 			return $response;
