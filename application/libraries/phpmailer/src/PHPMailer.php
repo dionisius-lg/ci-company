@@ -37,7 +37,7 @@ class PHPMailer
      *
      * @var int
      */
-    public $Priority;
+    public $Priority = null;
 
     /**
      * The character set of the message.
@@ -314,7 +314,7 @@ class PHPMailer
      *
      * @var OAuth
      */
-    protected $oauth;
+    protected $oauth = null;
 
     /**
      * The SMTP server timeout in seconds.
@@ -504,7 +504,7 @@ class PHPMailer
      *
      * @var SMTP
      */
-    protected $smtp;
+    protected $smtp = null;
 
     /**
      * The array of 'to' names and addresses.
@@ -669,7 +669,7 @@ class PHPMailer
      *
      * @var string
      */
-    const VERSION = '6.0.5';
+    const VERSION = '6.0.1';
 
     /**
      * Error severity: message only, continue processing.
@@ -786,7 +786,7 @@ class PHPMailer
             return;
         }
         //Is this a PSR-3 logger?
-        if ($this->Debugoutput instanceof \Psr\Log\LoggerInterface) {
+        if (is_a($this->Debugoutput, 'Psr\Log\LoggerInterface')) {
             $this->Debugoutput->debug($str);
 
             return;
@@ -866,7 +866,7 @@ class PHPMailer
     {
         $ini_sendmail_path = ini_get('sendmail_path');
 
-        if (false === stripos($ini_sendmail_path, 'sendmail')) {
+        if (!stristr($ini_sendmail_path, 'sendmail')) {
             $this->Sendmail = '/usr/sbin/sendmail';
         } else {
             $this->Sendmail = $ini_sendmail_path;
@@ -881,7 +881,7 @@ class PHPMailer
     {
         $ini_sendmail_path = ini_get('sendmail_path');
 
-        if (false === stripos($ini_sendmail_path, 'qmail')) {
+        if (!stristr($ini_sendmail_path, 'qmail')) {
             $this->Sendmail = '/var/qmail/bin/qmail-inject';
         } else {
             $this->Sendmail = $ini_sendmail_path;
@@ -1039,7 +1039,7 @@ class PHPMailer
         }
         if ('Reply-To' != $kind) {
             if (!array_key_exists(strtolower($address), $this->all_recipients)) {
-                $this->{$kind}[] = [$address, $name];
+                array_push($this->$kind, [$address, $name]);
                 $this->all_recipients[strtolower($address)] = true;
 
                 return true;
@@ -1890,7 +1890,7 @@ class PHPMailer
                     // * we have openssl extension
                     // * we are not already using SSL
                     // * the server offers STARTTLS
-                    if ($this->SMTPAutoTLS and $sslext and 'ssl' != $secure and $this->smtp->getServerExt('STARTTLS')) {
+                    if ($this->SMTPAutoTLS and $sslext and $secure != 'ssl' and $this->smtp->getServerExt('STARTTLS')) {
                         $tls = true;
                     }
                     if ($tls) {
@@ -1994,7 +1994,7 @@ class PHPMailer
         ];
         if (empty($lang_path)) {
             // Calculate an absolute path so it can work if CWD is not here
-            $lang_path = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
+            $lang_path = __DIR__ . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR;
         }
         //Validate $langcode
         if (!preg_match('/^[a-z]{2}(?:_[a-zA-Z]{2})?$/', $langcode)) {
@@ -2089,7 +2089,7 @@ class PHPMailer
         }
         // If utf-8 encoding is used, we will need to make sure we don't
         // split multibyte characters when we wrap
-        $is_utf8 = 'utf-8' == strtolower($this->CharSet);
+        $is_utf8 = (strtolower($this->CharSet) == 'utf-8');
         $lelen = strlen(static::$LE);
         $crlflen = strlen(static::$LE);
 
@@ -2115,9 +2115,9 @@ class PHPMailer
                             $len = $space_left;
                             if ($is_utf8) {
                                 $len = $this->utf8CharBoundary($word, $len);
-                            } elseif ('=' == substr($word, $len - 1, 1)) {
+                            } elseif (substr($word, $len - 1, 1) == '=') {
                                 --$len;
-                            } elseif ('=' == substr($word, $len - 2, 1)) {
+                            } elseif (substr($word, $len - 2, 1) == '=') {
                                 $len -= 2;
                             }
                             $part = substr($word, 0, $len);
@@ -2136,9 +2136,9 @@ class PHPMailer
                         $len = $length;
                         if ($is_utf8) {
                             $len = $this->utf8CharBoundary($word, $len);
-                        } elseif ('=' == substr($word, $len - 1, 1)) {
+                        } elseif (substr($word, $len - 1, 1) == '=') {
                             --$len;
-                        } elseif ('=' == substr($word, $len - 2, 1)) {
+                        } elseif (substr($word, $len - 2, 1) == '=') {
                             $len -= 2;
                         }
                         $part = substr($word, 0, $len);
@@ -2157,7 +2157,7 @@ class PHPMailer
                     }
                     $buf .= $word;
 
-                    if (strlen($buf) > $length and '' != $buf_o) {
+                    if (strlen($buf) > $length and $buf_o != '') {
                         $message .= $buf_o . $soft_break;
                         $buf = $word;
                     }
@@ -3202,7 +3202,6 @@ class PHPMailer
             default:
                 // RFC 2047 section 5.1
                 // Replace every high ascii, control, =, ? and _ characters
-                /** @noinspection SuspiciousAssignmentsInspection */
                 $pattern = '\000-\011\013\014\016-\037\075\077\137\177-\377' . $pattern;
                 break;
         }
@@ -3382,7 +3381,7 @@ class PHPMailer
     public function inlineImageExists()
     {
         foreach ($this->attachment as $attachment) {
-            if ('inline' == $attachment[6]) {
+            if ($attachment[6] == 'inline') {
                 return true;
             }
         }
@@ -3398,7 +3397,7 @@ class PHPMailer
     public function attachmentExists()
     {
         foreach ($this->attachment as $attachment) {
-            if ('attachment' == $attachment[6]) {
+            if ($attachment[6] == 'attachment') {
                 return true;
             }
         }
@@ -3692,7 +3691,7 @@ class PHPMailer
     {
         preg_match_all('/(src|background)=["\'](.*)["\']/Ui', $message, $images);
         if (array_key_exists(2, $images)) {
-            if (strlen($basedir) > 1 && '/' != substr($basedir, -1)) {
+            if (strlen($basedir) > 1 && substr($basedir, -1) != '/') {
                 // Ensure $basedir has a trailing /
                 $basedir .= '/';
             }
@@ -3727,7 +3726,7 @@ class PHPMailer
                     // Ignore URLs containing parent dir traversal (..)
                     and (strpos($url, '..') === false)
                     // Do not change urls that are already inline images
-                    and 0 !== strpos($url, 'cid:')
+                    and substr($url, 0, 4) !== 'cid:'
                     // Do not change absolute URLs, including anonymous protocol
                     and !preg_match('#^[a-z][a-z0-9+.-]*:?//#i', $url)
                 ) {
@@ -3737,10 +3736,10 @@ class PHPMailer
                         $directory = '';
                     }
                     $cid = hash('sha256', $url) . '@phpmailer.0'; // RFC2392 S 2
-                    if (strlen($basedir) > 1 and '/' != substr($basedir, -1)) {
+                    if (strlen($basedir) > 1 and substr($basedir, -1) != '/') {
                         $basedir .= '/';
                     }
-                    if (strlen($directory) > 1 and '/' != substr($directory, -1)) {
+                    if (strlen($directory) > 1 and substr($directory, -1) != '/') {
                         $directory .= '/';
                     }
                     if ($this->addEmbeddedImage(
@@ -3877,7 +3876,6 @@ class PHPMailer
             'midi' => 'audio/midi',
             'mp2' => 'audio/mpeg',
             'mp3' => 'audio/mpeg',
-            'm4a' => 'audio/mp4',
             'mpga' => 'audio/mpeg',
             'aif' => 'audio/x-aiff',
             'aifc' => 'audio/x-aiff',
@@ -3887,7 +3885,6 @@ class PHPMailer
             'rpm' => 'audio/x-pn-realaudio-plugin',
             'ra' => 'audio/x-realaudio',
             'wav' => 'audio/x-wav',
-            'mka' => 'audio/x-matroska',
             'bmp' => 'image/bmp',
             'gif' => 'image/gif',
             'jpeg' => 'image/jpeg',
@@ -3896,11 +3893,6 @@ class PHPMailer
             'png' => 'image/png',
             'tiff' => 'image/tiff',
             'tif' => 'image/tiff',
-            'webp' => 'image/webp',
-            'heif' => 'image/heif',
-            'heifs' => 'image/heif-sequence',
-            'heic' => 'image/heic',
-            'heics' => 'image/heic-sequence',
             'eml' => 'message/rfc822',
             'css' => 'text/css',
             'html' => 'text/html',
@@ -3916,23 +3908,17 @@ class PHPMailer
             'ics' => 'text/calendar',
             'xml' => 'text/xml',
             'xsl' => 'text/xml',
-            'wmv' => 'video/x-ms-wmv',
             'mpeg' => 'video/mpeg',
             'mpe' => 'video/mpeg',
             'mpg' => 'video/mpeg',
-            'mp4' => 'video/mp4',
-            'm4v' => 'video/mp4',
             'mov' => 'video/quicktime',
             'qt' => 'video/quicktime',
             'rv' => 'video/vnd.rn-realvideo',
             'avi' => 'video/x-msvideo',
             'movie' => 'video/x-sgi-movie',
-            'webm' => 'video/webm',
-            'mkv' => 'video/x-matroska',
         ];
-        $ext = strtolower($ext);
-        if (array_key_exists($ext, $mimes)) {
-            return $mimes[$ext];
+        if (array_key_exists(strtolower($ext), $mimes)) {
+            return $mimes[strtolower($ext)];
         }
 
         return 'application/octet-stream';
@@ -4062,7 +4048,7 @@ class PHPMailer
         // Normalise to \n
         $text = str_replace(["\r\n", "\r"], "\n", $text);
         // Now convert LE as needed
-        if ("\n" !== $breaktype) {
+        if ("\n" !== static::$LE) {
             $text = str_replace("\n", $breaktype, $text);
         }
 
@@ -4167,7 +4153,6 @@ class PHPMailer
     /**
      * Generate a DKIM canonicalization header.
      * Uses the 'relaxed' algorithm from RFC6376 section 3.4.2.
-     * Canonicalized headers should *always* use CRLF, regardless of mailer setting.
      *
      * @see    https://tools.ietf.org/html/rfc6376#section-3.4.2
      *
@@ -4203,13 +4188,12 @@ class PHPMailer
             $lines[$key] = trim($heading, " \t") . ':' . trim($value, " \t");
         }
 
-        return implode("\r\n", $lines);
+        return implode(static::$LE, $lines);
     }
 
     /**
      * Generate a DKIM canonicalization body.
      * Uses the 'simple' algorithm from RFC6376 section 3.4.3.
-     * Canonicalized bodies should *always* use CRLF, regardless of mailer setting.
      *
      * @see    https://tools.ietf.org/html/rfc6376#section-3.4.3
      *
@@ -4220,13 +4204,13 @@ class PHPMailer
     public function DKIM_BodyC($body)
     {
         if (empty($body)) {
-            return "\r\n";
+            return static::$LE;
         }
-        // Normalize line endings to CRLF
-        $body = static::normalizeBreaks($body, "\r\n");
+        // Normalize line endings
+        $body = static::normalizeBreaks($body);
 
         //Reduce multiple trailing line breaks to a single one
-        return rtrim($body, "\r\n") . "\r\n";
+        return rtrim($body, "\r\n") . static::$LE;
     }
 
     /**
@@ -4394,7 +4378,7 @@ class PHPMailer
     protected function doCallback($isSent, $to, $cc, $bcc, $subject, $body, $from, $extra)
     {
         if (!empty($this->action_function) and is_callable($this->action_function)) {
-            call_user_func($this->action_function, $isSent, $to, $cc, $bcc, $subject, $body, $from, $extra);
+            call_user_func_array($this->action_function, [$isSent, $to, $cc, $bcc, $subject, $body, $from, $extra]);
         }
     }
 

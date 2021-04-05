@@ -46,6 +46,18 @@ button {
 	outline: none;
 }
 
+.uppercase {
+	text-transform: uppercase;
+}
+
+.lowercase {
+	text-transform: lowercase;
+}
+
+.capitalize {
+	text-transform: capitalize;
+}
+
 .disabled {
 	cursor: not-allowed;
 }

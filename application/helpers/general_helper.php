@@ -66,6 +66,46 @@ if (!function_exists('sitelang')) {
 	}
 }
 
+if (!function_exists('bs4pagination')) {
+	function bs4pagination($url = null, $total = 0, $limit = 0) {
+		$ci = &get_instance();
+		$ci->load->library('pagination');
+
+		$config = [
+			'full_tag_open'			=> '<ul class="pagination">',
+			'full_tag_close'		=> '</ul>',
+			'num_tag_open'			=> '<li class="page-item">',
+			'num_tag_close'			=> '</li>',
+			'cur_tag_open'			=> '<li class="page-item active"><span>',
+			'cur_tag_close'			=> '</span></li>',
+			'next_tag_open'			=> '<li class="page-item">',
+			'next_tagl_close'		=> '</li>',
+			'prev_tag_open'			=> '<li class="page-item">',
+			'prev_tagl_close'		=> '</li>',
+			'first_tag_open'		=> '<li><li class="page-item">',
+			'first_tagl_close'		=> '</li>',
+			'last_tag_open'			=> '<li class="page-item">',
+			'last_tagl_close'		=> '</li>',
+			'prev_link'				=> 'Prev',
+			'next_link'				=> 'Next',
+			'first_link'			=> 'First',
+			'last_link'				=> 'Last',
+
+			'base_url'				=> base_url($url),
+			'total_rows'			=> $total,
+			'per_page'				=> !empty($limit) ? $limit : 20,
+			'page_query_string'		=> true,
+			'page_query_string'		=> true,
+			'use_page_numbers'		=> true,
+			'query_string_segment'	=> 'page'
+		];
+
+		$ci->pagination->initialize($config);
+
+		return $ci->pagination->create_links();
+	}
+}
+
 /*
 function generate_url_slug($string,$table,$field='url_slug',$key=NULL,$value=NULL){
 	$t =& get_instance();

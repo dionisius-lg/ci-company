@@ -40,46 +40,18 @@ class UserRequests extends CI_Controller {
 		$session	= $this->session->userdata('AuthUser');
 		$params		= $this->input->get();
 		$clause		= [];
+		$total		= 0;
 
 		$clause = [
 			'limit'					=> 10,
 			'page'					=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
 			'like_fullname'			=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
 			'like_email'			=> array_key_exists('email', $params) ? $params['email'] : '',
+			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
+			'like_country'			=> array_key_exists('country', $params) ? $params['country'] : '',
 			'order'					=> 'request_date',
 			'sort'					=> 'desc',
 			'is_request_register'	=> 1
-		];
-
-		$this->load->library('pagination');
-
-		$config_pagination = [
-			'full_tag_open'			=> '<ul class="pagination">',
-			'full_tag_close'		=> '</ul>',
-			'num_tag_open'			=> '<li class="page-item">',
-			'num_tag_close'			=> '</li>',
-			'cur_tag_open'			=> '<li class="page-item active"><span>',
-			'cur_tag_close'			=> '</span></li>',
-			'next_tag_open'			=> '<li class="page-item">',
-			'next_tagl_close'		=> '</li>',
-			'prev_tag_open'			=> '<li class="page-item">',
-			'prev_tagl_close'		=> '</li>',
-			'first_tag_open'		=> '<li><li class="page-item">',
-			'first_tagl_close'		=> '</li>',
-			'last_tag_open'			=> '<li class="page-item">',
-			'last_tagl_close'		=> '</li>',
-			'prev_link'				=> 'Prev',
-			'next_link'				=> 'Next',
-			'first_link'			=> 'First',
-			'last_link'				=> 'Last',
-
-			'base_url'				=> base_url('admin/user-requests'),
-			'total_rows'			=> 0,
-			'per_page'				=> $clause['limit'],
-			'page_query_string'		=> true,
-			'page_query_string'		=> true,
-			'use_page_numbers'		=> true,
-			'query_string_segment'	=> 'page'
 		];
 
 		$request = [
@@ -95,14 +67,13 @@ class UserRequests extends CI_Controller {
 					$this->result[$key] = $val['data'];
 
 					if ($key == 'users') {
-						$config_pagination['total_rows'] = $val['total_data'];
+						$total = $val['total_data'];
 					}
 				}
 			}
 		}
 
-		$this->pagination->initialize($config_pagination);
-		$this->result['pagination'] = $this->pagination->create_links();
+		$this->result['pagination'] = bs4pagination('admin/user-requests', $total, $clause['limit']);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
 		$this->template->title = 'User Requests Data';
@@ -223,7 +194,7 @@ class UserRequests extends CI_Controller {
 			[
 				'field' => 'username',
 				'label' => 'Username',
-				'rules' => 'trim|required|max_length[30]|callback__checkUsername['.$id.']|xss_clean'
+				'rules' => 'trim|required|max_length[30]|alpha_numeric|callback__checkUsername['.$id.']|xss_clean'
 			],
             [
 				'field' => 'password',
@@ -247,7 +218,7 @@ class UserRequests extends CI_Controller {
 
 	/**
 	 *  _regexName method
-	 *  validation data to regex
+	 *  validation data to format regex
 	 */
 	public function _regexName($str = false)
 	{
@@ -263,7 +234,7 @@ class UserRequests extends CI_Controller {
 
 	/**
 	 *  _regexAddress method
-	 *  validation data to regex
+	 *  validation data to format regex
 	 */
 	public function _regexAddress($str = false)
 	{
@@ -279,7 +250,7 @@ class UserRequests extends CI_Controller {
 
 	/**
 	 *  _regexNumeric method
-	 *  validation data to regex
+	 *  validation data to format regex
 	 */
 	public function _regexNumeric($str = false)
 	{
@@ -328,7 +299,7 @@ class UserRequests extends CI_Controller {
 
 	/**
 	 *  _checkUsername method
-	 *  check exist data email
+	 *  validation data duplicate
 	 */
 	public function _checkUsername($str = false, $id = 0)
 	{

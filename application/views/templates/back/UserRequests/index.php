@@ -13,7 +13,15 @@
 						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Email', 'Email'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0']); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Company', 'Company'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'Company', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('company') ? $this->input->get('company') : '']); ?>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Country', 'Country'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'country', 'id' => 'Country', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('country') ? $this->input->get('country') : '']); ?>
 						</div>
 					</div>
 					<div class="row">
@@ -37,7 +45,6 @@
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
 								<th class="text-nowrap">Company</th>
-								<th class="text-nowrap">City</th>
 								<th class="text-nowrap">Country</th>
 								<th class="text-nowrap">Request Date</th>
 								<th class="text-nowrap">Action</th>
@@ -51,7 +58,6 @@
 									<td class="text-nowrap">' . $user['fullname'] . '</td>
 									<td class="text-nowrap">' . $user['email'] . '</td>
 									<td class="text-nowrap">' . $user['company'] . '</td>
-									<td class="text-nowrap">' . $user['city'] . '</td>
 									<td class="text-nowrap">' . $user['country'] . '</td>
 									<td class="text-nowrap">' . $user['request_date'] . '</td>
 									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-sm btn-secondary rounded-0', 'content' => 'Register', 'onclick' => 'detailData(' . $user['id'] . ')']) . '</td>
@@ -61,7 +67,7 @@
 							}
 						} else { echo
 							'<tr>
-								<td class="text-center" colspan="8">No data found</td>
+								<td class="text-center" colspan="7">No data found</td>
 							</tr>';
 						} ?>
 						</tbody>
@@ -130,15 +136,11 @@
 </div>
 
 <!-- load required builded stylesheet for this page -->
-<?php $this->template->stylesheet->add('assets/vendor/datatables/css/dataTables.bootstrap4.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/css/bs4-datatables.css', ['type' => 'text/css', 'media' => 'all']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
 
 <!-- load required builded script for this page -->
-<?php $this->template->javascript->add('assets/vendor/datatables/js/jquery.dataTables.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/dataTables.bootstrap4.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
 <script type="text/javascript">

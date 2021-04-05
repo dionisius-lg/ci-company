@@ -31,10 +31,12 @@ class UsersModel extends CI_Model {
 		$condition_like	= [];
 
 		$column_like = [
-			'like_fullname',
 			'like_email',
 			'like_username',
-			'like_user_level'
+			'like_user_level',
+			'like_fullname',
+			'like_company',
+			'like_country'
 		];
 
 		$column_date = [

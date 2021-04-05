@@ -144,7 +144,6 @@ class Auth extends CI_Controller {
 				'username' => strtolower($input['email']),
 				'fullname' => ucwords($input['fullname']),
 				'email' => strtolower($input['email']),
-				'city' => ucwords($input['city']),
 				'country' => ucwords($input['country']),
 				'company' => ucwords($input['company']),
 				'is_request_register' => 1
@@ -160,14 +159,6 @@ class Auth extends CI_Controller {
 
 			if ($request['status'] == 'success') {
 				setFlashSuccess($this->_successRegister(sitelang()));
-
-				// if ($this->mailVerification($data)) {
-				// 	setFlashSuccess($this->_successMailer(sitelang()));
-				// } else {
-				// 	setFlashError($this->_errorMailer(sitelang()));
-				// }
-
-				// redirect('auth/register');
 			} else {
 				setFlashError($this->_errorDefault(sitelang()));
 				setOldInput($input);
@@ -208,11 +199,6 @@ class Auth extends CI_Controller {
 				'label' => $this->lang->line('page_register')['country'],
 				'rules' => 'trim|max_length[100]|callback__regexName|xss_clean'
 			],
-			[
-				'field' => 'city',
-				'label' => $this->lang->line('page_register')['city'],
-				'rules' => 'trim|max_length[100]|callback__regexName|xss_clean'
-			],
 		];
 
 		return $validate;
@@ -236,7 +222,7 @@ class Auth extends CI_Controller {
 	 *  return title for login & register in multi lang
 	 */
 	private function pageTitle($lang, $page = null) {
-		if ($page -= 'login') {
+		if ($page == 'login') {
 			switch ($lang) {
 				case 'english':
 					return 'Login';
@@ -464,7 +450,7 @@ class Auth extends CI_Controller {
 
 	/**
 	 *  _checkEmail method
-	 *  validation data to regex
+	 *  validation data duplicate
 	 */
 	public function _checkEmail($str = false, $id = 0)
 	{

@@ -27,28 +27,23 @@
 					<div class="form-row">
 						<div class="col-md-6">
 							<?php echo form_label($this->lang->line('page_register')['fullname'] . '&nbsp;<span class="text-danger">*</span>', 'fullname'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'id' => 'fullname', 'class' => 'form-control ' . (hasFlashError('fullname') ? 'is-invalid' : ''), 'value' => oldInput('fullname'), 'required' => true, 'autofocus' => true]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'id' => 'fullname', 'class' => 'form-control capitalize ' . (hasFlashError('fullname') ? 'is-invalid' : ''), 'value' => oldInput('fullname'), 'required' => true, 'autofocus' => true]); ?>
 							<span class="invalid-feedback"><?php echo flashError('fullname'); ?></span>
 						</div>
 						<div class="col-md-6">
 							<?php echo form_label($this->lang->line('page_register')['email'] . '&nbsp;<span class="text-danger">*</span>', 'email'); ?>
-							<?php echo form_input(['type' => 'email', 'name' => 'email', 'id' => 'email', 'class' => 'form-control ' . (hasFlashError('email') ? 'is-invalid' : ''), 'value' => oldInput('email'), 'required' => true]); ?>
+							<?php echo form_input(['type' => 'email', 'name' => 'email', 'id' => 'email', 'class' => 'form-control lowercase ' . (hasFlashError('email') ? 'is-invalid' : ''), 'value' => oldInput('email'), 'required' => true]); ?>
 							<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
 						</div>
-						<div class="col-md-12">
+						<div class="col-md-6">
 							<?php echo form_label($this->lang->line('page_register')['company'], 'company'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'company', 'class' => 'form-control ' . (hasFlashError('company') ? 'is-invalid' : ''), 'value' => oldInput('company')]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'company', 'class' => 'form-control capitalize ' . (hasFlashError('company') ? 'is-invalid' : ''), 'value' => oldInput('company')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('company'); ?></span>
 						</div>
 						<div class="col-md-6">
 							<?php echo form_label($this->lang->line('page_register')['country'], 'country'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'country', 'id' => 'country', 'class' => 'form-control ' . (hasFlashError('country') ? 'is-invalid' : ''), 'value' => oldInput('country')]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'country', 'id' => 'country', 'class' => 'form-control capitalize ' . (hasFlashError('country') ? 'is-invalid' : ''), 'value' => oldInput('country')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('country'); ?></span>
-						</div>
-						<div class="col-md-6">
-						<?php echo form_label($this->lang->line('page_register')['city'], 'city'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'city', 'id' => 'city', 'class' => 'form-control ' . (hasFlashError('city') ? 'is-invalid' : ''), 'value' => oldInput('city')]); ?>
-							<span class="invalid-feedback"><?php echo flashError('city'); ?></span>
 						</div>
 					</div>
 					<div class="form-row">

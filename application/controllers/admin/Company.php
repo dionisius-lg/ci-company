@@ -39,7 +39,7 @@ class Company extends CI_Controller {
 
 		$request = [
 			'company' => $this->CompanyModel->getDetail(),
-			'provinces' => $this->ProvincesModel->getAll()
+			'provinces' => $this->ProvincesModel->getAll(['limit' => 100])
 		];
 
 		foreach ($request as $key => $val) {
@@ -71,7 +71,7 @@ class Company extends CI_Controller {
 				$input['logo'] = $_FILES['logo'];
 				$file = true;
 			}
-// print_r($input['logo']); exit;
+
 			if ($file) {
 				$file_path = './files/company/';
 				$thumb_path = $file_path.'thumb/';

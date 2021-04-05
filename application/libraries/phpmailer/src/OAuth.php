@@ -39,14 +39,14 @@ class OAuth
      *
      * @var AbstractProvider
      */
-    protected $provider;
+    protected $provider = null;
 
     /**
      * The current OAuth access token.
      *
      * @var AccessToken
      */
-    protected $oauthToken;
+    protected $oauthToken = null;
 
     /**
      * The user's email address, usually used as the login ID

@@ -1,8 +1,11 @@
 <?php
 
 require __DIR__ . '/application/libraries/phpmailer/src/Exception.php';
+//require '/home/usernamecPanel/public_html/application/libraries/phpmailer/src/Exception.php';
 require __DIR__ . '/application/libraries/phpmailer/src/PHPMailer.php';
+//require '/home/usernamecPanel/public_html/application/libraries/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/application/libraries/phpmailer/src/SMTP.php';
+//require '/home/usernamecPanel/public_html/application/libraries/phpmailer/src/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -27,7 +30,7 @@ $config['log'] = [
 
 // get email on queue
 $condition = [
-	//'DATE(create_date) = \''.date('Y-m-d').'\'',
+	'DATE(create_date) = \''.date('Y-m-d').'\'',
 	'email_status_id = '.$config['email_status']['queued'],
 	'direction_id = 2'
 ];
@@ -59,10 +62,12 @@ if ($emails) {
 			$mail->Username   = $config['username'];
 			$mail->Password   = $config['password'];
 
-			$mail->Sender     = $config['username'];
-			$mail->From       = (!empty($email['email_from']) ? $email['email_from'] : $config['username']);
-			$mail->FromName   = (!empty($email['email_from']) ? $email['email_from'] : $config['username']);
+			//$mail->Sender     = $config['username'];
+			//$mail->From       = (!empty($email['email_from']) ? $email['email_from'] : $config['username']);
+			//$mail->FromName   = (!empty($email['email_from']) ? $email['email_from'] : $config['username']);
 
+			// Set from
+			$mail->setFrom($config['username']);
 			// Email subject & body
 			$mail->Subject    = $email['subject'];
 			$mail->Body       = $email['content_html'];
@@ -140,7 +145,7 @@ if ($emails) {
 
 			if ($process) {
 				$mail->send();
-				
+
 				// update email status to sent
 				$condition = [
 					'id' => $email['id']

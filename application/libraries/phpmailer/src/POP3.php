@@ -45,7 +45,7 @@ class POP3
      *
      * @var string
      */
-    const VERSION = '6.0.5';
+    const VERSION = '6.0.1';
 
     /**
      * Default POP3 port number.
@@ -384,8 +384,8 @@ class POP3
         $this->errors[] = $error;
         if ($this->do_debug >= 1) {
             echo '<pre>';
-            foreach ($this->errors as $e) {
-                print_r($e);
+            foreach ($this->errors as $error) {
+                print_r($error);
             }
             echo '</pre>';
         }

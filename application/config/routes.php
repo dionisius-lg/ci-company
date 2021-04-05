@@ -67,6 +67,7 @@ $route['admin'] = 'admin/dashboard/index';
  * UsersController
  */
 $route['admin/users/get-list'] = 'admin/users/getList';
+$route['admin/users/change-password/(:any)'] = 'admin/users/changePassword/$1';
 $route['admin/users/reset-password/(:any)'] = 'admin/users/resetPassword/$1';
 
 /**
