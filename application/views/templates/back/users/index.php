@@ -16,7 +16,7 @@
 						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Email', 'Email'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('email') ? $this->input->get('email') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Company', 'Company'); ?>
@@ -63,7 +63,7 @@
 								<th class="text-nowrap">Username</th>
 								<th class="text-nowrap">Company</th>
 								<th class="text-nowrap">Country</th>
-								<th class="text-nowrap">Status</th>
+								<th class="text-nowrap">Is Worker</th>
 								<th class="text-nowrap">Action</th>
 							</tr>
 						</thead>
@@ -77,8 +77,8 @@
 									<td class="text-nowrap">' . $user['username'] . '</td>
 									<td class="text-nowrap">' . $user['company'] . '</td>
 									<td class="text-nowrap">' . $user['country'] . '</td>
-									<td class="text-nowrap">' . (($user['is_employees'] == 1) ? '<span class="badge bg-primary rounded-0">Employees</span>' : '<span class="badge bg-danger rounded-0">Not Employees</span>') . '</td>
-									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $user['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $user['id'] . ')']) . '</td>
+									<td class="text-nowrap">' . (($user['is_worker'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $user['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => ($this->session->userdata('AuthUser')['id'] == $user['id'] ? 'return toastr.error(\'Cannot delete your current account\');' : 'deleteData(' . $user['id'] . ')')]) . '</td>
 								</tr>';
 
 								$no++;
@@ -100,7 +100,7 @@
 	</div>
 </div>
 
-
+<!-- modal add/edit data -->
 <div class="modal fade" id="modalData" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
@@ -161,7 +161,7 @@
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
-					<div class="row group-detail-users">
+					<div class="row group-detail-user">
 						<div class="form-group col-md-4">
 							<?php echo form_label('Request Date', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'request_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
@@ -188,20 +188,20 @@
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
-							<?php echo form_label('Status', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'is_employees', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<?php echo form_label('Is Worker', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'is_worker', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
-					<div class="row group-detail-employees">
+					<div class="row group-detail-worker">
 						<div class="form-group col-md-4">
-							<?php echo form_label('NIK (Employees)', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'employees_nik', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<?php echo form_label('NIK (Workers)', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'worker_nik', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
-							<?php echo form_label('Fullname (Employees)', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'employees_fullname', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<?php echo form_label('Fullname (Workers)', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'worker_fullname', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
@@ -212,7 +212,7 @@
 					</div>
 					<div>
 						<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-primary btn-sm rounded-0 btn-submit', 'content' => 'Submit']); ?>
-						<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-candel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
+						<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-cancel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
 					</div>
 				</div>
 			<?php echo form_close(); ?>
@@ -220,6 +220,7 @@
 	</div>
 </div>
 
+<!-- modal change password -->
 <div class="modal fade" id="modalPassword" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal" role="document">
 		<div class="modal-content">
@@ -246,7 +247,7 @@
 				</div>
 				<div class="modal-footer">
 					<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-primary btn-sm rounded-0 btn-submit', 'content' => 'Submit']); ?>
-					<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-candel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
+					<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-cancel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
 				</div>
 			<?php echo form_close(); ?>
 		</div>
@@ -254,48 +255,50 @@
 </div>
 
 <!-- load required builded stylesheet for this page -->
-<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
-<?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
+
 <script type="text/javascript">
+	// describe required variable
 	var modalData = $('#modalData'),
-		formData = $('#modalData form'),
+		modalDataForm = $('#modalData form'),
 		modalPassword = $('#modalPassword'),
-		formPassword = $('#modalPassword form');
+		modalPasswordForm = $('#modalPassword form');
 
 	$(document).ready(function() {
+		// custom ci3 pagination to bootstrap 4
 		$('ul.pagination > li').find('a, span').addClass('page-link');
 
+		// describe required variable
 		var filterUserLevel = '<?php echo $this->input->get('user_level'); ?>';
 
-		//set value to element if variable true or numeric
+		// set value to element if variable true or numeric
 		if (filterUserLevel !== null && filterUserLevel !== undefined && $.isNumeric(filterUserLevel)) {
 			$('#UserLevel').val(filterUserLevel).trigger('change');
 		}
 	});
 
-	//add new data
+	// add new data
 	function newData() {
-		formData[0].reset();
-		formData.find('select').val(null).trigger('change');
-		formData.attr({'action': '<?php echo base_url("admin/users/create"); ?>'});
-		formData.find('input, select, textarea').removeClass('is-invalid');
-		formData.find('.invalid-feedback').empty();
-		formData.find('.btn-submit').html('Create');
-		formData.find('.group-add input').attr({'disabled': false, 'hidden': false});
-		formData.find('.group-add').show();
-		formData.find('.btn-password, .group-detail-users, .group-detail-employees').hide();
-		formData.find('.btn-password').attr({'onclick': null});
+		modalDataForm[0].reset();
+		modalDataForm.find('select').val(null).trigger('change');
+		modalDataForm.attr({'action': '<?php echo base_url("admin/users/create"); ?>'});
+		modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+		modalDataForm.find('.invalid-feedback').empty();
+		modalDataForm.find('.btn-submit').html('Create');
+		modalDataForm.find('.group-add input').attr({'disabled': false, 'hidden': false});
+		modalDataForm.find('.group-add').show();
+		modalDataForm.find('.btn-password, .group-detail-user, .group-detail-worker').hide();
+		modalDataForm.find('.btn-password').attr({'onclick': null});
 
 		modalData.find('.modal-header .modal-title').html('Create New Data');
 		modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 	}
 
-	//detail data by id
+	// detail data by id
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
@@ -303,50 +306,52 @@
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
-					formData[0].reset();
-					formData.find('select').val(null).trigger('change');
-					formData.attr({'action': '<?php echo base_url("admin/users/update/' + id + '"); ?>'});
-					formData.find('input, select, textarea').removeClass('is-invalid');
-					formData.find('.invalid-feedback').empty();
-					formData.find('.btn-submit').html('Update');
-					formData.find('.group-add input').attr({'disabled': true, 'hidden': true});
-					formData.find('.btn-password, .group-detail-users, .group-detail-employees, .group-add').hide();
-					formData.find('.btn-password').attr({'onclick': null});
+					modalDataForm[0].reset();
+					modalDataForm.find('select').val(null).trigger('change');
+					modalDataForm.attr({'action': '<?php echo base_url("admin/users/update/' + id + '"); ?>'});
+					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+					modalDataForm.find('.invalid-feedback').empty();
+					modalDataForm.find('.btn-submit').html('Update');
+					modalDataForm.find('.group-add input').attr({'disabled': true, 'hidden': true});
+					modalDataForm.find('.btn-password, .group-detail-user, .group-detail-worker, .group-add').hide();
+					modalDataForm.find('.btn-password').attr({'onclick': null});
 
 					modalData.find('.modal-header .modal-title').html('Detail Data');
 				},
 				success: function(response) {
 					if (response !== null && typeof response.user == 'object') {
-						if ('employees' in response && typeof response.employees == 'object') {
-							if (!$.isEmptyObject(response.employees)) {
-								$.each(response.employees, function(key, val) {
-									formData.find('[name="employees_'+key+'"').val(val);
+						if ('worker' in response && typeof response.worker == 'object') {
+							if (!$.isEmptyObject(response.worker)) {
+								$.each(response.worker, function(key, val) {
+									modalDataForm.find('[name="worker_'+key+'"').val(val);
 								});
 
-								formData.find('.group-detail-employees').show();
+								modalDataForm.find('.group-detail-worker').show();
 							}
 						}
 
 						if ('user' in response && typeof response.user == 'object') {
 							if (!$.isEmptyObject(response.user)) {
 								$.each(response.user, function(key, val) {
-									if ($.inArray(key, ['user_level_id', 'user_level', 'is_employees']) < 0) {
-										formData.find('[name="' + key + '"]').val(val);
+									if ($.inArray(key, ['user_level_id', 'user_level', 'is_worker']) < 0) {
+										modalDataForm.find('[name="' + key + '"]').val(val);
 									}
 
-									if (key == 'user_level_id' && formData.find('[name="user_level"] option[value="' +val+ '"]').length) {
-										formData.find('[name="user_level"]').val(val).trigger('change');
+									if (key == 'user_level_id' && modalDataForm.find('[name="user_level"] option[value="' +val+ '"]').length) {
+										modalDataForm.find('[name="user_level"]').val(val).trigger('change');
 									}
 
-									if (key == 'is_employees' && val == 1) {
-										formData.find('[name="is_employees"]').val('Employees');
-									} else {
-										formData.find('[name="is_employees"]').val('Not Employees');
+									if (key == 'is_worker') {
+										if (val == 1) {
+											modalDataForm.find('[name="is_worker"]').val('Yes');
+										} else {
+											modalDataForm.find('[name="is_worker"]').val('No');
+										}
 									}
 								});
 
-								formData.find('.group-detail-users').show();
-								formData.find('.btn-password').attr({'onclick': 'changePassword(' + response.user.id + ')'}).show();
+								modalDataForm.find('.group-detail-user').show();
+								modalDataForm.find('.btn-password').attr({'onclick': 'changePassword(' + response.user.id + ')'}).show();
 
 								modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 							}
@@ -360,7 +365,7 @@
 		}
 	}
 
-	//delete data by id
+	// delete data by id
 	function deleteData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			var swalBootstrap = Swal.mixin({
@@ -384,7 +389,11 @@
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {
-							window.location.reload();
+							if (response.status == 'success') {
+								 window.location.reload();
+							} else {
+								toastr.error(response.message);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
@@ -395,19 +404,19 @@
 		}
 	}
 
-	//submited form modal
-	formData.on('submit', function(e) {
+	// submited form modal
+	modalDataForm.on('submit', function(e) {
 		e.preventDefault();
 
 		$.ajax({
-			url: formData.attr('action'),
+			url: modalDataForm.attr('action'),
 			type: 'post',
-			data: formData.serialize(),
+			data: modalDataForm.serialize(),
 			dataType: 'json',
 			beforeSend: function() {
-				formData.find('.invalid-feedback').empty();
-				formData.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', true);
-				formData.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
+				modalDataForm.find('.invalid-feedback').empty();
+				modalDataForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', true);
+				modalDataForm.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
 				modalData.find('.close').attr('disabled', true);
 			},
 			success: function(response) {
@@ -416,58 +425,63 @@
 						if (response.error !== null && typeof response.error === 'object') {
 							$.each(response.error, function(key, val) {
 								if(val !== '') {
-									formData.find('[name="' + key + '"]').addClass('is-invalid');
-									formData.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
+									modalDataForm.find('[name="' + key + '"]').addClass('is-invalid');
+									modalDataForm.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
 								}
 							});
 						}
 					} else {
 						modalData.modal('hide');
-						window.location.reload();
+
+						if (response.status == 'success') {
+							window.location.reload();
+						} else {
+							toastr.error(response.message);
+						}
 					}
 				}
 
-				formData.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
-				formData.find('.btn-submit').find('span').remove();
+				modalDataForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalDataForm.find('.btn-submit').find('span').remove();
 				modalData.find('.close').attr('disabled', false);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
 
-				formData.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
-				formData.find('.btn-submit').find('span').remove();
+				modalDataForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalDataForm.find('.btn-submit').find('span').remove();
 				modalData.find('.close').attr('disabled', false);
 			}
 		});
 	});
 
-	//change password by id
+	// change password by id
 	function changePassword(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
-			formPassword[0].reset();
-			formPassword.attr({'action': '<?php echo base_url("admin/users/change-password/' + id + '"); ?>'});
-			formPassword.find('input').removeClass('is-invalid');
-			formPassword.find('.invalid-feedback').empty();
-			formPassword.find('.btn-submit').html('Update');
+			modalPasswordForm[0].reset();
+			modalPasswordForm.attr({'action': '<?php echo base_url("admin/users/change-password/' + id + '"); ?>'});
+			modalPasswordForm.find('input').removeClass('is-invalid');
+			modalPasswordForm.find('.invalid-feedback').empty();
+			modalPasswordForm.find('.btn-submit').html('Update');
 
 			modalPassword.find('.modal-header .modal-title').html('Change Password');
 			modalPassword.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 		}
 	}
 
-	//submited form password
-	formPassword.on('submit', function(e) {
+	// submited form password
+	modalPasswordForm.on('submit', function(e) {
 		e.preventDefault();
 
 		$.ajax({
-			url: formPassword.attr('action'),
+			url: modalPasswordForm.attr('action'),
 			type: 'post',
-			data: formPassword.serialize(),
+			data: modalPasswordForm.serialize(),
 			dataType: 'json',
 			beforeSend: function() {
-				formPassword.find('.invalid-feedback').empty();
-				formPassword.find('.btn-submit, .btn-cancel').attr('disabled', true);
-				formPassword.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
+				modalPasswordForm.find('.invalid-feedback').empty();
+				modalPasswordForm.find('.btn-submit, .btn-cancel').attr('disabled', true);
+				modalPasswordForm.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
 				modalPassword.find('.close').attr('disabled', true);
 			},
 			success: function(response) {
@@ -476,33 +490,38 @@
 						if (response.error !== null && typeof response.error === 'object') {
 							$.each(response.error, function(key, val) {
 								if(val !== '') {
-									formPassword.find('[name="' + key + '"]').addClass('is-invalid');
-									formPassword.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
+									modalPasswordForm.find('[name="' + key + '"]').addClass('is-invalid');
+									modalPasswordForm.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
 								}
 							});
 						}
 					} else {
 						modalPassword.modal('hide');
 						modalData.modal('hide');
-						window.location.reload();
+
+						if (response.status == 'success') {
+							window.location.reload();
+						} else {
+							toastr.error(response.message);
+						}
 					}
 				}
 
-				formPassword.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
-				formPassword.find('.btn-submit').find('span').remove();
+				modalPasswordForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalPasswordForm.find('.btn-submit').find('span').remove();
 				modalPassword.find('.close').attr('disabled', false);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
 
-				formPassword.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
-				formPassword.find('.btn-submit').find('span').remove();
+				modalPasswordForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalPasswordForm.find('.btn-submit').find('span').remove();
 				modalPassword.find('.close').attr('disabled', false);
 			}
 		});
 	});
 
-	//reset password by id
+	// reset password by id
 	function resetPassword(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			var swalBootstrap = Swal.mixin({
@@ -526,9 +545,13 @@
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {
-							$('#modalData').modal('hide');
-							(response.status == 'success') ? toastr.success(response.message) : toastr.error(response.message);
-							reloadData();
+							modalData.modal('hide');
+
+							if (response.status == 'success') {
+								window.location.reload();
+							} else {
+								toastr.error(response.message);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);

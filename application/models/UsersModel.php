@@ -23,12 +23,13 @@ class UsersModel extends CI_Model {
 			$column = array_diff($column, ['password']);
 		}
 
-		$sort			= ['ASC', 'DESC'];
-		$clause			= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
-		$error			= [];
-		$paging			= [];
-		$condition		= [];
-		$condition_like	= [];
+		$sort				= ['ASC', 'DESC'];
+		$clause				= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
+		$error				= [];
+		$paging				= [];
+		$condition			= [];
+		$condition_like		= [];
+		$condition_inset	= [];
 
 		$column_like = [
 			'like_email',
@@ -37,6 +38,10 @@ class UsersModel extends CI_Model {
 			'like_fullname',
 			'like_company',
 			'like_country'
+		];
+
+		$column_inset = [
+			
 		];
 
 		$column_date = [
@@ -92,6 +97,8 @@ class UsersModel extends CI_Model {
 					}
 				} elseif (in_array($key, $column_like) && in_array(substr($key, 5), $column)) {
 					$condition_like[substr($key, 5)] = $val;
+				} elseif (in_array($key, $column_inset) && in_array(substr($key, 6), $column)) {
+					$condition_inset[substr($key, 6)] = $val;
 				} elseif ($key == 'not_id' && is_numeric($val)) {
 					$condition['id !='] = $val;
 				}
@@ -104,6 +111,12 @@ class UsersModel extends CI_Model {
 
 		if (!empty($condition_like) && is_array($condition_like)) {
 			$this->db->like($condition_like);
+		}
+
+		if (!empty($condition_inset) && is_array($condition_inset)) {
+			foreach ($condition_inset as $key => $val) {
+				$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+			}
 		}
 
 		$offset = ($clause['limit'] * $clause['page']) - $clause['limit'];

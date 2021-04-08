@@ -84,6 +84,14 @@ $route['admin/employees/get-list'] = 'admin/employees/getList';
 $route['admin/employees/upload-photo/(:any)'] = 'admin/employees/uploadPhoto/$1';
 
 /**
+ * WorkersController
+ */
+$route['admin/workers/get-list'] = 'admin/workers/getList';
+$route['admin/workers/upload-photo/(:any)'] = 'admin/workers/uploadPhoto/$1';
+$route['admin/workers/upload-attachment/(:any)'] = 'admin/workers/uploadAttachment/$1';
+$route['admin/workers/delete-attachment/(:any)'] = 'admin/workers/deleteAttachment/$1';
+
+/**
  * CompanyAdvantagesController
  */
 $route['admin/company-advantages'] = 'admin/companyAdvantages';
@@ -102,6 +110,8 @@ $route['remote/get-company-advantages-list'] = 'remote/getCompanyAdvantagesDatat
 $route['remote/get-sliders-list'] = 'remote/getSlidersDatatable';
 $route['remote/get-users'] = 'remote/getUsers';
 $route['remote/get-employees'] = 'remote/getEmployees';
+$route['remote/get-datatable-worker-attachments'] = 'remote/getWorkerAttachmentsDatatable';
+$route['remote/get-datatable-worker-attachments/(:any)'] = 'remote/getWorkerAttachmentsDatatable/$1';
 
 /**
  * LanguageController

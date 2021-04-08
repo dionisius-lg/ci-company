@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ProvincesModel extends CI_Model {
+class WorkExperiencesModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'provinces';
-	public $view_table = 'provinces';
+	public $table = 'work_experiences';
+	public $view_table = 'work_experiences';
 
 	/**
 	 *  getAll method

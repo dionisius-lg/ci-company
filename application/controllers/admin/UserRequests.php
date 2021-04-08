@@ -21,15 +21,15 @@ class UserRequests extends CI_Controller {
 
 		$this->load->library('user_agent');
 
-		$this->load->model('EmailsModel');
-		$this->load->model('EmployeesModel');
 		$this->load->model('UsersModel');
 		$this->load->model('UserLevelsModel');
+		$this->load->model('EmailsModel');
 
 		$this->result = [];
 	}
 
 	private $upload_errors = [];
+	private $result = [];
 
 	/**
 	 *  index method
@@ -88,29 +88,27 @@ class UserRequests extends CI_Controller {
 	 */
 	public function detail($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$request = $this->UsersModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
-				$result = [
-					'status' => 'success',
-					'data' => $request['data']
-				];
-
-				unset($result['message']);
+				$this->result['status'] = 'success';
+				$this->result['data'] = $request['data'];
+				unset($this->result['message']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -122,15 +120,16 @@ class UserRequests extends CI_Controller {
 	 */
 	public function update($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$input = array_map('trim', $this->input->post());
@@ -143,10 +142,10 @@ class UserRequests extends CI_Controller {
 
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
@@ -168,17 +167,16 @@ class UserRequests extends CI_Controller {
 				if ($request['status'] == 'success') {
 					$data_email = $request['data'];
 					$data_email['password'] = $data['password'];
-					
-					if ($this->_emailNotification($data_email)) {
-						setFlashSuccess('Data successfully registered.');
 
-						$result['status'] = 'success';
-						unset($result['message']);
+					if ($this->_emailNotification($data_email)) {
+						$this->result['status'] = 'success';
+						unset($this->result['message']);
+						setFlashSuccess('Data successfully registered.');
 					}
 				}
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -194,7 +192,7 @@ class UserRequests extends CI_Controller {
 			[
 				'field' => 'username',
 				'label' => 'Username',
-				'rules' => 'trim|required|max_length[30]|alpha_numeric|callback__checkUsername['.$id.']|xss_clean'
+				'rules' => 'trim|required|max_length[30]|regexUsername|checkUsersUsername['.$id.']|xss_clean'
 			],
             [
 				'field' => 'password',
@@ -209,78 +207,11 @@ class UserRequests extends CI_Controller {
 			[
 				'field' => 'user_level',
 				'label' => 'User Level',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 		];
 
 		return $validate;
-	}
-
-	/**
-	 *  _regexName method
-	 *  validation data to format regex
-	 */
-	public function _regexName($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 .,\-\&]*$/', $str)) {
-				$this->form_validation->set_message('_regexName', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _regexAddress method
-	 *  validation data to format regex
-	 */
-	public function _regexAddress($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 \-,.()\r\n]*$/', $str)) {
-				$this->form_validation->set_message('_regexAddress', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _regexNumeric method
-	 *  validation data to format regex
-	 */
-	public function _regexNumeric($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[0-9]*$/', $str)) {
-				$this->form_validation->set_message('_regexNumeric', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _formatDate method
-	 *  validation data to format date
-	 */
-	public function _formatDate($str = false)
-	{
-		if ($str) {
-			$date = DateTime::createFromFormat('Y-m-d', $str);
-			$error = DateTime::getLastErrors();
-
-			if ($error['warning_count'] > 0 || $error['error_count'] > 0) {
-				$this->form_validation->set_message('_formatDate', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**
@@ -292,30 +223,6 @@ class UserRequests extends CI_Controller {
 		if (isset($this->upload_errors['file'])) {
 			$this->form_validation->set_message('_errorFile', $this->upload_errors['file']);
 			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _checkUsername method
-	 *  validation data duplicate
-	 */
-	public function _checkUsername($str = false, $id = 0)
-	{
-		if ($str) {
-			$term = ['username' => $str];
-
-			if (!empty($id) && is_numeric($id)) {
-				$term['not_id'] = $id;
-			}
-
-			$request = $this->UsersModel->getAll($term);
-
-			if ($request['total_data'] > 0) {
-				$this->form_validation->set_message('_checkUsername', '%s already exist');
-				return false;
-			}
 		}
 
 		return true;

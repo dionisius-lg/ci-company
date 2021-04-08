@@ -43,15 +43,40 @@
 	font-size: 14px !important;
 }
 
-#formAttachment .custom-file-input + .custom-file-label::after {
+.custom-file.custom-file-sm {
+	height: calc(1.5em + 0.5rem + 2px);
+	font-size: 0.875rem;
+}
+
+.custom-file-sm .custom-file-input {
+	height: calc(1.5em + 0.5rem + 2px);
+}
+
+.custom-file-sm .custom-file-label {
+	height: calc(1.5em + 0.5rem + 2px);
+	padding: 0.25rem 0.5rem;
+}
+
+.custom-file-sm .custom-file-label::after {
+	height: calc(1.5em + 0.5rem);
+	padding: 0.25rem 0.5rem;
+}
+
+.custom-file-sm .custom-file-label.label-icon::after {
+	font-family: FontAwesome;
+	content: "\f07c";
+	padding: 0.325rem 0.5rem;
+}
+
+/*#formAttachment .custom-file-input + .custom-file-label::after {
 	font-family: FontAwesome;
 	content: "\f07c";
 	padding-top: 10px;
-}
+}*/
 
-#formAttachment .custom-file-input + .custom-file-label {
+/*#formAttachment .custom-file-input + .custom-file-label {
 	padding: 0.475rem 0.75rem;
-}
+}*/
 
 #formUserPhoto > div,
 #previewAttachment .item > div {
@@ -214,18 +239,21 @@
 	}
 }
 
-#formEmployeesPhoto > div {
+#formEmployeesPhoto > div,
+#formPhoto > div {
 	position: relative;
 	margin: 0;
 }
 
-#formEmployeesPhoto .img {
+#formEmployeesPhoto .img,
+#formPhoto .img {
 	width: 100%;
 	height: 300px;
 	object-fit: cover;
 }
 
-#formEmployeesPhoto .layer {
+#formEmployeesPhoto .layer,
+#formPhoto .layer {
 	display: block;
 	position: absolute;
 	top: 0;
@@ -240,11 +268,13 @@
 	z-index: 1;
 }
 
-#formEmployeesPhoto > div:hover .layer {
+#formEmployeesPhoto > div:hover .layer,
+#formPhoto > div:hover .layer {
 	opacity: 0.9;
 }
 
-#formEmployeesPhoto .btn {
+#formEmployeesPhoto .btn,
+#formPhoto .btn {
 	color: #fff;
 	border: 1px solid #fff;
 	margin: -13px 1px 0;

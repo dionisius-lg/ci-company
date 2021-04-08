@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ProvincesModel extends CI_Model {
+class WorkerAttachmentsModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'provinces';
-	public $view_table = 'provinces';
+	public $table = 'worker_attachments';
+	public $view_table = 'view_worker_attachments';
 
 	/**
 	 *  getAll method
@@ -190,14 +190,6 @@ class ProvincesModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
-
-			if ($check > 0) {
-				return responseBadRequest('Name already exist');
-			}
-		}
-
 		$inserted = $this->db->insert($this->table, $data);
 
 		if ($inserted) {
@@ -251,14 +243,6 @@ class ProvincesModel extends CI_Model {
 			return responseNotFound();
 		}
 
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
-
-			if ($check > 0) {
-				return responseBadRequest('Name already exist');
-			}
-		}
-
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);
 
 		if ($updated) {
@@ -301,6 +285,38 @@ class ProvincesModel extends CI_Model {
 	}
 
 	/**
+	 *  deleteByWorker method
+	 *  delete existing data by worker id
+	 */
+	public function deleteByWorker($worker_id = null)
+	{
+		$column		= $this->_getColumn($this->table);
+		$protected	= ['id'];
+
+		if (empty($worker_id)) {
+			return responseBadRequest();
+		}
+
+		if (!is_numeric($worker_id)) {
+			return responseBadRequest();
+		}
+
+		$check = $this->_getCount($this->table, ['worker_id' => $worker_id]);
+
+		if ($check == 0) {
+			return responseNotFound();
+		}
+
+		$deleted = $this->db->where(['worker_id' => $worker_id])->delete($this->table);
+
+		if ($deleted) {
+			return responseSuccess(['worker_id' => $worker_id]);
+		}
+
+		return responseError();
+	}
+
+	/**
 	 *  private _getColumn method
 	 *  return array column
 	 */
@@ -332,5 +348,68 @@ class ProvincesModel extends CI_Model {
 		}
 
 		return 0;
+	}
+
+	/**
+	 *  private _getDatatablesQuery method
+	 *  return query
+	 */
+	private function _getDatatablesQuery($worker_id = 0) {
+		$search	= ['name'];
+		$order	= [null, 'id', 'name', 'worker', 'create_date', 'create_user_id', null];
+
+		$this->db->from($this->view_table)->where(['is_active' => 1]);
+
+		$i = 0;
+
+		if (!empty($worker_id) && is_numeric($worker_id)) {
+			$this->db->where(['worker_id' => $worker_id]);
+		}
+
+		foreach ($search as $item) {
+			if ($_POST['search']['value']) {
+				if ($i===0) {
+					$this->db->group_start(); 
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+
+				if (count($search) - 1 == $i) {
+					$this->db->group_end();
+				}
+			}
+
+			$i++;
+		}
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		}
+	}
+
+	/**
+	 *  getDatatables method
+	 *  get all data for datatables
+	 */
+	public function getDatatables($worker_id = 0)
+	{
+		$this->_getDatatablesQuery($worker_id);
+
+		if ($_POST['length'] != -1) {
+			$this->db->limit($_POST['length'], $_POST['start']);
+		}
+
+		$result = $this->db->get()->result();
+
+		return json_decode(json_encode($result), true);
+	}
+
+	public function countDatatablesFilter($worker_id = 0)
+	{
+		$this->_getDatatablesQuery($worker_id);
+		$result = $this->db->get()->num_rows();
+
+		return $result;
 	}
 }

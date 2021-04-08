@@ -300,4 +300,48 @@ class Remote extends CI_Controller {
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
+
+	public function getWorkerAttachmentsDatatable($worker_id = 0)
+	{
+		$session	= $this->session->userdata('AuthUser');
+		$result		= [];
+
+		if ($this->input->is_ajax_request()) {
+			$this->load->model('WorkerAttachmentsModel');
+
+			$list	= $this->WorkerAttachmentsModel->getDatatables($worker_id);
+			$no		= $_POST['start'];
+			$data	= [];
+
+			foreach ($list as $col) {
+				$no++;
+
+				if (@fopen(base_url('files/workers/' . $col['worker_id'] . '/' . $col['file_name']), 'r')) {
+					$button_download = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'onclick' => 'fileDownloader(\'' . base_url('files/workers/' . $col['worker_id']) . '\', \'' . $col['file_name'] . '\')']);
+				} else {
+					$button_download =  form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0 disabled', 'content' => '<i class="fa fa-download fa-fw"></i>', 'disabled' => true]);
+				}
+
+				$row	= [];
+				$row[]	= $no;
+				$row[]	= $col['name'];
+				$row[]	= $col['create_date'];
+				$row[]	= $col['create_by'];
+				$row[] = $button_download . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
+
+				$data[]	= $row; 
+			}
+
+			$result = [
+				'draw'				=> $_POST['draw'],
+				'recordsTotal'		=> $this->WorkerAttachmentsModel->getAll(['worker_id' => $worker_id])['total_data'],
+				'recordsFiltered'	=> $this->WorkerAttachmentsModel->countDatatablesFilter($worker_id),
+				'data'				=> $data
+			];
+
+			echo json_encode($result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
 }

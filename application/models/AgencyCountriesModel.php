@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ProvincesModel extends CI_Model {
+class AgencyCountriesModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'provinces';
-	public $view_table = 'provinces';
+	public $table = 'agency_countries';
+	public $view_table = 'agency_countries';
 
 	/**
 	 *  getAll method
@@ -98,10 +98,8 @@ class ProvincesModel extends CI_Model {
 			$this->db->like($condition_like);
 		}
 
-		if (!empty($condition_inset) && is_array($condition_inset)) {
-			foreach ($condition_inset as $key => $val) {
-				$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
-			}
+		if (!empty($condition_like) && is_array($condition_like)) {
+			$this->db->like($condition_like);
 		}
 
 		$offset = ($clause['limit'] * $clause['page']) - $clause['limit'];

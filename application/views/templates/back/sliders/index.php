@@ -2,56 +2,83 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-header">
-				<button type="button" class="btn btn-primary btn-sm rounded-0" onclick="newData()">New Data</button>
-				<button type="button" class="btn btn-default btn-sm rounded-0" onclick="reloadData()">Reload Data</button>
+				<h3 class="card-title">Filter Data</h3>
+				<div class="card-tools">
+					<?php echo form_button(['type' => 'button', 'class' => 'btn btn-info btn-sm rounded-0', 'content' => 'New Data', 'onclick' => 'newData()']); ?>
+				</div>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-striped table-hover" id="tableData" width="100%">
-						<thead class="table-primary">
-							<tr>
-								<th class="text-center">No.</th>
-								<th class="text-center">Slider</th>
-								<th class="text-center">Order</th>
-								<th class="text-center">Link To</th>
-								<th class="text-center">Create Date</th>
-								<th class="text-center">Create By</th>
-								<th class="text-center">Update Date</th>
-								<th class="text-center">Update By</th>
-								<th class="text-center">Action</th>
+					<table class="table table-striped">
+						<thead>
+							<tr class="">
+								<th class="text-nowrap">No.</th>
+								<th class="text-nowrap">Slider</th>
+								<th class="text-nowrap">Order</th>
+								<th class="text-nowrap">Link To</th>
+								<th class="text-nowrap">Create Date</th>
+								<th class="text-nowrap">Create By</th>
+								<th class="text-nowrap">Last Update Date</th>
+								<th class="text-nowrap">Last Update By</th>
+								<th class="text-nowrap">Action</th>
 							</tr>
 						</thead>
+						<tbody>
+						;
+						<?php if (count($sliders) > 0) {
+							foreach ($sliders as $slider) { echo
+								'<tr>
+									<td class="text-nowrap">' . $no . '</td>
+									<td class="text-nowrap">' . (@getimagesize(base_url('files/sliders/'.$slider['picture'])) ? '<a href="' . base_url('files/sliders/'.$slider['picture']) . '" class="venobox">View Slider</a>' : 'File not found') . '</td>
+									<td class="text-nowrap">' . $slider['order_number'] . '</td>
+									<td class="text-wrap">' . $slider['link_to'] . '</td>
+									<td class="text-nowrap">' . $slider['create_date'] . '</td>
+									<td class="text-nowrap">' . $slider['create_by'] . '</td>
+									<td class="text-nowrap">' . $slider['update_date'] . '</td>
+									<td class="text-nowrap">' . $slider['update_by'] . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $slider['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $slider['id'] . ')']) . '</td>
+								</tr>';
+
+								$no++;
+							}
+						} else { echo
+							'<tr>
+								<td class="text-center" colspan="9">No data found</td>
+							</tr>';
+						} ?>
+						</tbody>
 					</table>
 				</div>
-				<div class="row" id="tableDataOption" class="text-center">
-					<div class="col-md-12 table-length"></div>
-					<div class="col-md-12 table-paginate d-flex flex-sm-row flex-column justify-content-between"></div>
+
+				<div class="page-sm page-right">
+					<?php echo $pagination; ?>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- modal add/edit data -->
 <div class="modal fade" id="modalData" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-primary rounded-0">
-				<p class="modal-title">Modal title</p>
+				<h5 class="modal-title">Modal title</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<?php echo form_open_multipart(null, ['method' => 'post', 'id' => 'formModal', 'autocomplete' => 'off']); ?>
+
+			<?php echo form_open_multipart(null, ['method' => 'post', 'autocomplete' => 'off']); ?>
+				<div class="modal-body">
 					<div class="row" id="previewAttachment">
 						<div class="form-group col-md-12 item py-1">
-							<label>Slider <span class="text-danger">*</span></label>
-							<input type="file" name="picture" class="hidden" data-toggle="change">
+							<?php echo form_label('Slider <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'file', 'name' => 'picture', 'class' => 'hidden', 'data-toggle' => 'change']); ?>
 							<div class="border">
-								<img src="" alt="Atacchment Preview" class="img-fluid">
+								<img src="" alt="Attachment Preview" class="img-fluid">
 								<div class="layer">
-									<button type="button" class="btn btn-sm btn-outline-primary rounded-0 venobox" hidden>View</button>
-									<button type="button" class="btn btn-sm btn-outline-success rounded-0" data-toggle="browse">Browse</button>
+									<?php echo form_button(['type' => 'button', 'class' => 'btn btn-outline-success btn-sm rounded-0', 'content' => 'Browse', 'data-toggle' => 'browse']); ?>
 								</div>
 							</div>
 							<span class="invalid-feedback"></span>
@@ -59,120 +86,57 @@
 					</div>
 					<div class="row">
 						<div class="form-group col-md-2">
-							<label>Order</label>
-							<input type="text" name="order_number" class="form-control form-control-sm rounded-0 numeric" value="">
+							<?php echo form_label('Order', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'order_number', 'class' => 'form-control form-control-sm rounded-0 numeric', 'maxlength' => '3']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-10">
-							<label>Link To</label>
-							<input type="text" name="link_to" class="form-control form-control-sm rounded-0" value="">
+							<?php echo form_label('Link To', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'link_to', 'class' => 'form-control form-control-sm rounded-0']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12 text-right border-top mt-2 pt-3">
-							<button type="submit" class="btn btn-primary btn-sm rounded-0 btn-submit">Submit</button>
-							<button type="button" class="btn btn-default btn-sm rounded-0 btn-cancel" data-dismiss="modal">Cancel</button>
-						</div>
-					</div>
-				<?php echo form_close(); ?>
-			</div>
+				</div>
+				<div class="modal-footer">
+					<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-primary btn-sm rounded-0 btn-submit', 'content' => 'Submit']); ?>
+					<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-cancel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
+				</div>
+			<?php echo form_close(); ?>
 		</div>
 	</div>
 </div>
 
-<?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/datatables/css/dataTables.bootstrap4.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/css/bs4-datatables.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
+<!-- load required builded stylesheet for this page -->
+<?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css']); ?>
 
+<!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/venobox/js/venobox.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/jquery.dataTables.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/dataTables.bootstrap4.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
+
 <script type="text/javascript">
-	var tableData;
+	// describe required variable
+	var modalData = $('#modalData'),
+		modalDataForm = $('#modalData form');
 
 	$(document).ready(function() {
-		//get datatable
-		tabledata = $('#tableData').DataTable({
-			'processing': true,
-			'serverSide': true,
-			//'bPaginate': true,
-			//'bLengthChange': true,
-			//'bFilter': true,
-			//'bSort': true,
-			//'bInfo': true,
-			//'bAutoWidth': false,
-			//'aaSorting': [
-			//	[0, null]
-			//],
-			'order': [
-				[ 0, 'desc' ]
-			],
-			'lengthMenu': [
-				[10, 25, 50],
-				[10, 25, 50]
-			],
-			'ajax': {
-				'url': '<?php echo base_url("remote/get-sliders-list"); ?>',
-				'type': 'post'
-			},
-			'columnDefs': [{
-				'targets': [-1, 0, 1 , 3],
-				'orderable': false
-			}, {
-				'targets': [-1],
-				'className': 'text-center'
-			}],
-			'drawCallback': function( settings ) {
-				$('.form-control').addClass('rounded-0');
-				$('.pagination').addClass('pagination-sm');
-				$('#tableData').next().attr({'id': 'tableData_option'});
-				$('thead tr th').addClass('text-nowrap');
-				$('tbody tr').find('td:last').addClass('text-nowrap');
-				$('.venobox').venobox();
-			},
-			'language': {
-				'searchPlaceholder': 'Search',
-				'search': '',
-				'processing': '<div class="spinner-grow text-primary"></div><div class="spinner-grow text-warning"></div><div class="spinner-grow text-secondary"></div><div class="d-block text-center"><strong>Loading..</strong></div>'
-			},
-			//'dom': 'rt<"row"<"col-sm-12 col-md-5"<"d-inline"li>><"col-sm-12 col-md-7"p>>',
-			'initComplete': (settings, json)=>{
-				$('#tableData_length').appendTo('#tableDataOption .table-length');
-				$('#tableData_info').appendTo('#tableDataOption .table-paginate');
-				$('#tableData_paginate').appendTo('#tableDataOption .table-paginate');
-				$('#tableData_filter').hide();
-			},
-		});
+		// custom ci3 pagination to bootstrap 4
+		$('ul.pagination > li').find('a, span').addClass('page-link');
 	});
 
-	//show temp filename
-	$('#formModal .custom-file-input').on('change', function() {
-		var fileName = $(this).val().split("\\").pop();
-		$(this).siblings(".custom-file-label").addClass('selected').html(fileName);
-	});
-
-	//reload table data
-	function reloadData() {
-		tabledata.ajax.reload();
-	}
-
-	//add new data
+	// add new data
 	function newData() {
-		$('#formModal')[0].reset();
-		$('#formModal').attr({'action': '<?php echo base_url("admin/sliders/create"); ?>'});
-		$('#formModal input, #formModal textarea, #formModal select').removeClass('is-invalid');
-		$('#formModal .invalid-feedback').empty();
-		$('#formModal .btn-submit').html('Create');
-		$('#formModal img').attr({'src': '<?php echo base_url('assets/img/default-picture.jpg'); ?>'});
+		modalDataForm[0].reset();
+		modalDataForm.find('select').val(null).trigger('change');
+		modalDataForm.attr({'action': '<?php echo base_url("admin/sliders/create"); ?>'});
+		modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+		modalDataForm.find('.invalid-feedback').empty();
+		modalDataForm.find('.btn-submit').html('Create');
+		modalDataForm.find('img').attr({'src': '<?php echo base_url('assets/img/default-picture.jpg'); ?>'});
 
-		$('#modalData .modal-title').html('Create New Slider');
-		$('#modalData').modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+		modalData.find('.modal-header .modal-title').html('Create New Data');
+		modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 	}
 
-	//detail data by id
+	// detail data by id
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
@@ -180,21 +144,24 @@
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
-					$('#formModal')[0].reset();
-					$('#formModal').attr({'action': '<?php echo base_url("admin/sliders/update/' + id + '"); ?>'});
-					$('#formModal input, #formModal textarea, #formModal select').removeClass('is-invalid');
-					$('#formModal .invalid-feedback').empty();
-					$('#formModal .btn-submit').html('Update');
+					modalDataForm[0].reset();
+					modalDataForm.find('select').val(null).trigger('change');
+					modalDataForm.attr({'action': '<?php echo base_url("admin/sliders/update/' + id + '"); ?>'});
+					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+					modalDataForm.find('.invalid-feedback').empty();
+					modalDataForm.find('.btn-submit').html('Update');
 
-					$('#modalData .modal-title').html('Detail Data');
+					modalData.find('.modal-header .modal-title').html('Detail Data');
 				},
 				success: function(response) {
 					if (response !== null && typeof response === 'object') {
-						$('#formModal img').attr({'src': response.file});
-						$('#formModal [name="order_number"]').val(response.order_number);
-						$('#formModal [name="link_to"]').val(response.link_to);
+						if (response.status === 'success') {
+							modalDataForm.find('img').attr({'src': response.data['file']});
+							modalDataForm.find('[name="order_number"]').val(response.data['order_number']);
+							modalDataForm.find('[name="link_to"]').val(response.data['link_to']);
 
-						$('#modalData').modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+							modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+						}
 					}
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
@@ -204,7 +171,7 @@
 		}
 	}
 
-	//delete data by id
+	// delete data by id
 	function deleteData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			var swalBootstrap = Swal.mixin({
@@ -228,8 +195,11 @@
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {
-							(response.status == 'success') ? toastr.success(response.message) : toastr.error(response.message);
-							reloadData();
+							if (response.status == 'success') {
+								 window.location.reload();
+							} else {
+								toastr.error(response.message);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
@@ -240,26 +210,23 @@
 		}
 	}
 
-	//submited form modal
-	$('#formModal').on('submit', function(e) {
+	// submited form modal
+	modalDataForm.on('submit', function(e) {
 		e.preventDefault();
 
-		var formData = $(this),
-			modalData = $('#modalData');
-
 		$.ajax({
-			url: formData.attr('action'),
+			url: modalDataForm.attr('action'),
 			type: 'post',
-			data: new FormData(formData[0]),
+			data: new FormData(modalDataForm[0]),
 			dataType: 'json',
 			async: true,
 			cache: false,
 			contentType: false,
 			processData: false,
 			beforeSend: function() {
-				formData.find('.invalid-feedback').empty();
-				formData.find('.btn-submit, .btn-cancel').attr('disabled', true);
-				formData.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
+				modalDataForm.find('.invalid-feedback').empty();
+				modalDataForm.find('.btn-submit, .btn-cancel').attr('disabled', true);
+				modalDataForm.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
 				modalData.find('.close').attr('disabled', true);
 			},
 			success: function(response) {
@@ -268,30 +235,33 @@
 						if (response.error !== null && typeof response.error === 'object') {
 							$.each(response.error, function(key, val) {
 								if(val !== '') {
-									formData.find('[name="' + key + '"]').addClass('is-invalid');
-									formData.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
+									modalDataForm.find('[name="' + key + '"]').addClass('is-invalid');
+									modalDataForm.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
 								}
 							});
 						}
 					} else {
 						modalData.modal('hide');
-						(response.status == 'success') ? toastr.success(response.message) : toastr.error(response.message);
-						reloadData();
+
+						if (response.status == 'success') {
+							window.location.reload();
+						} else {
+							toastr.error(response.message);
+						}
 					}
 				}
 
-				formData.find('.btn-submit, .btn-cancel').attr('disabled', false);
-				formData.find('.btn-submit').find('span').remove();
+				modalDataForm.find('.btn-submit, .btn-cancel').attr('disabled', false);
+				modalDataForm.find('.btn-submit').find('span').remove();
 				modalData.find('.close').attr('disabled', false);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
 
-				formData.find('.btn-submit, .btn-cancel').attr('disabled', false);
-				formData.find('.btn-submit').find('span').remove();
+				modalDataForm.find('.btn-submit, .btn-cancel').attr('disabled', false);
+				modalDataForm.find('.btn-submit').find('span').remove();
 				modalData.find('.close').attr('disabled', false);
 			}
 		});
 	});
-
 </script>

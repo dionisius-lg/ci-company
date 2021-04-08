@@ -22,11 +22,12 @@ class Users extends CI_Controller {
 		$this->load->library('user_agent');
 
 		$this->load->model('UsersModel');
-		$this->load->model('EmployeesModel');
 		$this->load->model('UserLevelsModel');
+		$this->load->model('WorkersModel');
 	}
 
 	private $upload_errors = [];
+	private $result = [];
 
 	/**
 	 *  index method
@@ -88,45 +89,46 @@ class Users extends CI_Controller {
 	 */
 	public function detail($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$request = [
 				'user' => $this->UsersModel->getDetail($id),
-				'employees' => $this->EmployeesModel->getAll(['user_id' => $id]),
+				'worker' => $this->WorkersModel->getAll(['user_id' => $id]),
 			];
 
 			foreach ($request as $key => $val) {
-				$result[$key] = [];
+				$this->result[$key] = [];
 
 				if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 					if ($request[$key]['status'] == 'success' && !empty($val['data'])) {
-						if (in_array($key, ['employees'])) {
-							$result[$key] = $val['data'][0];
+						if (in_array($key, ['worker'])) {
+							$this->result[$key] = $val['data'][0];
 						} else {
-							$result[$key] = $val['data'];
+							$this->result[$key] = $val['data'];
 						}
 					}
 				}
 			}
 
-			if (!empty($result['user'])) {
-				$result['status'] = 'success';
-				unset($result['message']);
+			if (!empty($this->result['user'])) {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
 			} else {
-				unset($result['user']);
-				unset($result['employees']);
+				unset($this->result['user']);
+				unset($this->result['worker']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -138,8 +140,9 @@ class Users extends CI_Controller {
 	 */
 	public function create()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
@@ -156,10 +159,10 @@ class Users extends CI_Controller {
 
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
@@ -179,12 +182,12 @@ class Users extends CI_Controller {
 			$request = $this->UsersModel->insert($data);
 
 			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
 				setFlashSuccess('Data successfully created.');
-				$result['status'] = 'success';
-				unset($result['message']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -196,15 +199,16 @@ class Users extends CI_Controller {
 	 */
 	public function update($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$input = array_map('trim', $this->input->post());
@@ -218,10 +222,10 @@ class Users extends CI_Controller {
 
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
@@ -239,12 +243,12 @@ class Users extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
 				setFlashSuccess('Data successfully updated.');
-				$result['status'] = 'success';
-				unset($result['message']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -252,37 +256,31 @@ class Users extends CI_Controller {
 
 	/**
 	 *  delete method
-	 *  delete data, return json (update to inactive)
+	 *  delete data, return json
 	 */
 	public function delete($id = null)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
-			$data = [
-				'is_active'			=> 0,
-				'update_user_id'	=> $session['id']
-			];
-
-			$data = array_map('strClean', $data);
-
-			$request = $this->UsersModel->update($data, $id);
+			$request = $this->UsersModel->delete($id);
 
 			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
 				setFlashSuccess('Data successfully deleted.');
-				$result['status'] = 'success';
-				unset($result['message']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -294,15 +292,16 @@ class Users extends CI_Controller {
 	 */
 	public function changePassword($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$input = array_map('trim', $this->input->post());
@@ -325,10 +324,10 @@ class Users extends CI_Controller {
 
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
@@ -341,12 +340,12 @@ class Users extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
 				setFlashSuccess('Password successfully updated.');
-				$result['status'] = 'success';
-				unset($result['message']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -358,15 +357,16 @@ class Users extends CI_Controller {
 	 */
 	public function resetPassword($id = null)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
@@ -379,11 +379,12 @@ class Users extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Password successfully reset.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Password successfully reset.');
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -399,32 +400,32 @@ class Users extends CI_Controller {
 			[
 				'field' => 'username',
 				'label' => 'Username',
-				'rules' => 'trim|required|max_length[30]|alpha_numeric|callback__checkUsername['.$id.']|xss_clean'
+				'rules' => 'trim|required|max_length[30]|regexUsername|checkUsersUsername['.$id.']|xss_clean'
 			],
 			[
 				'field' => 'fullname',
 				'label' => 'Fullname',
-				'rules' => 'trim|required|max_length[100]|callback__regexName|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regexTextInput|xss_clean'
 			],
 			[
 				'field' => 'email',
 				'label' => 'Email',
-				'rules' => 'trim|required|max_length[100]|valid_email|callback__checkEmail['.$id.']|xss_clean'
+				'rules' => 'trim|required|max_length[100]|valid_email|checkUsersEmail['.$id.']|xss_clean'
 			],
 			[
 				'field' => 'country',
 				'label' => 'Country',
-				'rules' => 'trim|max_length[100]|callback__regexName|xss_clean'
+				'rules' => 'trim|max_length[100]|regexTextInput|xss_clean'
 			],
 			[
 				'field' => 'company',
 				'label' => 'Company',
-				'rules' => 'trim|max_length[200]|callback__regexName|xss_clean'
+				'rules' => 'trim|max_length[200]|regexTextInput|xss_clean'
 			],
 			[
 				'field' => 'user_level',
 				'label' => 'User Level',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 		];
 
@@ -454,69 +455,6 @@ class Users extends CI_Controller {
 	}
 
 	/**
-	 *  _regexName method
-	 *  validation data to format regex
-	 */
-	public function _regexName($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 .,\-\&]*$/', $str)) {
-				$this->form_validation->set_message('_regexName', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _regexAddress method
-	 *  validation data to format regex
-	 */
-	public function _regexAddress($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 \-,.()\r\n]*$/', $str)) {
-				$this->form_validation->set_message('_regexAddress', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _formatDate method
-	 *  validation data to format date
-	 */
-	public function _regexNumeric($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[0-9]*$/', $str)) {
-				$this->form_validation->set_message('_regexNumeric', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _formatDate($str = false)
-	{
-		if ($str) {
-			$date = DateTime::createFromFormat('Y-m-d', $str);
-			$error = DateTime::getLastErrors();
-
-			if ($error['warning_count'] > 0 || $error['error_count'] > 0) {
-				$this->form_validation->set_message('_formatDate', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-    }
-
-	/**
 	 *  _errorFile method
 	 *  display file upload error
 	 */
@@ -525,54 +463,6 @@ class Users extends CI_Controller {
 		if (isset($this->upload_errors['file'])) {
 			$this->form_validation->set_message('_errorFile', $this->upload_errors['file']);
 			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _checkUsername method
-	 *  validation data duplicate
-	 */
-	public function _checkUsername($str = false, $id = 0)
-	{
-		if ($str) {
-			$term = ['username' => $str];
-
-			if (!empty($id) && is_numeric($id)) {
-				$term['not_id'] = $id;
-			}
-
-			$request = $this->UsersModel->getAll($term);
-
-			if ($request['total_data'] > 0) {
-				$this->form_validation->set_message('_checkUsername', '%s already exist');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 *  _checkEmail method
-	 *  validation data duplicate
-	 */
-	public function _checkEmail($str = false, $id = 0)
-	{
-		if ($str) {
-			$term = ['email' => $str];
-
-			if (!empty($id) && is_numeric($id)) {
-				$term['not_id'] = $id;
-			}
-
-			$request = $this->UsersModel->getAll($term);
-
-			if ($request['total_data'] > 0) {
-				$this->form_validation->set_message('_checkEmail', '%s already exist');
-				return false;
-			}
 		}
 
 		return true;

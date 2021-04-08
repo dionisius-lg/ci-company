@@ -12,11 +12,12 @@
 		<meta name="url" content="<?php echo base_url(); ?>">
 		<?php echo $this->template->meta; ?>
 
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/font-awesome/css/font-awesome.min.css'); ?>">
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/adminlte/css/adminlte.min.css'); ?>">
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/toastr/css/toastr.min.css'); ?>">
+		<link rel="stylesheet" href="<?php echo base_url('assets/vendor/font-awesome/css/font-awesome.min.css'); ?>" type="text/css">
+		<link rel="stylesheet" href="<?php echo base_url('assets/vendor/adminlte/css/adminlte.min.css'); ?>" type="text/css">
+		<link rel="stylesheet" href="<?php echo base_url('assets/vendor/toastr/css/toastr.min.css'); ?>" type="text/css">
+		<link rel="stylesheet" href="<?php echo base_url('assets/vendor/sweetalert2/css/sweetalert2.min.css'); ?>" type="text/css">
 		<?php echo $this->template->stylesheet; ?>
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/back.css'); ?>">
+		<link rel="stylesheet" href="<?php echo base_url('assets/css/back.css'); ?>" type="text/css">
 
 		<!--[if lt IE 9]>
 			<script src="<?php echo base_url('assets/js/html5shiv.min.js'); ?>"></script>
@@ -27,6 +28,7 @@
 		<script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/adminlte/js/adminlte.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/toastr/js/toastr.min.js'); ?>"></script>
+		<script src="<?php echo base_url('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/adminlte/js/demo.js'); ?>"></script>
 		<?php echo $this->template->javascript; ?>
 	</head>
@@ -106,6 +108,12 @@
 								</a>
 							</li>
 							<li class="nav-item">
+								<a href="<?php echo site_url('admin/workers'); ?>" class="nav-link">
+									<i class="nav-icon fa fa-users"></i>
+									<p>Workers Data</p>
+								</a>
+							</li>
+							<li class="nav-item">
 								<a href="<?php echo site_url('admin/employees'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-users"></i>
 									<p>Employees Data</p>
@@ -120,7 +128,7 @@
 							<li class="nav-item">
 								<a href="<?php echo site_url('admin/sliders'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-television"></i>
-									<p>Slider</p>
+									<p>Sliders</p>
 								</a>
 							</li>
 							<li class="nav-item">

@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ProvincesModel extends CI_Model {
+class WorkersModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'provinces';
-	public $view_table = 'provinces';
+	public $table = 'workers';
+	public $view_table = 'view_workers';
 
 	/**
 	 *  getAll method
@@ -28,15 +28,21 @@ class ProvincesModel extends CI_Model {
 		$condition_inset	= [];
 
 		$column_like = [
-			'like_name'
+			'like_nik',
+			'like_fullname',
+			'like_email',
+			'like_phone_1',
+			'like_phone_2',
+			'like_birth_place'
 		];
 
 		$column_inset = [
-			
+			'inset_placement_ready_ids'
 		];
 
 		$column_date = [
-			
+			'create_date',
+			'update_date'
 		];
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -173,7 +179,6 @@ class ProvincesModel extends CI_Model {
 		$column		= $this->_getColumn($this->table);
 		$protected	= ['id'];
 		$data		= [];
-
 		if (!empty($data_temp) && is_array($data_temp)) {
 			foreach ($data_temp as $key => $val) {
 				if (!in_array($key, $column) || in_array($key, $protected)) {
@@ -190,11 +195,19 @@ class ProvincesModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
+		if (array_key_exists('nik', $data)) {
+			$check = $this->_getCount($this->table, ['nik' => $data['nik']]);
 
 			if ($check > 0) {
-				return responseBadRequest('Name already exist');
+				return responseBadRequest('NIK already exist');
+			}
+		}
+
+		if (array_key_exists('email', $data)) {
+			$check = $this->_getCount($this->table, ['email' => $data['email']]);
+
+			if ($check > 0) {
+				return responseBadRequest('Email already exist');
 			}
 		}
 
@@ -251,11 +264,19 @@ class ProvincesModel extends CI_Model {
 			return responseNotFound();
 		}
 
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
+		if (array_key_exists('nik', $data)) {
+			$check = $this->_getCount($this->table, ['nik' => $data['nik'], 'id !=' => $id]);
 
 			if ($check > 0) {
-				return responseBadRequest('Name already exist');
+				return responseBadRequest('NIK already exist');
+			}
+		}
+
+		if (array_key_exists('email', $data)) {
+			$check = $this->_getCount($this->table, ['email' => $data['email'], 'id !=' => $id]);
+
+			if ($check > 0) {
+				return responseBadRequest('Email already exist');
 			}
 		}
 
@@ -332,5 +353,64 @@ class ProvincesModel extends CI_Model {
 		}
 
 		return 0;
+	}
+
+	/**
+	 *  private _getDatatablesQuery method
+	 *  return query
+	 */
+	private function _getDatatablesQuery() {
+		$search	= ['nik', 'fullname', 'email'];
+		$order	= ['id', 'nik', 'fullname', 'email', 'create_date', 'create_by', 'update_date', 'update_by', 'user_id'];
+
+		$this->db->from($this->view_table)->where(['is_active' => 1]);
+
+		$i = 0;
+
+		foreach ($search as $item) {
+			if ($_POST['search']['value']) {
+				if ($i===0) {
+					$this->db->group_start(); 
+					$this->db->like($item, $_POST['search']['value']);
+				} else {
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+
+				if (count($search) - 1 == $i) {
+					$this->db->group_end();
+				}
+			}
+
+			$i++;
+		}
+
+		if (isset($_POST['order'])) {
+			$this->db->order_by($order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		}
+	}
+
+	/**
+	 *  getDatatables method
+	 *  get all data for datatables
+	 */
+	public function getDatatables()
+	{
+		$this->_getDatatablesQuery();
+
+		if ($_POST['length'] != -1) {
+			$this->db->limit($_POST['length'], $_POST['start']);
+		}
+
+		$result = $this->db->get()->result();
+
+		return json_decode(json_encode($result), true);
+	}
+
+	public function countDatatablesFilter()
+	{
+		$this->_getDatatablesQuery();
+		$result = $this->db->get()->num_rows();
+
+		return $result;
 	}
 }

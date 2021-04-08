@@ -136,44 +136,45 @@
 </div>
 
 <!-- load required builded stylesheet for this page -->
-<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
-<?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
+
 <script type="text/javascript">
+	// describe required variable
+	var modalData = $('#modalData'),
+		modalDataForm = $('#modalData form');
+
 	$(document).ready(function() {
+		// custom ci3 pagination to bootstrap 4
 		$('ul.pagination > li').find('a, span').addClass('page-link');
 	});
 
-	//detail data by id
+	// detail data by id
 	function detailData(id) {
-		var modalData = $('#modalData'),
-			formData = $('#modalData form');
-
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
 				url: '<?php echo base_url("admin/user-requests/detail/' + id + '"); ?>',
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
-					formData[0].reset();
-					formData.find('select').val(null).trigger('change');
-					formData.attr('action', '<?php echo base_url("admin/user-requests/update/' + id + '"); ?>');
-					formData.find('input, select, textarea').removeClass('is-invalid');
-					formData.find('.invalid-feedback').empty();
-					formData.find('button[type="submit"]').val('Register');
+					modalDataForm[0].reset();
+					modalDataForm.find('select').val(null).trigger('change');
+					modalDataForm.attr('action', '<?php echo base_url("admin/user-requests/update/' + id + '"); ?>');
+					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+					modalDataForm.find('.invalid-feedback').empty();
+					modalDataForm.find('button[type="submit"]').val('Register');
 
-					modalData.find('.modal-header .modal-title').html('Edit Data');
+					modalData.find('.modal-header .modal-title').html('Register Data');
 				},
 				success: function(response) {
 					if (response !== null && typeof response === 'object') {
 						if (response.status === 'success') {
-							formData.find('input[name="username"]').val(response.data['email']);
+							modalDataForm.find('input[name="username"]').val(response.data['email']);
 							// $.each(response.data, function(key, val) {
-							// 	formData.find('[name="' + key + '"]').val(val);
+							// 	modalDataForm.find('[name="' + key + '"]').val(val);
 							// });
 
 							modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
@@ -187,22 +188,19 @@
 		}
 	}
 
-	//submited form modal
-	$('#modalData form').on('submit', function(e) {
+	// submited form modal
+	modalDataForm.on('submit', function(e) {
 		e.preventDefault();
 
-		var formData = $(this),
-			modalData = $('#modalData');
-
 		$.ajax({
-			url: formData.attr('action'),
+			url: modalDataForm.attr('action'),
 			type: 'post',
-			data: formData.serialize(),
+			data: modalDataForm.serialize(),
 			dataType: 'json',
 			beforeSend: function() {
-				formData.find('.invalid-feedback').empty();
-				formData.find('button').attr('disabled', true);
-				formData.find('button[type="submit"]').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
+				modalDataForm.find('.invalid-feedback').empty();
+				modalDataForm.find('button').attr('disabled', true);
+				modalDataForm.find('button[type="submit"]').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
 				modalData.find('.close').attr('disabled', true);
 			},
 			success: function(response) {
@@ -211,25 +209,32 @@
 						if (response.error !== null && typeof response.error === 'object') {
 							$.each(response.error, function(key, val) {
 								if(val !== '') {
-									formData.find('[name="' + key + '"]').addClass('is-invalid');
-									formData.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
+									modalDataForm.find('[name="' + key + '"]').addClass('is-invalid');
+									modalDataForm.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
 								}
 							});
 						}
 					} else {
 						modalData.modal('hide');
-						window.location.reload();
+
+						if (response.status == 'success') {
+							window.location.reload();
+						} else {
+							toastr.error(response.message);
+						}
 					}
 				}
 
-				formData.find('button, .close').attr('disabled', false);
-				formData.find('button[type="submit"]').find('span').remove();
+				modalDataForm.find('button').attr('disabled', false);
+				modalDataForm.find('button[type="submit"]').find('span').remove();
+				modalData.find('.close').attr('disabled', false);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
 
-				formData.find('button, .close').attr('disabled', false);
-				formData.find('button[type="submit"]').find('span').remove();
+				modalDataForm.find('button').attr('disabled', false);
+				modalDataForm.find('button[type="submit"]').find('span').remove();
+				modalData.find('.close').attr('disabled', false);
 			}
 		});
 	});
