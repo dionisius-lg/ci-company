@@ -99,8 +99,10 @@ class CitiesModel extends CI_Model {
 			$this->db->like($condition_like);
 		}
 
-		if (!empty($condition_like) && is_array($condition_like)) {
-			$this->db->like($condition_like);
+		if (!empty($condition_inset) && is_array($condition_inset)) {
+			foreach ($condition_inset as $key => $val) {
+				$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+			}
 		}
 
 		$offset = ($clause['limit'] * $clause['page']) - $clause['limit'];
