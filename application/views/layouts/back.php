@@ -157,7 +157,7 @@
 					<div class="container-fluid">
 						<div class="row mb-2">
 							<div class="col-md-12">
-								<?php $this->load->view('templates/back/element/flash_message'); ?>
+								<?php $this->load->view('templates/back/Element/flash_message'); ?>
 							</div>
 						</div>
 					</div>

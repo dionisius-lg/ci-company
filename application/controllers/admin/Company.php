@@ -26,16 +26,24 @@ class Company extends CI_Controller {
 	}
 
 	private $upload_errors = [];
+	private $result = [];
 
+	/**
+	 *  index method
+	 *  index page or return to detail method
+	 */
 	public function index()
 	{
 		$this->detail();
 	}
 
+	/**
+	 *  detail method
+	 *  detail page
+	 */
 	public function detail()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		$request = [
 			'company' => $this->CompanyModel->getDetail(),
@@ -43,25 +51,28 @@ class Company extends CI_Controller {
 		];
 
 		foreach ($request as $key => $val) {
-			$result[$key] = [];
+			$this->result[$key] = [];
 
 			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 				if ($request[$key]['status'] == 'success') {
-					$result[$key] = $val['data'];
+					$this->result[$key] = $val['data'];
 				}
 			}
 		}
 
 		$this->template->title = 'Company Profile';
-		$this->template->content->view('templates/back/company/detail', $result);
+		$this->template->content->view('templates/back/Company/detail', $this->result);
 
 		$this->template->publish();
 	}
 
+	/**
+	 *  update method
+	 *  update data
+	 */
 	public function update()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->method() == 'post') {
 			$input = array_map('trim', $this->input->post());
@@ -203,53 +214,52 @@ class Company extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  validate method
+	 *  validate data before action
+	 */
 	private function validate($file = false, $id = 0)
 	{
 		$validate = [
 			[
 				'field' => 'name',
 				'label' => 'Name',
-				'rules' => 'trim|required|max_length[100]|callback__regexName|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regexTextInput|xss_clean'
 			],
 			[
 				'field' => 'address_eng',
 				'label' => 'Address (English)',
-				'rules' => 'trim|required|max_length[255]|callback__regexAddress|xss_clean'
+				'rules' => 'trim|required|max_length[255]|regexTextArea|xss_clean'
 			],
 			[
 				'field' => 'address_ind',
 				'label' => 'Address (Indonesian)',
-				'rules' => 'trim|required|max_length[255]|callback__regexAddress|xss_clean'
+				'rules' => 'trim|required|max_length[255]|regexTextArea|xss_clean'
 			],
 			[
 				'field' => 'province',
 				'label' => 'Province',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
 				'field' => 'zip_code',
 				'label' => 'Zip Code',
-				'rules' => 'trim|required|max_length[6]|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|max_length[6]|numeric|xss_clean'
 			],
 			[
 				'field' => 'city',
 				'label' => 'City',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
 				'field' => 'phone_1',
 				'label' => 'Phone 1',
-				'rules' => 'trim|required|max_length[30]|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|max_length[30]|numeric|xss_clean'
 			],
 			[
 				'field' => 'phone_2',
 				'label' => 'Phone 2',
-				'rules' => 'trim|required|max_length[30]|callback__regexNumeric|xss_clean'
-			],
-			[
-				'field' => 'phone_2',
-				'label' => 'Phone 2',
-				'rules' => 'trim|max_length[30]|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|max_length[30]|numeric|xss_clean'
 			],
 			[
 				'field' => 'email_1',
@@ -264,7 +274,7 @@ class Company extends CI_Controller {
 			[
 				'field' => 'fax',
 				'label' => 'fax',
-				'rules' => 'trim|max_length[30]|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|max_length[30]|numeric|xss_clean'
 			],
 		];
 
@@ -279,57 +289,10 @@ class Company extends CI_Controller {
 		return $validate;
 	}
 
-	public function _regexName($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 .,\-\&]*$/', $str)) {
-				$this->form_validation->set_message('_regexName', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexAddress($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 \-,.()\r\n]*$/', $str)) {
-				$this->form_validation->set_message('_regexAddress', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexNumeric($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[0-9]*$/', $str)) {
-				$this->form_validation->set_message('_regexNumeric', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _formatDate($str = false)
-	{
-		if ($str) {
-			$date = DateTime::createFromFormat('Y-m-d', $str);
-			$error = DateTime::getLastErrors();
-
-			if ($error['warning_count'] > 0 || $error['error_count'] > 0) {
-				$this->form_validation->set_message('_formatDate', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-    }
-
+	/**
+	 *  _errorFile method
+	 *  display file upload error
+	 */
 	public function _errorFile($str)
 	{
 		if (isset($this->upload_errors['file'])) {

@@ -110,9 +110,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		// custom ci3 pagination to bootstrap 4
-		$('ul.pagination > li').find('a, span').addClass('page-link');
-
 		// describe required variable
 		var filterAgencyCountry = '<?php echo $this->input->get('agency_country'); ?>',
 			filterPlacementReady = '<?php echo $this->input->get('placement_ready'); ?>';

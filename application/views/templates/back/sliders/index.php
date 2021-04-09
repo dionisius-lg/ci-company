@@ -117,11 +117,6 @@
 	var modalData = $('#modalData'),
 		modalDataForm = $('#modalData form');
 
-	$(document).ready(function() {
-		// custom ci3 pagination to bootstrap 4
-		$('ul.pagination > li').find('a, span').addClass('page-link');
-	});
-
 	// add new data
 	function newData() {
 		modalDataForm[0].reset();

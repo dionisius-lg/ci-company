@@ -269,9 +269,6 @@
 		modalPasswordForm = $('#modalPassword form');
 
 	$(document).ready(function() {
-		// custom ci3 pagination to bootstrap 4
-		$('ul.pagination > li').find('a, span').addClass('page-link');
-
 		// describe required variable
 		var filterUserLevel = '<?php echo $this->input->get('user_level'); ?>';
 

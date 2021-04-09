@@ -72,7 +72,7 @@ if (!function_exists('bs4pagination')) {
 		$ci->load->library('pagination');
 
 		$config = [
-			'full_tag_open'			=> '<ul class="pagination">',
+			'full_tag_open'			=> '<ul class="pagination pagination-ci3-bs4">',
 			'full_tag_close'		=> '</ul>',
 			'num_tag_open'			=> '<li class="page-item">',
 			'num_tag_close'			=> '</li>',

@@ -16,20 +16,26 @@ class Dashboard extends CI_Controller {
 		if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
 			hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
 		}
-
+		
 		$this->template->set_template('layouts/back');
 
-		/*--- load model -----------------------------------*/
-		/*$this->load->model('admin_m');
-		$this->load->model('news_m');
-		$this->load->model('about_m');
-		$this->load->model('academic_m');
-		$this->load->model('log_m');*/
+		$this->load->library('user_agent');
+
+		// $this->load->model('CompanyModel');
+		// $this->load->model('ProvincesModel');
 	}
 
+	private $upload_errors = [];
+	private $result = [];
+
+	/**
+	 *  index method
+	 *  index page or we can call it home or dashboard
+	 */
 	public function index()
 	{
-		$this->template->content->view('templates/back/home/dashboard');
+		$this->template->title = 'Dashboard';
+		$this->template->content->view('templates/back/Home/dashboard', $this->result);
 
 		$this->template->publish();
 	}
