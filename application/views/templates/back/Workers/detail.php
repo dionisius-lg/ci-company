@@ -104,6 +104,12 @@
 									<?php echo form_label('Religion', null); ?>
 									<select name="religion" class="form-control select2 rounded-0 <?php echo (hasFlashError('religion')) ? 'is-invalid' : ''; ?>">
 										<option value="">Please Select</option>
+										<option value="1">Moslem</option>
+										<option value="2">Christian</option>
+										<option value="3">Catholic Christians</option>
+										<option value="4">Hindu</option>
+										<option value="5">Buddha</option>
+										<option value="6">Others</option>
 									</select>
 									<span class="invalid-feedback"><?php echo flashError('religion'); ?></span>
 								</div>
