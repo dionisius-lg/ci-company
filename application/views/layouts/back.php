@@ -41,7 +41,7 @@
 					</li>
 				</ul>
 
-				<ul class="navbar-nav ml-auto">
+				<!-- <ul class="navbar-nav ml-auto">
 					<li class="nav-item dropdown">
 						<a class="nav-link" data-toggle="dropdown" href="#">
 							<i class="fa fa-bell"></i>
@@ -68,7 +68,7 @@
 							<a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
 						</div>
 					</li>
-				</ul>
+				</ul> -->
 			</nav>
 
 			<aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -113,12 +113,12 @@
 									<p>Workers Data</p>
 								</a>
 							</li>
-							<li class="nav-item">
+							<!-- <li class="nav-item">
 								<a href="<?php echo site_url('admin/employees'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-users"></i>
 									<p>Employees Data</p>
 								</a>
-							</li>
+							</li> -->
 							<li class="nav-item">
 								<a href="<?php echo site_url('admin/company'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-building-o"></i>
@@ -130,6 +130,26 @@
 									<i class="nav-icon fa fa-television"></i>
 									<p>Sliders</p>
 								</a>
+							</li>
+							<li class="nav-item has-treeview">
+								<a href="#" class="nav-link">
+									<i class="nav-icon fa fa-cog"></i>
+									<p>Settings <i class="right fa fa-angle-left"></i></p>
+								</a>
+								<ul class="nav nav-treeview">
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/experiences'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Experiences</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/placements'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Placements</p>
+										</a>
+									</li>
+								</ul>
 							</li>
 							<li class="nav-item">
 								<a href="<?php echo site_url('auth/logout'); ?>" class="nav-link">

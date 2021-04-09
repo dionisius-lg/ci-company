@@ -25,11 +25,11 @@ class CompanyModel extends CI_Model {
 		}
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -60,11 +60,11 @@ class CompanyModel extends CI_Model {
 		}
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -74,10 +74,6 @@ class CompanyModel extends CI_Model {
 				} else {
 					if (!empty($val)) {
 						$data[$key] = $val;
-					} else {
-						if (in_array($key, ['is_active']) && $val === '0') {
-							$data[$key] = '0';
-						}
 					}
 				}
 			}

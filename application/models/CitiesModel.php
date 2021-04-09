@@ -52,6 +52,10 @@ class CitiesModel extends CI_Model {
 						} else {
 							$clause[$key] = $val;
 						}
+					} else {
+						if (in_array($key, ['is_active']) && $val === '0') {
+							$clause[$key] = '\'0\'';
+						}
 					}
 				}
 			}
@@ -146,11 +150,11 @@ class CitiesModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -192,7 +196,7 @@ class CitiesModel extends CI_Model {
 		}
 
 		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
+			$check = $this->_getCount($this->table, ['name' => $data['name']]);
 
 			if ($check > 0) {
 				return responseBadRequest('Name already exist');
@@ -219,11 +223,11 @@ class CitiesModel extends CI_Model {
 		$data		= [];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -279,11 +283,11 @@ class CitiesModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->table, ['id' => $id]);

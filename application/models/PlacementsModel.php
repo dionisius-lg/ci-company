@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class WorkExperiencesModel extends CI_Model {
+class PlacementsModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'work_experiences';
-	public $view_table = 'work_experiences';
+	public $table = 'placements';
+	public $view_table = 'view_placements';
 
 	/**
 	 *  getAll method
@@ -51,6 +51,10 @@ class WorkExperiencesModel extends CI_Model {
 						} else {
 							$clause[$key] = $val;
 						}
+					} else {
+						if (in_array($key, ['is_active', 'is_local']) && $val === '0') {
+							$clause[$key] = '\'0\'';
+						}
 					}
 				}
 			}
@@ -70,7 +74,9 @@ class WorkExperiencesModel extends CI_Model {
 
 		$this->db->select($column);
 
-		$condition['is_active'] = 1;
+		if (!array_key_exists('is_active', $clause)) {
+			$condition['is_active'] = 1;
+		}
 
 		foreach ($clause as $key => $val) {
 			if (!empty($val)) {
@@ -145,11 +151,11 @@ class WorkExperiencesModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -190,14 +196,6 @@ class WorkExperiencesModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
-
-			if ($check > 0) {
-				return responseBadRequest('Name already exist');
-			}
-		}
-
 		$inserted = $this->db->insert($this->table, $data);
 
 		if ($inserted) {
@@ -218,11 +216,11 @@ class WorkExperiencesModel extends CI_Model {
 		$data		= [];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -233,7 +231,7 @@ class WorkExperiencesModel extends CI_Model {
 					if (!empty($val)) {
 						$data[$key] = $val;
 					} else {
-						if (in_array($key, ['is_active']) && $val === '0') {
+						if (in_array($key, ['is_active', 'is_local']) && $val === '0') {
 							$data[$key] = '0';
 						}
 					}
@@ -249,14 +247,6 @@ class WorkExperiencesModel extends CI_Model {
 
 		if ($check == 0) {
 			return responseNotFound();
-		}
-
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
-
-			if ($check > 0) {
-				return responseBadRequest('Name already exist');
-			}
 		}
 
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);
@@ -278,11 +268,11 @@ class WorkExperiencesModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->table, ['id' => $id]);

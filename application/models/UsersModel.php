@@ -63,7 +63,7 @@ class UsersModel extends CI_Model {
 							$clause[$key] = $val;
 						}
 					} else {
-						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_employees']) && $val === '0') {
+						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_worker']) && $val === '0') {
 							$clause[$key] = '\'0\'';
 						}
 					}
@@ -85,7 +85,9 @@ class UsersModel extends CI_Model {
 
 		$this->db->select($column);
 
-		$condition['is_active'] = 1;
+		if (!array_key_exists('is_active', $clause)) {
+			$condition['is_active'] = 1;
+		}
 
 		foreach ($clause as $key => $val) {
 			if (!empty($val)) {
@@ -164,11 +166,11 @@ class UsersModel extends CI_Model {
 		}
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -221,6 +223,14 @@ class UsersModel extends CI_Model {
 			}
 		}
 
+		if (array_key_exists('email', $data)) {
+			$check = $this->_getCount($this->table, ['email' => $data['email']]);
+
+			if ($check > 0) {
+				return responseBadRequest('Email already exist');
+			}
+		}
+
 		if (!array_key_exists('password', $data)) {
 			$data['password'] = password_hash('12345678', PASSWORD_DEFAULT);
 		}
@@ -245,11 +255,11 @@ class UsersModel extends CI_Model {
 		$data		= [];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -264,7 +274,7 @@ class UsersModel extends CI_Model {
 							$data[$key] = $val;
 						}
 					} else {
-						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_employees']) && $val === '0') {
+						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register']) && $val === '0') {
 							$data[$key] = '0';
 						}
 					}
@@ -290,6 +300,14 @@ class UsersModel extends CI_Model {
 			}
 		}
 
+		if (array_key_exists('email', $data)) {
+			$check = $this->_getCount($this->table, ['email' => $data['email'], 'id !=' => $id]);
+
+			if ($check > 0) {
+				return responseBadRequest('Email already exist');
+			}
+		}
+
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);
 
 		if ($updated) {
@@ -309,11 +327,11 @@ class UsersModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->table, ['id' => $id]);

@@ -145,40 +145,40 @@
 									<span class="invalid-feedback"><?php echo flashError('description'); ?></span>
 								</div>
 								<div class="form-group col-md-12">
-									<?php echo form_label('Work Experience', null); ?>
+									<?php echo form_label('Experience', null); ?>
 									<div class="d-flex flex-wrap">
-										<?php $work_experience_ids = explode(',', $worker['work_experience_ids']); ?>
-										<?php foreach ($work_experiences as $work_experience) { ?>
+										<?php $experience_ids = explode(',', oldInput('experience', $worker['experience_ids'])); ?>
+										<?php foreach ($experiences as $experience) { ?>
 											<div class="icheck-primary mr-4">
-												<?php echo form_checkbox(['name' => 'work_experience[]', 'id' => 'WorkExperience' . $work_experience['id'], 'value' => $work_experience['id'], 'checked' => in_array($work_experience['id'], $work_experience_ids) ? true : false]); ?>
-												<?php echo form_label($work_experience['name'], 'WorkExperience' . $work_experience['id']); ?>
+												<?php echo form_checkbox(['name' => 'experience[]', 'id' => 'Experience' . $experience['id'], 'value' => $experience['id'], 'checked' => in_array($experience['id'], $experience_ids) ? true : false]); ?>
+												<?php echo form_label($experience['name'], 'Experience' . $experience['id']); ?>
 											</div>
 										<?php } ?>
 									</div>
-									<span class="invalid-feedback"><?php echo flashError('work_experience'); ?></span>
+									<span class="invalid-feedback"><?php echo flashError('experience'); ?></span>
 								</div>
 								<div class="form-group col-md-12">
-									<?php echo form_label('Placement Ready', null); ?>
+									<?php echo form_label('Ready to Placement', null); ?>
 									<div class="d-flex flex-wrap">
-										<?php $placement_ready_ids = explode(',', $worker['placement_ready_ids']); ?>
-										<?php foreach ($agency_countries as $placement_ready) { ?>
+										<?php $ready_placement_ids = explode(',', oldInput('ready_placement', $worker['ready_placement_ids'])); ?>
+										<?php foreach ($placements as $ready_placement) { ?>
 											<div class="icheck-primary mr-4">
-												<?php echo form_checkbox(['name' => 'placement_ready[]', 'id' => 'PlacementReady' . $placement_ready['id'], 'value' => $placement_ready['id'], 'checked' => in_array($placement_ready['id'], $placement_ready_ids) ? true : false]); ?>
-												<?php echo form_label($placement_ready['name'], 'PlacementReady' . $placement_ready['id']); ?>
+												<?php echo form_checkbox(['name' => 'ready_placement[]', 'id' => 'ReadyPlacement' . $ready_placement['id'], 'value' => $ready_placement['id'], 'checked' => in_array($ready_placement['id'], $ready_placement_ids) ? true : false]); ?>
+												<?php echo form_label($ready_placement['name'], 'ReadyPlacement' . $ready_placement['id']); ?>
 											</div>
 										<?php } ?>
 									</div>
-									<span class="invalid-feedback"><?php echo flashError('placement_ready'); ?></span>
+									<span class="invalid-feedback"><?php echo flashError('ready_placement'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Agency', null); ?>
-									<select name="agency_country" class="form-control select2 rounded-0 <?php echo (hasFlashError('agency_country')) ? 'is-invalid' : ''; ?>">
+									<?php echo form_label('Placement', null); ?>
+									<select name="placement" class="form-control select2 rounded-0 <?php echo (hasFlashError('placement')) ? 'is-invalid' : ''; ?>">
 										<option value="">Please Select</option>
-										<?php foreach ($agency_countries as $agency_country) {
-											echo '<option value="' .$agency_country['id']. '">'. $agency_country['name']. '</option>';
+										<?php foreach ($placements as $placement) {
+											echo '<option value="' .$placement['id']. '">'. $placement['name']. '</option>';
 										} ?>
 									</select>
-									<span class="invalid-feedback"><?php echo flashError('agency_country'); ?></span>
+									<span class="invalid-feedback"><?php echo flashError('placement'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Username', null); ?>
@@ -388,7 +388,7 @@
 			workerMaritalStatus = '<?php echo oldInput('marital_status', $worker['marital_status_id']); ?>',
 			workerReligion = '<?php echo oldInput('religion', $worker['religion_id']); ?>',
 			workerProvince = '<?php echo oldInput('province', $worker['province_id']); ?>',
-			workerAgencyCountry = '<?php echo oldInput('agency_country', $worker['agency_country_id']); ?>';
+			workerPlacement = '<?php echo oldInput('placement', $worker['placement_id']); ?>';
 
 		// set value to element if variable true or numeric
 		if (workerGender && $.isNumeric(workerGender)) {
@@ -411,8 +411,8 @@
 		}
 
 		// set value to element if variable true or numeric
-		if (workerAgencyCountry && $.isNumeric(workerAgencyCountry)) {
-			$('#formData [name="agency_country"]').val(workerAgencyCountry).trigger('change');
+		if (workerPlacement && $.isNumeric(workerPlacement)) {
+			$('#formData [name="placement"]').val(workerPlacement).trigger('change');
 		}
 
 		// get datatable attachment
@@ -756,7 +756,8 @@
 						if (response.status == 'success') {
 							toastr.success(response.message);
 							tableDataAttachment.ajax.reload();
-							thisForm.find('[type="file"]').val(null).clone(true);
+							thisForm.find('input[type="text"]').val(null);
+							thisForm.find('input[type="file"]').val(null).clone(true);
 							thisForm.find('.custom-file-label').removeClass('selected').html('Browse file');
 						} else {
 							toastr.error(response.message);

@@ -23,20 +23,20 @@
 							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('email') ? $this->input->get('email') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
-							<?php echo form_label('Agency', null); ?>
-							<select class="form-control select2 rounded-0" name="agency_country">
+							<?php echo form_label('Placement', null); ?>
+							<select class="form-control select2 rounded-0" name="placement">
 								<option value="">Please Select</option>
-								<?php foreach ($agency_countries as $agency_country) {
-									echo '<option value="' .$agency_country['id']. '">'. $agency_country['name']. '</option>';
+								<?php foreach ($placements as $placement) {
+									echo '<option value="' .$placement['id']. '">'. $placement['name']. '</option>';
 								} ?>
 							</select>
 						</div>
 						<div class="form-group col-md-2">
-							<?php echo form_label('Placement Ready', null); ?>
-							<select class="form-control select2 rounded-0" name="placement_ready">
+							<?php echo form_label('Ready to Placement', null); ?>
+							<select class="form-control select2 rounded-0" name="ready_placement">
 								<option value="">Please Select</option>
-								<?php foreach ($agency_countries as $placement_ready) {
-									echo '<option value="' .$placement_ready['id']. '">'. $placement_ready['name']. '</option>';
+								<?php foreach ($placements as $ready_placement) {
+									echo '<option value="' .$ready_placement['id']. '">'. $ready_placement['name']. '</option>';
 								} ?>
 							</select>
 						</div>
@@ -62,8 +62,8 @@
 								<th class="text-nowrap">NIK</th>
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
-								<th class="text-nowrap">Agency</th>
-								<th class="text-nowrap">Placement Ready</th>
+								<th class="text-nowrap">Placement</th>
+								<th class="text-nowrap">Ready to Placement</th>
 								<th class="text-nowrap">User Account</th>
 								<th class="text-nowrap">Action</th>
 							</tr>
@@ -76,8 +76,8 @@
 									<td class="text-nowrap">' . $worker['nik'] . '</td>
 									<td class="text-nowrap">' . $worker['fullname'] . '</td>
 									<td class="text-nowrap">' . $worker['email'] . '</td>
-									<td class="text-nowrap">' . $worker['agency_country'] . '</td>
-									<td class="text-nowrap">' . $worker['placement_ready'] . '</td>
+									<td class="text-nowrap">' . $worker['placement'] . '</td>
+									<td class="text-nowrap">' . $worker['ready_placement'] . '</td>
 									<td class="text-nowrap">' . ((!empty($worker['user_id'])) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
 									<td class="text-nowrap">' . anchor('admin/workers/detail/' . $worker['id'], '<i class="fa fa-eye fa-fw"></i>', ['class' => 'btn btn-info btn-xs rounded-0', 'title' => 'Detail']) . '&nbsp;' . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $worker['id'] . ')']) . '</td>
 								</tr>';
@@ -111,17 +111,17 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		// describe required variable
-		var filterAgencyCountry = '<?php echo $this->input->get('agency_country'); ?>',
-			filterPlacementReady = '<?php echo $this->input->get('placement_ready'); ?>';
+		var filterPlacement = '<?php echo $this->input->get('placement'); ?>',
+			filterReadyPlacement = '<?php echo $this->input->get('ready_placement'); ?>';
 
 		// set value to element if variable true or numeric
-		if (filterAgencyCountry && $.isNumeric(filterAgencyCountry)) {
-			$('#formFilter [name="agency_country"]').val(filterAgencyCountry).trigger('change');
+		if (filterPlacement && $.isNumeric(filterPlacement)) {
+			$('#formFilter [name="placement"]').val(filterPlacement).trigger('change');
 		}
 
 		// set value to element if variable true or numeric
-		if (filterPlacementReady !== null && filterPlacementReady !== undefined && $.isNumeric(filterPlacementReady)) {
-			$('#formFilter [name="placement_ready"]').val(filterPlacementReady).trigger('change');
+		if (filterReadyPlacement !== null && filterReadyPlacement !== undefined && $.isNumeric(filterReadyPlacement)) {
+			$('#formFilter [name="ready_placement"]').val(filterReadyPlacement).trigger('change');
 		}
 	});
 

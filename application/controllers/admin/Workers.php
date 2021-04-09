@@ -23,8 +23,8 @@ class Workers extends CI_Controller {
 
 		$this->load->model('WorkersModel');
 		$this->load->model('WorkerAttachmentsModel');
-		$this->load->model('WorkExperiencesModel');
-		$this->load->model('AgencyCountriesModel');
+		$this->load->model('ExperiencesModel');
+		$this->load->model('PlacementsModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
 
@@ -51,15 +51,15 @@ class Workers extends CI_Controller {
 			'like_nik'					=> array_key_exists('nik', $params) ? $params['nik'] : '',
 			'like_fullname'				=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
 			'like_email'				=> array_key_exists('email', $params) ? $params['email'] : '',
-			'agency_country_id'			=> array_key_exists('agency_country', $params) ? $params['agency_country'] : '',
-			'inset_placement_ready_ids'	=> array_key_exists('placement_ready', $params) ? $params['placement_ready'] : '',
+			'placement_id'				=> array_key_exists('placement', $params) ? $params['placement'] : '',
+			'inset_ready_placement_ids'	=> array_key_exists('ready_placement', $params) ? $params['ready_placement'] : '',
 			'order'						=> 'fullname',
 			'sort'						=> 'asc'
 		];
 
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
-			'agency_countries' => $this->AgencyCountriesModel->getAll(['order' => 'name']),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
 
@@ -95,8 +95,8 @@ class Workers extends CI_Controller {
 		$session = $this->session->userdata('AuthUser');
 
 		$request = [
-			'work_experiences' => $this->WorkExperiencesModel->getAll(['order' => 'name']),
-			'agency_countries' => $this->AgencyCountriesModel->getAll(['order' => 'name']),
+			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 			'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 		];
@@ -128,8 +128,8 @@ class Workers extends CI_Controller {
 		if (!empty($id) && is_numeric($id)) {
 			$request = [
 				'worker' => $this->WorkersModel->getDetail($id),
-				'work_experiences' => $this->WorkExperiencesModel->getAll(['order' => 'name']),
-				'agency_countries' => $this->AgencyCountriesModel->getAll(['order' => 'name']),
+				'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
+				'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
 				'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 				'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 			];
@@ -169,8 +169,8 @@ class Workers extends CI_Controller {
 		if ($this->input->method() == 'post') {
 			$input = $this->input->post();
 
-			$input['work_experience'] = (array_key_exists('work_experience', $input)) ? implode(',', $input['work_experience']) : '';
-			$input['placement_ready'] = (array_key_exists('placement_ready', $input)) ? implode(',', $input['placement_ready']) : '';
+			$input['experience'] = (array_key_exists('experience', $input)) ? implode(',', $input['experience']) : '';
+			$input['ready_placement'] = (array_key_exists('ready_placement', $input)) ? implode(',', $input['ready_placement']) : '';
 
 			$input = array_map('trim', $input);
 			$file = false;
@@ -208,9 +208,9 @@ class Workers extends CI_Controller {
 				'city_id' => $input['city'],
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
-				'work_experience_ids' => $input['work_experience'],
-				'placement_ready_ids' => $input['placement_ready'],
-				'agency_country_id' => $input['agency_country'],
+				'experience_ids' => $input['experience'],
+				'ready_placement_ids' => $input['ready_placement'],
+				'placement_id' => $input['placement'],
 				'create_user_id' => $session['id']
 			];
 
@@ -242,8 +242,8 @@ class Workers extends CI_Controller {
 		if ($this->input->method() == 'post') {
 			$input = $this->input->post();
 
-			$input['work_experience'] = (array_key_exists('work_experience', $input)) ? implode(',', $input['work_experience']) : '';
-			$input['placement_ready'] = (array_key_exists('placement_ready', $input)) ? implode(',', $input['placement_ready']) : '';
+			$input['experience'] = (array_key_exists('experience', $input)) ? implode(',', $input['experience']) : '';
+			$input['ready_placement'] = (array_key_exists('ready_placement', $input)) ? implode(',', $input['ready_placement']) : '';
 
 			$input = array_map('trim', $input);
 			$file = false;
@@ -281,9 +281,9 @@ class Workers extends CI_Controller {
 				'city_id' => $input['city'],
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
-				'work_experience_ids' => $input['work_experience'],
-				'placement_ready_ids' => $input['placement_ready'],
-				'agency_country_id' => $input['agency_country'],
+				'experience_ids' => $input['experience'],
+				'ready_placement_ids' => $input['ready_placement'],
+				'placement_id' => $input['placement'],
 				'user_id' => $input['user_id'],
 				'update_user_id' => $session['id']
 			];

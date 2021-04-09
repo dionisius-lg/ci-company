@@ -37,7 +37,7 @@ class WorkersModel extends CI_Model {
 		];
 
 		$column_inset = [
-			'inset_placement_ready_ids'
+			'inset_ready_placement_ids'
 		];
 
 		$column_date = [
@@ -56,6 +56,10 @@ class WorkersModel extends CI_Model {
 							$error[$key] = DateTime::getLastErrors();
 						} else {
 							$clause[$key] = $val;
+						}
+					} else {
+						if (in_array($key, ['is_active']) && $val === '0') {
+							$clause[$key] = '\'0\'';
 						}
 					}
 				}
@@ -76,7 +80,9 @@ class WorkersModel extends CI_Model {
 
 		$this->db->select($column);
 
-		$condition['is_active'] = 1;
+		if (!array_key_exists('is_active', $clause)) {
+			$condition['is_active'] = 1;
+		}
 
 		foreach ($clause as $key => $val) {
 			if (!empty($val)) {
@@ -151,11 +157,11 @@ class WorkersModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -179,6 +185,7 @@ class WorkersModel extends CI_Model {
 		$column		= $this->_getColumn($this->table);
 		$protected	= ['id'];
 		$data		= [];
+
 		if (!empty($data_temp) && is_array($data_temp)) {
 			foreach ($data_temp as $key => $val) {
 				if (!in_array($key, $column) || in_array($key, $protected)) {
@@ -231,11 +238,11 @@ class WorkersModel extends CI_Model {
 		$data		= [];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -299,11 +306,11 @@ class WorkersModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->table, ['id' => $id]);

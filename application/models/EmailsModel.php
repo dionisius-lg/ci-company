@@ -52,6 +52,10 @@ class EmailsModel extends CI_Model {
 						} else {
 							$clause[$key] = $val;
 						}
+					} else {
+						if (in_array($key, ['is_active']) && $val === '0') {
+							$clause[$key] = '\'0\'';
+						}
 					}
 				}
 			}
@@ -71,7 +75,9 @@ class EmailsModel extends CI_Model {
 
 		$this->db->select($column);
 
-		$condition['is_active'] = 1;
+		if (!array_key_exists('is_active', $clause)) {
+			$condition['is_active'] = 1;
+		}
 
 		foreach ($clause as $key => $val) {
 			if (!empty($val)) {
@@ -146,11 +152,11 @@ class EmailsModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -211,11 +217,11 @@ class EmailsModel extends CI_Model {
 		$data		= [];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -263,11 +269,11 @@ class EmailsModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->table, ['id' => $id]);
