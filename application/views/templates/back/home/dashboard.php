@@ -1,5 +1,8 @@
 <div class="row">
 	<div class="col-lg-12">
+		<!-- Start of WebFreeCounter Code -->
+<a href="https://www.webfreecounter.com/" target="_blank"><img src="https://www.webfreecounter.com/hit.php?id=gveodqno&nd=6&style=1" border="0" alt="visitor counter"></a>
+<!-- End of WebFreeCounter Code -->
 		<div class="card">
 			<div class="card-header border-0">
 				<div class="d-flex justify-content-between">
