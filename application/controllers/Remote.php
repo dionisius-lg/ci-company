@@ -317,9 +317,9 @@ class Remote extends CI_Controller {
 				$no++;
 
 				if (@fopen(base_url('files/workers/' . $col['worker_id'] . '/' . $col['file_name']), 'r')) {
-					$button_download = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'onclick' => 'fileDownloader(\'' . base_url('files/workers/' . $col['worker_id']) . '\', \'' . $col['file_name'] . '\')']);
+					$download_file = 'saveAs(\'' . base_url('files/workers/' . $col['worker_id'] . '/' . $col['file_name']) . '\', \'' . $col['file_name'] . '\')';
 				} else {
-					$button_download =  form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0 disabled', 'content' => '<i class="fa fa-download fa-fw"></i>', 'disabled' => true]);
+					$download_file = 'return swalAlert(\'File not found\');';
 				}
 
 				$row	= [];
@@ -327,7 +327,7 @@ class Remote extends CI_Controller {
 				$row[]	= $col['name'];
 				$row[]	= $col['create_date'];
 				$row[]	= $col['create_by'];
-				$row[] = $button_download . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
+				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'onclick' => $download_file]) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
 
 				$data[]	= $row; 
 			}

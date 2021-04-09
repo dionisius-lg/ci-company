@@ -366,7 +366,7 @@
 <?php $this->template->javascript->add('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/datatables/js/jquery.dataTables.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/datatables/js/dataTables.bootstrap4.min.js'); ?>
-<?php $this->template->javascript->add('assets/js/file-downloader.js'); ?>
+<?php $this->template->javascript->add('assets/vendor/file-saver/FileSaver.js'); ?>
 
 <!-- script for this page -->
 <script type="text/javascript">

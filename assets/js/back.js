@@ -151,3 +151,18 @@ function requestCities(param, selected = 0, element = null) {
 		});
 	}
 }
+
+//show minimalist swal alert
+function swalAlert(message = false) {
+	//initialize sweetalert2 & message is true
+	if (message && typeof Swal != 'undefined') {
+		var swalBs = Swal.mixin({
+			customClass: {
+				confirmButton: 'btn btn-primary rounded-0'
+			},
+			buttonsStyling: false
+		});
+
+		swalBs.fire(message);
+	}
+}
