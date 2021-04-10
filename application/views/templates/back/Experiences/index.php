@@ -88,7 +88,7 @@
 					<div class="row">
 						<div class="form-group col-md-12">
 							<?php echo form_label('Name <span class="text-danger">*</span>', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'name', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus', true]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'name', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>

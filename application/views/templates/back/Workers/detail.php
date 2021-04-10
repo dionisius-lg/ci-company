@@ -175,10 +175,15 @@
 									<select name="placement" class="form-control select2 rounded-0 <?php echo (hasFlashError('placement')) ? 'is-invalid' : ''; ?>">
 										<option value="">Please Select</option>
 										<?php foreach ($placements as $placement) {
-											echo '<option value="' .$placement['id']. '">'. $placement['name']. '</option>';
+											echo '<option value="' .$placement['id']. '">'. $placement['name'] . (($placement['is_local'] == 1) ? ' (Local)' : ' (Oversea)') . '</option>';
 										} ?>
 									</select>
 									<span class="invalid-feedback"><?php echo flashError('placement'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Placement Status', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'placement_status', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('placement_status') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('placement_status', $worker['placement_status']), 'readonly' => true]); ?>
+									<span class="invalid-feedback"><?php echo flashError('placement_status'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Username', null); ?>

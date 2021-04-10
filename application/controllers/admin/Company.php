@@ -98,7 +98,7 @@ class Company extends CI_Controller {
 				$config_file = [
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png',
-					'max_size' => 150,
+					'max_size' => '2048',
 					//'max_width' => '1024',
 					//'max_height' => '768',
 					'encrypt_name' => true,
