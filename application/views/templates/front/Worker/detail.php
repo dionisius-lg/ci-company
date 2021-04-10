@@ -14,17 +14,17 @@ tester<section class="breadcrumbs">
 		<div class="col-sm-6 col-md-10">
 			<div class="panel panel-default m-5 p-5">
 			<!-- Default panel contents -->
-				<div class="panel-heading text-center text-white mb-3"><h4>Detail Employee</h4></div>
+				<div class="panel-heading text-center text-white mb-3"><h4>Details Worker</h4></div>
 					<!-- List group -->
 					<ul class="list-group">
-						<li class="list-group-item">Email : <?= $data_employe['email']; ?></li>
-						<li class="list-group-item">Phone : <?= $data_employe['phone_1']; ?></li>
-						<li class="list-group-item">Birth Place : <?= $data_employe['birth_place']; ?></li>
-						<li class="list-group-item">Birth Date : <?= $data_employe['birth_date']; ?></li>
-						<li class="list-group-item">Gender : <?= $data_employe['gender']; ?></li>
-						<li class="list-group-item">Address : <?= $data_employe['address']; ?></li>
-						<li class="list-group-item">City : <?= $data_employe['city']; ?></li>
-						<li class="list-group-item">Province : <?= $data_employe['province']; ?></li>					
+						<li class="list-group-item">Email : <?= $worker['email']; ?></li>
+						<li class="list-group-item">Phone : <?= $worker['phone_1']; ?></li>
+						<li class="list-group-item">Birth Place : <?= $worker['birth_place']; ?></li>
+						<li class="list-group-item">Birth Date : <?= $worker['birth_date']; ?></li>
+						<li class="list-group-item">Gender : <?= $worker['gender']; ?></li>
+						<li class="list-group-item">Address : <?= $worker['address']; ?></li>
+						<li class="list-group-item">City : <?= $worker['city']; ?></li>
+						<li class="list-group-item">Province : <?= $worker['province']; ?></li>					
 					</ul>
 				</div>
 		</div>
