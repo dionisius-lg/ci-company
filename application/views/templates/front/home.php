@@ -12,6 +12,8 @@
 	} ?>
 </section>
 
+<?php $this->load->view('templates/front/element/section_filter_list'); ?>
+
 <?php $this->load->view('templates/front/element/section_about_home'); ?>
 
 <?php $this->load->view('templates/front/element/section_advantage'); ?>

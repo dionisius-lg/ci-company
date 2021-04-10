@@ -23,6 +23,8 @@ class Home extends CI_Controller {
 		// load default models
 		$this->load->model('CompanyModel');
 		$this->load->model('SlidersModel');
+		$this->load->model('AgencyCountriesModel');
+		$this->load->model('WorkExperiencesModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -37,6 +39,8 @@ class Home extends CI_Controller {
 
 		$request = [
 			'sliders' => $this->SlidersModel->getAll(['limit' => 10, 'order' => 'order_number', 'sort' => 'asc']),
+			'agency_countries' => $this->AgencyCountriesModel->getAll(),
+			'work_experiences' => $this->WorkExperiencesModel->getAll(['limit' => 2, 'order' => 'name', 'sort' => 'asc', 'like' => '%C%'])
 		];
 
 		foreach ($request as $key => $val) {
