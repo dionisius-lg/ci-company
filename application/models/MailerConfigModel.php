@@ -12,7 +12,7 @@ class MailerConfigModel extends CI_Model {
 
 	/**
 	 *  get method
-	 *  get detail data
+	 *  get data
 	 */
 	public function get()
 	{
@@ -21,12 +21,16 @@ class MailerConfigModel extends CI_Model {
 
 		$check = $this->_getCount($this->view_table);
 
-		if ($check == 0) {
-			return responseNotFound();
-		}
+		if ($check > 0) {
+			$query = $this->db->select($column)->limit(1)->get($this->view_table);
+			$result	= json_decode(json_encode($query->row()), true);
+		} else {
+			$result = [];
 
-		$query = $this->db->select($column)->limit(1)->get($this->view_table);
-		$result	= json_decode(json_encode($query->row()), true);
+			foreach ($column as $column) {
+				$result[$column] = '';
+			}
+		}
 
 		return responseSuccess($result, $check);
 	}
@@ -48,10 +52,6 @@ class MailerConfigModel extends CI_Model {
 				} else {
 					if (!empty($val)) {
 						$data[$key] = $val;
-					} else {
-						if (in_array($key, ['is_active']) && $val === '0') {
-							$data[$key] = '0';
-						}
 					}
 				}
 			}
@@ -61,48 +61,16 @@ class MailerConfigModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
-		$check = $this->_getCount($this->view_table);
+		$check = $this->_getCount($this->table);
 
-		if ($check == 0) {
-			return responseNotFound();
+		if ($check > 0) {
+			$updated = $this->db->update($this->table, $data);
+		} else {
+			$updated = $this->db->insert($this->table, $data);
 		}
-
-		$updated = $this->db->update($this->table, $data);
 
 		if ($updated) {
 			return responseSuccess();
-		}
-
-		return responseError();
-	}
-
-	/**
-	 *  delete method
-	 *  delete existing data by id
-	 */
-	public function delete($id = null)
-	{
-		$column		= $this->_getColumn($this->table);
-		$protected	= ['id'];
-
-		if (empty($id)) {
-			return responseBadRequest();
-		}
-
-		if (!is_numeric($id)) {
-			return responseBadRequest();
-		}
-
-		$check = $this->_getCount($this->table, ['id' => $id]);
-
-		if ($check == 0) {
-			return responseNotFound();
-		}
-
-		$deleted = $this->db->where(['id' => $id])->delete($this->table);
-
-		if ($deleted) {
-			return responseSuccess(['id' => $id]);
 		}
 
 		return responseError();

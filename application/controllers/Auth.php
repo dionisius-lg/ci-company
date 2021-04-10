@@ -26,8 +26,8 @@ class Auth extends CI_Controller {
 
 		// load default data
 		$this->result['company'] = [];
-		if ($this->CompanyModel->getDetail()['status'] == 'success') {
-			$this->result['company'] = $this->CompanyModel->getDetail()['data'];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
 		}
 
 		// google recapctha
@@ -125,15 +125,14 @@ class Auth extends CI_Controller {
 			$this->form_validation->set_error_delimiters('','');
 
 			if ($this->form_validation->run() == false || !isset($verify_recaptcha['success']) || $verify_recaptcha['success'] <> true) {
-
 				foreach ($input as $key => $val) {
 					if (!empty(form_error($key))) {
-						if ($key == 'g-recaptcha-response') {
-							setFlashError($this->_errorCaptcha(sitelang()));
-						} else {
-							setFlashError(form_error($key), $key);
-						}
+						setFlashError(form_error($key), $key);
 					}
+				}
+
+				if (!isset($verify_recaptcha['success']) || $verify_recaptcha['success'] <> true) {
+					setFlashError($this->_errorCaptcha(sitelang()));
 				}
 
 				setOldInput($input);
@@ -182,7 +181,7 @@ class Auth extends CI_Controller {
 			[
 				'field' => 'fullname',
 				'label' => $this->lang->line('page_register')['fullname'],
-				'rules' => 'trim|required|max_length[100]|callback__regexName|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regex_match[/^[a-zA-Z ]*$/]|xss_clean'
 			],
 			[
 				'field' => 'email',
@@ -192,12 +191,12 @@ class Auth extends CI_Controller {
 			[
 				'field' => 'company',
 				'label' => $this->lang->line('page_register')['company'],
-				'rules' => 'trim|max_length[200]|callback__regexName|xss_clean'
+				'rules' => 'trim|max_length[200]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
 			],
 			[
 				'field' => 'country',
 				'label' => $this->lang->line('page_register')['country'],
-				'rules' => 'trim|max_length[100]|callback__regexName|xss_clean'
+				'rules' => 'trim|max_length[100]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
 			],
 		];
 

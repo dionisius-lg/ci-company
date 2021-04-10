@@ -18,6 +18,7 @@ class Users extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Users Data';
 
 		$this->load->library('user_agent');
 
@@ -77,9 +78,7 @@ class Users extends CI_Controller {
 		$this->result['pagination'] = bs4pagination('admin/users', $total, $clause['limit']);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
-		$this->template->title = 'Users Data';
 		$this->template->content->view('templates/back/Users/index', $this->result);
-
 		$this->template->publish();
 	}
 

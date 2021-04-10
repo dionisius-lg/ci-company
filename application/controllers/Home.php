@@ -28,8 +28,8 @@ class Home extends CI_Controller {
 
 		// load default data
 		$this->result['company'] = [];
-		if ($this->CompanyModel->getDetail()['status'] == 'success') {
-			$this->result['company'] = $this->CompanyModel->getDetail()['data'];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
 		}
 	}
 

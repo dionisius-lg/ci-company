@@ -18,6 +18,7 @@ class UserRequests extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'User Requests';
 
 		$this->load->library('user_agent');
 
@@ -76,9 +77,7 @@ class UserRequests extends CI_Controller {
 		$this->result['pagination'] = bs4pagination('admin/user-requests', $total, $clause['limit']);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
-		$this->template->title = 'User Requests Data';
 		$this->template->content->view('templates/back/UserRequests/index', $this->result);
-
 		$this->template->publish();
 	}
 

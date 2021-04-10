@@ -44,6 +44,24 @@ class MY_Form_validation extends CI_Form_validation {
 	}
 
 	/**
+	 *  regexAlphaNumericDashDot method
+	 *  validate format regex
+	 */
+	public function regexAlphaNumericDashDot($str = false, $id = 0)
+	{
+		$ci = &get_instance();
+
+		if ($str) {
+			if (!preg_match('/^[a-zA-Z0-9_.]*$/', $str)) {
+				$ci->form_validation->set_message('regexAlphaNumericDashDot', '%s may only contain alpha-numeric characters, dash, and dot.');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 *  regexDefaultText1 method
 	 *  validate format regex
 	 */

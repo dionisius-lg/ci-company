@@ -97,8 +97,8 @@
 							</li>
 							<li class="nav-item">
 								<a href="<?php echo site_url('admin/user-requests'); ?>" class="nav-link">
-									<i class="nav-icon fa fa-users"></i>
-									<p>User Requests Data</p>
+									<i class="nav-icon fa fa-exclamation-circle"></i>
+									<p>User Requests</p>
 								</a>
 							</li>
 							<li class="nav-item">
@@ -147,6 +147,12 @@
 										<a href="<?php echo site_url('admin/placements'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
 											<p>Placements</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/mailer'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Mailer Config</p>
 										</a>
 									</li>
 								</ul>

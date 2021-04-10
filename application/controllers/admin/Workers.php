@@ -18,6 +18,7 @@ class Workers extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Workers Data';
 
 		$this->load->library('user_agent');
 
@@ -80,9 +81,7 @@ class Workers extends CI_Controller {
 		$this->result['pagination'] = bs4pagination('admin/workers', $total, $clause['limit']);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
-		$this->template->title = 'Workers Data';
 		$this->template->content->view('templates/back/Workers/index', $this->result);
-
 		$this->template->publish();
 	}
 
@@ -111,9 +110,7 @@ class Workers extends CI_Controller {
 			}
 		}
 
-		$this->template->title = 'Workers Data';
 		$this->template->content->view('templates/back/Workers/add', $this->result);
-
 		$this->template->publish();
 	}
 
@@ -149,9 +146,7 @@ class Workers extends CI_Controller {
 				redirect($_SERVER['HTTP_REFERER']);
 			}
 
-			$this->template->title = 'Workers Data';
 			$this->template->content->view('templates/back/Workers/detail', $this->result);
-
 			$this->template->publish();
 		} else {
 			redirect($_SERVER['HTTP_REFERER']);

@@ -18,6 +18,7 @@ class Company extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Company Profile';
 
 		$this->load->library('user_agent');
 
@@ -46,7 +47,7 @@ class Company extends CI_Controller {
 		$session = $this->session->userdata('AuthUser');
 
 		$request = [
-			'company' => $this->CompanyModel->getDetail(),
+			'company' => $this->CompanyModel->get(),
 			'provinces' => $this->ProvincesModel->getAll(['limit' => 100])
 		];
 
@@ -60,9 +61,7 @@ class Company extends CI_Controller {
 			}
 		}
 
-		$this->template->title = 'Company Profile';
 		$this->template->content->view('templates/back/Company/detail', $this->result);
-
 		$this->template->publish();
 	}
 
@@ -171,7 +170,7 @@ class Company extends CI_Controller {
 			if ($file) {
 				$data['logo'] = $upload_data['file_name'];
 
-				$request = $this->CompanyModel->getDetail();
+				$request = $this->CompanyModel->get();
 
 				$file_old = null;
 
@@ -185,7 +184,7 @@ class Company extends CI_Controller {
 			if ($request['status'] == 'success') {
 				setFlashSuccess('Data successfully updated.');
 
-				if ($file) {
+				if ($file && !empty($file_old)) {
 					if (file_exists($file_path.$file_old)) {
 						unlink($file_path.$file_old);
 					}
@@ -197,7 +196,7 @@ class Company extends CI_Controller {
 			} else {
 				setFlashError('An error occurred, please try again.');
 
-				if ($file) {
+				if ($file && !empty($file_old)) {
 					if (file_exists($file_path.$upload_data['file_name'])) {
 						unlink($file_path.$upload_data['file_name']);
 					}

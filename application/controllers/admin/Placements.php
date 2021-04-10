@@ -70,7 +70,6 @@ class Placements extends CI_Controller {
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 		
 		$this->template->content->view('templates/back/Placements/index', $this->result);
-
 		$this->template->publish();
 	}
 
