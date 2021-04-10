@@ -10,9 +10,9 @@
 	</div>
 </section>
 
-<?php $this->load->view('templates/front/element/section_about'); ?>
+<?php $this->load->view('templates/front/Element/section_about'); ?>
 
-<?php $this->load->view('templates/front/element/section_advantage'); ?>
+<?php $this->load->view('templates/front/Element/section_advantage'); ?>
 
 <section id="clients">
 	<div class="container">

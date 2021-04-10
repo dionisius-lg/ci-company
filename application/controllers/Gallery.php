@@ -7,38 +7,35 @@ class Gallery extends CI_Controller {
 	{
 		parent::__construct();
 
+		// set timezone
 		date_default_timezone_set('Asia/Jakarta');
+
+		// set referrer
 		setReferrer(current_url());
 
+		// set site languange
 		sitelang();
 		$this->config->set_item('language', sitelang());
 
+		// set template layout
 		$this->template->set_template('layouts/front');
 
+		// load default models
 		$this->load->model('CompanyModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->getDetail()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->getDetail()['data'];
+		}
 	}
 
 	public function index()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
-		$request = [
-			'company' => $this->CompanyModel->getDetail(),
-		];
-
-		foreach ($request as $key => $val) {
-			$result[$key] = [];
-
-			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
-				if ($request[$key]['status'] == 'success') {
-					$result[$key] = $val['data'];
-				}
-			}
-		}
-
-		$this->template->title = 'Gallery';
-		$this->template->content->view('templates/front/gallery', $result);
+		$this->template->title = $this->_callbackPageTitle(sitelang());
+		$this->template->content->view('templates/front/Gallery/index', $this->result);
 		$this->template->publish();
 	}
 }

@@ -13,11 +13,11 @@ class About extends CI_Controller {
 		// set referrer
 		setReferrer(current_url());
 
-		// site languange
+		// set site languange
 		sitelang();
 		$this->config->set_item('language', sitelang());
 
-		// set layout template
+		// set template layout
 		$this->template->set_template('layouts/front');
 
 		// load default models
@@ -36,10 +36,10 @@ class About extends CI_Controller {
 	 */
 	public function index()
 	{
-		$session	= $this->session->userdata('AuthUser');
+		$session = $this->session->userdata('AuthUser');
 
 		$this->template->title = $this->_callbackPageTitle(sitelang());
-		$this->template->content->view('templates/front/about', $this->result);
+		$this->template->content->view('templates/front/About/index', $this->result);
 		$this->template->publish();
 	}
 

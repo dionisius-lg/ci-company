@@ -13,18 +13,18 @@ class Home extends CI_Controller {
 		// set referrer
 		setReferrer(current_url());
 
-		// site languange
+		// set site languange
 		sitelang();
 		$this->config->set_item('language', sitelang());
 
-		// set layout template
+		// set template layout
 		$this->template->set_template('layouts/front');
 
 		// load default models
 		$this->load->model('CompanyModel');
 		$this->load->model('SlidersModel');
-		$this->load->model('AgencyCountriesModel');
-		$this->load->model('WorkExperiencesModel');
+		$this->load->model('ExperiencesModel');
+		$this->load->model('PlacementsModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -39,8 +39,8 @@ class Home extends CI_Controller {
 
 		$request = [
 			'sliders' => $this->SlidersModel->getAll(['limit' => 10, 'order' => 'order_number', 'sort' => 'asc']),
-			'agency_countries' => $this->AgencyCountriesModel->getAll(),
-			'work_experiences' => $this->WorkExperiencesModel->getAll(['limit' => 2, 'order' => 'name', 'sort' => 'asc', 'like' => '%C%'])
+			'experiences' => $this->ExperiencesModel->getAll(['limit' => 2, 'order' => 'name', 'sort' => 'asc']),
+			'placements' => $this->PlacementsModel->getAll(['limit' => 10, 'order' => 'name', 'sort' => 'asc']),
 		];
 
 		foreach ($request as $key => $val) {
@@ -53,7 +53,7 @@ class Home extends CI_Controller {
 			}
 		}
 
-		$this->template->content->view('templates/front/home', $this->result);
+		$this->template->content->view('templates/front/Home/index', $this->result);
 		$this->template->publish();
 	}
 }

@@ -12,11 +12,11 @@
 	} ?>
 </section>
 
-<?php $this->load->view('templates/front/element/section_filter_list'); ?>
+<?php $this->load->view('templates/front/Element/section_filter_list'); ?>
 
-<?php $this->load->view('templates/front/element/section_about_home'); ?>
+<?php $this->load->view('templates/front/Element/section_about_home'); ?>
 
-<?php $this->load->view('templates/front/element/section_advantage'); ?>
+<?php $this->load->view('templates/front/Element/section_advantage'); ?>
 
 <section class="blog" hidden>
 	<div class="container">

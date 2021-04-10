@@ -74,7 +74,7 @@
 
 					<ul>
 						<li><?php echo '<a href="' . base_url() . '">' . $this->lang->line('header')['navbar']['home'] . '</a>'; ?></li>
-						<li><?php echo '<a href="' . base_url('employees') . '">' . $this->lang->line('header')['navbar']['employees'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('header')['navbar']['worker'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('header')['navbar']['about'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('header')['navbar']['contact'] . '</a>'; ?></li>
 						<!-- <li class="drop-down"><a href="">Drop Down</a>
@@ -117,7 +117,7 @@
 							<h4><?php echo $this->lang->line('footer')['link']['title']; ?></h4>
 							<ul>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('footer')['link']['home']; ?></a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('employees'); ?>"><?php echo $this->lang->line('footer')['link']['employees']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('footer')['link']['worker']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('footer')['link']['about']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('footer')['link']['contact']; ?></a></li>
 							</ul>

@@ -10,7 +10,7 @@ $lang['header'] = [
 	],
 	'navbar' => [
 		'home'		=> '家',
-		'employees'	=> '雇员',
+		'worker'	=> '雇员',
 		'gallery'	=> '画廊',
 		'dropdown'	=> '落下',
 		'about'		=> '关于我们',
@@ -25,7 +25,7 @@ $lang['footer'] = [
 	'link'		=> [
 		'title'		=> '有用的链接',
 		'home'		=> '家',
-		'employees'	=> '雇员',
+		'worker'	=> '雇员',
 		'gallery'	=> '画廊',
 		'dropdown'	=> '落下',
 		'about'		=> '关于我们',

@@ -5,9 +5,9 @@
         <h4>Countries</h4>
         <hr>
         <ul class="list-group">
-        <?php foreach($agency_countries AS $agent) : ?>
+        <?php foreach($placements AS $placement) : ?>
             <li class="list-group-item d-flex justify-content-between align-items-center">
-                <p class="text-uppercase"><?= $agent['name']; ?></p>
+                <p class="text-uppercase"><?= $placement['name']; ?></p>
             </li>
         <?php endforeach; ?>
         </ul>
@@ -19,9 +19,9 @@
         <h4>Categories</h4>
         <hr>
             <ul class="list-group">
-            <?php foreach($work_experiences AS $work_exp) : ?>
+            <?php foreach($experiences AS $experience) : ?>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <p class="text-uppercase"><a href="<?php echo base_url('employees'); ?>"><?= $work_exp['name']; ?></a></p>
+                    <p class="text-uppercase"><a href="<?php echo base_url('worker'); ?>"><?= $experience['name']; ?></a></p>
                 </li>
             <?php endforeach; ?>
             </ul>

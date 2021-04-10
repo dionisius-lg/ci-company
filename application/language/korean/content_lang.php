@@ -10,7 +10,7 @@ $lang['header'] = [
 	],
 	'navbar' => [
 		'home'		=> '집',
-		'employees'	=> '직원',
+		'worker'	=> '직원',
 		'gallery'	=> '갤러리',
 		'dropdown'	=> '쓰러지 다',
 		'about'		=> '회사 소개',
@@ -25,7 +25,7 @@ $lang['footer'] = [
 	'link'		=> [
 		'title'		=> '유용한 링크',
 		'home'		=> '집',
-		'employees'	=> '직원',
+		'worker'	=> '직원',
 		'gallery'	=> '갤러리',
 		'dropdown'	=> '쓰러지 다',
 		'about'		=> '회사 소개',

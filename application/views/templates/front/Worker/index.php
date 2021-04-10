@@ -19,14 +19,14 @@
 	<div class="container">
        <div class="row">
 
-        <?php foreach ($employees as $employee) : ?>
+        <?php foreach ($workers as $worker) : ?>
             <div class="col-sm-6 col-md-4">
                 <div class="thumbnail box">
-                <img class="img-thumbnail" src="<?= base_url('files/employees/'. $employee['photo']); ?>">
+                <img class="img-thumbnail" src="<?= base_url('files/worker/' . $worker['id'] . '/' . $worker['photo']); ?>">
                     <div class="caption">
-                        <h5><?= $employee['fullname']; ?></h5>
-                        <p><?= $employee['description']; ?></p>
-                        <a href="<?= base_url('employees/detail/' . $employee['id']); ?>" class="btn btn-primary btn-sm">Detail</a>
+                        <h5><?= $worker['fullname']; ?></h5>
+                        <p><?= $worker['description']; ?></p>
+                        <a href="<?= base_url('worker/detail/' . $worker['id']); ?>" class="btn btn-primary btn-sm">Detail</a>
                     </div>
                 </div>
             </div>
