@@ -25,6 +25,7 @@ class Home extends CI_Controller {
 		$this->load->model('SlidersModel');
 		$this->load->model('ExperiencesModel');
 		$this->load->model('PlacementsModel');
+		$this->load->model('WorkersModel');
 
 		// load default data
 		$this->result['company'] = [];

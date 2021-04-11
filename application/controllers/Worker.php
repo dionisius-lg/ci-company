@@ -36,9 +36,18 @@ class Worker extends CI_Controller {
 	public function index()
 	{
 		$session = $this->session->userdata('AuthUser');
+		$params		= $this->input->get();
+		$clause		= [];
+		$clause = [
+			'placement_id' => array_key_exists('placement', $params) ? $params['placement'] : '',
+			'inset_ready_placement_ids'	=> array_key_exists('ready_placement', $params) ? $params['ready_placement'] : '',
+			'inset_experience_ids'	=> array_key_exists('experience_ids', $params) ? $params['experience_ids'] : '',
+			'order' => 'fullname',
+			'sort' => 'asc'
+		];
 
 		$request = [
-			'workers' => $this->WorkersModel->getAll(['limit' => 10]),
+			'workers' => $this->WorkersModel->getAll($clause),
 			'provinces' => $this->ProvincesModel->getAll(['limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll()
 		];
