@@ -25,6 +25,9 @@
                     <p class="text-uppercase"><a href="<?php echo base_url('worker?experience_ids=' . $experience['id']); ?>"><?= $experience['name']; ?></a></p>
                 </li>
             <?php endforeach; ?>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <p class="text-uppercase"><a href="<?php echo base_url('quicksearch'); ?>">quick search</a></p>
+                </li>
             </ul>
         </div>
     </div>
