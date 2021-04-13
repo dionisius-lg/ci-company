@@ -16,6 +16,7 @@ tester<section class="breadcrumbs">
 			<!-- Default panel contents -->
 				<div class="panel-heading text-center text-white mb-3"><h4>Details Worker</h4></div>
 					<!-- List group -->
+					<?php //print_r($worker); die(); ?>
 					<ul class="list-group">
 						<li class="list-group-item">Email : <?= $worker['email']; ?></li>
 						<li class="list-group-item">Phone : <?= $worker['phone_1']; ?></li>

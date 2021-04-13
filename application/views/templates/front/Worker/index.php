@@ -18,16 +18,30 @@
 <section class="employees">
 	<div class="container">
        <div class="row">
-
         <?php foreach ($workers as $worker) : ?>
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail box">
-                <img class="img-thumbnail" src="<?= base_url('files/worker/' . $worker['id'] . '/' . $worker['photo']); ?>">
-                    <div class="caption">
-                        <h5><?= $worker['fullname']; ?></h5>
-                        <p><?= $worker['description']; ?></p>
-                        <a href="<?= base_url('worker/detail/' . $worker['id']); ?>" class="btn btn-primary btn-sm">Detail</a>
+            <div class="card m-5 p-5">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img class="img-thumbnail mb-3" src="<?= base_url('files/worker/'.$worker['id'] .'/'. $worker['photo']); ?>">
+                        </div>
+                        <div class="col-md-6" style="font-size: 14px">
+                            <p><?php echo $worker['nik']; ?></p>
+                            <p><?php echo $worker['fullname']; ?></p>
+                            <p><?php echo $worker['age']; ?></p>
+                            <p><?php echo $worker['marital_status']; ?></p>
+                            <p><?php echo $worker['placement_status']; ?></p>
+                            <p><?php echo $worker['placement']; ?></p>
+                        </div>
                     </div>
+                    <hr>
+                    <div class="caption">
+                        <p><?php echo $worker['description']; ?></p>
+                    </div>
+                    <a href="<?php echo base_url('worker/detail/' . $worker['id']); ?>" class="btn btn-primary btn-sm">Detail</a>
+                    <?php //if(); ?>
+                    <a href="<?php echo base_url('#' . $worker['id']); ?>" class="btn btn-success btn-sm">Choose</a>
+                    <?php //endif; ?>
                 </div>
             </div>
         <?php endforeach; ?>
