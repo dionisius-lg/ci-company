@@ -14,12 +14,11 @@
     <div class="quick-search mt-3 mb-3">
         <h5 class="font-weight-bold">Quick Search Worker</h5>
         <hr>
-        <?php echo form_open('#', ['method' => 'post', 'id' => 'formData', 'autocomplete' => 'off']); ?>
+        <?php echo form_open('quicksearch', ['method' => 'get', 'id' => 'formData', 'autocomplete' => 'off']); ?>
             <div class="row">
                 <div class="form-group col-md-6">
                     <?php echo form_label('NIK', null); ?>
-                    <?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('nik') ? ' is-invalid' : ''), 'maxlength' => '20', 'value' => oldInput('nik')]); ?>
-                    <span class="invalid-feedback"><?php echo flashError('nik'); ?></span>
+                    <?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control form-control-sm rounded-0 numeric' , 'value' => $this->input->get('nik') ? $this->input->get('nik') : '']); ?>
                 </div>
                 <div class="form-group col-md-6">
                 <?php echo form_label('Placement', null); ?>
@@ -64,23 +63,59 @@
                     </div>
                     <span class="invalid-feedback"><?php echo flashError('experience'); ?></span>
                 </div>
-                <div class="form-group col-md-12">
-                    <?php echo form_label('Ready to Placement', null); ?>
-                    <div class="d-flex flex-wrap">
-                        <?php $ready_placement_ids = explode(',', oldInput('ready_placement')); ?>
-                        <?php foreach ($placements as $ready_placement) { ?>
-                            <div class="icheck-primary mr-4">
-                                <?php echo form_checkbox(['name' => 'ready_placement[]', 'id' => 'ReadyPlacement' . $ready_placement['id'], 'value' => $ready_placement['id'], 'checked' => in_array($ready_placement['id'], $ready_placement_ids) ? true : false]); ?>
-                                <?php echo form_label($ready_placement['name'], 'ReadyPlacement' . $ready_placement['id']); ?>
-                            </div>
-                        <?php } ?>
-                    </div>
-                    <span class="invalid-feedback"><?php echo flashError('ready_placement'); ?></span>
-                </div>
             </div>
             <div class="row">
                 <div class="col-md-12 text-right border-top mt-2 pt-3">
                     <?php echo form_button(['type' => 'submit', 'class' => 'btn btn-sm btn-primary rounded-0', 'content' => 'Search']); ?>
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr class="">
+                                            <th class="text-nowrap">No.</th>
+                                            <th class="text-nowrap">NIK</th>
+                                            <th class="text-nowrap">Fullname</th>
+                                            <th class="text-nowrap">Email</th>
+                                            <th class="text-nowrap">Placement</th>
+                                            <th class="text-nowrap">Ready to Placement</th>
+                                            <th class="text-nowrap">User Account</th>
+                                            <th class="text-nowrap">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php if (count($workers) > 0) {
+                                        foreach ($workers as $worker) { echo
+                                            '<tr>
+                                                <td class="text-nowrap">' . $no . '</td>
+                                                <td class="text-nowrap">' . $worker['nik'] . '</td>
+                                                <td class="text-nowrap">' . $worker['fullname'] . '</td>
+                                                <td class="text-nowrap">' . $worker['email'] . '</td>
+                                                <td class="text-nowrap">' . $worker['placement'] . '</td>
+                                                <td class="text-nowrap">' . $worker['ready_placement'] . '</td>
+                                                <td class="text-nowrap">' . ((!empty($worker['user_id'])) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
+                                                <td class="text-nowrap">' . anchor('worker/detail/' . $worker['id'], '<i class="fa fa-eye fa-fw"></i>', ['class' => 'btn btn-info btn-xs rounded-0', 'title' => 'Detail']) . '</td>
+                                            </tr>';
+
+                                            $no++;
+                                        }
+                                    } else { echo
+                                        '<tr>
+                                            <td class="text-center" colspan="8">No data found</td>
+                                        </tr>';
+                                    } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="page-sm page-right">
+                                <?php echo $pagination; ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         <?php echo form_close(); ?>

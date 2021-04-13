@@ -26,6 +26,7 @@ class QuickSearch extends CI_Controller {
 		$this->load->model('ExperiencesModel');
 		$this->load->model('PlacementsModel');
 		$this->load->model('WorkersModel');
+		$this->load->model('UserLevelsModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -37,9 +38,23 @@ class QuickSearch extends CI_Controller {
 	public function index()
 	{
 		$session = $this->session->userdata('AuthUser');
+		$params		= $this->input->get();
+		$clause		= [];
+		$total		= 0;
+		
+		$clause = [
+			'limit' => 10,
+			'page' => (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_nik' => array_key_exists('nik', $params) ? $params['nik'] : '',
+			'placement_id' => array_key_exists('placement', $params) ? $params['placement'] : '',
+			'inset_ready_placement_ids'	=> array_key_exists('ready_placement', $params) ? $params['ready_placement'] : '',
+			'sort' => 'asc'
+		];
 
 		$request = [
-			'sliders' => $this->SlidersModel->getAll(['limit' => 10, 'order' => 'order_number', 'sort' => 'asc']),
+			'workers' => $this->WorkersModel->getAll($clause),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 			'experiences' => $this->ExperiencesModel->getAll(['limit' => 2, 'order' => 'name', 'sort' => 'asc']),
 			'placements' => $this->PlacementsModel->getAll(['limit' => 10, 'order' => 'name', 'sort' => 'asc']),
 		];
@@ -50,9 +65,16 @@ class QuickSearch extends CI_Controller {
 			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
+
+					if ($key == 'workers') {
+						$total = $val['total_data'];
+					}
 				}
 			}
 		}
+
+		$this->result['pagination'] = bs4pagination('admin/workers', $total, $clause['limit']);
+		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
 		$this->template->content->view('templates/front/Home/quick_search', $this->result);
 		$this->template->publish();
