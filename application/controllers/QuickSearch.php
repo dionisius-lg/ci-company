@@ -48,9 +48,13 @@ class QuickSearch extends CI_Controller {
 			'like_nik' => array_key_exists('nik', $params) ? $params['nik'] : '',
 			'placement_id' => array_key_exists('placement', $params) ? $params['placement'] : '',
 			'inset_ready_placement_ids'	=> array_key_exists('ready_placement', $params) ? $params['ready_placement'] : '',
+			'inset_experience_ids' => array_key_exists('experience_ids', $params) ? $params['experience_ids'] : '',
+			'marital_status_id' => array_key_exists('marital_status_id', $params) ? $params['marital_status_id'] : '',
+			'gender_id' => array_key_exists('gender_id', $params) ? $params['gender_id'] : '',
 			'sort' => 'asc'
 		];
 
+		
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
 			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
@@ -58,6 +62,7 @@ class QuickSearch extends CI_Controller {
 			'experiences' => $this->ExperiencesModel->getAll(['limit' => 2, 'order' => 'name', 'sort' => 'asc']),
 			'placements' => $this->PlacementsModel->getAll(['limit' => 10, 'order' => 'name', 'sort' => 'asc']),
 		];
+		// print_r($this->input->get()); die();
 
 		foreach ($request as $key => $val) {
 			$this->result[$key] = [];

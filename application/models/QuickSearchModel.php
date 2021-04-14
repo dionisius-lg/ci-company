@@ -19,13 +19,13 @@ class QuickSearchModel extends CI_Model {
 		$column		= $this->_getColumn($this->view_table);
 		$protected	= ['id'];
 
-		$sort				= ['ASC', 'DESC'];
-		$clause				= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
-		$error				= [];
-		$paging				= [];
-		$condition			= [];
-		$condition_like		= [];
-		$condition_inset	= [];
+		$sort = ['ASC', 'DESC'];
+		$clause = ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
+		$error = [];
+		$paging = [];
+		$condition = [];
+		$condition_like = [];
+		$condition_inset = [];
 
 		$column_like = [
 			'like_nik',
@@ -38,7 +38,9 @@ class QuickSearchModel extends CI_Model {
 
 		$column_inset = [
 			'inset_ready_placement_ids',
-			'inset_experience_ids'
+			'inset_experience_ids',
+			'marital_status_id',
+			'gender_id'
 		];
 
 		$column_date = [

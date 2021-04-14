@@ -22,32 +22,29 @@
                 </div>
                 <div class="form-group col-md-6">
                 <?php echo form_label('Placement', null); ?>
-                    <select name="placement" class="form-control select2 rounded-0 <?php echo (hasFlashError('placement')) ? 'is-invalid' : ''; ?>">
+                    <select name="placement" class="form-control select2 rounded-0">
                         <option value="">Please Select</option>
                         <?php foreach ($placements as $placement) {
                             echo '<option value="' .$placement['id']. '">'. $placement['name']. '</option>';
                         } ?>
                     </select>
-                    <span class="invalid-feedback"><?php echo flashError('placement'); ?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <?php echo form_label('Gender', null); ?>
-                    <select name="gender" class="form-control select2 rounded-0 <?php echo (hasFlashError('gender')) ? 'is-invalid' : ''; ?>">
+                    <select name="gender_id" class="form-control select2 rounded-0">
                         <option value="">Please Select</option>
                         <option value="1">Male</option>
                         <option value="2">Female</option>
                     </select>
-                    <span class="invalid-feedback"><?php echo flashError('gender'); ?></span>
                 </div>
                 <div class="form-group col-md-6">
                     <?php echo form_label('Marital Status', null); ?>
-                    <select name="marital_status" class="form-control select2 rounded-0 <?php echo (hasFlashError('marital_status')) ? 'is-invalid' : ''; ?>">
+                    <select name="marital_status_id" class="form-control select2 rounded-0">
                         <option value="">Please Select</option>
                         <option value="1">Single</option>
                         <option value="2">Married</option>
                         <option value="3">Divorce</option>
                     </select>
-                    <span class="invalid-feedback"><?php echo flashError('marital_status'); ?></span>
                 </div>
 
                 <div class="form-group col-md-12">
@@ -61,7 +58,6 @@
                             </div>
                         <?php } ?>
                     </div>
-                    <span class="invalid-feedback"><?php echo flashError('experience'); ?></span>
                 </div>
             </div>
             <div class="row">
@@ -79,7 +75,9 @@
                                             <th class="text-nowrap">No.</th>
                                             <th class="text-nowrap">NIK</th>
                                             <th class="text-nowrap">Fullname</th>
-                                            <th class="text-nowrap">Email</th>
+                                            <th class="text-nowrap">Marital Status</th>
+                                            <th class="text-nowrap">Gender</th>
+                                            <th class="text-nowrap">Experience</th>
                                             <th class="text-nowrap">Placement</th>
                                             <th class="text-nowrap">Ready to Placement</th>
                                             <th class="text-nowrap">User Account</th>
@@ -93,7 +91,9 @@
                                                 <td class="text-nowrap">' . $no . '</td>
                                                 <td class="text-nowrap">' . $worker['nik'] . '</td>
                                                 <td class="text-nowrap">' . $worker['fullname'] . '</td>
-                                                <td class="text-nowrap">' . $worker['email'] . '</td>
+                                                <td class="text-nowrap">' . $worker['marital_status'] . '</td>
+                                                <td class="text-nowrap">' . $worker['gender'] . '</td>
+                                                <td class="text-nowrap">' . $worker['experience'] . '</td>
                                                 <td class="text-nowrap">' . $worker['placement'] . '</td>
                                                 <td class="text-nowrap">' . $worker['ready_placement'] . '</td>
                                                 <td class="text-nowrap">' . ((!empty($worker['user_id'])) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
@@ -125,47 +125,34 @@
 <!-- load required builded stylesheet for this page -->
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/datatables/css/dataTables.bootstrap4.min.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/css/bs4-datatables.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/venobox/js/venobox.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/jquery.dataTables.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/dataTables.bootstrap4.min.js'); ?>
-<?php //$this->template->javascript->add('assets/js/file-downloader.js'); ?>
 
-<!-- script for this page -->
 <script type="text/javascript">
 	$(document).ready(function() {
 		// describe required variable
-		var workerGender = '<?php echo oldInput('gender'); ?>',
-			workerMaritalStatus = '<?php echo oldInput('marital_status'); ?>',
-			workerPlacement = '<?php echo oldInput('placement'); ?>';
+		var filterPlacement = '<?php echo $this->input->get('placement'); ?>',
+			filterReadyPlacement = '<?php echo $this->input->get('ready_placement'); ?>';
+            filterGender = '<?php echo $this->input->get('gender_id') ?>';
+            filterMaritalStatus = '<?php echo $this->input->get('marital_status_id') ?>';
 
 		// set value to element if variable true or numeric
-		if (workerGender && $.isNumeric(workerGender)) {
-			$('#formData [name="gender"]').val(workerGender).trigger('change');
+		if (filterPlacement && $.isNumeric(filterPlacement)) {
+			$('#formData [name="placement"]').val(filterPlacement).trigger('change');
 		}
 
 		// set value to element if variable true or numeric
-		if (workerMaritalStatus && $.isNumeric(workerMaritalStatus)) {
-			$('#formData [name="marital_status"]').val(workerMaritalStatus).trigger('change');
+		if (filterReadyPlacement !== null && filterReadyPlacement !== undefined && $.isNumeric(filterReadyPlacement)) {
+			$('#formData [name="ready_placement"]').val(filterReadyPlacement).trigger('change');
 		}
 
-		// set value to element if variable true or numeric
-		if (workerPlacement && $.isNumeric(workerPlacement)) {
-			$('#formData [name="placement"]').val(workerPlacement).trigger('change');
+        if (filterGender && $.isNumeric(filterGender)) {
+			$('#formData [name="gender_id"]').val(filterGender).trigger('change');
+		}
+
+        if (filterMaritalStatus && $.isNumeric(filterMaritalStatus)) {
+			$('#formData [name="marital_status_id"]').val(filterMaritalStatus).trigger('change');
 		}
 	});
-
-	// disable submit on submitted form
-	$('#formData').on('submit', function(e) {
-		$(this).find('[type="submit"]').attr({'disabled': true});
-	});
-
 </script>
