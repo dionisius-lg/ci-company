@@ -79,6 +79,7 @@
                                             <th class="text-nowrap">Gender</th>
                                             <th class="text-nowrap">Experience</th>
                                             <th class="text-nowrap">Placement</th>
+                                            <th class="text-nowrap">Placement Status</th>
                                             <th class="text-nowrap">Ready to Placement</th>
                                             <th class="text-nowrap">User Account</th>
                                             <th class="text-nowrap">Action</th>
@@ -95,6 +96,7 @@
                                                 <td class="text-nowrap">' . $worker['gender'] . '</td>
                                                 <td class="text-nowrap">' . $worker['experience'] . '</td>
                                                 <td class="text-nowrap">' . $worker['placement'] . '</td>
+                                                <td class="text-nowrap">' . $worker['placement_status'] . '</td>
                                                 <td class="text-nowrap">' . $worker['ready_placement'] . '</td>
                                                 <td class="text-nowrap">' . ((!empty($worker['user_id'])) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
                                                 <td class="text-nowrap">' . anchor('worker/detail/' . $worker['id'], '<i class="fa fa-eye fa-fw"></i>', ['class' => 'btn btn-info btn-xs rounded-0', 'title' => 'Detail']) . '</td>
