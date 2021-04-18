@@ -149,6 +149,7 @@
 		</footer>
 
 		<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+		<div type="button" class="whatsapp-message" onclick="return window.open('https://web.whatsapp.com/send?phone=6285881239998', '_blank');" class="btn-whatsapp"><i class="fa fa-whatsapp"></button>
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 	</body>
 </html>

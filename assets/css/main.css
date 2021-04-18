@@ -115,7 +115,7 @@ button {
 	display: none;
 	right: 15px;
 	bottom: 15px;
-	z-index: 99999;
+	z-index: 100;
 }
 
 .back-to-top i {
@@ -1864,4 +1864,27 @@ ul.pagination  .page-item:last-child .page-link {
 ul.pagination  .page-item.active .page-link {
 	background-color: #5a6268;
 	border-color: #6c757d;
+}
+
+/*--------------------------------------------------------------
+# Chat Whatsapp
+--------------------------------------------------------------*/
+.whatsapp-message {
+	position: fixed;
+	left: 15px;
+	bottom: 15px;
+	z-index: 100;
+}
+
+.whatsapp-message i {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	width: 40px;
+	height: 40px;
+	border-radius: 4px;
+	background: #25d366;
+	color: #fff;
+	transition: all 0.4s;
 }
