@@ -83,7 +83,7 @@
 				<div class="col-md-4 mb-3">
 					<div class="box">
 						<div class="profile-photo">
-							<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="Employees Photo" class="img-fluid">
+							<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
 						</div>
 						<div class="profile-name">
 							<h6><?php echo $worker['fullname']; ?></h6>
