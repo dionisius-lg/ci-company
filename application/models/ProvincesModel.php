@@ -106,7 +106,19 @@ class ProvincesModel extends CI_Model {
 
 		if (!empty($condition_inset) && is_array($condition_inset)) {
 			foreach ($condition_inset as $key => $val) {
-				$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+				if (!empty($val) && is_array($val)) {
+					$term_inset = [];
+
+					foreach ($val as $val) {
+						$term_inset[] = 'FIND_IN_SET(' . $val . ', ' . $key . ')';
+					}
+
+					$term_inset = implode(' or ', $term_inset);
+
+					$this->db->where($term_inset);
+				} else {
+					$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+				}
 			}
 		}
 
@@ -321,7 +333,7 @@ class ProvincesModel extends CI_Model {
 	 *  private _getCount method
 	 *  return interger
 	 */
-	public function _getCount($table = null, $condition = [], $condition_like = [])
+	public function _getCount($table = null, $condition = [], $condition_like = [], $condition_inset = [])
 	{
 		if (!empty($table)) {
 			$this->db->from($table);
@@ -332,6 +344,24 @@ class ProvincesModel extends CI_Model {
 
 			if (!empty($condition_like) && is_array($condition_like)) {
 				$this->db->like($condition_like);
+			}
+
+			if (!empty($condition_inset) && is_array($condition_inset)) {
+				foreach ($condition_inset as $key => $val) {
+					if (!empty($val) && is_array($val)) {
+						$term_inset = [];
+	
+						foreach ($val as $val) {
+							$term_inset[] = 'FIND_IN_SET(' . $val . ', ' . $key . ')';
+						}
+	
+						$term_inset = implode(' or ', $term_inset);
+	
+						$this->db->where($term_inset);
+					} else {
+						$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+					}
+				}
 			}
 
 			return $this->db->count_all_results();

@@ -12,8 +12,8 @@
 
 <div class="container">
     <div class="quick-search mt-3 mb-3">
-        <h5 class="font-weight-bold">Quick Search Worker</h5>
-        <hr>
+        <p class="font-weight-bold ">Helper Search</p>
+        <hr class="mb-3 pb-3">
         <?php echo form_open('quicksearch', ['method' => 'get', 'id' => 'formData', 'autocomplete' => 'off']); ?>
             <div class="row">
                 <div class="form-group col-md-6">
@@ -64,12 +64,11 @@
                 <div class="col-md-12 text-right border-top mt-2 pt-3">
                     <?php echo form_button(['type' => 'submit', 'class' => 'btn btn-sm btn-primary rounded-0', 'content' => 'Search']); ?>
                 </div>
-                <hr>
                 <div class="col-md-12">
                     <div class="card mt-3">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table table-hover">
                                     <thead>
                                         <tr class="">
                                             <th class="text-nowrap">No.</th>
@@ -79,6 +78,7 @@
                                             <th class="text-nowrap">Gender</th>
                                             <th class="text-nowrap">Experience</th>
                                             <th class="text-nowrap">Placement</th>
+                                            <th class="text-nowrap">Placement Status</th>
                                             <th class="text-nowrap">Ready to Placement</th>
                                             <th class="text-nowrap">User Account</th>
                                             <th class="text-nowrap">Action</th>
@@ -95,6 +95,7 @@
                                                 <td class="text-nowrap">' . $worker['gender'] . '</td>
                                                 <td class="text-nowrap">' . $worker['experience'] . '</td>
                                                 <td class="text-nowrap">' . $worker['placement'] . '</td>
+                                                <td class="text-nowrap">' . $worker['placement_status'] . '</td>
                                                 <td class="text-nowrap">' . $worker['ready_placement'] . '</td>
                                                 <td class="text-nowrap">' . ((!empty($worker['user_id'])) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
                                                 <td class="text-nowrap">' . anchor('worker/detail/' . $worker['id'], '<i class="fa fa-eye fa-fw"></i>', ['class' => 'btn btn-info btn-xs rounded-0', 'title' => 'Detail']) . '</td>
@@ -131,7 +132,6 @@
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		// describe required variable
 		var filterPlacement = '<?php echo $this->input->get('placement'); ?>',
 			filterReadyPlacement = '<?php echo $this->input->get('ready_placement'); ?>';
             filterGender = '<?php echo $this->input->get('gender_id') ?>';
