@@ -26,12 +26,26 @@
 
 				if ($('body').hasClass('mobile-nav-active')) {
 					$('body').removeClass('mobile-nav-active');
-					$('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+					
 					$('.mobile-nav-overly').fadeOut();
 				}
 				return false;
 			}
 		}
+	});
+
+	// Activate navigation on current page
+	$(document).ready(function() {
+		var currentUrl = window.location.href;
+
+		$('#header nav li > a').each(function() {
+			var linkUrl = this.href;
+
+			if (linkUrl == currentUrl) {
+				// $(this).remove();
+				$(this).closest('li').addClass('active');
+			}
+		});
 	});
 
 	// Activate smooth scroll on page load with hash links in the url
@@ -93,15 +107,18 @@
 		if ($(this).scrollTop() > 100) {
 			$('#header').addClass('header-scrolled');
 			$('#topbar').addClass('topbar-scrolled');
+			$('nav.mobile-nav').addClass('scrolled');
 		} else {
 			$('#header').removeClass('header-scrolled');
 			$('#topbar').removeClass('topbar-scrolled');
+			$('nav.mobile-nav').removeClass('scrolled');
 		}
 	});
 
 	if ($(window).scrollTop() > 100) {
 		$('#header').addClass('header-scrolled');
 		$('#topbar').addClass('topbar-scrolled');
+		$('nav.mobile-nav').addClass('scrolled');
 	}
 
 	// Back to top button

@@ -134,6 +134,47 @@ class Remote extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	public function getEmployees()
+	{
+		$session	= $this->session->userdata('AuthUser');
+		$result		= [];
+
+		if ($this->input->is_ajax_request()) {
+			$this->load->model('EmployeesModel');
+
+			$input = array_map('trim', $this->input->post());
+
+			if (array_key_exists('id', $input)) {
+				if (is_numeric($input['id'])) {
+					$request = $this->EmployeesModel->getDetail($input['id']);
+				}
+			} else {
+				$condition = [];
+
+				if (!array_key_exists('is_active', $input)) {
+					$input['is_active'] = 1;
+				}
+
+				foreach ($input as $key => $val) {
+					if (!empty($val)) {
+						$condition[$key] = $val;
+					}
+				}
+
+				$request = $this->EmployeesModel->getAll($condition);
+
+			}
+
+			if ($request['status'] == 'success') {
+				echo json_encode($request);
+			}
+
+			exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
 	public function getEmployeesDatatable()
 	{
 		$session	= $this->session->userdata('AuthUser');
@@ -251,6 +292,50 @@ class Remote extends CI_Controller {
 				'draw'				=> $_POST['draw'],
 				'recordsTotal'		=> $this->SlidersModel->getAll()['total_data'],
 				'recordsFiltered'	=> $this->SlidersModel->countDatatablesFilter(),
+				'data'				=> $data
+			];
+
+			echo json_encode($result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	public function getWorkerAttachmentsDatatable($worker_id = 0)
+	{
+		$session	= $this->session->userdata('AuthUser');
+		$result		= [];
+
+		if ($this->input->is_ajax_request()) {
+			$this->load->model('WorkerAttachmentsModel');
+
+			$list	= $this->WorkerAttachmentsModel->getDatatables($worker_id);
+			$no		= $_POST['start'];
+			$data	= [];
+
+			foreach ($list as $col) {
+				$no++;
+
+				if (@fopen(base_url('files/workers/' . $col['worker_id'] . '/' . $col['file_name']), 'r')) {
+					$download_file = 'saveAs(\'' . base_url('files/workers/' . $col['worker_id'] . '/' . $col['file_name']) . '\', \'' . $col['file_name'] . '\')';
+				} else {
+					$download_file = 'return swalAlert(\'File not found\');';
+				}
+
+				$row	= [];
+				$row[]	= $no;
+				$row[]	= $col['name'];
+				$row[]	= $col['create_date'];
+				$row[]	= $col['create_by'];
+				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'onclick' => $download_file]) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
+
+				$data[]	= $row; 
+			}
+
+			$result = [
+				'draw'				=> $_POST['draw'],
+				'recordsTotal'		=> $this->WorkerAttachmentsModel->getAll(['worker_id' => $worker_id])['total_data'],
+				'recordsFiltered'	=> $this->WorkerAttachmentsModel->countDatatablesFilter($worker_id),
 				'data'				=> $data
 			];
 

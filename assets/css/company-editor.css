@@ -64,9 +64,11 @@ ul > li:before {
 }
 
 ol {
-	padding: 20px;
+	padding: 200px;
 }
 
-div.row {
+/*div.row {
 	margin-bottom: 30px !important;
-}
+	padding: 0 20px !important;
+	display: none;
+}*/

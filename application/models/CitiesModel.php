@@ -19,16 +19,21 @@ class CitiesModel extends CI_Model {
 		$column		= $this->_getColumn($this->view_table);
 		$protected	= ['id'];
 
-		$sort			= ['ASC', 'DESC'];
-		$clause			= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
-		$error			= [];
-		$paging			= [];
-		$condition		= [];
-		$condition_like	= [];
+		$sort				= ['ASC', 'DESC'];
+		$clause				= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
+		$error				= [];
+		$paging				= [];
+		$condition			= [];
+		$condition_like		= [];
+		$condition_inset	= [];
 
 		$column_like = [
 			'like_name',
 			'like_province'
+		];
+
+		$column_inset = [
+			
 		];
 
 		$column_date = [
@@ -46,6 +51,10 @@ class CitiesModel extends CI_Model {
 							$error[$key] = DateTime::getLastErrors();
 						} else {
 							$clause[$key] = $val;
+						}
+					} else {
+						if (in_array($key, ['is_active']) && $val === '0') {
+							$clause[$key] = '\'0\'';
 						}
 					}
 				}
@@ -78,6 +87,8 @@ class CitiesModel extends CI_Model {
 					}
 				} elseif (in_array($key, $column_like) && in_array(substr($key, 5), $column)) {
 					$condition_like[substr($key, 5)] = $val;
+				} elseif (in_array($key, $column_inset) && in_array(substr($key, 6), $column)) {
+					$condition_inset[substr($key, 6)] = $val;
 				} elseif ($key == 'not_id' && is_numeric($val)) {
 					$condition['id !='] = $val;
 				}
@@ -90,6 +101,12 @@ class CitiesModel extends CI_Model {
 
 		if (!empty($condition_like) && is_array($condition_like)) {
 			$this->db->like($condition_like);
+		}
+
+		if (!empty($condition_inset) && is_array($condition_inset)) {
+			foreach ($condition_inset as $key => $val) {
+				$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+			}
 		}
 
 		$offset = ($clause['limit'] * $clause['page']) - $clause['limit'];
@@ -133,11 +150,11 @@ class CitiesModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -179,7 +196,7 @@ class CitiesModel extends CI_Model {
 		}
 
 		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
+			$check = $this->_getCount($this->table, ['name' => $data['name']]);
 
 			if ($check > 0) {
 				return responseBadRequest('Name already exist');
@@ -206,11 +223,11 @@ class CitiesModel extends CI_Model {
 		$data		= [];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -266,11 +283,11 @@ class CitiesModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->table, ['id' => $id]);

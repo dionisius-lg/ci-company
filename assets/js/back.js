@@ -1,7 +1,7 @@
 !(function($) {
 	"use strict";
 
-	//initialize select2
+	// initialize select2
 	if ($.isFunction($.fn.select2)) {
 		$('.select2').select2({
 			width: '100%',
@@ -9,7 +9,7 @@
 		});
 	}
 
-	//triigger click input file
+	// trigger click input file
 	$(document).on('click', '#previewAttachment [data-toggle="browse"]', function(e) {
 		e.preventDefault();
 
@@ -18,7 +18,7 @@
 		attachItem.find('input[type="file"]').trigger('click');
 	});
 
-	//show file temp on change
+	// show file temp on change
 	$('input[type="file"][data-toggle="change"]').on('change', function(e) {
 		e.preventDefault();
 
@@ -38,7 +38,7 @@
 		attachFileReader.readAsDataURL(attachFile);
 	});
 
-	//remove element error on keyup
+	// remove element error on keyup
 	$('input, textarea').on('keyup', function(e) {
 		var formGroup = $(this).parents('.form-group'),
 			keycode = (event.keyCode ? event.keyCode : event.which);
@@ -53,7 +53,7 @@
 		}
 	});
 
-	//remove element error on change
+	// remove element error on change
 	$('input, select, textarea').on('change', function() {
 		var formGroup = $(this).parents('.form-group');
 
@@ -65,7 +65,7 @@
 		formGroup.find('.form-text.text-danger').not('.parsley').empty();
 	});
 
-	//remove element.datepicker error on change
+	// remove element.datepicker error on change
 	$('.date').on('change.datetimepicker', function() {
 		var formGroup = $(this).parents('.form-group');
 
@@ -77,12 +77,12 @@
 		formGroup.find('.form-text.text-danger').not('.parsley').empty();
 	});
 
-	//enable numeric only
+	// enable numeric only
 	$('.numeric').on('keyup', function () {
 		this.value = this.value.replace(/[^0-9\.]/g,'');
 	});
 
-	//initialize datepicker
+	// initialize datepicker
 	if ($.isFunction($.fn.datepicker)) {
 		$('.date').datepicker({
 			'format' : 'yyyy-mm-dd',
@@ -96,18 +96,21 @@
 		});
 	}
 
-	//initialize venobox
+	// initialize venobox
 	if ($.isFunction($.fn.venobox)) {
 		$('.venobox').venobox();
 	}
 
-	//autofocus on modal show
+	// autofocus on modal show
 	$('.modal').on('shown.bs.modal', function() {
 		$(this).find('[autofocus]').focus();
 	});
+
+	// custom ci3 pagination to bootstrap 4
+	$('ul.pagination-ci3-bs4 > li').find('a, span').addClass('page-link');
 })(jQuery);
 
-//request data cities
+// request data cities
 function requestCities(param, selected = 0, element = null) {
 	if (element == null) {
 		element = $('#City');
@@ -149,5 +152,20 @@ function requestCities(param, selected = 0, element = null) {
 				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
 			}
 		});
+	}
+}
+
+// show minimalist swal alert
+function swalAlert(message = false) {
+	// initialize sweetalert2 & message is true
+	if (message && typeof Swal != 'undefined') {
+		var swalBs = Swal.mixin({
+			customClass: {
+				confirmButton: 'btn btn-primary rounded-0'
+			},
+			buttonsStyling: false
+		});
+
+		swalBs.fire(message);
 	}
 }

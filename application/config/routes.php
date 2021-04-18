@@ -53,33 +53,14 @@ $route['default_controller'] = 'Home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = TRUE;
 
+/**
+ * AuthController
+ */
 $route['auth'] = 'auth/login';
 
 /**
- * DashboardController
- */
-$route['admin'] = 'admin/dashboard/index';
-
-/**
- * UsersController
- */
-$route['admin/users/get-list'] = 'admin/users/getList';
-$route['admin/users/reset-password/(:any)'] = 'admin/users/resetPassword/$1';
-
-/**
- * UsersController
- */
-$route['admin/employees/get-list'] = 'admin/employees/getList';
-$route['admin/employees/upload-photo/(:any)'] = 'admin/employees/uploadPhoto/$1';
-
-/**
- * CompanyController
- */
-$route['admin/company/update-profile'] = 'admin/company/updateProfile';
-$route['admin/company/update-about'] = 'admin/company/updateAbout';
-
-/**
  * CompanyAdvantagesController
+ * Additional routes for administrator
  */
 $route['admin/company-advantages'] = 'admin/companyAdvantages';
 $route['admin/company-advantages/create'] = 'admin/companyAdvantages/create';
@@ -88,7 +69,39 @@ $route['admin/company-advantages/update/(:any)'] = 'admin/companyAdvantages/upda
 $route['admin/company-advantages/delete/(:any)'] = 'admin/companyAdvantages/delete/$1';
 
 /**
+ * DashboardController
+ * Additional routes for administrator
+ */
+$route['admin'] = 'admin/dashboard/index';
+
+/**
+ * UserRequestsController
+ * Additional routes for administrator
+ */
+$route['admin/user-requests'] = 'admin/UserRequests';
+$route['admin/user-requests/detail/(:any)'] = 'admin/UserRequests/detail/$1';
+$route['admin/user-requests/update/(:any)'] = 'admin/UserRequests/update/$1';
+
+/**
+ * UsersController
+ * Additional routes for administrator
+ */
+$route['admin/users/get-list'] = 'admin/users/getList';
+$route['admin/users/change-password/(:any)'] = 'admin/users/changePassword/$1';
+$route['admin/users/reset-password/(:any)'] = 'admin/users/resetPassword/$1';
+
+/**
+ * WorkersController
+ * Additional routes for administrator
+ */
+$route['admin/workers/get-list'] = 'admin/workers/getList';
+$route['admin/workers/upload-photo/(:any)'] = 'admin/workers/uploadPhoto/$1';
+$route['admin/workers/upload-attachment/(:any)'] = 'admin/workers/uploadAttachment/$1';
+$route['admin/workers/delete-attachment/(:any)'] = 'admin/workers/deleteAttachment/$1';
+
+/**
  * RemoteController
+ * Additional routes for global
  */
 $route['remote/get-cities'] = 'remote/getCities';
 $route['remote/get-users-list'] = 'remote/getUsersDatatable';
@@ -96,3 +109,12 @@ $route['remote/get-employees-list'] = 'remote/getEmployeesDatatable';
 $route['remote/get-company-advantages-list'] = 'remote/getCompanyAdvantagesDatatable';
 $route['remote/get-sliders-list'] = 'remote/getSlidersDatatable';
 $route['remote/get-users'] = 'remote/getUsers';
+$route['remote/get-employees'] = 'remote/getEmployees';
+$route['remote/get-datatable-worker-attachments'] = 'remote/getWorkerAttachmentsDatatable';
+$route['remote/get-datatable-worker-attachments/(:any)'] = 'remote/getWorkerAttachmentsDatatable/$1';
+
+/**
+ * LanguageController
+ * Additional routes for front/main
+ */
+$route['lang/(:any)'] = 'Language/change/$1';
