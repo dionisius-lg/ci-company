@@ -23,6 +23,9 @@ class Worker extends CI_Controller {
 		// load default models
 		$this->load->model('CompanyModel');
 		$this->load->model('WorkersModel');
+		$this->load->model('WorkerAttachmentsModel');
+		$this->load->model('ExperiencesModel');
+		$this->load->model('PlacementsModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
 
@@ -35,21 +38,45 @@ class Worker extends CI_Controller {
 
 	public function index()
 	{
-		$session = $this->session->userdata('AuthUser');
+		$session	= $this->session->userdata('AuthUser');
 		$params		= $this->input->get();
 		$clause		= [];
+		$total		= 0;
+
 		$clause = [
-			'placement_id' => array_key_exists('placement', $params) ? $params['placement'] : '',
-			'inset_ready_placement_ids'	=> array_key_exists('ready_placement', $params) ? $params['ready_placement'] : '',
-			'inset_experience_ids'	=> array_key_exists('experience_ids', $params) ? $params['experience_ids'] : '',
-			'order' => 'fullname',
-			'sort' => 'asc'
+			'limit'						=> 6,
+			'page'						=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_nik'					=> array_key_exists('nik', $params) ? $params['nik'] : '',
+			'like_fullname'				=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
+			'like_email'				=> array_key_exists('email', $params) ? $params['email'] : '',
+			'gender_id'					=> array_key_exists('gender', $params) ? $params['gender'] : '',
+			'marital_status_id'			=> array_key_exists('marital_status', $params) ? $params['marital_status'] : '',
+			'placement_id'				=> array_key_exists('placement', $params) ? $params['placement'] : '',
+			'order'						=> 'fullname',
+			'sort'						=> 'asc'
 		];
+
+		if (array_key_exists('experience', $params)) {
+			if (!empty($params['experience'])) {
+				$experience = explode('-', $params['experience']);
+				sort($experience);
+				$clause['inset_experience_ids'] = $experience;
+			}
+		}
+
+		if (array_key_exists('ready_placement', $params)) {
+			if (!empty($params['ready_placement'])) {
+				$ready_placement = explode('-', $params['ready_placement']);
+				sort($ready_placement);
+				$clause['inset_ready_placement_ids'] = $ready_placement;
+			}
+		}
 
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
-			'provinces' => $this->ProvincesModel->getAll(['limit' => 100]),
-			'user_levels' => $this->UserLevelsModel->getAll()
+			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+			// 'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
 
 		foreach ($request as $key => $val) {
@@ -58,9 +85,16 @@ class Worker extends CI_Controller {
 			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
+
+					if ($key == 'workers') {
+						$total = $val['total_data'];
+					}
 				}
 			}
 		}
+
+		$this->result['pagination'] = bs4pagination('worker', $total, $clause['limit'], $params);
+		// $this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
 		$this->template->title = $this->pageTitle(sitelang());
 		$this->template->content->view('templates/front/Worker/index', $this->result);

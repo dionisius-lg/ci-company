@@ -46,7 +46,7 @@
 				<div class="card">
 					<div class="card-header">
 						<h5 class="card-title">
-							<?php echo $this->lang->line('contact_message')['title']; ?>
+							<?php echo $this->lang->line('page_contact')['message']['title']; ?>
 						</h5>
 					</div>
 					<div class="card-body infos">

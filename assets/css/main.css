@@ -89,6 +89,24 @@ button {
 	}
 }
 
+.pad-left-5 {
+	padding-left: 5px;
+}
+
+.pad-right-5 {
+	padding-right: 5px;
+}
+
+@media (max-width: 767.98px) {
+	.pad-left-5 {
+		padding-left: 15px;
+	}
+
+	.pad-right-5 {
+		padding-right: 15px;
+	}
+}
+
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
@@ -686,6 +704,16 @@ section {
 	margin-bottom: 0;
 	font-size: 14px;
 	color: #919191;
+}
+
+.section-sub-title {
+	text-align: left;
+}
+
+.section-sub-title h5 {
+	border-bottom: 1px solid #5cb874;
+	padding: 5px 0;
+	margin-bottom: 15px;
 }
 
 /*--------------------------------------------------------------
@@ -1373,22 +1401,25 @@ section {
 # Section Login
 --------------------------------------------------------------*/
 #login .box {
-	width: 360px;
+	position: relative;
 	margin: auto;
+	padding: 1.5rem;
 	border: 0;
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	width: 360px;
 }
 
 @media (max-width: 575.98px) {
 	#login .box {
 		width: 100%;
+		padding: 15px;
 	}
 }
 
 #login .box .form-group {
 	padding: 0;
-    overflow: hidden;
+	overflow: hidden;
 }
 
 #login .box .parsley-errors-list.filled {
@@ -1482,8 +1513,9 @@ section {
 # Section Register
 --------------------------------------------------------------*/
 #register .box {
-	/* width: 360px; */
+	position: relative;
 	margin: auto;
+	padding: 1.5rem;
 	border: 0;
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
@@ -1492,8 +1524,7 @@ section {
 @media (max-width: 575.98px) {
 	#register .box {
 		width: 100%;
-		padding-left: 15px;
-		padding-right: 15px;
+		padding: 15px;
 	}
 }
 
@@ -1599,66 +1630,164 @@ section {
 	}
 }
 
-/* .swal-wide {
-    width: 400px !important;
-	font-size: 16px !important;
-} */
-
-/* #register .box .form-group {
+/*--------------------------------------------------------------
+# Section Worker
+--------------------------------------------------------------*/
+#worker .card,
+#worker .card-header {
+	border: none;
+	background-color: transparent;
 	padding: 0;
-    overflow: hidden;
 }
 
-#register .box .parsley-errors-list.filled {
-	margin-top: 3px !important;
+#worker .card-title {
+	font-family: "poppins-medium";
+	text-transform: uppercase;
+	border-bottom: 1px solid #c5c5c5;
+	padding-bottom: 0px;
 }
 
-#register .box .form-control,
-#register .box .input-group .form-control {
+#worker .card-body {
+	padding: 0;
+}
+
+#worker .box {
+	position: relative;
+	margin: auto;
+	padding: 1.5rem;
+	border: 0;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+@media (max-width: 575.98px) {
+	#worker .box {
+		width: 100%;
+		padding: 15px;
+	}
+}
+
+#worker .box > .profile-photo {
+	text-align: center;
+	position: relative;
+}
+
+#worker .box > .profile-photo > img {
+	margin: auto;
+	margin-bottom: 5px;
+	width: 100%;
+	max-width: 100px;
+	height: 100px;
+	object-fit: cover;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#worker .box > .profile-name {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#worker .box > .profile-name > h6 {
+	margin: 0;
+}
+
+#worker .box > .profile-name > p {
+	margin: 0;
+	padding: 0;
+	color: #8796af;
+	font-size: 13px;
+}
+
+#worker .box > .profile-info > .flex-wrapper {
+	display: flex;
+	flex-wrap: nowrap;
+	border-bottom: 0.5px solid rgba(0, 0, 0, 0.175);
+	padding-bottom: 3px;
+	margin-bottom: 3px;
+}
+
+#worker .box > .profile-info > .flex-wrapper > div:first-child {
+	flex: 0 0 95px;
+	margin-right: 10px;
+}
+
+#worker .box > .profile-info > .flex-wrapper > div + div {
+	display: flex;
+}
+
+#worker .box > .profile-info > .flex-wrapper > div + div:before {
+	content: ":";
+	margin-right: 5px;
+}
+
+#worker .box > .profile-menu {
+	margin-top: 10px;
+	text-align: center;
+}
+
+#worker .box > .profile-menu > .btn {
 	border-radius: 0;
 }
 
-#register .box .input-group .form-control {
+#worker form {
+	border: 1px solid #5cb874;
+	padding: 15px;
+	margin-bottom: 30px;
+}
+
+#worker form label {
+	margin: 0 0 1px 0;
+}
+
+#worker form .form-control,
+#worker form .custom-select,
+#worker form .input-group .form-control {
+	border-radius: 0;
+}
+
+#worker form .input-group .form-control {
 	border-right: 0;
 }
 
-#register .box .form-control,
-#register .box .input-group .form-control:focus {
+#worker form .form-control,
+#worker form .input-group .form-control:focus {
 	box-shadow: none;
 }
 
-#register .box .form-control:focus {
+#worker form .form-control:focus {
 	border-color: #787878;
 }
 
-#register .box .form-control::placeholder,
-#register .box .form-control:focus::placeholder {
+#worker form .form-control::placeholder,
+#worker form .form-control:focus::placeholder {
 	color: #a4a4a4;
 }
 
-#register .box .form-control:-ms-input-placeholder,
-#register .box .form-control:focus:-ms-input-placeholder {
+#worker form .form-control:-ms-input-placeholder,
+#worker form .form-control:focus:-ms-input-placeholder {
 	color: #a4a4a4;
 }
 
-#register .box .form-control::-ms-input-placeholder,
-#register .box .form-control:focus:-ms-input-placeholder {
+#worker form .form-control::-ms-input-placeholder,
+#worker form .form-control:focus:-ms-input-placeholder {
 	color: #a4a4a4;
 }
 
-#register .box .input-group .form-control:focus ~ .input-group-append .input-group-text {
+#worker form .input-group .form-control:focus ~ .input-group-append .input-group-text {
 	border-color: #787878;
 }
 
-#register .box .input-group .form-control.is-invalid:focus {
+#worker form .input-group .form-control.is-invalid:focus {
 	box-shadow: none;
 }
 
-#register .box .input-group .form-control.is-invalid ~ .input-group-append .input-group-text {
+#worker form .input-group .form-control.is-invalid ~ .input-group-append .input-group-text {
 	border-color: #dc3545;
 }
 
-#register .box .input-group .input-group-text {
+#worker form .input-group .input-group-text {
 	background-color: transparent;
 	border-bottom-right-radius: 0;
 	border-left: 0;
@@ -1667,31 +1796,72 @@ section {
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-#register .box .message {
-	text-align: center;
+#worker form [type="submit"] {
+	border-radius: 0;
 }
 
-#register .box .message p {
-	margin-bottom: 0;
+#worker .pagination {
+	margin-top: 15px;
 }
 
-#register .box .message p:not(:first-child) {
-	margin-top: 5px;
+/*--------------------------------------------------------------
+# Additional Style for Icheck Bootstrap
+--------------------------------------------------------------*/
+.icheck-secondary > input:first-child:not(:checked):not(:disabled):hover + label::before,
+.icheck-secondary > input:first-child:not(:checked):not(:disabled):hover + input[type="hidden"] + label::before {
+	border-color: #6c757d;
 }
 
-#register .box form {
-	margin-top: 20px;
+.icheck-secondary > input:first-child:checked + label::before,
+.icheck-secondary > input:first-child:checked + input[type="hidden"] + label::before {
+	background-color: #5a6268;
+	border-color: #6c757d;
 }
 
-#register .box p > a + a:before {
-	content: "|";
-	margin-right: 5px;
+/*--------------------------------------------------------------
+# Additional Style for Select2 Bootstrap
+--------------------------------------------------------------*/
+.select2-container--bootstrap4 .select2-selection {
+	border-radius: 0 !important;
 }
 
-#register .box .g-recaptcha {
-	display: inline-block !important;
+.select2-container--bootstrap4.select2-container--focus .select2-selection {
+	box-shadow: none !important;
 }
 
-#register .forgot-password {
-	margin: 0;
-} */
+/*--------------------------------------------------------------
+# Additional Style for Bootstrap 4
+--------------------------------------------------------------*/
+.page-center {
+	display: -ms-flexbox !important;
+	display: flex !important;
+}
+
+.page-center > ul.pagination {
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+
+ul.pagination .page-link {
+	color: #5a6268;
+	border: 1px solid #ccc;
+}
+
+ul.pagination .page-link:focus {
+	box-shadow: none;
+}
+
+ul.pagination .page-item:first-child .page-link {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+ul.pagination  .page-item:last-child .page-link {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+ul.pagination  .page-item.active .page-link {
+	background-color: #5a6268;
+	border-color: #6c757d;
+}

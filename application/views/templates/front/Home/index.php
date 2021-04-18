@@ -86,7 +86,7 @@
 	</div>
 </section>
 
-<?php $this->load->view('templates/front/element/section_banner_home'); ?>
+<?php $this->load->view('templates/front/Element/section_banner_home'); ?>
 
 <section id="clients" hidden>
 	<div class="container">

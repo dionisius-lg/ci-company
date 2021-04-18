@@ -67,9 +67,26 @@ if (!function_exists('sitelang')) {
 }
 
 if (!function_exists('bs4pagination')) {
-	function bs4pagination($url = null, $total = 0, $limit = 0) {
+	function bs4pagination($url = null, $total = 0, $limit = 0, $params = []) {
 		$ci = &get_instance();
 		$ci->load->library('pagination');
+
+		$base_url	= base_url($url);
+		$suffix		= [];
+
+		if (is_array($params)) {
+			if (count($params) > 0) {
+				foreach ($params as $key => $val) {
+					if (!empty($val) && $key != 'page') {
+						$suffix[] = $key . '=' . $val;
+					}
+				}
+			}
+		}
+
+		if (count($suffix) > 0) {
+			$base_url .= '?' . implode(addslashes('&'), $suffix);
+		}
 
 		$config = [
 			'full_tag_open'			=> '<ul class="pagination pagination-ci3-bs4">',
@@ -91,10 +108,9 @@ if (!function_exists('bs4pagination')) {
 			'first_link'			=> 'First',
 			'last_link'				=> 'Last',
 
-			'base_url'				=> base_url($url),
+			'base_url'				=> $base_url,
 			'total_rows'			=> $total,
 			'per_page'				=> !empty($limit) ? $limit : 20,
-			'page_query_string'		=> true,
 			'page_query_string'		=> true,
 			'use_page_numbers'		=> true,
 			'query_string_segment'	=> 'page'

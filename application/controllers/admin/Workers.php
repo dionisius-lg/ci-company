@@ -164,8 +164,19 @@ class Workers extends CI_Controller {
 		if ($this->input->method() == 'post') {
 			$input = $this->input->post();
 
-			$input['experience'] = (array_key_exists('experience', $input)) ? implode(',', $input['experience']) : '';
-			$input['ready_placement'] = (array_key_exists('ready_placement', $input)) ? implode(',', $input['ready_placement']) : '';
+			if (array_key_exists('experience', $input)) {
+				sort($input['experience']);
+				$input['experience'] = implode(',', $input['experience']);
+			} else {
+				$input['experience'] = '';
+			}
+
+			if (array_key_exists('ready_placement', $input)) {
+				sort($input['ready_placement']);
+				$input['ready_placement'] = implode(',', $input['ready_placement']);
+			} else {
+				$input['ready_placement'] = '';
+			}
 
 			$input = array_map('trim', $input);
 			$file = false;
@@ -237,8 +248,19 @@ class Workers extends CI_Controller {
 		if ($this->input->method() == 'post') {
 			$input = $this->input->post();
 
-			$input['experience'] = (array_key_exists('experience', $input)) ? implode(',', $input['experience']) : '';
-			$input['ready_placement'] = (array_key_exists('ready_placement', $input)) ? implode(',', $input['ready_placement']) : '';
+			if (array_key_exists('experience', $input)) {
+				sort($input['experience']);
+				$input['experience'] = implode(',', $input['experience']);
+			} else {
+				$input['experience'] = '';
+			}
+
+			if (array_key_exists('ready_placement', $input)) {
+				sort($input['ready_placement']);
+				$input['ready_placement'] = implode(',', $input['ready_placement']);
+			} else {
+				$input['ready_placement'] = '';
+			}
 
 			$input = array_map('trim', $input);
 			$file = false;

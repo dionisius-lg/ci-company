@@ -19,6 +19,7 @@ class QuickSearch extends CI_Controller {
 
 		// set template layout
 		$this->template->set_template('layouts/front');
+		$this->template->title = 'Quick Search';
 
 		// load default models
 		$this->load->model('CompanyModel');

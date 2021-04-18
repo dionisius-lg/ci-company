@@ -12,34 +12,36 @@
 
 <section id="login">
 	<div class="container">
-		<div class="col-md-5 col-sm-10 mx-auto">
-			<div class="box mx-auto">
-				<div class="message">
-					<?php echo (hasFlashError()) ? '<span class="text-danger"><i class="fa fa-warning"></i> ' . flashError() . '</span>' : $this->lang->line('page_login')['intro']; ?>
-				</div>
-				<?php echo form_open('auth', ['id' => 'formAuth', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
-					<div class="form-group">
-						<?php echo form_input(['type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['username'], 'data-parsley-errors-container' => '.parsley-username', 'required' => true, 'autofocus' => true]); ?>
-						<span class="text-danger parsley-username"></span>
+		<div class="row">
+			<div class="col-md-4 col-sm-12 mx-auto">
+				<div class="box mx-auto">
+					<div class="message">
+						<?php echo (hasFlashError()) ? '<span class="text-danger"><i class="fa fa-warning"></i> ' . flashError() . '</span>' : $this->lang->line('page_login')['intro']; ?>
 					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<?php echo form_input(['type' => 'password', 'name' => 'password', 'id' => 'password', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['password'], 'data-parsley-errors-container' => '.parsley-password', 'required' => true]); ?>
-							<div class="input-group-append">
-								<div class="input-group-text">
-									<i class="fa fa-fw fa-eye toggle-password"></i>
+					<?php echo form_open('auth', ['id' => 'formAuth', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
+						<div class="form-group">
+							<?php echo form_input(['type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['username'], 'data-parsley-errors-container' => '.parsley-username', 'required' => true, 'autofocus' => true]); ?>
+							<span class="text-danger parsley-username"></span>
+						</div>
+						<div class="form-group">
+							<div class="input-group">
+								<?php echo form_input(['type' => 'password', 'name' => 'password', 'id' => 'password', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['password'], 'data-parsley-errors-container' => '.parsley-password', 'required' => true]); ?>
+								<div class="input-group-append">
+									<div class="input-group-text">
+										<i class="fa fa-fw fa-eye toggle-password"></i>
+									</div>
 								</div>
 							</div>
+							<span class="text-danger parsley-password"></span>
 						</div>
-						<span class="text-danger parsley-password"></span>
-					</div>
-					<div class="form-group text-center">
-						<?php echo $recaptcha ?>
-					</div>
-					<div class="text-right">
-						<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('page_login')['submit']; ?></button>
-					</div>
-				<?php echo form_close(); ?>
+						<div class="form-group text-center">
+							<?php echo $recaptcha ?>
+						</div>
+						<div class="text-right">
+							<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('page_login')['submit']; ?></button>
+						</div>
+					<?php echo form_close(); ?>
+				</div>
 			</div>
 		</div>
 	</div>
