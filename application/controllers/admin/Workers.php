@@ -78,7 +78,7 @@ class Workers extends CI_Controller {
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/workers', $total, $clause['limit']);
+		$this->result['pagination'] = bs4pagination('admin/workers', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
 		$this->template->content->view('templates/back/Workers/index', $this->result);
