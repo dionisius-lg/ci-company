@@ -1,35 +1,33 @@
 <div class="container">
     <div class="row">
-    <div class="col">
-        <div class="countries mt-3">
-        <h4>Countries</h4>
-        <hr>
-        <ul class="list-group">
-        <?php foreach($placements AS $placement) : ?>
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-            <p class="text-uppercase"><a href="<?php echo base_url('worker?ready_placement=' . $placement['id']); ?>"><?= $placement['name']; ?></a></p>
-            </li>
-        <?php endforeach; ?>
-        </ul>
+        <div class="col-md-6">
+            <div class="countries mt-3">
+                <h5 class="text-uppercase">Countries</h5>
+                <hr>
+                <?php foreach($placements AS $placement) : ?>
+                <br>
+                    <div class="col">
+                        <a class="btn btn-outline-success border-dark col-8 text-left text-dark" href="<?php echo base_url('worker?ready_placement=' . $placement['id']); ?>"><?php echo $placement['name']; ?></a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
         </div>
-    </div>
 
-    <div class="col">
-        <div class="categories mt-3">
-        <h4>Categories</h4>
-        <hr>
-
-            <ul class="list-group">
-            <?php foreach($experiences AS $experience) : ?>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <p class="text-uppercase"><a href="<?php echo base_url('worker?experience_ids=' . $experience['id']); ?>"><?= $experience['name']; ?></a></p>
-                </li>
-            <?php endforeach; ?>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <p class="text-uppercase"><a href="<?php echo base_url('quicksearch'); ?>">quick search</a></p>
-                </li>
-            </ul>
+        <div class="col-md-6">
+            <div class="categories mt-3">
+                <h5 class="text-uppercase">Categories</h5>
+                <hr>
+                <?php foreach($experiences AS $experience) : ?>
+                <br>
+                    <div class="col">
+                        <a class="btn btn-outline-primary border-dark col-8 text-left text-dark" href="<?php echo base_url('worker?experience_ids=' . $experience['id']); ?>"><?= $experience['name']; ?></a>
+                    </div>
+                <?php endforeach; ?>
+                <br>
+                    <div class="col">
+                        <a class="btn btn-outline-primary border-dark col-8 text-left text-dark"  href="<?php echo base_url('worker'); ?>">Quick search</a>
+                    </div>
+            </div>
         </div>
-    </div>
     </div>
 </div>
