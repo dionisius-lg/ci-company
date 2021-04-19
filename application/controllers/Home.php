@@ -40,8 +40,8 @@ class Home extends CI_Controller {
 
 		$request = [
 			'sliders' => $this->SlidersModel->getAll(['limit' => 10, 'order' => 'order_number', 'sort' => 'asc']),
-			'experiences' => $this->ExperiencesModel->getAll(['limit' => 2, 'order' => 'name', 'sort' => 'asc']),
-			'placements' => $this->PlacementsModel->getAll(['limit' => 10, 'order' => 'name', 'sort' => 'asc']),
+			'experiences' => $this->ExperiencesModel->getAll(['limit' => 3, 'order' => 'rand()']),
+			'placements' => $this->PlacementsModel->getAll(['limit' => 3, 'order' => 'rand()']),
 		];
 
 		foreach ($request as $key => $val) {

@@ -12,8 +12,6 @@
 	} ?>
 </section>
 
-<?php $this->load->view('templates/front/Element/section_filter_list'); ?>
-
 <?php $this->load->view('templates/front/Element/section_about_home'); ?>
 
 <?php $this->load->view('templates/front/Element/section_advantage'); ?>
@@ -112,6 +110,9 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.match-height').matchHeight();
+		// $('.product-list > .filter .btn-filter-show').sameWidth();
+
+		sameWidth('.filter-workers ul > li span');
 	});
 
 	$('.main-slider').owlCarousel({
@@ -128,33 +129,22 @@
 		dotsSpeed: 400
 	});
 
-	// $('.client-slider').owlCarousel({
-	// 	autoplay: true,
-	// 	autoplayTimeout: 7000,
-	// 	autoplayHoverPause: true,
-	// 	smartSpeed: 500,
-	// 	loop: true,
-	// 	responsiveClass: true,
-	// 	items: 6,
-	// 	nav : false,
-	// 	dots: false,
-	// 	dotsSpeed: 400,
-	// 	margin: 50,
-	// 	responsiveClass: true,
-	// 	responsive: {
-	// 		0: {
-	// 			items: 2,
-	// 			margin: 25
-	// 		},
-	// 		576: {
-	// 			items: 2
-	// 		},
-	// 		768: {
-	// 			items: 4
-	// 		},
-	// 		992: {
-	// 			items: 6
-	// 		}
-	// 	}
-	// });
+	function sameWidth(selector = false) {
+		if (selector) {
+			var widths = [];
+
+			$(selector).css('width', 'auto');
+
+			$(selector).each(function() {
+				var width = $(this).width();
+				widths.push(width);
+			});
+			
+			var maxWidth = Math.max.apply(null, widths);
+
+			$(selector).each(function(){
+				$(selector).width(maxWidth);
+			}); 
+		}
+	}
 </script>

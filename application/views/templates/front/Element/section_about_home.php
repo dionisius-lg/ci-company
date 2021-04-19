@@ -1,11 +1,7 @@
 <section id="about">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-5 col-12 order-2 order-lg-1">
-				<img class="img-fluid" src="<?php echo base_url('assets/img/about/about-1.jpg'); ?>" alt="">
-			</div>
-
-			<div class="col-lg-7 col-12 order-1 order-lg-2">
+			<div class="col-lg-6 col-12 order-1 order-lg-2">
 				<h4><?php echo $company['name']; ?></h4>
 
 				<?php if (sitelang() == 'english') { ?>
@@ -39,6 +35,35 @@
 				<?php } ?>
 
 				<a href="<?php echo base_url('about'); ?>" class="btn btn-outline-secondary rounded-0"><?php echo $this->lang->line('button')['readmore']; ?></a>
+			</div>
+
+			<div class="col-lg-6 col-12 order-2 order-lg-1 filter-workers">
+				<h5 class="title">Quick Search</h5>
+				<div class="row">
+					<div class="col-md-6 pad-right-5">
+						<ul class="nav flex-column">
+							<?php foreach ($placements as $placement) { echo
+								'<li class="nav-item">
+									<a href="' . base_url('worker?ready_placement=' . $placement['id']) . '" class="nav-link">
+										' . $placement['name'] . ' <span> ' . $placement['total_worker_ready'] . ' </span>
+									</a>
+								</li>';
+							} ?>
+						</ul>
+					</div>
+
+					<div class="col-md-6 pad-left-5">
+						<ul class="nav flex-column">
+							<?php foreach ($experiences as $experience) { echo
+								'<li class="nav-item">
+									<a href="' . base_url('worker?experience=' . $experience['id']) . '" class="nav-link">
+										' . $experience['name'] . ' <span> ' . $experience['total_worker'] . ' </span>
+									</a>
+								</li>';
+							} ?>
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

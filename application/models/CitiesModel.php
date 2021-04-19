@@ -61,7 +61,7 @@ class CitiesModel extends CI_Model {
 			}
 		}
 
-		if (!in_array($clause['order'], $column) || !is_numeric($clause['limit']) || !is_numeric($clause['page']) || !in_array(strtoupper($clause['sort']), $sort)) {
+		if ((!in_array($clause['order'], $column) && $clause['order'] !== 'rand()') || !is_numeric($clause['limit']) || !is_numeric($clause['page']) || !in_array(strtoupper($clause['sort']), $sort)) {
 			return responseBadRequest();
 		}
 

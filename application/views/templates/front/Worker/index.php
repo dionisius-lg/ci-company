@@ -79,46 +79,52 @@
 		</div>
 
 		<div class="row">
-			<?php foreach ($workers as $worker) { ?>
-				<div class="col-md-4 mb-3">
-					<div class="box">
-						<div class="profile-photo">
-							<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
-						</div>
-						<div class="profile-name">
-							<h6><?php echo $worker['fullname']; ?></h6>
-							<p>NIK: <?php echo $worker['nik']; ?></p>
-						</div>
-						<div class="profile-info match-height">
-							<div class="flex-wrapper">
-								<div>Gender</div>
-								<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
+			<?php if (count($workers) > 0) { ?>
+				<?php foreach ($workers as $worker) { ?>
+					<div class="col-md-4 mb-3">
+						<div class="box">
+							<div class="profile-photo">
+								<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
 							</div>
-							<div class="flex-wrapper">
-								<div>Status</div>
-								<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
+							<div class="profile-name">
+								<h6><?php echo $worker['fullname']; ?></h6>
+								<p>NIK: <?php echo $worker['nik']; ?></p>
 							</div>
-							<div class="flex-wrapper">
-								<div>Age</div>
-								<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
+							<div class="profile-info match-height">
+								<div class="flex-wrapper">
+									<div>Gender</div>
+									<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
+								</div>
+								<div class="flex-wrapper">
+									<div>Status</div>
+									<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
+								</div>
+								<div class="flex-wrapper">
+									<div>Age</div>
+									<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
+								</div>
+								<div class="flex-wrapper">
+									<div>Placement</div>
+									<div><?php echo !empty($worker['placement']) ? $worker['placement'] . ((!empty($worker['placement_status'])) ? ' (' . $worker['placement_status'] . ')' : '') : '-'; ?></div>
+								</div>
+								<div class="flex-wrapper">
+									<div>Experience</div>
+									<div><?php echo !empty($worker['experience']) ? implode(', ', (explode(',', $worker['experience']))) : '-'; ?></div>
+								</div>
+								<div class="flex-wrapper">
+									<div>Ready For Placement</div>
+									<div><?php echo !empty($worker['ready_placement']) ? implode(', ', (explode(',', $worker['ready_placement']))) : '-'; ?></div>
+								</div>
 							</div>
-							<div class="flex-wrapper">
-								<div>Placement</div>
-								<div><?php echo !empty($worker['placement']) ? $worker['placement'] . ((!empty($worker['placement_status'])) ? ' (' . $worker['placement_status'] . ')' : '') : '-'; ?></div>
+							<div class="profile-menu">
+								<?php echo anchor('worker/detail/' . $worker['id'], 'View Detail', ['class' => 'btn btn-secondary']); ?>
 							</div>
-							<div class="flex-wrapper">
-								<div>Experience</div>
-								<div><?php echo !empty($worker['experience']) ? implode(', ', (explode(',', $worker['experience']))) : '-'; ?></div>
-							</div>
-							<div class="flex-wrapper">
-								<div>Ready For Placement</div>
-								<div><?php echo !empty($worker['ready_placement']) ? implode(', ', (explode(',', $worker['ready_placement']))) : '-'; ?></div>
-							</div>
-						</div>
-						<div class="profile-menu">
-							<?php echo anchor('worker/detail/' . $worker['id'], 'View Detail', ['class' => 'btn btn-secondary']); ?>
 						</div>
 					</div>
+				<?php } ?>
+			<?php } else { ?>
+				<div class="col-md-12 text-center">
+					<p class="my-4 ">No result found.</p>
 				</div>
 			<?php } ?>
 		</div>
