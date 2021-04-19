@@ -18,26 +18,130 @@ if (!function_exists('slugify')) {
 		return strtolower(str_slug($str, '-'));
 	}
 }
+
+if (!function_exists('strRandom')) {
+	function strRandom($length = '') {
+		if (is_numeric($length)) {
+			$result    = "";
+			$chars     = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+			$charArray = str_split($chars);
+
+			for ($i = 0; $i < $length; $i++) {
+				$randItem = array_rand($charArray);
+				$result  .= "". $charArray[$randItem];
+			}
+
+			return $result;
+		}
+		
+		return false;
+	}
+}
+
+if (!function_exists('sitelang')) {
+	function sitelang($lang = null) {
+		$ci = &get_instance();
+		$ci->load->library('session');
+		$ci->load->helper('language');
+
+		$allowed_lang = [
+			'english',
+			'indonesian',
+			'japanese',
+			'korean',
+			'mandarin'
+		];
+
+		if (!empty($lang) && in_array($lang, $allowed_lang)) {
+			$ci->session->set_userdata('SiteLang', $lang);
+		} else {
+            if (!$ci->session->has_userdata('SiteLang')) {
+                $ci->session->set_userdata('SiteLang', $allowed_lang['0']);
+            }
+		}
+
+		$ci->lang->load('content', $ci->session->userdata('SiteLang'));
+
+		return $ci->session->userdata('SiteLang');
+	}
+}
+
+if (!function_exists('bs4pagination')) {
+	function bs4pagination($url = null, $total = 0, $limit = 0, $params = []) {
+		$ci = &get_instance();
+		$ci->load->library('pagination');
+
+		$base_url	= base_url($url);
+		$suffix		= [];
+
+		if (is_array($params)) {
+			if (count($params) > 0) {
+				foreach ($params as $key => $val) {
+					if (!empty($val) && $key != 'page') {
+						$suffix[] = $key . '=' . $val;
+					}
+				}
+			}
+		}
+
+		if (count($suffix) > 0) {
+			$base_url .= '?' . implode(addslashes('&'), $suffix);
+		}
+
+		$config = [
+			'full_tag_open'			=> '<ul class="pagination pagination-ci3-bs4">',
+			'full_tag_close'		=> '</ul>',
+			'num_tag_open'			=> '<li class="page-item">',
+			'num_tag_close'			=> '</li>',
+			'cur_tag_open'			=> '<li class="page-item active"><span>',
+			'cur_tag_close'			=> '</span></li>',
+			'next_tag_open'			=> '<li class="page-item">',
+			'next_tagl_close'		=> '</li>',
+			'prev_tag_open'			=> '<li class="page-item">',
+			'prev_tagl_close'		=> '</li>',
+			'first_tag_open'		=> '<li><li class="page-item">',
+			'first_tagl_close'		=> '</li>',
+			'last_tag_open'			=> '<li class="page-item">',
+			'last_tagl_close'		=> '</li>',
+			'prev_link'				=> 'Prev',
+			'next_link'				=> 'Next',
+			'first_link'			=> 'First',
+			'last_link'				=> 'Last',
+
+			'base_url'				=> $base_url,
+			'total_rows'			=> $total,
+			'per_page'				=> !empty($limit) ? $limit : 20,
+			'page_query_string'		=> true,
+			'use_page_numbers'		=> true,
+			'query_string_segment'	=> 'page'
+		];
+
+		$ci->pagination->initialize($config);
+
+		return $ci->pagination->create_links();
+	}
+}
+
 /*
 function generate_url_slug($string,$table,$field='url_slug',$key=NULL,$value=NULL){
-    $t =& get_instance();
-    $slug = url_title($string);
-    $slug = strtolower($slug);
-    $i = 0;
-    $params = array ();
-    $params[$field] = $slug;
+	$t =& get_instance();
+	$slug = url_title($string);
+	$slug = strtolower($slug);
+	$i = 0;
+	$params = array ();
+	$params[$field] = $slug;
  
-    if($key)$params["$key !="] = $value; 
+	if($key)$params["$key !="] = $value; 
  
-    while ($t->db->where($params)->get($table)->num_rows())
-    {   
-        if (!preg_match ('/-{1}[0-9]+$/', $slug ))
-            $slug .= '-' . ++$i;
-        else
-            $slug = preg_replace ('/[0-9]+$/', ++$i, $slug );
-         
-        $params [$field] = $slug;
-    }   
-    return $slug;   
+	while ($t->db->where($params)->get($table)->num_rows())
+	{   
+		if (!preg_match ('/-{1}[0-9]+$/', $slug ))
+			$slug .= '-' . ++$i;
+		else
+			$slug = preg_replace ('/[0-9]+$/', ++$i, $slug );
+		 
+		$params [$field] = $slug;
+	}   
+	return $slug;   
 }
 */

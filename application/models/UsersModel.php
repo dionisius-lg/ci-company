@@ -23,16 +23,25 @@ class UsersModel extends CI_Model {
 			$column = array_diff($column, ['password']);
 		}
 
-		$sort			= ['ASC', 'DESC'];
-		$clause			= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
-		$error			= [];
-		$paging			= [];
-		$condition		= [];
-		$condition_like	= [];
+		$sort				= ['ASC', 'DESC'];
+		$clause				= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
+		$error				= [];
+		$paging				= [];
+		$condition			= [];
+		$condition_like		= [];
+		$condition_inset	= [];
 
 		$column_like = [
+			'like_email',
 			'like_username',
-			'like_user_level'
+			'like_user_level',
+			'like_fullname',
+			'like_company',
+			'like_country'
+		];
+
+		$column_inset = [
+			
 		];
 
 		$column_date = [
@@ -53,12 +62,16 @@ class UsersModel extends CI_Model {
 						} else {
 							$clause[$key] = $val;
 						}
+					} else {
+						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register', 'is_worker']) && $val === '0') {
+							$clause[$key] = '\'0\'';
+						}
 					}
 				}
 			}
 		}
 
-		if (!in_array($clause['order'], $column) || !is_numeric($clause['limit']) || !is_numeric($clause['page']) || !in_array(strtoupper($clause['sort']), $sort)) {
+		if ((!in_array($clause['order'], $column) && $clause['order'] !== 'rand()') || !is_numeric($clause['limit']) || !is_numeric($clause['page']) || !in_array(strtoupper($clause['sort']), $sort)) {
 			return responseBadRequest();
 		}
 
@@ -72,7 +85,9 @@ class UsersModel extends CI_Model {
 
 		$this->db->select($column);
 
-		$condition['is_active'] = 1;
+		if (!array_key_exists('is_active', $clause)) {
+			$condition['is_active'] = 1;
+		}
 
 		foreach ($clause as $key => $val) {
 			if (!empty($val)) {
@@ -84,6 +99,8 @@ class UsersModel extends CI_Model {
 					}
 				} elseif (in_array($key, $column_like) && in_array(substr($key, 5), $column)) {
 					$condition_like[substr($key, 5)] = $val;
+				} elseif (in_array($key, $column_inset) && in_array(substr($key, 6), $column)) {
+					$condition_inset[substr($key, 6)] = $val;
 				} elseif ($key == 'not_id' && is_numeric($val)) {
 					$condition['id !='] = $val;
 				}
@@ -96,6 +113,24 @@ class UsersModel extends CI_Model {
 
 		if (!empty($condition_like) && is_array($condition_like)) {
 			$this->db->like($condition_like);
+		}
+
+		if (!empty($condition_inset) && is_array($condition_inset)) {
+			foreach ($condition_inset as $key => $val) {
+				if (!empty($val) && is_array($val)) {
+					$term_inset = [];
+
+					foreach ($val as $val) {
+						$term_inset[] = 'FIND_IN_SET(' . $val . ', ' . $key . ')';
+					}
+
+					$term_inset = implode(' or ', $term_inset);
+
+					$this->db->where($term_inset);
+				} else {
+					$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+				}
+			}
 		}
 
 		$offset = ($clause['limit'] * $clause['page']) - $clause['limit'];
@@ -143,11 +178,11 @@ class UsersModel extends CI_Model {
 		}
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->view_table, ['id' => $id]);
@@ -200,6 +235,14 @@ class UsersModel extends CI_Model {
 			}
 		}
 
+		if (array_key_exists('email', $data)) {
+			$check = $this->_getCount($this->table, ['email' => $data['email']]);
+
+			if ($check > 0) {
+				return responseBadRequest('Email already exist');
+			}
+		}
+
 		if (!array_key_exists('password', $data)) {
 			$data['password'] = password_hash('12345678', PASSWORD_DEFAULT);
 		}
@@ -224,11 +267,11 @@ class UsersModel extends CI_Model {
 		$data		= [];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -243,7 +286,7 @@ class UsersModel extends CI_Model {
 							$data[$key] = $val;
 						}
 					} else {
-						if (in_array($key, ['is_active', 'is_register']) && $val === '0') {
+						if (in_array($key, ['is_active', 'is_register', 'is_request_password', 'is_request_register']) && $val === '0') {
 							$data[$key] = '0';
 						}
 					}
@@ -269,6 +312,14 @@ class UsersModel extends CI_Model {
 			}
 		}
 
+		if (array_key_exists('email', $data)) {
+			$check = $this->_getCount($this->table, ['email' => $data['email'], 'id !=' => $id]);
+
+			if ($check > 0) {
+				return responseBadRequest('Email already exist');
+			}
+		}
+
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);
 
 		if ($updated) {
@@ -288,11 +339,11 @@ class UsersModel extends CI_Model {
 		$protected	= ['id'];
 
 		if (empty($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is required');
 		}
 
 		if (!is_numeric($id)) {
-			return responseBadRequest();
+			return responseBadRequest('Id is invalid');
 		}
 
 		$check = $this->_getCount($this->table, ['id' => $id]);
@@ -325,7 +376,7 @@ class UsersModel extends CI_Model {
 	 *  private _getCount method
 	 *  return interger
 	 */
-	public function _getCount($table = null, $condition = [], $condition_like = [])
+	public function _getCount($table = null, $condition = [], $condition_like = [], $condition_inset = [])
 	{
 		if (!empty($table)) {
 			$this->db->from($table);
@@ -338,6 +389,24 @@ class UsersModel extends CI_Model {
 				$this->db->like($condition_like);
 			}
 
+			if (!empty($condition_inset) && is_array($condition_inset)) {
+				foreach ($condition_inset as $key => $val) {
+					if (!empty($val) && is_array($val)) {
+						$term_inset = [];
+	
+						foreach ($val as $val) {
+							$term_inset[] = 'FIND_IN_SET(' . $val . ', ' . $key . ')';
+						}
+	
+						$term_inset = implode(' or ', $term_inset);
+	
+						$this->db->where($term_inset);
+					} else {
+						$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+					}
+				}
+			}
+
 			return $this->db->count_all_results();
 		}
 
@@ -348,43 +417,33 @@ class UsersModel extends CI_Model {
 	 *  login method
 	 *  verify username & password
 	 */
-	public function login($data_temp = [])
+	public function login($username = null, $password = null)
 	{
-		$column		= ['username', 'password'];
-		$data		= [];
-
-		if (!empty($data_temp) && is_array($data_temp)) {
-			foreach ($data_temp as $key => $val) {
-				if (!in_array($key, $column)) {
-					return responseBadRequest();
-				} else {
-					if (!empty($val)) {
-						$data[$key] = $val;
-					}
-				}
-			}
-		}
-
-		if (empty($data)) {
+		if (empty($username) && empty($password)) {
 			return responseBadRequest('Empty data');
 		}
 
-		if (!array_key_exists('username', $data) || !array_key_exists('password', $data)) {
-			return responseBadRequest();
-		}
-
-		$condition = [
-			'username' => $data['username'],
+		$condition_1 = [
+			'username' => $username,
 			'is_active' => 1
 		];
 
-		$query = $this->db->where($condition)->get($this->table);
+		$condition_2 = [
+			'email' => $username,
+			'is_active' => 1
+		];
+
+		$query = $this->db->where($condition_1)->get($this->table);
 
 		if ($query->num_rows() == 0) {
-			return responseNotFound();
+			$query = $this->db->where($condition_2)->get($this->table);
+
+			if ($query->num_rows() == 0) {
+				return responseNotFound();
+			}
 		}
 
-		if (password_verify($data['password'], $query->row()->password)) {
+		if (password_verify($password, $query->row()->password)) {
 			return responseSuccess(['id' => $query->row()->id], $query->num_rows());
 		}
 

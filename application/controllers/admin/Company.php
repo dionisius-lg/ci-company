@@ -18,6 +18,7 @@ class Company extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Company Profile';
 
 		$this->load->library('user_agent');
 
@@ -26,44 +27,51 @@ class Company extends CI_Controller {
 	}
 
 	private $upload_errors = [];
+	private $result = [];
 
+	/**
+	 *  index method
+	 *  index page or return to detail method
+	 */
 	public function index()
 	{
 		$this->detail();
 	}
 
+	/**
+	 *  detail method
+	 *  detail page
+	 */
 	public function detail()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		$request = [
-			'company' => $this->CompanyModel->getDetail(),
-			'provinces' => $this->ProvincesModel->getAll()
+			'company' => $this->CompanyModel->get(),
+			'provinces' => $this->ProvincesModel->getAll(['limit' => 100])
 		];
 
 		foreach ($request as $key => $val) {
-			$result[$key] = [];
+			$this->result[$key] = [];
 
 			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 				if ($request[$key]['status'] == 'success') {
-					$result[$key] = $val['data'];
+					$this->result[$key] = $val['data'];
 				}
 			}
 		}
 
-		$this->template->title = 'Company Profile';
-		$this->template->content->view('templates/back/company/detail', $result);
-
+		$this->template->content->view('templates/back/Company/detail', $this->result);
 		$this->template->publish();
 	}
 
-/* Company Profile
--------------------------------------*/
-	public function updateProfile()
+	/**
+	 *  update method
+	 *  update data
+	 */
+	public function update()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->method() == 'post') {
 			$input = array_map('trim', $this->input->post());
@@ -89,7 +97,7 @@ class Company extends CI_Controller {
 				$config_file = [
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png',
-					'max_size' => 150,
+					'max_size' => '2048',
 					//'max_width' => '1024',
 					//'max_height' => '768',
 					'encrypt_name' => true,
@@ -120,7 +128,7 @@ class Company extends CI_Controller {
 				}
 			}
 
-			$validate = $this->validateProfile($file);
+			$validate = $this->validate($file);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
@@ -148,7 +156,7 @@ class Company extends CI_Controller {
 				'address_ind'		=> nl2space(ucwords($input['address_ind'])),
 				'city_id'			=> $input['city'],
 				'province_id'		=> $input['province'],
-				'maps'				=> $input['maps'],
+				'zip_code'			=> $input['zip_code'],
 				'phone_1'			=> $input['phone_1'],
 				'phone_2'			=> $input['phone_2'],
 				'email_1'			=> $input['email_1'],
@@ -162,7 +170,7 @@ class Company extends CI_Controller {
 			if ($file) {
 				$data['logo'] = $upload_data['file_name'];
 
-				$request = $this->CompanyModel->getDetail();
+				$request = $this->CompanyModel->get();
 
 				$file_old = null;
 
@@ -176,7 +184,7 @@ class Company extends CI_Controller {
 			if ($request['status'] == 'success') {
 				setFlashSuccess('Data successfully updated.');
 
-				if ($file) {
+				if ($file && !empty($file_old)) {
 					if (file_exists($file_path.$file_old)) {
 						unlink($file_path.$file_old);
 					}
@@ -188,7 +196,7 @@ class Company extends CI_Controller {
 			} else {
 				setFlashError('An error occurred, please try again.');
 
-				if ($file) {
+				if ($file && !empty($file_old)) {
 					if (file_exists($file_path.$upload_data['file_name'])) {
 						unlink($file_path.$upload_data['file_name']);
 					}
@@ -205,48 +213,52 @@ class Company extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	private function validateProfile($file = false, $id = 0)
+	/**
+	 *  validate method
+	 *  validate data before action
+	 */
+	private function validate($file = false, $id = 0)
 	{
 		$validate = [
 			[
 				'field' => 'name',
 				'label' => 'Name',
-				'rules' => 'trim|required|max_length[100]|callback__regexName|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regexTextInput|xss_clean'
 			],
 			[
 				'field' => 'address_eng',
 				'label' => 'Address (English)',
-				'rules' => 'trim|required|max_length[255]|callback__regexAddress|xss_clean'
+				'rules' => 'trim|required|max_length[255]|regexTextArea|xss_clean'
 			],
 			[
 				'field' => 'address_ind',
 				'label' => 'Address (Indonesian)',
-				'rules' => 'trim|required|max_length[255]|callback__regexAddress|xss_clean'
+				'rules' => 'trim|required|max_length[255]|regexTextArea|xss_clean'
 			],
 			[
 				'field' => 'province',
 				'label' => 'Province',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
+			],
+			[
+				'field' => 'zip_code',
+				'label' => 'Zip Code',
+				'rules' => 'trim|required|max_length[6]|numeric|xss_clean'
 			],
 			[
 				'field' => 'city',
 				'label' => 'City',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
 				'field' => 'phone_1',
 				'label' => 'Phone 1',
-				'rules' => 'trim|required|max_length[30]|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|max_length[30]|numeric|xss_clean'
 			],
 			[
 				'field' => 'phone_2',
 				'label' => 'Phone 2',
-				'rules' => 'trim|required|max_length[30]|callback__regexNumeric|xss_clean'
-			],
-			[
-				'field' => 'phone_2',
-				'label' => 'Phone 2',
-				'rules' => 'trim|max_length[30]|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|max_length[30]|numeric|xss_clean'
 			],
 			[
 				'field' => 'email_1',
@@ -261,7 +273,7 @@ class Company extends CI_Controller {
 			[
 				'field' => 'fax',
 				'label' => 'fax',
-				'rules' => 'trim|max_length[30]|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|max_length[30]|numeric|xss_clean'
 			],
 		];
 
@@ -275,130 +287,11 @@ class Company extends CI_Controller {
 
 		return $validate;
 	}
-/*-------------------------------------
--- End Company Profile */
 
-
-/* Company About
--------------------------------------*/
-	public function updateAbout()
-	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
-
-		if ($this->input->method() == 'post') {
-			$input = array_map('trim', $this->input->post());
-			$file = false;
-
-			$validate = $this->validateAbout($file);
-
-			$this->form_validation->set_rules($validate);
-			$this->form_validation->set_error_delimiters('','');
-
-			if ($this->form_validation->run() == false) {
-				foreach ($input as $key => $val) {
-					if (!empty(form_error($key))) {
-						setFlashError(form_error($key), $key);
-					}
-				}
-
-				setOldInput($input);
-				redirect('admin/company#About');
-			}
-
-			$data = [
-				'about_eng'			=> $input['about_eng'],
-				'about_ind'			=> $input['about_ind'],
-				'update_user_id'	=> $session['id']
-			];
-
-			//$data = array_map('strClean', $data);
-
-			$request = $this->CompanyModel->update($data);
-
-			if ($request['status'] == 'success') {
-				setFlashSuccess('Data successfully updated.');
-			} else {
-				setFlashError('An error occurred, please try again.');
-			}
-
-			redirect('admin/company#About');
-		}
-
-		redirect($_SERVER['HTTP_REFERER']);
-	}
-
-	private function validateAbout($file = false)
-	{
-		$validate = [
-			[
-				'field' => 'about_eng',
-				'label' => 'About (English)',
-				'rules' => 'trim|xss_clean'
-			],
-			[
-				'field' => 'about_ind',
-				'label' => 'About (Indonesian)',
-				'rules' => 'trim|xss_clean'
-			],
-		];
-
-		return $validate;
-	}
-/*-------------------------------------
--- End Company About */
-
-	public function _regexName($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 .,\-\&]*$/', $str)) {
-				$this->form_validation->set_message('_regexName', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexAddress($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 \-,.()\r\n]*$/', $str)) {
-				$this->form_validation->set_message('_regexAddress', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexNumeric($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[0-9]*$/', $str)) {
-				$this->form_validation->set_message('_regexNumeric', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _formatDate($str = false)
-	{
-		if ($str) {
-			$date = DateTime::createFromFormat('Y-m-d', $str);
-			$error = DateTime::getLastErrors();
-
-			if ($error['warning_count'] > 0 || $error['error_count'] > 0) {
-				$this->form_validation->set_message('_formatDate', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-    }
-
+	/**
+	 *  _errorFile method
+	 *  display file upload error
+	 */
 	public function _errorFile($str)
 	{
 		if (isset($this->upload_errors['file'])) {

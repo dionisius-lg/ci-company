@@ -2,15 +2,84 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['welcome'] = '<h2>Welcome to </h2>';
+$lang['header'] = [
+	'topbar' => [
+		'login'		=> 'Login',
+		'register'	=> 'Register',
+		'logout'	=> 'Logout'
+	],
+	'navbar' => [
+		'home'		=> 'Home',
+		'worker'	=> 'Worker',
+		'gallery'	=> 'Gallery',
+		'dropdown'	=> 'Dropdown',
+		'about'		=> 'About Us',
+		'contact'	=> 'Contact Us'
+	]
+];
 
-$lang['welcome_message'] =
-	'<p class="font-italic">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-	</p>
-	<ul>
-		<li><i class="icofont-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-		<li><i class="icofont-check-circled"></i> Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-		<li><i class="icofont-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda mastiro dolore eu fugiat nulla pariatur.</li>
-	</ul>
-	<p>Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>';
+$lang['footer'] = [
+	'company'	=> [
+		'desc'	=> ' is a Recruitment and Placement Company that specializes in skilled Indonesian workforce abroad.'
+	],
+	'link'		=> [
+		'title'		=> 'Useful Links',
+		'home'		=> 'Home',
+		'worker'	=> 'Worker',
+		'gallery'	=> 'Gallery',
+		'dropdown'	=> 'Dropdown',
+		'about'		=> 'About Us',
+		'contact'	=> 'Contact Us'
+	],
+	'contact'	=> [
+		'title'		=> 'Contact Us',
+		'phone'		=> 'Phone',
+		'email'		=> 'Email'
+	]
+];
+
+$lang['section_title'] = [
+	'advantages'	=> 'Our Advantages',
+	'clients'		=> 'Our Clients',
+	'news'			=> 'News'
+];
+
+$lang['page_contact'] = [
+	'info'		=> [
+		'title'		=> 'Contact Info',
+		'location'	=> 'Location',
+		'email'		=> 'Email',
+		'phone'		=> 'Call'
+	],
+	'message'	=> [
+		'title'		=> 'Get In Touch',
+		'name'		=> 'Your Name',
+		'email'		=> 'Your Email',
+		'subject'	=> 'Subject',
+		'message'	=> 'Message',
+		'send'		=> 'Send Message'
+	]
+];
+
+$lang['button'] = [
+	'readmore'		=> 'Read More',
+	'contact'		=> 'Contact Us',
+	'send_message'	=> 'Send Message'
+];
+
+$lang['page_login'] = [
+	'intro'		=> 'Login to start your session',
+	'username'	=> 'Username or email',
+	'password'	=> 'Password',
+	'submit'	=> 'Login'
+];
+
+$lang['page_register'] = [
+	'intro'				=> 'Register a new membership',
+	'fullname'			=> 'Fullname',
+	'email'				=> 'Email',
+	'company'			=> 'Company',
+	'city'				=> 'City',
+	'country'			=> 'Country',
+	'submit'			=> 'Register'
+];

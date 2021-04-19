@@ -18,88 +18,130 @@ class Users extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Users Data';
 
 		$this->load->library('user_agent');
 
 		$this->load->model('UsersModel');
-		$this->load->model('EmployeesModel');
 		$this->load->model('UserLevelsModel');
+		$this->load->model('WorkersModel');
 	}
 
 	private $upload_errors = [];
+	private $result = [];
 
+	/**
+	 *  index method
+	 *  index page
+	 */
 	public function index()
 	{
 		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$params		= $this->input->get();
+		$clause		= [];
+		$total		= 0;
+
+		$clause = [
+			'limit'					=> 10,
+			'page'					=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_fullname'			=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
+			'like_email'			=> array_key_exists('email', $params) ? $params['email'] : '',
+			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
+			'like_country'			=> array_key_exists('country', $params) ? $params['country'] : '',
+			'like_username'			=> array_key_exists('username', $params) ? $params['username'] : '',
+			'user_level_id'			=> array_key_exists('user_level', $params) ? $params['user_level'] : '',
+			'order'					=> 'fullname',
+			'sort'					=> 'asc',
+			'is_register'			=> 1,
+			'is_request_register'	=> '0',
+		];
 
 		$request = [
-			'user_levels' => $this->UserLevelsModel->getAll()
+			'users' => $this->UsersModel->getAll($clause),
+			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
 
 		foreach ($request as $key => $val) {
-			$result[$key] = [];
+			$this->result[$key] = [];
 
 			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 				if ($request[$key]['status'] == 'success') {
-					$result[$key] = $val['data'];
+					$this->result[$key] = $val['data'];
+
+					if ($key == 'users') {
+						$total = $val['total_data'];
+					}
 				}
 			}
 		}
 
-		$this->template->title = 'Users Data';
-		$this->template->content->view('templates/back/users/index', $result);
+		$this->result['pagination'] = bs4pagination('admin/users', $total, $clause['limit'], $params);
+		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
+		$this->template->content->view('templates/back/Users/index', $this->result);
 		$this->template->publish();
 	}
 
+	/**
+	 *  detail method
+	 *  detail data, return json
+	 */
 	public function detail($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$request = [
 				'user' => $this->UsersModel->getDetail($id),
-				'employees' => $this->EmployeesModel->getAll(['user_id' => $id]),
-				//'user_levels' => $this->UserLevelsModel->getAll(),
+				'worker' => $this->WorkersModel->getAll(['user_id' => $id]),
 			];
 
 			foreach ($request as $key => $val) {
-				$result[$key] = [];
+				$this->result[$key] = [];
 
 				if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 					if ($request[$key]['status'] == 'success' && !empty($val['data'])) {
-						if (in_array($key, ['employees'])) {
-							$result[$key] = $val['data'][0];
+						if (in_array($key, ['worker'])) {
+							$this->result[$key] = $val['data'][0];
 						} else {
-							$result[$key] = $val['data'];
+							$this->result[$key] = $val['data'];
 						}
 					}
 				}
 			}
 
-			if (empty($result['user'])) {
-				echo json_encode($result); exit();
+			if (!empty($this->result['user'])) {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+			} else {
+				unset($this->result['user']);
+				unset($this->result['worker']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  create method
+	 *  create data, return json
+	 */
 	public function create()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
@@ -107,26 +149,31 @@ class Users extends CI_Controller {
 		if ($this->input->is_ajax_request()) {
 			$input = array_map('trim', $this->input->post());
 			$file = false;
+			$password = true;
 
-			$validate = $this->validate($file);
+			$validate = $this->validate($file, $password);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
 
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
 				'username'			=> strtolower($input['username']),
+				'password'			=> $input['password'],
+				'fullname'			=> ucwords($input['fullname']),
+				'email'				=> strtolower($input['email']),
+				'country'			=> ucwords($input['country']),
+				'company'			=> ucwords($input['company']),
 				'user_level_id'		=> $input['user_level'],
-				'is_register'		=> 0,
-				'password'			=> '12345678',
-				'update_user_id'	=> $session['id']
+				'register_user_id'	=> $session['id'],
+				'is_register'		=> 1
 			];
 
 			$data = array_map('strClean', $data);
@@ -134,86 +181,156 @@ class Users extends CI_Controller {
 			$request = $this->UsersModel->insert($data);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Data successfully created.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Data successfully created.');
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  update method
+	 *  update data, return json
+	 */
 	public function update($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$input = array_map('trim', $this->input->post());
 			$file = false;
+			$password = false;
 
-			$validate = $this->validate($file, $id);
+			$validate = $this->validate($file, $password, $id);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
 
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
 				'username'			=> strtolower($input['username']),
+				'fullname'			=> ucwords($input['fullname']),
+				'email'				=> strtolower($input['email']),
+				'country'			=> ucwords($input['country']),
+				'company'			=> ucwords($input['company']),
 				'user_level_id'		=> $input['user_level'],
-				'is_register'		=> $input['is_register'],
 				'update_user_id'	=> $session['id']
 			];
-
-			if ($data['is_register'] == 1) {
-				$data['register_user_id'] = $session['id'];
-			}
 
 			$data = array_map('strClean', $data);
 
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Data successfully updated.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Data successfully updated.');
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  delete method
+	 *  delete data, return json
+	 */
 	public function delete($id = null)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
+			}
+
+			$request = $this->UsersModel->delete($id);
+
+			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Data successfully deleted.');
+			}
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	/**
+	 *  changePassword method
+	 *  update data password, return json
+	 */
+	public function changePassword($id)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
+			'status' => 'error',
+			'message' => 'An error occurred, please try again.'
+		];
+
+		if ($this->input->is_ajax_request()) {
+			if (empty($id) && !is_numeric($id)) {
+				echo json_encode($this->result); exit();
+			}
+
+			$input = array_map('trim', $this->input->post());
+
+			$validate = [
+				[
+					'field' => 'password',
+					'label' => 'Password',
+					'rules' => 'trim|required|min_length[3]|max_length[10]|xss_clean'
+				],
+				[
+					'field' => 'password_repeat',
+					'label' => 'Password Repeat',
+					'rules' => 'trim|required|matches[password]|xss_clean'
+				]
+			];
+
+			$this->form_validation->set_rules($validate);
+			$this->form_validation->set_error_delimiters('','');
+
+			if ($this->form_validation->run() == false) {
+				foreach ($input as $key => $val) {
+					$this->result['error'][$key] = form_error($key);
+				}
+
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
-				'is_active'			=> 0,
+				'password'			=> $input['password'],
 				'update_user_id'	=> $session['id']
 			];
 
@@ -222,27 +339,33 @@ class Users extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Data successfully deleted.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Password successfully updated.');
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  resetPassword method
+	 *  reset data password, return json
+	 */
 	public function resetPassword($id = null)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
@@ -255,115 +378,90 @@ class Users extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Password successfully reset.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Password successfully reset.');
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	private function validate($file = false, $id = 0)
+	/**
+	 *  validate method
+	 *  validate data before action
+	 */
+	private function validate($file = false, $password = false, $id = 0)
 	{
 		$validate = [
 			[
 				'field' => 'username',
 				'label' => 'Username',
-				'rules' => 'trim|required|max_length[30]|valid_email|callback__checkUsername['.$id.']|xss_clean'
+				'rules' => 'trim|required|max_length[30]|regexUsername|checkUsersUsername['.$id.']|xss_clean'
+			],
+			[
+				'field' => 'fullname',
+				'label' => 'Fullname',
+				'rules' => 'trim|required|max_length[100]|regexTextInput|xss_clean'
+			],
+			[
+				'field' => 'email',
+				'label' => 'Email',
+				'rules' => 'trim|required|max_length[100]|valid_email|checkUsersEmail['.$id.']|xss_clean'
+			],
+			[
+				'field' => 'country',
+				'label' => 'Country',
+				'rules' => 'trim|max_length[100]|regexTextInput|xss_clean'
+			],
+			[
+				'field' => 'company',
+				'label' => 'Company',
+				'rules' => 'trim|max_length[200]|regexTextInput|xss_clean'
 			],
 			[
 				'field' => 'user_level',
 				'label' => 'User Level',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
-			],
-			[
-				'field' => 'is_register',
-				'label' => 'Register Status',
-				'rules' => 'trim|required|callback__regexNumeric|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 		];
+
+		if ($file) {
+			$validate[] = [
+				'field' => 'picture',
+				'label' => 'Picture',
+				'rules' => 'trim|callback__errorFile|xss_clean'
+			];
+		}
+
+		if ($password) {
+			$validate[] = [
+				'field' => 'password',
+				'label' => 'Password',
+				'rules' => 'trim|required|min_length[3]|max_length[10]|xss_clean'
+			];
+
+			$validate[] = [
+				'field' => 'password_repeat',
+				'label' => 'Password Repeat',
+				'rules' => 'trim|required|matches[password]|xss_clean'
+			];
+		}
 
 		return $validate;
 	}
 
-	public function _regexName($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 .,\-\&]*$/', $str)) {
-				$this->form_validation->set_message('_regexName', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexAddress($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 \-,.()\r\n]*$/', $str)) {
-				$this->form_validation->set_message('_regexAddress', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexNumeric($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[0-9]*$/', $str)) {
-				$this->form_validation->set_message('_regexNumeric', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _formatDate($str = false)
-	{
-		if ($str) {
-			$date = DateTime::createFromFormat('Y-m-d', $str);
-			$error = DateTime::getLastErrors();
-
-			if ($error['warning_count'] > 0 || $error['error_count'] > 0) {
-				$this->form_validation->set_message('_formatDate', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-    }
-
+	/**
+	 *  _errorFile method
+	 *  display file upload error
+	 */
 	public function _errorFile($str)
 	{
 		if (isset($this->upload_errors['file'])) {
 			$this->form_validation->set_message('_errorFile', $this->upload_errors['file']);
 			return false;
-		}
-
-		return true;
-	}
-
-	public function _checkUsername($str = false, $id = 0)
-	{
-		if ($str) {
-			$term = ['username' => $str];
-
-			if (!empty($id) && is_numeric($id)) {
-				$term['not_id'] = $id;
-			}
-
-			$request = $this->UsersModel->getAll($term);
-
-			if ($request['total_data'] > 0) {
-				$this->form_validation->set_message('_checkUsername', '%s already exist');
-				return false;
-			}
 		}
 
 		return true;

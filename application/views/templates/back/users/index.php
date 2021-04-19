@@ -2,52 +2,107 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-header">
-				<div class="row">
-					<div class="col-md-8 table-menu">
-						<button type="button" class="btn btn-primary btn-sm rounded-0" onclick="newData()">New Data</button>
-						<button type="button" class="btn btn-default btn-sm rounded-0" onclick="reloadData()">Reload Data</button>
-					</div>
-					<div class="col-md-4">
-						<div class="input-group">
-							<input type="text" class="form-control form-control-sm rounded-0" id="inputFilter" placeholder="Search">
-							<div class="input-group-append">
-								<button type="button" class="btn btn-info btn-sm rounded-0" id="submitFilter" title="Search"><i class="fa fa-search"></i></button>
-								<button type="button" class="btn btn-default btn-sm rounded-0" id="resetFilter" title="Reset"><i class="fa fa-refresh"></i></button>
-							</div>
-						</div>
-					</div>
+				<h3 class="card-title">Filter Data</h3>
+				<div class="card-tools">
+					<?php echo form_button(['type' => 'button', 'class' => 'btn btn-info btn-sm rounded-0', 'content' => 'New Data', 'onclick' => 'newData()']); ?>
 				</div>
 			</div>
 			<div class="card-body">
+				<?php echo form_open('admin/users', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
+					<div class="form-row">
+						<div class="form-group col-md-2">
+							<?php echo form_label('Fullname', 'Fullname'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'id' => 'Fullname', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Email', 'Email'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('email') ? $this->input->get('email') : '']); ?>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Company', 'Company'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'Company', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('company') ? $this->input->get('company') : '']); ?>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Country', 'Country'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'country', 'id' => 'Country', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('country') ? $this->input->get('country') : '']); ?>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Username', 'Username'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'username', 'id' => 'Username', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('username') ? $this->input->get('username') : '']); ?>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('User Level', 'UserLevel'); ?>
+							<select class="form-control select2 rounded-0" name="user_level" id="UserLevel">
+								<option value="">Please Select</option>
+								<?php foreach ($user_levels as $user_level) {
+									echo '<option value="' .$user_level['id']. '">'. $user_level['name']. '</option>';
+								} ?>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-sm btn-primary rounded-0', 'content' => 'Search Data']); ?>
+						</div>
+					</div>
+				<?php echo form_close(); ?>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-body">
 				<div class="table-responsive">
-					<table class="table table-striped table-hover" id="tableData" width="100%">
-						<thead class="table-primary">
-							<tr>
-								<th class="text-center">No.</th>
-								<th class="text-center">Username</th>
-								<th class="text-center">User Level</th>
-								<th class="text-center">Register Date</th>
-								<th class="text-center">Register By</th>
-								<th class="text-center">Update Date</th>
-								<th class="text-center">Update By</th>
-								<th class="text-center">Employees Status</th>
-								<th class="text-center">Register Status</th>
-								<th class="text-center">Action</th>
+					<table class="table table-striped">
+						<thead>
+							<tr class="">
+								<th class="text-nowrap">No.</th>
+								<th class="text-nowrap">Fullname</th>
+								<th class="text-nowrap">Email</th>
+								<th class="text-nowrap">Username</th>
+								<th class="text-nowrap">Company</th>
+								<th class="text-nowrap">Country</th>
+								<th class="text-nowrap">Is Worker</th>
+								<th class="text-nowrap">Action</th>
 							</tr>
 						</thead>
+						<tbody>
+						<?php if (count($users) > 0) {
+							foreach ($users as $user) { echo
+								'<tr>
+									<td class="text-nowrap">' . $no . '</td>
+									<td class="text-nowrap">' . $user['fullname'] . '</td>
+									<td class="text-nowrap">' . $user['email'] . '</td>
+									<td class="text-nowrap">' . $user['username'] . '</td>
+									<td class="text-nowrap">' . $user['company'] . '</td>
+									<td class="text-nowrap">' . $user['country'] . '</td>
+									<td class="text-nowrap">' . (($user['is_worker'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $user['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => ($this->session->userdata('AuthUser')['id'] == $user['id'] ? 'return toastr.error(\'Cannot delete your current account\');' : 'deleteData(' . $user['id'] . ')')]) . '</td>
+								</tr>';
+
+								$no++;
+							}
+						} else { echo
+							'<tr>
+								<td class="text-center" colspan="8">No data found</td>
+							</tr>';
+						} ?>
+						</tbody>
 					</table>
 				</div>
-				<div class="row" id="tableDataOption" class="text-center">
-					<div class="col-md-12 table-length"></div>
-					<div class="col-md-12 table-paginate d-flex flex-sm-row flex-column justify-content-between"></div>
+
+				<div class="page-sm page-right">
+					<?php echo $pagination; ?>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
 
+<!-- modal add/edit data -->
 <div class="modal fade" id="modalData" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-centered" role="document">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-primary rounded-0">
 				<h5 class="modal-title">Modal title</h5>
@@ -55,175 +110,192 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<div class="modal-body">
-				<?php echo form_open(null, ['method' => 'post', 'id' => 'formModal', 'autocomplete' => 'off']); ?>
+			<?php echo form_open(null, ['method' => 'post', 'autocomplete' => 'off']); ?>
+				<div class="modal-body">
 					<div class="row">
-						<div class="form-group col-md-6">
-							<label>Username <span class="text-danger">*</span></label>
-							<input type="text" name="username" class="form-control form-control-sm rounded-0 lowercase" maxlength="30" value="">
+						<div class="form-group col-md-4">
+							<?php echo form_label('Fullname <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus', true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
-						<div class="form-group col-md-6">
-							<label>User Level <span class="text-danger">*</span></label>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase', 'maxlength' => '100']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Username <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'username', 'class' => 'form-control form-control-sm rounded-0 lowercase', 'maxlength' => '30']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('User Level <span class="text-danger">*</span>', null); ?>
 							<select class="form-control select2 rounded-0" name="user_level">
 								<option value="">Please Select</option>
-								<?php foreach ($user_levels as $user_level) {
-									echo '<option value="' .$user_level['id']. '">'. $user_level['name']. '</option>';
+								<?php foreach ($user_levels as $level) {
+									echo '<option value="' .$level['id']. '">'. $level['name']. '</option>';
 								} ?>
 							</select>
 							<span class="invalid-feedback"></span>
 						</div>
-					</div>
-					<div class="row default-hide-1">
-						<div class="form-group col-md-6">
-							<label>Request Date</label>
-							<input type="text" name="request_date" class="form-control form-control-sm rounded-0" maxlength="20" value="" readonly>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Company', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'company', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '200']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
-						<div class="form-group col-md-6">
-							<label>Register Status <span class="text-danger">*</span></label>
-							<select class="form-control form-control-sm rounded-0" name="is_register">
-								<option value="1">Register</option>
-								<option value="0">Not Register</option>
-							</select>
-							<span class="invalid-feedback"></span>
-						</div>
-						<div class="form-group col-md-6">
-							<label>Employees Status</label>
-							<input type="text" name="is_employees" class="form-control form-control-sm rounded-0" maxlength="20" value="" readonly>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Country', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'country', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
-					<div class="row default-hide-2">
-						<div class="form-group col-md-6">
-							<label>NIK</label>
-							<input type="text" name="nik" class="form-control form-control-sm rounded-0" maxlength="20" value="" readonly>
+					<div class="row group-add">
+						<div class="form-group col-md-4">
+							<?php echo form_label('Password <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'password', 'name' => 'password', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
-						<div class="form-group col-md-6">
-							<label>Fullname</label>
-							<input type="text" name="fullname" class="form-control form-control-sm rounded-0" maxlength="20" value="" readonly>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Password Repeat <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'password', 'name' => 'password_repeat', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
-					<div class="row">
-						<div class="col-md-12 text-right border-top mt-2 pt-3">
-							<button type="button" class="btn btn-success btn-sm rounded-0 btn-password float-left">Reset Password</button>
-							<button type="submit" class="btn btn-primary btn-sm rounded-0 btn-submit">Submit</button>
-							<button type="button" class="btn btn-default btn-sm rounded-0 btn-cancel" data-dismiss="modal">Cancel</button>
+					<div class="row group-detail-user">
+						<div class="form-group col-md-4">
+							<?php echo form_label('Request Date', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'request_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Register Date', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'register_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Register By', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'register_by', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Last Update Date', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'update_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Last Update By', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'update_by', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Is Worker', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'is_worker', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
 						</div>
 					</div>
-				<?php echo form_close(); ?>
-			</div>
+					<div class="row group-detail-worker">
+						<div class="form-group col-md-4">
+							<?php echo form_label('NIK (Workers)', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'worker_nik', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Fullname (Workers)', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'worker_fullname', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer justify-content-between">
+					<div>
+						<?php echo form_button(['type' => 'button', 'class' => 'btn btn-success btn-sm rounded-0 btn-password', 'content' => 'Change Password']); ?>
+					</div>
+					<div>
+						<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-primary btn-sm rounded-0 btn-submit', 'content' => 'Submit']); ?>
+						<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-cancel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
+					</div>
+				</div>
+			<?php echo form_close(); ?>
 		</div>
 	</div>
 </div>
 
-<?php $this->template->stylesheet->add('assets/vendor/datatables/css/dataTables.bootstrap4.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/css/bs4-datatables.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
+<!-- modal change password -->
+<div class="modal fade" id="modalPassword" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary rounded-0">
+				<h5 class="modal-title">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<?php echo form_open(null, ['method' => 'post', 'autocomplete' => 'off']); ?>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<?php echo form_label('Password', null); ?>
+							<?php echo form_input(['type' => 'password', 'name' => 'password', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-6">
+							<?php echo form_label('Password Repeat', null); ?>
+							<?php echo form_input(['type' => 'password', 'name' => 'password_repeat', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-primary btn-sm rounded-0 btn-submit', 'content' => 'Submit']); ?>
+					<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-cancel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
+				</div>
+			<?php echo form_close(); ?>
+		</div>
+	</div>
+</div>
 
-<?php $this->template->javascript->add('assets/vendor/datatables/js/jquery.dataTables.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/dataTables.bootstrap4.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
+<!-- load required builded stylesheet for this page -->
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
+
+<!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
+
 <script type="text/javascript">
-	var tableData;
+	// describe required variable
+	var modalData = $('#modalData'),
+		modalDataForm = $('#modalData form'),
+		modalPassword = $('#modalPassword'),
+		modalPasswordForm = $('#modalPassword form');
 
 	$(document).ready(function() {
-		//get datatable
-		tabledata = $('#tableData').DataTable({
-			'processing': true,
-			'serverSide': true,
-			//'bPaginate': true,
-			//'bLengthChange': true,
-			//'bFilter': true,
-			//'bSort': true,
-			//'bInfo': true,
-			//'bAutoWidth': false,
-			//'aaSorting': [
-			//	[0, null]
-			//],
-			'order': [
-				[ 0, 'desc' ]
-			],
-			'lengthMenu': [
-				[10, 25, 50],
-				[10, 25, 50]
-			],
-			'ajax': {
-				'url': '<?php echo base_url("remote/get-users-list"); ?>',
-				'type': 'post'
-			},
-			'columnDefs': [{
-				'targets': [-1, 0],
-				'orderable': false
-			}, {
-				'targets': [-1],
-				'className': 'text-center'
-			}],
-			'drawCallback': function( settings ) {
-				$('.form-control').addClass('rounded-0');
-				$('.pagination').addClass('pagination-sm');
-				$('#tableData').next().attr({'id': 'tableData_option'});
-				$('thead tr th').addClass('text-nowrap');
-				$('tbody tr').find('td:last').addClass('text-nowrap');
-			},
-			'language': {
-				'searchPlaceholder': 'Search',
-				'search': '',
-				'processing': '<div class="spinner-grow text-primary"></div><div class="spinner-grow text-warning"></div><div class="spinner-grow text-secondary"></div><div class="d-block text-center"><strong>Loading..</strong></div>'
-			},
-			//'dom': 'rt<"row"<"col-sm-12 col-md-5"<"d-inline"li>><"col-sm-12 col-md-7"p>>',
-			'initComplete': (settings, json)=>{
-				$('#tableData_length').appendTo('#tableDataOption .table-length');
-				$('#tableData_info').appendTo('#tableDataOption .table-paginate');
-				$('#tableData_paginate').appendTo('#tableDataOption .table-paginate');
-				$('#tableData_filter').hide();
-			},
-		});
-	});
+		// describe required variable
+		var filterUserLevel = '<?php echo $this->input->get('user_level'); ?>';
 
-	//on keypress input filter
-	$('#inputFilter').keypress(function(e) {
-		if (e.which == 13) {
-			$('#submitFilter').trigger('click');
+		// set value to element if variable true or numeric
+		if (filterUserLevel !== null && filterUserLevel !== undefined && $.isNumeric(filterUserLevel)) {
+			$('#UserLevel').val(filterUserLevel).trigger('change');
 		}
 	});
 
-	//on click submit filter
-	$('#submitFilter').on('click', function(e) {
-		$('#tableData').DataTable().search($('#inputFilter').val()).draw();
-	});
-
-	//on click reset filter
-	$('#resetFilter').on('click', function(e) {
-		$('#inputFilter').val(null).clone(true);
-		$('#submitFilter').trigger('click');
-	});
-
-	//reload table data
-	function reloadData() {
-		tabledata.ajax.reload();
-	}
-
-	//add new data
+	// add new data
 	function newData() {
-		$('#formModal')[0].reset();
-		$('#formModal').attr({'action': '<?php echo base_url("admin/users/create"); ?>'});
-		$('#formModal input, #formModal textarea, #formModal select').removeClass('is-invalid');
-		$('#formModal .invalid-feedback').empty();
-		$('#formModal .btn-submit').html('Create');
-		$('#formModal .default-hide-1, #formModal .default-hide-2, #formModal .btn-password').hide();
-		$('#formModal .btn-password').attr({'onclick': null});
+		modalDataForm[0].reset();
+		modalDataForm.find('select').val(null).trigger('change');
+		modalDataForm.attr({'action': '<?php echo base_url("admin/users/create"); ?>'});
+		modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+		modalDataForm.find('.invalid-feedback').empty();
+		modalDataForm.find('.btn-submit').html('Create');
+		modalDataForm.find('.group-add input').attr({'disabled': false, 'hidden': false});
+		modalDataForm.find('.group-add').show();
+		modalDataForm.find('.btn-password, .group-detail-user, .group-detail-worker').hide();
+		modalDataForm.find('.btn-password').attr({'onclick': null});
 
-		$('#modalData .modal-title').html('Create New Data');
-		$('#modalData').modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+		modalData.find('.modal-header .modal-title').html('Create New Data');
+		modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 	}
 
-	//detail data by id
+	// detail data by id
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
@@ -231,50 +303,54 @@
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
-					$('#formModal')[0].reset();
-					$('#formModal').attr({'action': '<?php echo base_url("admin/users/update/' + id + '"); ?>'});
-					$('#formModal input, #formModal textarea, #formModal select').removeClass('is-invalid');
-					$('#formModal .invalid-feedback').empty();
-					$('#formModal .btn-submit').html('Update');
-					$('#formModal .default-hide-1, #formModal .default-hide-2, #formModal .btn-password').hide();
-					$('#formModal .btn-password').attr({'onclick': null});
+					modalDataForm[0].reset();
+					modalDataForm.find('select').val(null).trigger('change');
+					modalDataForm.attr({'action': '<?php echo base_url("admin/users/update/' + id + '"); ?>'});
+					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+					modalDataForm.find('.invalid-feedback').empty();
+					modalDataForm.find('.btn-submit').html('Update');
+					modalDataForm.find('.group-add input').attr({'disabled': true, 'hidden': true});
+					modalDataForm.find('.btn-password, .group-detail-user, .group-detail-worker, .group-add').hide();
+					modalDataForm.find('.btn-password').attr({'onclick': null});
 
-					$('#modalData .modal-title').html('Detail Data');
+					modalData.find('.modal-header .modal-title').html('Detail Data');
 				},
 				success: function(response) {
 					if (response !== null && typeof response.user == 'object') {
-						if ('employees' in response && typeof response.employees == 'object') {
-							if (!$.isEmptyObject(response.employees)) {
-								$.each(response.employees, function(key, val) {
-									if ($.inArray(key, ['nik', 'fullname']) > -1) {
-										$('#formModal').find('[name="' + key + '"]').val(val);
-									}
+						if ('worker' in response && typeof response.worker == 'object') {
+							if (!$.isEmptyObject(response.worker)) {
+								$.each(response.worker, function(key, val) {
+									modalDataForm.find('[name="worker_'+key+'"').val(val);
 								});
 
-								$('#formModal .default-hide-2').show();
+								modalDataForm.find('.group-detail-worker').show();
 							}
 						}
 
 						if ('user' in response && typeof response.user == 'object') {
 							if (!$.isEmptyObject(response.user)) {
 								$.each(response.user, function(key, val) {
-									if ($.inArray(key, ['user_level_id', 'user_level', 'is_employees']) < 0) {
-										$('#formModal').find('[name="' + key + '"]').val(val);
+									if ($.inArray(key, ['user_level_id', 'user_level', 'is_worker']) < 0) {
+										modalDataForm.find('[name="' + key + '"]').val(val);
 									}
 
-									if (key == 'user_level_id' && $('#formModal [name="user_level"]').find('option[value="' +val+ '"]').length) {
-										$('#formModal [name="user_level"]').val(val).trigger('change');
+									if (key == 'user_level_id' && modalDataForm.find('[name="user_level"] option[value="' +val+ '"]').length) {
+										modalDataForm.find('[name="user_level"]').val(val).trigger('change');
 									}
 
-									if (key == 'is_employees') {
-										val == 1 ? $('#formModal [name="is_employees"]').val('Employees') : $('#formModal [name="is_employees"]').val('Not Employees');
+									if (key == 'is_worker') {
+										if (val == 1) {
+											modalDataForm.find('[name="is_worker"]').val('Yes');
+										} else {
+											modalDataForm.find('[name="is_worker"]').val('No');
+										}
 									}
 								});
 
-								$('#formModal .default-hide-1').show();
-								$('#formModal .btn-password').attr({'onclick': 'resetPassword(' + response.user.id + ')'}).show();
+								modalDataForm.find('.group-detail-user').show();
+								modalDataForm.find('.btn-password').attr({'onclick': 'changePassword(' + response.user.id + ')'}).show();
 
-								$('#modalData').modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+								modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 							}
 						}
 					}
@@ -286,7 +362,7 @@
 		}
 	}
 
-	//delete data by id
+	// delete data by id
 	function deleteData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			var swalBootstrap = Swal.mixin({
@@ -310,8 +386,11 @@
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {
-							(response.status == 'success') ? toastr.success(response.message) : toastr.error(response.message);
-							reloadData();
+							if (response.status == 'success') {
+								 window.location.reload();
+							} else {
+								toastr.error(response.message);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
@@ -322,22 +401,19 @@
 		}
 	}
 
-	//submited form modal
-	$('#formModal').on('submit', function(e) {
+	// submited form modal
+	modalDataForm.on('submit', function(e) {
 		e.preventDefault();
 
-		var formData = $(this),
-			modalData = $('#modalData');
-
 		$.ajax({
-			url: formData.attr('action'),
+			url: modalDataForm.attr('action'),
 			type: 'post',
-			data: formData.serialize(),
+			data: modalDataForm.serialize(),
 			dataType: 'json',
 			beforeSend: function() {
-				formData.find('.invalid-feedback').empty();
-				formData.find('.btn-submit, .btn-cancel').attr('disabled', true);
-				formData.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
+				modalDataForm.find('.invalid-feedback').empty();
+				modalDataForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', true);
+				modalDataForm.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
 				modalData.find('.close').attr('disabled', true);
 			},
 			success: function(response) {
@@ -346,33 +422,103 @@
 						if (response.error !== null && typeof response.error === 'object') {
 							$.each(response.error, function(key, val) {
 								if(val !== '') {
-									formData.find('[name="' + key + '"]').addClass('is-invalid');
-									formData.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
+									modalDataForm.find('[name="' + key + '"]').addClass('is-invalid');
+									modalDataForm.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
 								}
 							});
 						}
 					} else {
 						modalData.modal('hide');
-						(response.status == 'success') ? toastr.success(response.message) : toastr.error(response.message);
-						reloadData();
+
+						if (response.status == 'success') {
+							window.location.reload();
+						} else {
+							toastr.error(response.message);
+						}
 					}
 				}
 
-				formData.find('.btn-submit, .btn-cancel').attr('disabled', false);
-				formData.find('.btn-submit').find('span').remove();
+				modalDataForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalDataForm.find('.btn-submit').find('span').remove();
 				modalData.find('.close').attr('disabled', false);
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
 
-				formData.find('.btn-submit, .btn-cancel').attr('disabled', false);
-				formData.find('.btn-submit').find('span').remove();
+				modalDataForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalDataForm.find('.btn-submit').find('span').remove();
 				modalData.find('.close').attr('disabled', false);
 			}
 		});
 	});
 
-	//reset password by id
+	// change password by id
+	function changePassword(id) {
+		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
+			modalPasswordForm[0].reset();
+			modalPasswordForm.attr({'action': '<?php echo base_url("admin/users/change-password/' + id + '"); ?>'});
+			modalPasswordForm.find('input').removeClass('is-invalid');
+			modalPasswordForm.find('.invalid-feedback').empty();
+			modalPasswordForm.find('.btn-submit').html('Update');
+
+			modalPassword.find('.modal-header .modal-title').html('Change Password');
+			modalPassword.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+		}
+	}
+
+	// submited form password
+	modalPasswordForm.on('submit', function(e) {
+		e.preventDefault();
+
+		$.ajax({
+			url: modalPasswordForm.attr('action'),
+			type: 'post',
+			data: modalPasswordForm.serialize(),
+			dataType: 'json',
+			beforeSend: function() {
+				modalPasswordForm.find('.invalid-feedback').empty();
+				modalPasswordForm.find('.btn-submit, .btn-cancel').attr('disabled', true);
+				modalPasswordForm.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
+				modalPassword.find('.close').attr('disabled', true);
+			},
+			success: function(response) {
+				if (response !== null && typeof response === 'object') {
+					if ('error' in response) {
+						if (response.error !== null && typeof response.error === 'object') {
+							$.each(response.error, function(key, val) {
+								if(val !== '') {
+									modalPasswordForm.find('[name="' + key + '"]').addClass('is-invalid');
+									modalPasswordForm.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val);
+								}
+							});
+						}
+					} else {
+						modalPassword.modal('hide');
+						modalData.modal('hide');
+
+						if (response.status == 'success') {
+							window.location.reload();
+						} else {
+							toastr.error(response.message);
+						}
+					}
+				}
+
+				modalPasswordForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalPasswordForm.find('.btn-submit').find('span').remove();
+				modalPassword.find('.close').attr('disabled', false);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
+
+				modalPasswordForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalPasswordForm.find('.btn-submit').find('span').remove();
+				modalPassword.find('.close').attr('disabled', false);
+			}
+		});
+	});
+
+	// reset password by id
 	function resetPassword(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			var swalBootstrap = Swal.mixin({
@@ -396,9 +542,13 @@
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {
-							$('#modalData').modal('hide');
-							(response.status == 'success') ? toastr.success(response.message) : toastr.error(response.message);
-							reloadData();
+							modalData.modal('hide');
+
+							if (response.status == 'success') {
+								window.location.reload();
+							} else {
+								toastr.error(response.message);
+							}
 						},
 						error: function (jqXHR, textStatus, errorThrown) {
 							console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);

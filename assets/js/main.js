@@ -26,12 +26,26 @@
 
 				if ($('body').hasClass('mobile-nav-active')) {
 					$('body').removeClass('mobile-nav-active');
-					$('.mobile-nav-toggle i').toggleClass('icofont-navigation-menu icofont-close');
+					
 					$('.mobile-nav-overly').fadeOut();
 				}
 				return false;
 			}
 		}
+	});
+
+	// Activate navigation on current page
+	$(document).ready(function() {
+		var currentUrl = window.location.href;
+
+		$('#header nav li > a').each(function() {
+			var linkUrl = this.href;
+
+			if (linkUrl == currentUrl) {
+				// $(this).remove();
+				$(this).closest('li').addClass('active');
+			}
+		});
 	});
 
 	// Activate smooth scroll on page load with hash links in the url
@@ -93,15 +107,18 @@
 		if ($(this).scrollTop() > 100) {
 			$('#header').addClass('header-scrolled');
 			$('#topbar').addClass('topbar-scrolled');
+			$('nav.mobile-nav').addClass('scrolled');
 		} else {
 			$('#header').removeClass('header-scrolled');
 			$('#topbar').removeClass('topbar-scrolled');
+			$('nav.mobile-nav').removeClass('scrolled');
 		}
 	});
 
 	if ($(window).scrollTop() > 100) {
 		$('#header').addClass('header-scrolled');
 		$('#topbar').addClass('topbar-scrolled');
+		$('nav.mobile-nav').addClass('scrolled');
 	}
 
 	// Back to top button
@@ -119,4 +136,49 @@
 		}, 1500, 'easeInOutExpo');
 		return false;
 	});
+
+	// initialize select2
+	if ($.isFunction($.fn.select2)) {
+		$('.select2').select2({
+			width: '100%',
+			theme: 'bootstrap4',
+		});
+	}
+
+	// enable numeric only
+	$('.numeric').on('keyup', function () {
+		this.value = this.value.replace(/[^0-9\.]/g,'');
+	});
+
+	// initialize datepicker
+	if ($.isFunction($.fn.datepicker)) {
+		$('.date').datepicker({
+			'format' : 'yyyy-mm-dd',
+			'autoclose' : true,
+			'minView' : 2,
+			'weekStart' : 1,
+			'language' : 'en',
+			//'startDate' : '',
+			//'endDate' : '{{ date("Y-m-d") }}',
+			'todayHighlight': true,
+		});
+	}
+
+	// initialize venobox
+	if ($.isFunction($.fn.venobox)) {
+		$('.venobox').venobox();
+	}
+
+	// initialize matchheight
+	if ($.isFunction($.fn.matchHeight)) {
+		$('.match-height').matchHeight();
+	}
+
+	// autofocus on modal show
+	$('.modal').on('shown.bs.modal', function() {
+		$(this).find('[autofocus]').focus();
+	});
+
+	// custom ci3 pagination to bootstrap 4
+	$('ul.pagination-ci3-bs4 > li').find('a, span').addClass('page-link');
 })(jQuery);

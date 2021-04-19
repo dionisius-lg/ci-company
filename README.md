@@ -1,21 +1,14 @@
 # ci-company
 
-…or create a new repository on the command line
+Web based Company Profile
 
-echo "# ci-company" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/dionisius-lg/ci-company.git
-git push -u origin main
+## Build with
 
-…or push an existing repository from the command line
+* Codeigniter 3.1.11
+* Bootstrap 4
+* jQuery v3.5.1
 
-git remote add origin https://github.com/dionisius-lg/ci-company.git
-git branch -M main
-git push -u origin main
+## License
 
-…or import code from another repository
+ci-company released under the [MIT license](https://github.com/dionisius-lg/ci-company/blob/master/license.txt). Feel free to use it in personal and commercial projects.
 
-You can initialize this repository with code from a Subversion, Mercurial, or TFS project.

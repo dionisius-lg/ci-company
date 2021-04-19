@@ -18,6 +18,7 @@ class Sliders extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Sliders';
 
 		$this->load->library('user_agent');
 
@@ -25,54 +26,96 @@ class Sliders extends CI_Controller {
 	}
 
 	private $upload_errors = [];
+	private $result = [];
 
+	/**
+	 *  index method
+	 *  index page
+	 */
 	public function index()
 	{
 		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$params		= $this->input->get();
+		$clause		= [];
+		$total		= 0;
 
-		$this->template->title = 'Sliders';
-		$this->template->content->view('templates/back/sliders/index');
+		$clause = [
+			'limit'	=> 10,
+			'page'	=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'order'	=> 'order_number',
+			'sort'	=> 'asc'
+		];
 
+		$request = [
+			'sliders' => $this->SlidersModel->getAll($clause)
+		];
+
+		foreach ($request as $key => $val) {
+			$this->result[$key] = [];
+
+			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
+				if ($request[$key]['status'] == 'success') {
+					$this->result[$key] = $val['data'];
+
+					if ($key == 'sliders') {
+						$total = $val['total_data'];
+					}
+				}
+			}
+		}
+
+		$this->result['pagination'] = bs4pagination('admin/sliders', $total, $clause['limit'], $params);
+		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
+
+		$this->template->content->view('templates/back/Sliders/index', $this->result);
 		$this->template->publish();
 	}
 
+	/**
+	 *  detail method
+	 *  detail data, return json
+	 */
 	public function detail($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$request = $this->SlidersModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
-				$result = [
-					'status' => 'success',
-					'file' => @getimagesize(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : '',
+				$this->result['status'] = 'success';
+				$this->result['data'] = [
+					'file' => @getimagesize(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
 					'order_number' => $request['data']['order_number'],
 					'link_to' => $request['data']['link_to']
 				];
-
-				unset($result['message']);
+				unset($this->result['message']);
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  create method
+	 *  create data, return json
+	 */
 	public function create()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
@@ -128,20 +171,18 @@ class Sliders extends CI_Controller {
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
 
-			$this->form_validation->set_rules($validate);
-			$this->form_validation->set_error_delimiters('','');
-
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
 				'order_number'		=> $input['order_number'],
 				'link_to'			=> $input['link_to'],
+				'create_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
@@ -151,27 +192,33 @@ class Sliders extends CI_Controller {
 			$request = $this->SlidersModel->insert($data);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Data successfully created.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Data successfully created.');
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  update method
+	 *  update data, return json
+	 */
 	public function update($id)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$input = array_map('trim', $this->input->post());
@@ -199,7 +246,7 @@ class Sliders extends CI_Controller {
 
 				$this->load->library('upload', $config_file);
 
-				if (!$this->upload->do_upload('logo')) {
+				if (!$this->upload->do_upload('picture')) {
 					$this->upload_errors['file'] = $this->upload->display_errors('','');
 				} else {
 					$upload_data = $this->upload->data();
@@ -228,15 +275,16 @@ class Sliders extends CI_Controller {
 
 			if ($this->form_validation->run() == false) {
 				foreach ($input as $key => $val) {
-					$result['error'][$key] = form_error($key);
+					$this->result['error'][$key] = form_error($key);
 				}
 
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$data = [
 				'order_number'		=> $input['order_number'],
 				'link_to'			=> $input['link_to'],
+				'update_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
@@ -256,8 +304,9 @@ class Sliders extends CI_Controller {
 			$request = $this->SlidersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Data successfully updated.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Data successfully created.');
 
 				if ($file) {
 					if (file_exists($file_path.$file_old)) {
@@ -272,23 +321,28 @@ class Sliders extends CI_Controller {
 				}
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	public function delete($id)
+	/**
+	 *  delete method
+	 *  delete data, return json
+	 */
+	public function delete($id = null)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
 			'status' => 'error',
 			'message' => 'An error occurred, please try again.'
 		];
 
 		if ($this->input->is_ajax_request()) {
 			if (empty($id) && !is_numeric($id)) {
-				echo json_encode($result); exit();
+				echo json_encode($this->result); exit();
 			}
 
 			$file_old = null;
@@ -302,8 +356,9 @@ class Sliders extends CI_Controller {
 			$request = $this->SlidersModel->delete($id);
 
 			if ($request['status'] == 'success') {
-				$result['status'] = 'success';
-				$result['message'] = 'Data successfully deleted.';
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Data successfully deleted.');
 
 				if (!empty($file_old)) {
 					if (file_exists($file_old)) {
@@ -312,7 +367,7 @@ class Sliders extends CI_Controller {
 				}
 			}
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
@@ -324,7 +379,7 @@ class Sliders extends CI_Controller {
 			[
 				'field' => 'order_number',
 				'label' => 'Order',
-				'rules' => 'trim|numeric|xss_clean'
+				'rules' => 'trim|is_natural_no_zero|xss_clean'
 			],
 			[
 				'field' => 'link_to',
@@ -344,82 +399,11 @@ class Sliders extends CI_Controller {
 		return $validate;
 	}
 
-	public function _regexName($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 .,\-\&]*$/', $str)) {
-				$this->form_validation->set_message('_regexName', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexAddress($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[a-zA-Z0-9 \-,.()\r\n]*$/', $str)) {
-				$this->form_validation->set_message('_regexAddress', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _regexNumeric($str = false)
-	{
-		if ($str) {
-			if (!preg_match('/^[0-9]*$/', $str)) {
-				$this->form_validation->set_message('_regexNumeric', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function _formatDate($str = false)
-	{
-		if ($str) {
-			$date = DateTime::createFromFormat('Y-m-d', $str);
-			$error = DateTime::getLastErrors();
-
-			if ($error['warning_count'] > 0 || $error['error_count'] > 0) {
-				$this->form_validation->set_message('_formatDate', 'The %s format is invalid.');
-				return false;
-			}
-		}
-
-		return true;
-    }
-
 	public function _errorFile($str)
 	{
 		if (isset($this->upload_errors['file'])) {
 			$this->form_validation->set_message('_errorFile', $this->upload_errors['file']);
 			return false;
-		}
-
-		return true;
-	}
-
-	public function _checkUsername($str = false, $id = 0)
-	{
-		if ($str) {
-			$term = ['username' => $str];
-
-			if (!empty($id) && is_numeric($id)) {
-				$term['not_id'] = $id;
-			}
-
-			$request = $this->UsersModel->getAll($term);
-
-			if ($request['total_data'] > 0) {
-				$this->form_validation->set_message('_checkUsername', '%s already exist');
-				return false;
-			}
 		}
 
 		return true;

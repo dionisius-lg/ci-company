@@ -11,61 +11,39 @@ class CompanyModel extends CI_Model {
 	public $view_table = 'view_company';
 
 	/**
-	 *  getDetail method
-	 *  get detail data
+	 *  get method
+	 *  get data
 	 */
-	public function getDetail()
+	public function get()
 	{
 		$column		= $this->_getColumn($this->view_table);
 		$protected	= ['id'];
-		$id			= 1;
 
-		if (in_array('id', $column)) {
-			$column = array_diff($column, ['id']);
+		$check = $this->_getCount($this->view_table);
+
+		if ($check > 0) {
+			$query = $this->db->select($column)->limit(1)->get($this->view_table);
+			$result	= json_decode(json_encode($query->row()), true);
+		} else {
+			$result = [];
+
+			foreach ($column as $column) {
+				$result[$column] = '';
+			}
 		}
-
-		if (empty($id)) {
-			return responseBadRequest();
-		}
-
-		if (!is_numeric($id)) {
-			return responseBadRequest();
-		}
-
-		$check = $this->_getCount($this->view_table, ['id' => $id]);
-
-		if ($check == 0) {
-			return responseNotFound();
-		}
-
-		$query = $this->db->select($column)->where(['id' => $id])->get($this->view_table);
-		$result	= json_decode(json_encode($query->row()), true);
 
 		return responseSuccess($result, $check);
 	}
 
 	/**
 	 *  update method
-	 *  update existing data by id
+	 *  update existing data
 	 */
 	public function update($data_temp = [])
 	{
 		$column		= $this->_getColumn($this->table);
 		$protected	= ['id'];
 		$data		= [];
-		$id			= 1;
-
-		if (in_array('id', $column)) {
-			$column = array_diff($column, ['id']);
-		}
-
-		if (empty($id)) {
-			return responseBadRequest();
-		}
-
-		if (!is_numeric($id)) {
-			return responseBadRequest();
-		}
 
 		if (!empty($data_temp) && is_array($data_temp)) {
 			foreach ($data_temp as $key => $val) {
@@ -74,10 +52,6 @@ class CompanyModel extends CI_Model {
 				} else {
 					if (!empty($val)) {
 						$data[$key] = $val;
-					} else {
-						if (in_array($key, ['is_active']) && $val === '0') {
-							$data[$key] = '0';
-						}
 					}
 				}
 			}
@@ -87,16 +61,16 @@ class CompanyModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
-		$check = $this->_getCount($this->table, ['id' => $id]);
+		$check = $this->_getCount($this->table);
 
-		if ($check == 0) {
-			return responseNotFound();
+		if ($check > 0) {
+			$updated = $this->db->update($this->table, $data);
+		} else {
+			$updated = $this->db->insert($this->table, $data);
 		}
 
-		$updated = $this->db->update($this->table, $data, ['id' => $id]);
-
 		if ($updated) {
-			return responseSuccess(['id' => $id]);
+			return responseSuccess();
 		}
 
 		return responseError();
