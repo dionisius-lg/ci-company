@@ -9,25 +9,36 @@ tester<section class="breadcrumbs">
 		</div>
 	</div>
 </section>
-<div class="container bg-dark">
-	<div class="row justify-content-center">
-		<div class="col-sm-6 col-md-10">
-			<div class="panel panel-default m-5 p-5">
-			<!-- Default panel contents -->
-				<div class="panel-heading text-center text-white mb-3"><h4>Details Worker</h4></div>
-					<!-- List group -->
-					<?php //print_r($worker); die(); ?>
-					<ul class="list-group">
-						<li class="list-group-item">Email : <?= $worker['email']; ?></li>
-						<li class="list-group-item">Phone : <?= $worker['phone_1']; ?></li>
-						<li class="list-group-item">Birth Place : <?= $worker['birth_place']; ?></li>
-						<li class="list-group-item">Birth Date : <?= $worker['birth_date']; ?></li>
-						<li class="list-group-item">Gender : <?= $worker['gender']; ?></li>
-						<li class="list-group-item">Address : <?= $worker['address']; ?></li>
-						<li class="list-group-item">City : <?= $worker['city']; ?></li>
-						<li class="list-group-item">Province : <?= $worker['province']; ?></li>					
-					</ul>
-				</div>
+
+<div class="container">
+	<div class="row justify-content-center">		
+		<div class="col-md-4">
+			<div class="card mb-4 box-shadow m-5 p-3">
+				<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>">
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="card m-5 p-3" style="font-size: 13px; box-shadow:18px 20px 5px rgba(0,0,0,0.5)">
+				<p>
+					Email : <?php echo $worker['email']; ?>
+					<hr>
+					Phone : <?php echo $worker['phone_1']; ?>
+					<hr>
+					Birth Place : <?php echo $worker['birth_place']; ?>
+					<hr>
+					Birth Date : <?php echo $worker['birth_date']; ?>
+					<hr>
+					Gender : <?php echo $worker['gender']; ?>
+					<hr>
+					Address : <?php echo $worker['address']; ?>
+					<hr>
+					City : <?php echo $worker['city']; ?>
+					<hr>
+					Province : <?php echo $worker['province']; ?>
+				</p>
+					<a href="" class="text-uppercase btn btn-sm btn-primary m-2">Booking</a>
+					<a href="" class="text-uppercase btn btn-sm btn-success m-2">Download</a>
+			</div>
 		</div>
 	</div>
 </div>
