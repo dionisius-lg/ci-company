@@ -236,7 +236,7 @@ class UserRequests extends CI_Controller {
 
 			$this->load->model('CompanyModel');
 
-			$request  = $this->CompanyModel->getDetail();
+			$request  = $this->CompanyModel->get();
 
 			if ($request['status'] != 'success') {
 				return false;
