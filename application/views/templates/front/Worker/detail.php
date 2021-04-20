@@ -1,4 +1,4 @@
-tester<section class="breadcrumbs">
+<section class="breadcrumbs">
 	<div class="container">
     <div class="d-flex justify-content-between align-items-center">
 			<h2 class="text-uppercase"><?php echo $this->template->title; ?></h2>
@@ -36,7 +36,7 @@ tester<section class="breadcrumbs">
 					<hr>
 					Province : <?php echo $worker['province']; ?>
 				</p>
-					<a href="" class="text-uppercase btn btn-sm btn-primary m-2">Booking</a>
+					<a href="<?php echo base_url('worker/bookingworker/' . $worker['id']); ?>" class="text-uppercase btn btn-sm btn-primary m-2">Booking</a>
 					<a href="" class="text-uppercase btn btn-sm btn-success m-2">Download</a>
 			</div>
 		</div>

@@ -127,6 +127,38 @@ class Worker extends CI_Controller {
 		$this->template->publish();
 	}
 
+	public function bookingWorker($id)
+	{
+		$session = $this->session->userdata('AuthUser');
+		$request = [
+			'worker' => $this->WorkersModel->getDetail($id),
+			'workers' => $this->WorkersModel->getAll(),
+			'user_levels' => $this->UserLevelsModel->getAll()
+		];
+
+		foreach ($request as $key => $val) {
+			$this->result[$key] = [];
+
+			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
+				if ($request[$key]['status'] == 'success') {
+					$this->result[$key] = $val['data'];
+				}
+			}
+		}
+
+		$booking_status = $request['worker'];
+		if ($booking_status['data']['booking_status_id'] == 1) {
+			$data = [
+				'booking_status_id' => 2,
+				'booking_date' => date('Y-m-d H:i:s'),
+				'booking_user_id' => $session['id']
+			];
+			
+			$request = $this->WorkersModel->update($data, $id);
+		}
+		// print_r($data); die();
+	}
+
 	// page title in multi language
 	private function pageTitle($lang) {
 		switch ($lang) {
