@@ -104,6 +104,9 @@ class Worker extends CI_Controller {
 	public function detail($id)
 	{
 		$session = $this->session->userdata('AuthUser');
+		if (empty($session)) {
+			redirect(base_url('auth/register'));
+		}
 
 		$request = [
 			'worker' => $this->WorkersModel->getDetail($id), 
@@ -155,8 +158,16 @@ class Worker extends CI_Controller {
 			];
 			
 			$request = $this->WorkersModel->update($data, $id);
+
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Worker has been booked.');
+			} else {
+				setFlashError('An error occurred, please try again.');
+			}
+	
+			redirect('worker/detail/'.$id);
 		}
-		// print_r($data); die();
+		// print_r($request); die();
 	}
 
 	// page title in multi language

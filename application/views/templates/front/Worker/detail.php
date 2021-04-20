@@ -35,7 +35,11 @@
 					City : <?php echo $worker['city']; ?>
 					<hr>
 					Province : <?php echo $worker['province']; ?>
+					<hr>
+					Experience : <?php echo $worker['experience']; ?>
 				</p>
+				<?php// print_r($worker); die(); ?>
+				<?php //if($worker['booking']); ?>
 					<a href="<?php echo base_url('worker/bookingworker/' . $worker['id']); ?>" class="text-uppercase btn btn-sm btn-primary m-2">Booking</a>
 					<a href="" class="text-uppercase btn btn-sm btn-success m-2">Download</a>
 			</div>
