@@ -64,20 +64,20 @@ class Workers extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'						=> 10,
-			'page'						=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'like_nik'					=> array_key_exists('nik', $params) ? $params['nik'] : '',
-			'like_fullname'				=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
-			'like_email'				=> array_key_exists('email', $params) ? $params['email'] : '',
-			'placement_id'				=> array_key_exists('placement', $params) ? $params['placement'] : '',
-			'inset_ready_placement_ids'	=> array_key_exists('ready_placement', $params) ? $params['ready_placement'] : '',
-			'order'						=> 'fullname',
-			'sort'						=> 'asc'
+			'limit'				=> 10,
+			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_nik'			=> array_key_exists('nik', $params) ? $params['nik'] : '',
+			'like_fullname'		=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
+			'like_email'		=> array_key_exists('email', $params) ? $params['email'] : '',
+			'placement_id'		=> array_key_exists('placement', $params) ? $params['placement'] : '',
+			'booking_status_id'	=> array_key_exists('booking_status', $params) ? $params['booking_status'] : '',
+			'order'				=> 'fullname',
+			'sort'				=> 'asc'
 		];
 
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
-			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
 
@@ -111,8 +111,8 @@ class Workers extends CI_Controller {
 		$session = $this->session->userdata('AuthUser');
 
 		$request = [
-			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
-			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name', 'limit' => 100]),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 			'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 		];
@@ -142,8 +142,8 @@ class Workers extends CI_Controller {
 		if (!empty($id) && is_numeric($id)) {
 			$request = [
 				'worker' => $this->WorkersModel->getDetail($id),
-				'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
-				'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+				'experiences' => $this->ExperiencesModel->getAll(['order' => 'name', 'limit' => 100]),
+				'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
 				'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 				'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 			];
@@ -657,6 +657,43 @@ class Workers extends CI_Controller {
 						unlink($attachment['file_path'].$attachment['file_name']);
 					}
 				}
+			}
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	/**
+	 *  approveBooking method
+	 *  approve booking by id
+	 */
+	public function approveBooking($id = null)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
+			'status' => 'error',
+			'message' => 'An error occurred, please try again.'
+		];
+
+		if ($this->input->is_ajax_request()) {
+			if (empty($id) && !is_numeric($id)) {
+				echo json_encode($this->result); exit();
+			}
+
+			$data = [
+				'booking_status_id'	=> 4, // set to approved
+				'update_user_id'	=> $session['id'],
+			];
+
+			$request = $this->WorkersModel->update($data, $id);
+
+			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Booking request successfully approved.');
 			}
 
 			echo json_encode($this->result); exit();

@@ -529,7 +529,8 @@ $config['proxy_ips'] = '';
 
 /*
 |--------------------------------------------------------------------------
-| Site name
+| Site Description
 |--------------------------------------------------------------------------
 */
 $config['site_name'] = 'Company Profile';
+$config['site_author'] = 'Dionisius Lumrang Gesangie';

@@ -98,6 +98,7 @@ $route['admin/workers/get-list'] = 'admin/workers/getList';
 $route['admin/workers/upload-photo/(:any)'] = 'admin/workers/uploadPhoto/$1';
 $route['admin/workers/upload-attachment/(:any)'] = 'admin/workers/uploadAttachment/$1';
 $route['admin/workers/delete-attachment/(:any)'] = 'admin/workers/deleteAttachment/$1';
+$route['admin/workers/approve-booking/(:any)'] = 'admin/workers/approveBooking/$1';
 
 /**
  * RemoteController

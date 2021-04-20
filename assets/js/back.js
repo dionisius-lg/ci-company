@@ -101,6 +101,11 @@
 		$('.venobox').venobox();
 	}
 
+	// initialize tooltip
+	if ($.isFunction($.fn.tooltip)) {
+		$('[data-toggle="tooltip"]').tooltip(); 
+	}
+
 	// autofocus on modal show
 	$('.modal').on('shown.bs.modal', function() {
 		$(this).find('[autofocus]').focus();

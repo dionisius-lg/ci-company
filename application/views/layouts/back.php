@@ -6,9 +6,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="robots" content="all,follow">
-		<title><?php echo $this->config->item('site_name'); ?> - Administrator</title>
-		<meta name="description" content="<?php echo $this->template->description; ?>">
-		<meta name="author" content="">
+		<title><?php echo !empty($company['name']) ? $company['name'] : $this->config->item('site_name'); ?> - Administrator</title>
+		<meta name="description" content="<?php echo $this->config->item('site_name'); ?>">
+		<meta name="author" content="<?php echo $this->config->item('site_author'); ?>">
 		<meta name="url" content="<?php echo base_url(); ?>">
 		<?php echo $this->template->meta; ?>
 
