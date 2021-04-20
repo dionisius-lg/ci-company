@@ -69,23 +69,17 @@
 		break;
 } ?>
 
+<?php if (hasFlashError('auth')) { ?>
+<script>
+	Swal.fire({
+		icon: 'warning',
+		title: '<?php echo flashError("auth"); ?>'
+	});
+</script>
+<?php } ?>
+
 <script type="text/javascript">
 	$(document).ready(function() {
-		function rescaleCaptcha(){
-			var width = $('.g-recaptcha').parent().width();
-			var scale;
-			if (width < 302) {
-				scale = width / 302;
-			} else {
-				scale = 1.0; 
-			}
-
-			$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
-			$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
-			$('.g-recaptcha').css('transform-origin', '0 0');
-			$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
-		}
-
 		rescaleCaptcha();
 		$( window ).resize(function() { rescaleCaptcha(); });
 	});
@@ -139,4 +133,49 @@
 
 		e.currentTarget.submit();
 	});
+
+	function rescaleCaptcha(){
+		var width = $('.g-recaptcha').parent().width();
+		var scale;
+
+		if (width < 302) {
+			scale = width / 302;
+		} else {
+			scale = 1.0; 
+		}
+
+		$('.g-recaptcha').css('transform', 'scale(' + scale + ')');
+		$('.g-recaptcha').css('-webkit-transform', 'scale(' + scale + ')');
+		$('.g-recaptcha').css('transform-origin', '0 0');
+		$('.g-recaptcha').css('-webkit-transform-origin', '0 0');
+	}
+
+	function isset() {
+	// discuss at: http://phpjs.org/functions/isset
+	// +   original by: Kevin van	 Zonneveld (http://kevin.vanzonneveld.net)
+	// +   improved by: FremyCompany
+	// +   improved by: Onno Marsman
+	// +   improved by: Rafał Kukawski
+	// *	 example 1: isset( undefined, true);
+	// *	 returns 1: false
+	// *	 example 2: isset( 'Kevin van Zonneveld' );
+	// *	 returns 2: true
+		var a = arguments,
+			l = a.length,
+			i = 0,
+			undef;
+
+		if (l === 0) {
+			throw new Error('Empty isset');
+		}
+
+		while (i !== l) {
+			if (a[i] === undef || a[i] === null) {
+				return false;
+			}
+			i++;
+		}
+	
+		return true;
+	}
 </script>
