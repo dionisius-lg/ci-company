@@ -64,6 +64,14 @@ class Worker extends CI_Controller {
 			}
 		}
 
+		if (array_key_exists('oversea_experience', $params)) {
+			if (!empty($params['oversea_experience'])) {
+				$experience = explode('-', $params['oversea_experience']);
+				sort($experience);
+				$clause['inset_oversea_experience_ids'] = $experience;
+			}
+		}
+
 		if (array_key_exists('ready_placement', $params)) {
 			if (!empty($params['ready_placement'])) {
 				$ready_placement = explode('-', $params['ready_placement']);

@@ -38,6 +38,7 @@ class WorkersModel extends CI_Model {
 
 		$column_inset = [
 			'inset_ready_placement_ids',
+			'inset_oversea_experience_ids',
 			'inset_experience_ids'
 		];
 

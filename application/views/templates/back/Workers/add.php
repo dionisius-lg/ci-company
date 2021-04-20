@@ -151,6 +151,19 @@
 							<span class="invalid-feedback"><?php echo flashError('experience'); ?></span>
 						</div>
 						<div class="form-group col-md-12">
+							<?php echo form_label('Oversea Experience', null); ?>
+							<div class="d-flex flex-wrap">
+								<?php $oversea_experience_ids = explode(',', oldInput('oversea_experience')); ?>
+								<?php foreach ($placements as $oversea_experience) { ?>
+									<div class="icheck-primary mr-4">
+										<?php echo form_checkbox(['name' => 'oversea_experience[]', 'id' => 'OverseaExperience' . $oversea_experience['id'], 'value' => $oversea_experience['id'], 'checked' => in_array($oversea_experience['id'], $oversea_experience_ids) ? true : false]); ?>
+										<?php echo form_label($oversea_experience['name'], 'OverseaExperience' . $oversea_experience['id']); ?>
+									</div>
+								<?php } ?>
+							</div>
+							<span class="invalid-feedback"><?php echo flashError('oversea_experience'); ?></span>
+						</div>
+						<div class="form-group col-md-12">
 							<?php echo form_label('Ready to Placement', null); ?>
 							<div class="d-flex flex-wrap">
 								<?php $ready_placement_ids = explode(',', oldInput('ready_placement')); ?>

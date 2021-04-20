@@ -9,7 +9,24 @@ class Dashboard extends CI_Controller {
 		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			setFlashError('Please login first', 'auth');
+			$auth_error = 'Please login first';
+
+			switch (sitelang()) {
+				case 'indonesian':
+					$auth_error = 'Silahkan masuk terlebih dahulu';
+					break;
+				case 'japanese':
+					$auth_error = '最初にログインしてください';
+					break;
+				case 'korean':
+					$auth_error = '먼저 로그인하시기 바랍니다';
+					break;
+				case 'mandarin':
+					$auth_error = '請先登錄';
+					break;
+			}
+
+			setFlashError($auth_error, 'auth');
 			redirect('auth');
 		}
 

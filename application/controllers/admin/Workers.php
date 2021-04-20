@@ -9,7 +9,24 @@ class Workers extends CI_Controller {
 		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			setFlashError('Please login first', 'auth');
+			$auth_error = 'Please login first';
+
+			switch (sitelang()) {
+				case 'indonesian':
+					$auth_error = 'Silahkan masuk terlebih dahulu';
+					break;
+				case 'japanese':
+					$auth_error = '最初にログインしてください';
+					break;
+				case 'korean':
+					$auth_error = '먼저 로그인하시기 바랍니다';
+					break;
+				case 'mandarin':
+					$auth_error = '請先登錄';
+					break;
+			}
+
+			setFlashError($auth_error, 'auth');
 			redirect('auth');
 		}
 
@@ -171,6 +188,13 @@ class Workers extends CI_Controller {
 				$input['experience'] = '';
 			}
 
+			if (array_key_exists('oversea_experience', $input)) {
+				sort($input['oversea_experience']);
+				$input['oversea_experience'] = implode(',', $input['oversea_experience']);
+			} else {
+				$input['oversea_experience'] = '';
+			}
+
 			if (array_key_exists('ready_placement', $input)) {
 				sort($input['ready_placement']);
 				$input['ready_placement'] = implode(',', $input['ready_placement']);
@@ -215,6 +239,7 @@ class Workers extends CI_Controller {
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
 				'experience_ids' => $input['experience'],
+				'oversea_experience_ids' => $input['oversea_experience'],
 				'ready_placement_ids' => $input['ready_placement'],
 				'placement_id' => $input['placement'],
 				'create_user_id' => $session['id']
@@ -253,6 +278,13 @@ class Workers extends CI_Controller {
 				$input['experience'] = implode(',', $input['experience']);
 			} else {
 				$input['experience'] = '';
+			}
+
+			if (array_key_exists('oversea_experience', $input)) {
+				sort($input['oversea_experience']);
+				$input['oversea_experience'] = implode(',', $input['oversea_experience']);
+			} else {
+				$input['oversea_experience'] = '';
 			}
 
 			if (array_key_exists('ready_placement', $input)) {
@@ -299,6 +331,7 @@ class Workers extends CI_Controller {
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
 				'experience_ids' => $input['experience'],
+				'oversea_experience_ids' => $input['oversea_experience'],
 				'ready_placement_ids' => $input['ready_placement'],
 				'placement_id' => $input['placement'],
 				'user_id' => $input['user_id'],
@@ -710,13 +743,18 @@ class Workers extends CI_Controller {
 				'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
 			],
 			[
-				'field' => 'work_experience',
-				'label' => 'Work Experience',
+				'field' => 'experience',
+				'label' => 'Experience',
 				'rules' => 'trim|regexAlphaNumericSpaceComma|xss_clean'
 			],
 			[
-				'field' => 'placement_ready',
-				'label' => 'Placement Ready',
+				'field' => 'oversea_experience',
+				'label' => 'Oversea Experience',
+				'rules' => 'trim|regexAlphaNumericSpaceComma|xss_clean'
+			],
+			[
+				'field' => 'ready_placement',
+				'label' => 'Ready to Placement',
 				'rules' => 'trim|regexAlphaNumericSpaceComma|xss_clean'
 			],
 			[
