@@ -37,17 +37,22 @@ class UserRequests extends CI_Controller {
 		$this->template->set_template('layouts/back');
 		$this->template->title = 'User Requests';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
+		// load default models
+		$this->load->model('CompanyModel');
 		$this->load->model('UsersModel');
 		$this->load->model('UserLevelsModel');
 		$this->load->model('EmailsModel');
 
-		$this->result = [];
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method

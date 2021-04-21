@@ -149,12 +149,12 @@
 											<p>Placements</p>
 										</a>
 									</li>
-									<li class="nav-item">
+									<!-- <li class="nav-item">
 										<a href="<?php echo site_url('admin/mailer'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
 											<p>Mailer Config</p>
 										</a>
-									</li>
+									</li> -->
 								</ul>
 							</li>
 							<li class="nav-item">
@@ -195,11 +195,11 @@
 			</div>
 
 			<footer class="main-footer text-sm">
-				<strong><i class="fa fa-copyright"></i> <?php echo date('Y').' '.$this->config->item('site_name'); ?></strong>
-				<div class="float-right d-none d-sm-inline-block">
+				<strong><i class="fa fa-copyright"></i> <?php echo date('Y') . '&nbsp;' . (!empty($company['name']) ? $company['name'] : $this->config->item('site_name')); ?></strong>
+				<!-- <div class="float-right d-none d-sm-inline-block">
 					<strong><i class="fa fa-copyright"></i> 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
 					<b>Version</b> 3.0.5
-				</div>
+				</div> -->
 			</footer>
 		</div>
 

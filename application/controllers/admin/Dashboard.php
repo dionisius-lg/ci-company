@@ -35,15 +35,21 @@ class Dashboard extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Dashboard';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
-		// $this->load->model('CompanyModel');
-		// $this->load->model('ProvincesModel');
+		// load default models
+		$this->load->model('CompanyModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
@@ -51,9 +57,7 @@ class Dashboard extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->template->title = 'Dashboard';
 		$this->template->content->view('templates/back/Home/dashboard', $this->result);
-
 		$this->template->publish();
 	}
 }

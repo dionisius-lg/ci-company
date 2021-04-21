@@ -37,20 +37,27 @@ class Workers extends CI_Controller {
 		$this->template->set_template('layouts/back');
 		$this->template->title = 'Workers Data';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
-		$this->load->model('WorkersModel');
-		$this->load->model('WorkerAttachmentsModel');
+		// load default models
+		$this->load->model('CompanyModel');
 		$this->load->model('ExperiencesModel');
 		$this->load->model('PlacementsModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
+		$this->load->model('WorkersModel');
+		$this->load->model('WorkerAttachmentsModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
 
 		//$this->config->set_item('language', 'indonesian'); 
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
@@ -694,6 +701,9 @@ class Workers extends CI_Controller {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Booking request successfully approved.');
+
+				$this->load->helper('socket');
+				socketEmit('count-total');
 			}
 
 			echo json_encode($this->result); exit();

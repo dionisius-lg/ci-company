@@ -37,14 +37,20 @@ class Company extends CI_Controller {
 		$this->template->set_template('layouts/back');
 		$this->template->title = 'Company Profile';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
+		// load default models
 		$this->load->model('CompanyModel');
 		$this->load->model('ProvincesModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
