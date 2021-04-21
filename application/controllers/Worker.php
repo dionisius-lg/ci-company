@@ -146,35 +146,56 @@ class Worker extends CI_Controller {
 			'workers' => $this->WorkersModel->getAll(),
 			'user_levels' => $this->UserLevelsModel->getAll()
 		];
-
+		
 		foreach ($request as $key => $val) {
 			$this->result[$key] = [];
-
+			
 			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
 				}
 			}
 		}
+		
 
 		$booking_status = $request['worker'];
-		if ($booking_status['data']['booking_status_id'] == 1) {
-			$data = [
-				'booking_status_id' => 2,
-				'booking_date' => date('Y-m-d H:i:s'),
-				'booking_user_id' => $session['id']
-			];
-			
-			$request = $this->WorkersModel->update($data, $id);
+		// if (isset($_POST['free'])) {
+			if ($booking_status['data']['booking_status_id'] == 1) {
 
-			if ($request['status'] == 'success') {
-				setFlashSuccess('Worker has been booked.');
-			} else {
-				setFlashError('An error occurred, please try again.');
+				$data = [
+					'booking_status_id' => 2,
+					'booking_date' => date('Y-m-d H:i:s'),
+					'booking_user_id' => $session['id']
+				];
+
+				$request = $this->WorkersModel->update($data, $id);
+				redirect('worker/detail/'.$id);
+
+			} else if($booking_status['data']['booking_status_id'] == 2) {
+
+				$data = [
+					'booking_status_id' => 3,
+					'booking_user_id' => $session['id']
+				];
+
+				$request = $this->WorkersModel->update($data, $id);
+				if ($request) {
+					redirect('worker/detail/'.$id);
+				}
+
+			} else if($booking_status['data']['booking_status_id'] == 3) {
+
+				$data = [
+					'booking_status_id' => 4,
+					'booking_user_id' => $session['id']
+				];
+
+				$request = $this->WorkersModel->update($data, $id);
+				if ($request) {
+					redirect('worker/detail/'.$id);
 			}
-	
-			redirect('worker/detail/'.$id);
-		}
+		// }
+	}
 		// print_r($request); die();
 	}
 
