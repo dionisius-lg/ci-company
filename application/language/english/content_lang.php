@@ -75,11 +75,24 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'				=> 'Register a new membership',
-	'fullname'			=> 'Fullname',
-	'email'				=> 'Email',
-	'company'			=> 'Company',
-	'city'				=> 'City',
-	'country'			=> 'Country',
-	'submit'			=> 'Register'
+	'intro'		=> 'Register a new membership',
+	'fullname'	=> 'Fullname',
+	'email'		=> 'Email',
+	'company'	=> 'Company',
+	'city'		=> 'City',
+	'country'	=> 'Country',
+	'submit'	=> 'Register'
+];
+
+$lang['error'] = [
+	'default'	=> 'An error occurred, please try again',
+	'auth'		=> 'Please login first',
+	'login'		=> 'Invalid login credentials',
+	'captcha'	=> 'Captcha is required'
+];
+
+$lang['success'] = [
+	'default'		=> '',
+	'register'		=> 'We are currently processing your request, please wait for confirmation via email',
+	'verification'	=> 'Verification has been sent, please check your email',
 ];

@@ -75,11 +75,24 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'				=> '新しいメンバーシップを登録する',
-	'fullname'			=> 'フルネーム',
-	'email'				=> '電子メイル',
-	'company'			=> '会社',
-	'city'				=> '市',
-	'country'			=> '国',
-	'submit'			=> '登録'
+	'intro'		=> '新しいメンバーシップを登録する',
+	'fullname'	=> 'フルネーム',
+	'email'		=> '電子メイル',
+	'company'	=> '会社',
+	'city'		=> '市',
+	'country'	=> '国',
+	'submit'	=> '登録'
+];
+
+$lang['error'] = [
+	'default'	=> 'エラーが発生しました, もう一度やり直してください',
+	'auth'		=> '最初にログインしてください',
+	'login'		=> 'キャプチャが必要です',
+	'captcha'	=> '無効なログイン資格情報'
+];
+
+$lang['success'] = [
+	'default'		=> '',
+	'register'		=> '現在、リクエストを処理しています。メールでの確認をお待ちください',
+	'verification'	=> '確認が送信されました, メールを確認してください'
 ];

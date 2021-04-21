@@ -12,13 +12,8 @@ class Language extends CI_Controller {
 
 	public function change($lang = '')
 	{
-		// if (!empty($lang) && in_array($lang, ['english', 'indonesian', 'japanese', 'korean', 'mandarin'])) {
-			// $this->session->set_userdata('site_lang', $lang);
-			sitelang($lang);
-		// }
+		sitelang($lang);
 
-		hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
-
-		// redirect($_SERVER['HTTP_REFERER']);
+		($_SERVER['HTTP_REFERER']) ? redirect($_SERVER['HTTP_REFERER'], 'refresh') : redirect(base_url(), 'refresh');
 	}
 }

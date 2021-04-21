@@ -77,11 +77,24 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'				=> 'Daftar keanggotaan baru',
-	'fullname'			=> 'Nama lengkap',
-	'email'				=> 'Email',
-	'company'			=> 'Perusahaan',
-	'city'				=> 'Kota',
-	'country'			=> 'Negara',
-	'submit'			=> 'Daftar'
+	'intro'		=> 'Daftar keanggotaan baru',
+	'fullname'	=> 'Nama lengkap',
+	'email'		=> 'Email',
+	'company'	=> 'Perusahaan',
+	'city'		=> 'Kota',
+	'country'	=> 'Negara',
+	'submit'	=> 'Daftar'
+];
+
+$lang['error'] = [
+	'default'	=> 'Terjadi kesalahan, silahkan coba kembali',
+	'auth'		=> 'Silahkan masuk terlebih dahulu',
+	'login'		=> 'Kredensial login tidak valid',
+	'captcha'	=> 'Captcha diperlukan'
+];
+
+$lang['success'] = [
+	'default'		=> '',
+	'register'		=> 'Permintaan anda sedang kami proses, harap tunggu konfirmasi melalui email',
+	'verification'	=> 'Verifikasi sudah terkirim, silahkan cek email anda'
 ];

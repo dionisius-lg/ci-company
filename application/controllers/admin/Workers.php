@@ -6,32 +6,17 @@ class Workers extends CI_Controller {
 		parent::__construct();
 
 		date_default_timezone_set('Asia/Jakarta');
-		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			$auth_error = 'Please login first';
-
-			switch (sitelang()) {
-				case 'indonesian':
-					$auth_error = 'Silahkan masuk terlebih dahulu';
-					break;
-				case 'japanese':
-					$auth_error = '最初にログインしてください';
-					break;
-				case 'korean':
-					$auth_error = '먼저 로그인하시기 바랍니다';
-					break;
-				case 'mandarin':
-					$auth_error = '請先登錄';
-					break;
-			}
-
-			setFlashError($auth_error, 'auth');
+			$this->session->set_userdata('referer', current_url());
+			$this->config->item('language', sitelang());
+			setFlashError($this->lang->line('error')['auth'], 'auth');
 			redirect('auth');
 		}
 
 		if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
-			hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
+			// redirect($_SERVER['HTTP_REFERER']);
+			redirect(base_url(), 'refresh');
 		}
 		
 		$this->template->set_template('layouts/back');
@@ -53,6 +38,9 @@ class Workers extends CI_Controller {
 		if ($this->CompanyModel->get()['status'] == 'success') {
 			$this->result['company'] = $this->CompanyModel->get()['data'];
 		}
+
+		// load socket helper
+		$this->load->helper('socket');
 
 		//$this->config->set_item('language', 'indonesian'); 
 	}
@@ -258,6 +246,7 @@ class Workers extends CI_Controller {
 
 			if ($request['status'] == 'success') {
 				setFlashSuccess('Data successfully created.');
+				socketEmit('count-total');
 			} else {
 				setFlashError('An error occurred, please try again.');
 				setOldInput($input);
@@ -420,6 +409,7 @@ class Workers extends CI_Controller {
 					$this->result['status'] = 'success';
 					unset($this->result['message']);
 					setFlashSuccess('Data successfully deleted.');
+					socketEmit('count-total');
 				}
 			}
 
@@ -701,8 +691,6 @@ class Workers extends CI_Controller {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Booking request successfully approved.');
-
-				$this->load->helper('socket');
 				socketEmit('count-total');
 			}
 
