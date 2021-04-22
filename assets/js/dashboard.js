@@ -2,7 +2,7 @@ const currentProtocol = window.location.protocol;
 const currentLocation = window.location.hostname;
 
 // const socket = io.connect(currentProtocol+'//'+currentLocation);
-const socket = io.connect('http://localhost:8001');
+const socket = io.connect('http://localhost:62001');
 
 const base_url = $('meta[name="url"]').attr('content');
 
