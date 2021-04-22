@@ -3,9 +3,12 @@ const mysql = require('mysql');
 // db connection
 const db = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'ci_company',
+    user: 'root', // local
+    // user: 'ptarjcom_administrator', // arj.com
+    password: '', // local
+    // password: 'ptarjcom102030', // arj.com
+    database: 'ci_company', // local
+    // database: 'ptarjcom_database', //arj.com
     timezone: 'utc'
 });
 
