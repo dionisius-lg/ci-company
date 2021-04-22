@@ -155,48 +155,52 @@ class Worker extends CI_Controller {
 					$this->result[$key] = $val['data'];
 				}
 			}
-		}
-		
+		}	
 
 		$booking_status = $request['worker'];
-		// if (isset($_POST['free'])) {
-			if ($booking_status['data']['booking_status_id'] == 1) {
 
-				$data = [
-					'booking_status_id' => 2,
-					'booking_date' => date('Y-m-d H:i:s'),
-					'booking_user_id' => $session['id']
-				];
+		if ($booking_status['data']['booking_status_id'] == 1) {
+			$data = [
+				'booking_status_id' => 2,
+				'booking_date' => date('Y-m-d H:i:s'),
+				'booking_user_id' => $session['id']
+			];
 
-				$request = $this->WorkersModel->update($data, $id);
-				redirect('worker/detail/'.$id);
+			$request = $this->WorkersModel->update($data, $id);
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Worker has been booked.');
+				
+				$this->load->helper('socket');
+				socketEmit('count-total');
+			}
+			redirect('worker/detail/'.$id);
 
-			} else if($booking_status['data']['booking_status_id'] == 2) {
+		} else if($booking_status['data']['booking_status_id'] == 2) {
+			$data = [
+				'booking_status_id' => 3,
+				'booking_user_id' => $session['id']
+			];
 
-				$data = [
-					'booking_status_id' => 3,
-					'booking_user_id' => $session['id']
-				];
+			$request = $this->WorkersModel->update($data, $id);
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Waiting for confirm.');
+			}
+			redirect('worker/detail/'.$id);
 
-				$request = $this->WorkersModel->update($data, $id);
-				if ($request) {
+		} else if($booking_status['data']['booking_status_id'] == 3) {
+			$data = [
+				'booking_status_id' => 4,
+				'booking_user_id' => $session['id']
+			];
+			$request = $this->WorkersModel->update($data, $id);
+				if ($request['status'] == 'success') {
+					setFlashSuccess('Approval Success!');
 					redirect('worker/detail/'.$id);
 				}
 
-			} else if($booking_status['data']['booking_status_id'] == 3) {
-
-				$data = [
-					'booking_status_id' => 4,
-					'booking_user_id' => $session['id']
-				];
-
-				$request = $this->WorkersModel->update($data, $id);
-				if ($request) {
-					redirect('worker/detail/'.$id);
-			}
-		// }
-	}
-		// print_r($request); die();
+		} else {
+			redirect('worker');
+		}
 	}
 
 	// page title in multi language

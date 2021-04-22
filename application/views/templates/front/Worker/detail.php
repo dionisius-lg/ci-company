@@ -16,8 +16,7 @@
 			<div class="card mb-4 m-5 p-3">
 				<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>">
 			</div>
-		</div>
-
+		</div>  
 		<div class="col-md-8">
 			<div class="card m-5 p-3" style="font-size: 13px; box-shadow:18px 20px 5px rgba(0,0,0,0.5)">
 				<div class="d-flex bd-highlight">
@@ -56,11 +55,11 @@
 					<form action="<?php echo base_url('worker/bookingworker/' . $worker['id']); ?>" method="POST">
 					<?php if ($worker['booking_status_id'] == 1) : ?>
 						<button type="submit" name="free" class="text-uppercase btn btn-sm btn-primary col-5">Booking</button>
-						<?php elseif ($worker['booking_status_id'] == 2) : ?>
+					<?php elseif ($worker['booking_status_id'] == 2) : ?>
 						<button type="submit" name="on_booking" class="text-uppercase btn btn-sm btn-primary col-5">On Booking</button>
-						<?php elseif ($worker['booking_status_id'] == 3) : ?>
+					<?php elseif ($worker['booking_status_id'] == 3) : ?>
 						<button type="submit" name="confirmed" class="text-uppercase btn btn-sm btn-primary col-5">Confirmed</button>
-						<?php elseif ($worker['booking_status_id'] == 4) : ?>
+					<?php elseif ($worker['booking_status_id'] == 4) : ?>
 						<button type="submit" name="approved" class="text-uppercase btn btn-sm btn-primary col-5">Approved</button>
 					<?php endif; ?>					
 						<button type="submit" name="download" class="text-uppercase btn btn-sm btn-success col-6">Download</button>
@@ -72,23 +71,15 @@
 	</div>
 </div>
 
-<!-- Modal -->
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div> -->
+<script>
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2000
+});
+ 
+Toast.fire({
+  title: '<?php echo flashSuccess() ?>'
+});
+</script>
