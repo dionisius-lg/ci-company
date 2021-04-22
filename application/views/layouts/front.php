@@ -14,13 +14,11 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/font-awesome/css/font-awesome.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/bootstrap/css/bootstrap.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/animate/animate.min.css'); ?>">
-		<link rel="stylesheet" href="<?php echo base_url('assets/vendor/sweetalert2/css/sweetalert2.min.css'); ?>" type="text/css">
 
 		<?php echo $this->template->stylesheet; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/main.css'); ?>">
 
 		<script src="<?php echo base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script>
-		<script src="<?php echo base_url('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/jquery-match-height/jquery.matchHeight-min.js'); ?>"></script>

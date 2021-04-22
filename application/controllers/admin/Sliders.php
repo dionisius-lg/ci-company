@@ -393,7 +393,7 @@ class Sliders extends CI_Controller {
 			[
 				'field' => 'link_to',
 				'label' => 'Link To',
-				'rules' => 'trim|valid_url|xss_clean'
+				'rules' => 'trim|valid_url|filterValidateUrl|xss_clean'
 			],
 		];
 
