@@ -174,15 +174,15 @@ class UserRequests extends CI_Controller {
 				$request = $this->UsersModel->getDetail($request['data']['id']);
 
 				if ($request['status'] == 'success') {
-					$data_email = $request['data'];
-					$data_email['password'] = $data['password'];
+					// $data_email = $request['data'];
+					// $data_email['password'] = $data['password'];
 
-					if ($this->_emailNotification($data_email)) {
+					// if ($this->_emailNotification($data_email)) {
 						$this->result['status'] = 'success';
 						unset($this->result['message']);
 						setFlashSuccess('Data successfully registered.');
 						socketEmit('count-total');
-					}
+					// }
 				}
 			}
 

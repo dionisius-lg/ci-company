@@ -174,7 +174,6 @@
 	</div>
 </div>
 
-
 <!-- load required builded stylesheet for this page -->
 <?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
 

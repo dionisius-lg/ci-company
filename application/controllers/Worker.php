@@ -170,8 +170,6 @@ class Worker extends CI_Controller {
 			$request = $this->WorkersModel->update($data, $id);
 			if ($request['status'] == 'success') {
 				setFlashSuccess('Worker has been booked.');
-				
-				$this->load->helper('socket');
 				socketEmit('count-total');
 			}
 			redirect('worker/detail/'.$id);

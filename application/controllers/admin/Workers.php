@@ -233,6 +233,7 @@ class Workers extends CI_Controller {
 				'city_id' => $input['city'],
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
+				'link_video' => $input['link_video'],
 				'experience_ids' => $input['experience'],
 				'oversea_experience_ids' => $input['oversea_experience'],
 				'ready_placement_ids' => $input['ready_placement'],
@@ -326,6 +327,7 @@ class Workers extends CI_Controller {
 				'city_id' => $input['city'],
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
+				'link_video' => $input['link_video'],
 				'experience_ids' => $input['experience'],
 				'oversea_experience_ids' => $input['oversea_experience'],
 				'ready_placement_ids' => $input['ready_placement'],
@@ -735,22 +737,22 @@ class Workers extends CI_Controller {
 			[
 				'field' => 'birth_place',
 				'label' => 'Birth Place',
-				'rules' => 'trim|max_length[100]|regexAlphaSpace|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|xss_clean'
 			],
 			[
 				'field' => 'birth_date',
 				'label' => 'Birth Date',
-				'rules' => 'trim|max_length[20]|regexDate|xss_clean'
+				'rules' => 'trim|required|max_length[20]|regexDate|xss_clean'
 			],
 			[
 				'field' => 'gender',
 				'label' => 'Gender',
-				'rules' => 'trim|is_natural|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
 				'field' => 'marital_status',
 				'label' => 'Marital Status',
-				'rules' => 'trim|is_natural|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
 				'field' => 'religion',
@@ -776,6 +778,11 @@ class Workers extends CI_Controller {
 				'field' => 'description',
 				'label' => 'Description',
 				'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
+			],
+			[
+				'field' => 'link_video',
+				'label' => 'Video Link',
+				'rules' => 'trim|valid_url|filterValidateUrl|xss_clean'
 			],
 			[
 				'field' => 'experience',
