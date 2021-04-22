@@ -173,3 +173,17 @@
 		</div>
 	</div>
 </div>
+
+<!-- flash message -->
+<script>
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top-end',
+  showConfirmButton: false,
+  timer: 2000
+});
+ 
+Toast.fire({
+  title: '<?php echo flashSuccess() ?>'
+});
+</script>
