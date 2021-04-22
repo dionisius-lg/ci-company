@@ -75,11 +75,24 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'				=> '註冊新會員',
-	'fullname'			=> '全名',
-	'email'				=> '電子郵件',
-	'company'			=> '公司',
-	'city'				=> '城市',
-	'country'			=> '國家',
-	'submit'			=> '登記'
+	'intro'		=> '註冊新會員',
+	'fullname'	=> '全名',
+	'email'		=> '電子郵件',
+	'company'	=> '公司',
+	'city'		=> '城市',
+	'country'	=> '國家',
+	'submit'	=> '登記'
+];
+
+$lang['error'] = [
+	'default'	=> '發生錯誤, 請重試',
+	'auth'		=> '請先登錄',
+	'login'		=> '必須輸入驗證碼',
+	'captcha'	=> '無效的登錄憑證'
+];
+
+$lang['success'] = [
+	'default'		=> '',
+	'register'		=> '我们目前正在处理您的请求，请等待通过电子邮件进行的确认',
+	'verification'	=> '驗證已發送, 請檢查您的電子郵件'
 ];

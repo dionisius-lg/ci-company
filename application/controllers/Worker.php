@@ -10,15 +10,13 @@ class Worker extends CI_Controller {
 		// set timezone
 		date_default_timezone_set('Asia/Jakarta');
 
-		// set referrer
-		setReferrer(current_url());
-
 		// set site languange
 		sitelang();
 		$this->config->set_item('language', sitelang());
 
 		// set template layout
 		$this->template->set_template('layouts/front');
+		$this->template->title = $this->lang->line('header')['navbar']['worker'];
 
 		// load default models
 		$this->load->model('CompanyModel');
@@ -34,6 +32,9 @@ class Worker extends CI_Controller {
 		if ($this->CompanyModel->get()['status'] == 'success') {
 			$this->result['company'] = $this->CompanyModel->get()['data'];
 		}
+
+		// load socket helper
+		$this->load->helper('socket');
 	}
 
 	public function index()
@@ -104,7 +105,6 @@ class Worker extends CI_Controller {
 		$this->result['pagination'] = bs4pagination('worker', $total, $clause['limit'], $params);
 		// $this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
-		$this->template->title = $this->pageTitle(sitelang());
 		$this->template->content->view('templates/front/Worker/index', $this->result);
 		$this->template->publish();
 	}
@@ -112,8 +112,10 @@ class Worker extends CI_Controller {
 	public function detail($id)
 	{
 		$session = $this->session->userdata('AuthUser');
-		if (empty($session)) {
-			redirect(base_url('auth/register'));
+
+		if (!$session) {
+			setFlashError($this->lang->line('error')['auth'], 'auth');
+			redirect(base_url('auth'));
 		}
 
 		$request = [
@@ -133,7 +135,6 @@ class Worker extends CI_Controller {
 			}
 		}
 
-		$this->template->title = $this->pageTitle(sitelang());
 		$this->template->content->view('templates/front/Worker/detail', $this->result);
 		$this->template->publish();
 	}
@@ -193,11 +194,10 @@ class Worker extends CI_Controller {
 				'booking_user_id' => $session['id']
 			];
 			$request = $this->WorkersModel->update($data, $id);
-				if ($request['status'] == 'success') {
-					setFlashSuccess('Approval Success!');
-					redirect('worker/detail/'.$id);
-				}
-
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Approval Success!');
+				redirect('worker/detail/'.$id);
+			}
 		} else {
 			redirect('worker');
 		}
