@@ -174,7 +174,13 @@
 	</div>
 </div>
 
-<!-- flash message -->
+
+<!-- load required builded stylesheet for this page -->
+<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
+
+<!-- load required builded script for this page -->
+<?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
+
 <script>
 const Toast = Swal.mixin({
   toast: true,
