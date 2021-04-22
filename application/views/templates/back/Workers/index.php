@@ -32,12 +32,13 @@
 							</select>
 						</div>
 						<div class="form-group col-md-2">
-							<?php echo form_label('Ready to Placement', null); ?>
-							<select class="form-control select2 rounded-0" name="ready_placement">
+							<?php echo form_label('Booking Status', null); ?>
+							<select class="form-control select2 rounded-0" name="booking_status">
 								<option value="">Please Select</option>
-								<?php foreach ($placements as $ready_placement) {
-									echo '<option value="' .$ready_placement['id']. '">'. $ready_placement['name']. '</option>';
-								} ?>
+								<option value="1">Free</option>
+								<option value="2">On Booking</option>
+								<option value="3">Confirmed</option>
+								<option value="4">Approved</option>
 							</select>
 						</div>
 					</div>
@@ -63,7 +64,7 @@
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
 								<th class="text-nowrap">Placement</th>
-								<th class="text-nowrap">Ready to Placement</th>
+								<th class="text-nowrap">Booking Status</th>
 								<th class="text-nowrap">User Account</th>
 								<th class="text-nowrap">Action</th>
 							</tr>
@@ -77,9 +78,9 @@
 									<td class="text-nowrap">' . $worker['fullname'] . '</td>
 									<td class="text-nowrap">' . $worker['email'] . '</td>
 									<td class="text-nowrap">' . $worker['placement'] . '</td>
-									<td class="text-nowrap">' . $worker['ready_placement'] . '</td>
+									<td class="text-nowrap">' . $worker['booking_status'] . '</td>
 									<td class="text-nowrap">' . ((!empty($worker['user_id'])) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
-									<td class="text-nowrap">' . anchor('admin/workers/detail/' . $worker['id'], '<i class="fa fa-eye fa-fw"></i>', ['class' => 'btn btn-info btn-xs rounded-0', 'title' => 'Detail']) . '&nbsp;' . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $worker['id'] . ')']) . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'return window.location.href = \'' . base_url('admin/workers/detail/' . $worker['id']) . '\';']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $worker['id'] . ')']) . (($worker['booking_status_id'] == 3) ? form_button(['type' => 'button', 'class' => 'btn btn-warning btn-xs rounded-0', 'content' => '<i class="fa fa-check fa-fw"></i>', 'title' => 'Approve Booking', 'onclick' => 'approveBooking(' . $worker['id'] . ')']) : '') . '</td>
 								</tr>';
 
 								$no++;
@@ -112,7 +113,7 @@
 	$(document).ready(function() {
 		// describe required variable
 		var filterPlacement = '<?php echo $this->input->get('placement'); ?>',
-			filterReadyPlacement = '<?php echo $this->input->get('ready_placement'); ?>';
+			filterBookingStatus = '<?php echo $this->input->get('booking_status'); ?>';
 
 		// set value to element if variable true or numeric
 		if (filterPlacement && $.isNumeric(filterPlacement)) {
@@ -120,8 +121,8 @@
 		}
 
 		// set value to element if variable true or numeric
-		if (filterReadyPlacement !== null && filterReadyPlacement !== undefined && $.isNumeric(filterReadyPlacement)) {
-			$('#formFilter [name="ready_placement"]').val(filterReadyPlacement).trigger('change');
+		if (filterBookingStatus !== null && filterBookingStatus !== undefined && $.isNumeric(filterBookingStatus)) {
+			$('#formFilter [name="booking_status"]').val(filterBookingStatus).trigger('change');
 		}
 	});
 
@@ -146,6 +147,45 @@
 				if (result.isConfirmed) {
 					$.ajax({
 						url: '<?php echo base_url("admin/workers/delete/' + id + '"); ?>',
+						type: 'get',
+						dataType: 'json',
+						success: function(response) {
+							if (response.status == 'success') {
+								 window.location.reload();
+							} else {
+								toastr.error(response.message);
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
+						}
+					});
+				}
+			});
+		}
+	}
+
+	// approve booking by id
+	function approveBooking(id) {
+		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
+			var swalBootstrap = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-primary rounded-0 mr-2',
+					cancelButton: 'btn btn-default rounded-0'
+				},
+				buttonsStyling: false
+			});
+
+			swalBootstrap.fire({
+				title: 'Approved this request?',
+				text: 'This action cannot be undone.',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Confirm'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: '<?php echo base_url("admin/workers/approve-booking/' + id + '"); ?>',
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {

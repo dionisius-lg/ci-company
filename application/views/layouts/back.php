@@ -6,9 +6,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta name="robots" content="all,follow">
-		<title><?php echo $this->config->item('site_name'); ?> - Administrator</title>
-		<meta name="description" content="<?php echo $this->template->description; ?>">
-		<meta name="author" content="">
+		<title><?php echo !empty($company['name']) ? $company['name'] : $this->config->item('site_name'); ?> - Administrator</title>
+		<meta name="description" content="<?php echo $this->config->item('site_name'); ?>">
+		<meta name="author" content="<?php echo $this->config->item('site_author'); ?>">
 		<meta name="url" content="<?php echo base_url(); ?>">
 		<?php echo $this->template->meta; ?>
 
@@ -149,12 +149,12 @@
 											<p>Placements</p>
 										</a>
 									</li>
-									<li class="nav-item">
+									<!-- <li class="nav-item">
 										<a href="<?php echo site_url('admin/mailer'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
 											<p>Mailer Config</p>
 										</a>
-									</li>
+									</li> -->
 								</ul>
 							</li>
 							<li class="nav-item">
@@ -195,11 +195,11 @@
 			</div>
 
 			<footer class="main-footer text-sm">
-				<strong><i class="fa fa-copyright"></i> <?php echo date('Y').' '.$this->config->item('site_name'); ?></strong>
-				<div class="float-right d-none d-sm-inline-block">
+				<strong><i class="fa fa-copyright"></i> <?php echo date('Y') . '&nbsp;' . (!empty($company['name']) ? $company['name'] : $this->config->item('site_name')); ?></strong>
+				<!-- <div class="float-right d-none d-sm-inline-block">
 					<strong><i class="fa fa-copyright"></i> 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong>
 					<b>Version</b> 3.0.5
-				</div>
+				</div> -->
 			</footer>
 		</div>
 

@@ -10,9 +10,6 @@ class Home extends CI_Controller {
 		// set timezone
 		date_default_timezone_set('Asia/Jakarta');
 
-		// set referrer
-		setReferrer(current_url());
-
 		// set site languange
 		sitelang();
 		$this->config->set_item('language', sitelang());

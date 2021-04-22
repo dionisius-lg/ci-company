@@ -6,27 +6,35 @@ class Dashboard extends CI_Controller {
 		parent::__construct();
 
 		date_default_timezone_set('Asia/Jakarta');
-		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			setFlashError('Please login first', 'auth');
+			$this->session->set_userdata('referer', current_url());
+			$this->config->item('language', sitelang());
+			setFlashError($this->lang->line('error')['auth'], 'auth');
 			redirect('auth');
 		}
 
 		if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
-			hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
+			// redirect($_SERVER['HTTP_REFERER']);
+			redirect(base_url(), 'refresh');
 		}
 		
 		$this->template->set_template('layouts/back');
+		$this->template->title = 'Dashboard';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
-		// $this->load->model('CompanyModel');
-		// $this->load->model('ProvincesModel');
+		// load default models
+		$this->load->model('CompanyModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
@@ -34,9 +42,7 @@ class Dashboard extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->template->title = 'Dashboard';
 		$this->template->content->view('templates/back/Home/dashboard', $this->result);
-
 		$this->template->publish();
 	}
 }

@@ -75,11 +75,24 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'				=> '새 멤버십 등록',
-	'fullname'			=> '성명',
-	'email'				=> '이메일',
-	'company'			=> '회사',
-	'city'				=> '시티',
-	'country'			=> '국가',
-	'submit'			=> '레지스터'
+	'intro'		=> '새 멤버십 등록',
+	'fullname'	=> '성명',
+	'email'		=> '이메일',
+	'company'	=> '회사',
+	'city'		=> '시티',
+	'country'	=> '국가',
+	'submit'	=> '레지스터'
+];
+
+$lang['error'] = [
+	'default'	=> '에러 발생됨, 다시 시도 해주세요',
+	'auth'		=> '먼저 로그인하시기 바랍니다',
+	'login'		=> '보안 문자가 필요합니다',
+	'captcha'	=> '로그인 자격 증명이 잘못되었습니다'
+];
+
+$lang['success'] = [
+	'default'		=> '',
+	'register'		=> '현재 귀하의 요청을 처리 중입니다. 이메일을 통해 확인을 기다려주십시오',
+	'verification'	=> '확인이 전송되었습니다, 이메일을 확인하세요',
 ];

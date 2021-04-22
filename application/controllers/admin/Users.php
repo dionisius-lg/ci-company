@@ -6,29 +6,41 @@ class Users extends CI_Controller {
 		parent::__construct();
 
 		date_default_timezone_set('Asia/Jakarta');
-		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			setFlashError('Please login first', 'auth');
+			$this->session->set_userdata('referer', current_url());
+			$this->config->item('language', sitelang());
+			setFlashError($this->lang->line('error')['auth'], 'auth');
 			redirect('auth');
 		}
 
 		if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
-			hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
+			// redirect($_SERVER['HTTP_REFERER']);
+			redirect(base_url(), 'refresh');
 		}
 		
 		$this->template->set_template('layouts/back');
 		$this->template->title = 'Users Data';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
+		// load default models
+		$this->load->model('CompanyModel');
 		$this->load->model('UsersModel');
 		$this->load->model('UserLevelsModel');
 		$this->load->model('WorkersModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
+
+		// load socket helper
+		$this->load->helper('socket');
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
@@ -184,6 +196,7 @@ class Users extends CI_Controller {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Data successfully created.');
+				socketEmit('count-total');
 			}
 
 			echo json_encode($this->result); exit();
@@ -277,6 +290,7 @@ class Users extends CI_Controller {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Data successfully deleted.');
+				socketEmit('count-total');
 			}
 
 			echo json_encode($this->result); exit();

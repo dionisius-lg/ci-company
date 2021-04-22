@@ -10,15 +10,13 @@ class Worker extends CI_Controller {
 		// set timezone
 		date_default_timezone_set('Asia/Jakarta');
 
-		// set referrer
-		setReferrer(current_url());
-
 		// set site languange
 		sitelang();
 		$this->config->set_item('language', sitelang());
 
 		// set template layout
 		$this->template->set_template('layouts/front');
+		$this->template->title = $this->lang->line('header')['navbar']['worker'];
 
 		// load default models
 		$this->load->model('CompanyModel');
@@ -34,6 +32,9 @@ class Worker extends CI_Controller {
 		if ($this->CompanyModel->get()['status'] == 'success') {
 			$this->result['company'] = $this->CompanyModel->get()['data'];
 		}
+
+		// load socket helper
+		$this->load->helper('socket');
 	}
 
 	public function index()
@@ -61,6 +62,14 @@ class Worker extends CI_Controller {
 				$experience = explode('-', $params['experience']);
 				sort($experience);
 				$clause['inset_experience_ids'] = $experience;
+			}
+		}
+
+		if (array_key_exists('oversea_experience', $params)) {
+			if (!empty($params['oversea_experience'])) {
+				$experience = explode('-', $params['oversea_experience']);
+				sort($experience);
+				$clause['inset_oversea_experience_ids'] = $experience;
 			}
 		}
 
@@ -96,7 +105,6 @@ class Worker extends CI_Controller {
 		$this->result['pagination'] = bs4pagination('worker', $total, $clause['limit'], $params);
 		// $this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
-		$this->template->title = $this->pageTitle(sitelang());
 		$this->template->content->view('templates/front/Worker/index', $this->result);
 		$this->template->publish();
 	}
@@ -104,6 +112,11 @@ class Worker extends CI_Controller {
 	public function detail($id)
 	{
 		$session = $this->session->userdata('AuthUser');
+
+		if (!$session) {
+			setFlashError($this->lang->line('error')['auth'], 'auth');
+			redirect(base_url('auth'));
+		}
 
 		$request = [
 			'worker' => $this->WorkersModel->getDetail($id), 
@@ -122,9 +135,70 @@ class Worker extends CI_Controller {
 			}
 		}
 
-		$this->template->title = $this->pageTitle(sitelang());
 		$this->template->content->view('templates/front/Worker/detail', $this->result);
 		$this->template->publish();
+	}
+
+	public function bookingWorker($id)
+	{
+		$session = $this->session->userdata('AuthUser');
+		$request = [
+			'worker' => $this->WorkersModel->getDetail($id),
+			'workers' => $this->WorkersModel->getAll(),
+			'user_levels' => $this->UserLevelsModel->getAll()
+		];
+		
+		foreach ($request as $key => $val) {
+			$this->result[$key] = [];
+			
+			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
+				if ($request[$key]['status'] == 'success') {
+					$this->result[$key] = $val['data'];
+				}
+			}
+		}	
+
+		$booking_status = $request['worker'];
+
+		if ($booking_status['data']['booking_status_id'] == 1) {
+			$data = [
+				'booking_status_id' => 2,
+				'booking_date' => date('Y-m-d H:i:s'),
+				'booking_user_id' => $session['id']
+			];
+
+			$request = $this->WorkersModel->update($data, $id);
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Worker has been booked.');
+				socketEmit('count-total');
+			}
+			redirect('worker/detail/'.$id);
+
+		} else if($booking_status['data']['booking_status_id'] == 2) {
+			$data = [
+				'booking_status_id' => 3,
+				'booking_user_id' => $session['id']
+			];
+
+			$request = $this->WorkersModel->update($data, $id);
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Waiting for confirm.');
+			}
+			redirect('worker/detail/'.$id);
+
+		} else if($booking_status['data']['booking_status_id'] == 3) {
+			$data = [
+				'booking_status_id' => 4,
+				'booking_user_id' => $session['id']
+			];
+			$request = $this->WorkersModel->update($data, $id);
+			if ($request['status'] == 'success') {
+				setFlashSuccess('Approval Success!');
+				redirect('worker/detail/'.$id);
+			}
+		} else {
+			redirect('worker');
+		}
 	}
 
 	// page title in multi language

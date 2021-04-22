@@ -137,6 +137,24 @@ class MY_Form_validation extends CI_Form_validation {
 	}
 
 	/**
+	 *  filterValidateUrl method
+	 *  validate url
+	 */
+	public function filterValidateUrl($str = false, $id = 0)
+	{
+		$ci = &get_instance();
+
+		if ($str) {
+			if (!filter_var($str, FILTER_VALIDATE_URL)) {
+				$ci->form_validation->set_message('filterValidateUrl', '%s must be a valid url.');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 *  checkWorkersNik method
 	 *  validate data check
 	 */

@@ -60,7 +60,7 @@
 							<span class="invalid-feedback"><?php echo flashError('phone_2'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
-							<?php echo form_label('Gender', null); ?>
+							<?php echo form_label('Gender <span class="text-danger">*</span>', null); ?>
 							<select name="gender" class="form-control select2 rounded-0 <?php echo (hasFlashError('gender')) ? 'is-invalid' : ''; ?>">
 								<option value="">Please Select</option>
 								<option value="1">Male</option>
@@ -69,7 +69,7 @@
 							<span class="invalid-feedback"><?php echo flashError('gender'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
-							<?php echo form_label('Marital Status', null); ?>
+							<?php echo form_label('Marital Status <span class="text-danger">*</span>', null); ?>
 							<select name="marital_status" class="form-control select2 rounded-0 <?php echo (hasFlashError('marital_status')) ? 'is-invalid' : ''; ?>">
 								<option value="">Please Select</option>
 								<option value="1">Single</option>
@@ -79,12 +79,12 @@
 							<span class="invalid-feedback"><?php echo flashError('marital_status'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
-							<?php echo form_label('Birth Place', null); ?>
+							<?php echo form_label('Birth Place <span class="text-danger">*</span>', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'birth_place', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('birth_place') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('birth_place')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('birth_place'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
-							<?php echo form_label('Birth Date', null); ?>
+							<?php echo form_label('Birth Date <span class="text-danger">*</span>', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'birth_date', 'class' => 'form-control form-control-sm rounded-0 date' . (hasFlashError('birth_date') ? ' is-invalid' : ''), 'maxlength' => '20', 'value' => oldInput('birth_date')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('birth_date'); ?></span>
 						</div>
@@ -138,6 +138,11 @@
 							<span class="invalid-feedback"><?php echo flashError('description'); ?></span>
 						</div>
 						<div class="form-group col-md-12">
+							<?php echo form_label('Link Video', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'link_video', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('link_video') ? ' is-invalid' : ''), 'value' => oldInput('link_video')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('link_video'); ?></span>
+						</div>
+						<div class="form-group col-md-12">
 							<?php echo form_label('Experience', null); ?>
 							<div class="d-flex flex-wrap">
 								<?php $experience_ids = explode(',', oldInput('experience')); ?>
@@ -149,6 +154,19 @@
 								<?php } ?>
 							</div>
 							<span class="invalid-feedback"><?php echo flashError('experience'); ?></span>
+						</div>
+						<div class="form-group col-md-12">
+							<?php echo form_label('Oversea Experience', null); ?>
+							<div class="d-flex flex-wrap">
+								<?php $oversea_experience_ids = explode(',', oldInput('oversea_experience')); ?>
+								<?php foreach ($placements as $oversea_experience) { ?>
+									<div class="icheck-primary mr-4">
+										<?php echo form_checkbox(['name' => 'oversea_experience[]', 'id' => 'OverseaExperience' . $oversea_experience['id'], 'value' => $oversea_experience['id'], 'checked' => in_array($oversea_experience['id'], $oversea_experience_ids) ? true : false]); ?>
+										<?php echo form_label($oversea_experience['name'], 'OverseaExperience' . $oversea_experience['id']); ?>
+									</div>
+								<?php } ?>
+							</div>
+							<span class="invalid-feedback"><?php echo flashError('oversea_experience'); ?></span>
 						</div>
 						<div class="form-group col-md-12">
 							<?php echo form_label('Ready to Placement', null); ?>

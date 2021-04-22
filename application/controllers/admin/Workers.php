@@ -6,34 +6,46 @@ class Workers extends CI_Controller {
 		parent::__construct();
 
 		date_default_timezone_set('Asia/Jakarta');
-		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			setFlashError('Please login first', 'auth');
+			$this->session->set_userdata('referer', current_url());
+			$this->config->item('language', sitelang());
+			setFlashError($this->lang->line('error')['auth'], 'auth');
 			redirect('auth');
 		}
 
 		if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
-			hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
+			// redirect($_SERVER['HTTP_REFERER']);
+			redirect(base_url(), 'refresh');
 		}
 		
 		$this->template->set_template('layouts/back');
 		$this->template->title = 'Workers Data';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
-		$this->load->model('WorkersModel');
-		$this->load->model('WorkerAttachmentsModel');
+		// load default models
+		$this->load->model('CompanyModel');
 		$this->load->model('ExperiencesModel');
 		$this->load->model('PlacementsModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
+		$this->load->model('WorkersModel');
+		$this->load->model('WorkerAttachmentsModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
+
+		// load socket helper
+		$this->load->helper('socket');
 
 		//$this->config->set_item('language', 'indonesian'); 
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
@@ -47,20 +59,20 @@ class Workers extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'						=> 10,
-			'page'						=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'like_nik'					=> array_key_exists('nik', $params) ? $params['nik'] : '',
-			'like_fullname'				=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
-			'like_email'				=> array_key_exists('email', $params) ? $params['email'] : '',
-			'placement_id'				=> array_key_exists('placement', $params) ? $params['placement'] : '',
-			'inset_ready_placement_ids'	=> array_key_exists('ready_placement', $params) ? $params['ready_placement'] : '',
-			'order'						=> 'fullname',
-			'sort'						=> 'asc'
+			'limit'				=> 10,
+			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_nik'			=> array_key_exists('nik', $params) ? $params['nik'] : '',
+			'like_fullname'		=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
+			'like_email'		=> array_key_exists('email', $params) ? $params['email'] : '',
+			'placement_id'		=> array_key_exists('placement', $params) ? $params['placement'] : '',
+			'booking_status_id'	=> array_key_exists('booking_status', $params) ? $params['booking_status'] : '',
+			'order'				=> 'fullname',
+			'sort'				=> 'asc'
 		];
 
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
-			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
 
@@ -94,8 +106,8 @@ class Workers extends CI_Controller {
 		$session = $this->session->userdata('AuthUser');
 
 		$request = [
-			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
-			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name', 'limit' => 100]),
+			'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 			'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 		];
@@ -125,8 +137,8 @@ class Workers extends CI_Controller {
 		if (!empty($id) && is_numeric($id)) {
 			$request = [
 				'worker' => $this->WorkersModel->getDetail($id),
-				'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
-				'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+				'experiences' => $this->ExperiencesModel->getAll(['order' => 'name', 'limit' => 100]),
+				'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
 				'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 				'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 			];
@@ -169,6 +181,13 @@ class Workers extends CI_Controller {
 				$input['experience'] = implode(',', $input['experience']);
 			} else {
 				$input['experience'] = '';
+			}
+
+			if (array_key_exists('oversea_experience', $input)) {
+				sort($input['oversea_experience']);
+				$input['oversea_experience'] = implode(',', $input['oversea_experience']);
+			} else {
+				$input['oversea_experience'] = '';
 			}
 
 			if (array_key_exists('ready_placement', $input)) {
@@ -214,7 +233,9 @@ class Workers extends CI_Controller {
 				'city_id' => $input['city'],
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
+				'link_video' => $input['link_video'],
 				'experience_ids' => $input['experience'],
+				'oversea_experience_ids' => $input['oversea_experience'],
 				'ready_placement_ids' => $input['ready_placement'],
 				'placement_id' => $input['placement'],
 				'create_user_id' => $session['id']
@@ -226,6 +247,7 @@ class Workers extends CI_Controller {
 
 			if ($request['status'] == 'success') {
 				setFlashSuccess('Data successfully created.');
+				socketEmit('count-total');
 			} else {
 				setFlashError('An error occurred, please try again.');
 				setOldInput($input);
@@ -253,6 +275,13 @@ class Workers extends CI_Controller {
 				$input['experience'] = implode(',', $input['experience']);
 			} else {
 				$input['experience'] = '';
+			}
+
+			if (array_key_exists('oversea_experience', $input)) {
+				sort($input['oversea_experience']);
+				$input['oversea_experience'] = implode(',', $input['oversea_experience']);
+			} else {
+				$input['oversea_experience'] = '';
 			}
 
 			if (array_key_exists('ready_placement', $input)) {
@@ -298,7 +327,9 @@ class Workers extends CI_Controller {
 				'city_id' => $input['city'],
 				'religion_id' => $input['religion'],
 				'description' => nl2space($input['description']),
+				'link_video' => $input['link_video'],
 				'experience_ids' => $input['experience'],
+				'oversea_experience_ids' => $input['oversea_experience'],
 				'ready_placement_ids' => $input['ready_placement'],
 				'placement_id' => $input['placement'],
 				'user_id' => $input['user_id'],
@@ -380,6 +411,7 @@ class Workers extends CI_Controller {
 					$this->result['status'] = 'success';
 					unset($this->result['message']);
 					setFlashSuccess('Data successfully deleted.');
+					socketEmit('count-total');
 				}
 			}
 
@@ -633,6 +665,44 @@ class Workers extends CI_Controller {
 	}
 
 	/**
+	 *  approveBooking method
+	 *  approve booking by id
+	 */
+	public function approveBooking($id = null)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
+			'status' => 'error',
+			'message' => 'An error occurred, please try again.'
+		];
+
+		if ($this->input->is_ajax_request()) {
+			if (empty($id) && !is_numeric($id)) {
+				echo json_encode($this->result); exit();
+			}
+
+			$data = [
+				'booking_status_id'	=> 4, // set to approved
+				'update_user_id'	=> $session['id'],
+			];
+
+			$request = $this->WorkersModel->update($data, $id);
+
+			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				unset($this->result['message']);
+				setFlashSuccess('Booking request successfully approved.');
+				socketEmit('count-total');
+			}
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	/**
 	 *  validate method
 	 *  validate data before action
 	 */
@@ -667,22 +737,22 @@ class Workers extends CI_Controller {
 			[
 				'field' => 'birth_place',
 				'label' => 'Birth Place',
-				'rules' => 'trim|max_length[100]|regexAlphaSpace|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|xss_clean'
 			],
 			[
 				'field' => 'birth_date',
 				'label' => 'Birth Date',
-				'rules' => 'trim|max_length[20]|regexDate|xss_clean'
+				'rules' => 'trim|required|max_length[20]|regexDate|xss_clean'
 			],
 			[
 				'field' => 'gender',
 				'label' => 'Gender',
-				'rules' => 'trim|is_natural|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
 				'field' => 'marital_status',
 				'label' => 'Marital Status',
-				'rules' => 'trim|is_natural|xss_clean'
+				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
 				'field' => 'religion',
@@ -710,13 +780,23 @@ class Workers extends CI_Controller {
 				'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
 			],
 			[
-				'field' => 'work_experience',
-				'label' => 'Work Experience',
+				'field' => 'link_video',
+				'label' => 'Video Link',
+				'rules' => 'trim|valid_url|filterValidateUrl|xss_clean'
+			],
+			[
+				'field' => 'experience',
+				'label' => 'Experience',
 				'rules' => 'trim|regexAlphaNumericSpaceComma|xss_clean'
 			],
 			[
-				'field' => 'placement_ready',
-				'label' => 'Placement Ready',
+				'field' => 'oversea_experience',
+				'label' => 'Oversea Experience',
+				'rules' => 'trim|regexAlphaNumericSpaceComma|xss_clean'
+			],
+			[
+				'field' => 'ready_placement',
+				'label' => 'Ready to Placement',
 				'rules' => 'trim|regexAlphaNumericSpaceComma|xss_clean'
 			],
 			[
