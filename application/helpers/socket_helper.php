@@ -12,8 +12,10 @@ if (!function_exists('socketEmit')) {
 		if ($event) {
 			if (is_array($data)) {
 				$server = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://" . @$_SERVER['HTTP_HOST'] . ":62542";
+				// $server = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://socket." . @$_SERVER['HTTP_HOST'];
 
 				$socket_server = ($nameserver) ? $nameserver : $server;
+				// $socket_server = $server;
 				$parse = parse_url($socket_server);
 
 				if (!array_key_exists('host', $parse) || !array_key_exists('port', $parse)) {
