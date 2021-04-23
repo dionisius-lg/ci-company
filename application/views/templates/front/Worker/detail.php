@@ -37,8 +37,9 @@
 									<button type="submit" name="confirmed" class="text-uppercase btn btn-sm btn-primary mb-2">Confirmed</button>
 								<?php elseif ($worker['booking_status_id'] == 4) : ?>
 									<button type="submit" name="approved" class="text-uppercase btn btn-sm btn-primary mb-2">Approved</button>
-								<?php endif; ?>					
-									<button type="submit" name="download" class="text-uppercase btn btn-sm btn-success mb-2">Download</button>
+								<?php endif; ?>
+									<!-- Button trigger modal -->
+									<button type="button" class="text-uppercase btn btn-sm btn-success mb-2" data-toggle="modal" data-target="#exampleModal">Download</button>
 								</form>
 							</div>
 						</div>
@@ -172,6 +173,44 @@
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Attachment</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	<div class="card-body pt-0">
+			<div class="table-responsive">
+				<table class="table table-striped table-hover" id="tableDataAttachment" width="100%">
+					<thead class="table-primary">
+						<tr>
+							<th class="text-center">No.</th>
+							<th class="text-center">Name</th>
+							<th class="text-center">Create Date</th>
+							<th class="text-center">Create By</th>
+							<th class="text-center">Action</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="row" id="tableDataAttachmentOption">
+				<div class="col-md-12 table-paginate"></div>
+			</div>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Download</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- load required builded stylesheet for this page -->
