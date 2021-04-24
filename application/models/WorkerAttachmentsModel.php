@@ -448,4 +448,10 @@ class WorkerAttachmentsModel extends CI_Model {
 
 		return $result;
 	}
+
+	// function for get data attach by id worker
+	public function getByWorkerId($id) {
+		$attachments = $this->db->where(['worker_id' => $id])->get($this->view_table)->result_array();
+		return responseSuccess($attachments); 
+	}
 }

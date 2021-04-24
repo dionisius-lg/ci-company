@@ -122,7 +122,8 @@ class Worker extends CI_Controller {
 			'worker' => $this->WorkersModel->getDetail($id), 
 			'workers' => $this->WorkersModel->getAll(['limit' => 10]),
 			'provinces' => $this->ProvincesModel->getAll(['limit' => 100]),
-			'user_levels' => $this->UserLevelsModel->getAll()
+			'user_levels' => $this->UserLevelsModel->getAll(),
+			'attachments'=> $this->WorkerAttachmentsModel->getByWorkerId($id)
 		];
 
 		foreach ($request as $key => $val) {
@@ -134,7 +135,7 @@ class Worker extends CI_Controller {
 				}
 			}
 		}
-
+		
 		$this->template->content->view('templates/front/Worker/detail', $this->result);
 		$this->template->publish();
 	}
@@ -142,6 +143,7 @@ class Worker extends CI_Controller {
 	public function bookingWorker($id)
 	{
 		$session = $this->session->userdata('AuthUser');
+
 		$request = [
 			'worker' => $this->WorkersModel->getDetail($id),
 			'workers' => $this->WorkersModel->getAll(),
@@ -199,6 +201,13 @@ class Worker extends CI_Controller {
 		} else {
 			redirect('worker');
 		}
+	}
+
+	// function for get file attachment
+	public function file($id) {
+		$file = $this->WorkerAttachmentsModel->getDetail($id)['data'];
+		$url = base_url('files/workers/' . $file['worker_id'] . '/' . $file['file_name']);
+		header('location: ' . $url);
 	}
 
 	// page title in multi language

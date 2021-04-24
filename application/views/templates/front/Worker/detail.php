@@ -39,7 +39,7 @@
 									<button type="submit" name="approved" class="text-uppercase btn btn-sm btn-primary mb-2">Approved</button>
 								<?php endif; ?>
 									<!-- Button trigger modal -->
-									<button type="button" class="text-uppercase btn btn-sm btn-success mb-2" data-toggle="modal" data-target="#exampleModal">Download</button>
+									<a href="" data-toggle="modal" data-target="#exampleModal" class="text-uppercase btn btn-sm btn-success mb-2">File Worker</a>
 								</form>
 							</div>
 						</div>
@@ -180,7 +180,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Attachment</h5>
+        <h5 class="modal-title" id="exampleModalLabel">File Attachment</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -193,11 +193,22 @@
 						<tr>
 							<th class="text-center">No.</th>
 							<th class="text-center">Name</th>
-							<th class="text-center">Create Date</th>
-							<th class="text-center">Create By</th>
 							<th class="text-center">Action</th>
 						</tr>
 					</thead>
+					<tbody>
+						<?php $i = 1; ?>
+						<?php foreach($attachments AS $attachment) : ?>
+							<tr>
+								<td class="text-center"><?php echo $i; ?></td>
+								<td class="text-center"><?php echo $attachment['name']; ?></td>
+								<td class="text-center">
+									<a target="_blank" href="<?php echo base_url('worker/file/' . $attachment['id']); ?>"><i class="fa fa-download fa-fw"></i></a>
+								</td>
+							</tr>
+							<?php $i++; ?>
+						<?php endforeach; ?>
+					</tbody>
 				</table>
 			</div>
 			<div class="row" id="tableDataAttachmentOption">
@@ -207,7 +218,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Download</button>
       </div>
     </div>
   </div>
