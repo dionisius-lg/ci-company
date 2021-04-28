@@ -31,16 +31,17 @@
 								<form action="<?php echo base_url('worker/bookingworker/' . $worker['id']); ?>" method="POST">
 								<?php if ($worker['booking_status_id'] == 1) : ?>
 									<button type="submit" name="free" class="text-uppercase btn btn-sm btn-primary mb-2">Booking</button>
-								<?php elseif ($worker['booking_status_id'] == 2) : ?>
-									<button type="submit" name="on_booking" class="text-uppercase btn btn-sm btn-primary mb-2">On Booking</button>
 								<?php elseif ($worker['booking_status_id'] == 3) : ?>
-									<button type="submit" name="confirmed" class="text-uppercase btn btn-sm btn-primary mb-2">Confirmed</button>
-								<?php elseif ($worker['booking_status_id'] == 4) : ?>
-									<button type="submit" name="approved" class="text-uppercase btn btn-sm btn-primary mb-2">Approved</button>
+									<button type="submit" hidden name="confirmed" class="text-uppercase btn btn-sm btn-primary mb-2">Approved</button>
 								<?php endif; ?>
 									<!-- Button trigger modal -->
 									<a href="" data-toggle="modal" data-target="#exampleModal" class="text-uppercase btn btn-sm btn-success mb-2">File Worker</a>
 								</form>
+								<?php if ($worker['booking_status_id'] == 3) : ?>
+								<small class=text-danger>* Waiting For Approval *</small>
+								<?php elseif ($worker['booking_status_id'] == 4) : ?>
+								<small class=text-danger>* Approval Succes *</small>
+								<?php endif; ?>
 							</div>
 						</div>
 					</div>

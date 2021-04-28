@@ -164,7 +164,7 @@ class Worker extends CI_Controller {
 
 		if ($booking_status['data']['booking_status_id'] == 1) {
 			$data = [
-				'booking_status_id' => 2,
+				'booking_status_id' => 3,
 				'booking_date' => date('Y-m-d H:i:s'),
 				'booking_user_id' => $session['id']
 			];
@@ -176,30 +176,13 @@ class Worker extends CI_Controller {
 			}
 			redirect('worker/detail/'.$id);
 
-		} else if($booking_status['data']['booking_status_id'] == 2) {
-			$data = [
-				'booking_status_id' => 3,
-				'booking_user_id' => $session['id']
-			];
-
-			$request = $this->WorkersModel->update($data, $id);
-			if ($request['status'] == 'success') {
-				setFlashSuccess('Waiting for confirm.');
-			}
-			redirect('worker/detail/'.$id);
-
 		} else if($booking_status['data']['booking_status_id'] == 3) {
 			$data = [
 				'booking_status_id' => 4,
 				'booking_user_id' => $session['id']
 			];
+
 			$request = $this->WorkersModel->update($data, $id);
-			if ($request['status'] == 'success') {
-				setFlashSuccess('Approval Success!');
-				redirect('worker/detail/'.$id);
-			}
-		} else {
-			redirect('worker');
 		}
 	}
 
