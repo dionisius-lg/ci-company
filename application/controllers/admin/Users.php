@@ -66,6 +66,7 @@ class Users extends CI_Controller {
 			'sort'					=> 'asc',
 			'is_register'			=> 1,
 			'is_request_register'	=> '0',
+			'not_id'				=> '1'
 		];
 
 		$request = [
