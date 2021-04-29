@@ -15,7 +15,7 @@ $condition = [
 ];
 
 $workers = dbget('view_workers', [], $condition);
-
+print_r($workers); exit;
 if (count($workers) > 0) {
 	foreach ($workers as $worker) {
 		$current_date = date('Y-m-d H:i:s');
