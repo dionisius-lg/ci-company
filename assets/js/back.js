@@ -122,12 +122,6 @@ function requestCities(param, selected = 0, element = null) {
 	}
 
 	if (param !== null && typeof param === 'object') {
-		//$.ajaxSetup({
-		//	headers: {
-		//		'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-		//	}
-		//});
-
 		$.ajax({
 			type: 'post',
 			url: $('meta[name="url"]').attr('content') + 'remote/get-cities',
@@ -140,11 +134,13 @@ function requestCities(param, selected = 0, element = null) {
 				element.html('<option value="">Please Select</option>');
 
 				if (response !== null && typeof response === 'object') {
-					if (response.length > 0) {
-						for (i=0; i<response.length; i++) {
-							element.append('<option value="' + response[i]['id'] + '">' + response[i]['name'] + '</option>');
+					if (response.data.length > 0) {
+						for (i=0; i<response.data.length; i++) {
+							element.append('<option value="' + response.data[i]['id'] + '">' + response.data[i]['name'] + '</option>');
 						}
 					}
+
+					$('meta[name="x-csrf-hash"]').attr({'content': response.csrf_token}).trigger('change');
 				}
 
 				if (element.find('option[value="'+selected+'"]').length) {

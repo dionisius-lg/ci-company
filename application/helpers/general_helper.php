@@ -3,7 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if (!function_exists('strClean')) {
 	function strClean($str) {
-		return addslashes(htmlspecialchars(trim($str), ENT_QUOTES));
+		// return htmlentities(trim($str), ENT_QUOTES, 'UTF-8');
+		return addslashes(htmlspecialchars(trim($str), ENT_QUOTES, 'UTF-8'));
+	}
+}
+
+if (!function_exists('unStrClean')) {
+	function unStrClean($str) {
+		return stripslashes(html_entity_decode($str));
 	}
 }
 

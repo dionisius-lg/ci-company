@@ -101,8 +101,8 @@ $route['remote/get-company-advantages-list'] = 'Remote/getCompanyAdvantagesDatat
 $route['remote/get-sliders-list'] = 'Remote/getSlidersDatatable';
 $route['remote/get-users'] = 'Remote/getUsers';
 $route['remote/get-employees'] = 'Remote/getEmployees';
-$route['remote/get-datatable-worker-attachments'] = 'Remote/getWorkerAttachmentsDatatable';
-$route['remote/get-datatable-worker-attachments/(:any)'] = 'Remote/getWorkerAttachmentsDatatable/$1';
+$route['remote/get-worker-attachments-datatable'] = 'Remote/getWorkerAttachmentsDatatable';
+$route['remote/get-worker-attachments-datatable/(:any)'] = 'Remote/getWorkerAttachmentsDatatable/$1';
 
 /**
  * LanguageController

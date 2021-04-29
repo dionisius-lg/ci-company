@@ -141,7 +141,7 @@
 							<div class="row">
 								<div class="form-group col-md-12">
 									<?php echo form_label('Description', null); ?>
-									<?php echo form_textarea(['name' => 'description', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('description') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('description', $worker['description'])]); ?>
+									<?php echo form_textarea(['name' => 'description', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('description') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('description', unStrClean($worker['description']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('description'); ?></span>
 								</div>
 								<div class="form-group col-md-12">
@@ -449,8 +449,11 @@
 				[5]
 			],
 			'ajax': {
-				'url': '<?php echo base_url("remote/get-datatable-worker-attachments/".$worker['id']); ?>',
-				'type': 'post'
+				'url': '<?php echo base_url("remote/get-worker-attachments-datatable/".$worker['id']); ?>',
+				'type': 'post',
+				'data': function(d) {
+					d.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash();?>"
+				}
 			},
 			'columnDefs': [{
 				'targets': [-1, 0],
@@ -512,8 +515,9 @@
 			var param = {
 				'province_id': provinceValue,
 				'order': 'name',
-				'limit': 100
-			}
+				'limit': 100,
+				'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
+			};
 
 			requestCities(param, cityValue, cityElement);
 		}
@@ -669,6 +673,8 @@
 	// get users data
 	function requestUsers(param) {
 		if (param !== null && typeof param === 'object') {
+			param['<?php echo $this->security->get_csrf_token_name(); ?>'] = '<?php echo $this->security->get_csrf_hash(); ?>';
+
 			$.ajax({
 				type: 'post',
 				url: modalSearchForm.attr('action'),

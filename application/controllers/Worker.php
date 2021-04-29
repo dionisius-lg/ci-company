@@ -57,6 +57,8 @@ class Worker extends CI_Controller {
 			'sort'						=> 'asc'
 		];
 
+		$clause = array_map('strClean', $clause);
+
 		if (array_key_exists('experience', $params)) {
 			if (!empty($params['experience'])) {
 				$experience = explode('-', $params['experience']);
