@@ -774,11 +774,11 @@ class Workers extends CI_Controller {
 				'label' => 'City',
 				'rules' => 'trim|is_natural|xss_clean'
 			],
-			// [
-			// 	'field' => 'description',
-			// 	'label' => 'Description',
-			// 	'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
-			// ],
+			[
+				'field' => 'description',
+				'label' => 'Description',
+				'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
+			],
 			[
 				'field' => 'link_video',
 				'label' => 'Video Link',
