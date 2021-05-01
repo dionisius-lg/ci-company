@@ -12,7 +12,7 @@
 
 <div class="container">
     <div class="main-body m-3 p-3">
-	<h4 class="font-weight-bold text-primary"><i>Detail Worker</i></h4>
+	<h4 class="font-weight-bold text-primary"><i>Biodata</i></h4>
 	<hr>
 		<div class="row gutters-sm">
 			<div class="col-md-4 mb-3">
