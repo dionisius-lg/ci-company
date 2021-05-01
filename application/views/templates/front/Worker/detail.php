@@ -134,7 +134,7 @@
 					<a href="javascript:void(0)" class="text-body"><?php echo $worker['ready_placement']; ?></a>
 					</div>
 				</div>
-
+				<hr>
 				<h6 class="my-3">Contacts</h6>
 				<div class="row mb-2">
 					<div class="col-md-3 text-muted">Age:</div>
@@ -163,12 +163,23 @@
 					<?php echo $worker['religion'] ?>
 					</div>
 				</div>
-
+				<hr>
 				<h6 class="my-3">Info</h6>
 				<div class="row mb-2">
 					<div class="col-md-3 text-muted">description:</div>
 					<div class="col-md-9">
 					<?php echo $worker['description'] ?>
+					</div>
+				</div>
+				<hr>
+				<h6 class="my-3">Video</h6>
+				<div class="row mb-2">
+					<div class="col-md-3">Preview:</div>
+						<div class="col-md-6">
+							<div class="embed-responsive embed-responsive-16by9">
+								<iframe class="embed-responsive-item" src="<?php echo $worker['link_video'] ?>" allowfullscreen></iframe>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
