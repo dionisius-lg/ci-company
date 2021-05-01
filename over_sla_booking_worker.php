@@ -15,7 +15,7 @@ $condition = [
 ];
 
 $workers = dbget('view_workers', [], $condition);
-print_r($workers); exit;
+
 if (count($workers) > 0) {
 	foreach ($workers as $worker) {
 		$current_date = date('Y-m-d H:i:s');
@@ -35,7 +35,7 @@ if (count($workers) > 0) {
 			$update = dbupdate('workers', ['id' => $worker['id']], $data);
 
 			if ($update) {
-				echo 'update worker ' . $status . ' id: ' . $worker['id'];
+				echo 'Update worker ' . $status . ' id: ' . $worker['id'];
 				echo PHP_EOL;
 
 				createLog($config['log']['dir'] . $config['log']['success'], basename($_SERVER['SCRIPT_FILENAME']) . ' - Success update workers over sla booking. Worker ID: ' . $worker['id']);

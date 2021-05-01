@@ -74,7 +74,7 @@ class Experiences extends CI_Controller {
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/experiences', $total, $clause['limit']);
+		$this->result['pagination'] = bs4pagination('admin/experiences', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 		
 		$this->template->content->view('templates/back/Experiences/index', $this->result);

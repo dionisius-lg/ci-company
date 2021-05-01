@@ -77,13 +77,13 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'		=> 'Daftar keanggotaan baru',
-	'fullname'	=> 'Nama lengkap',
-	'email'		=> 'Email',
-	'company'	=> 'Perusahaan',
-	'city'		=> 'Kota',
-	'country'	=> 'Negara',
-	'submit'	=> 'Daftar'
+	'intro'				=> 'Daftar keanggotaan baru',
+	'fullname'			=> 'Nama Lengkap',
+	'email'				=> 'Email',
+	'register_as'		=> 'Mendaftar Sebagai',
+	'agency_location'	=> 'Lokasi Agensi',
+	'company'			=> 'Perusahaan',
+	'submit'			=> 'Daftar'
 ];
 
 $lang['error'] = [

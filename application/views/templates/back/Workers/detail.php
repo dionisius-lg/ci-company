@@ -97,7 +97,7 @@
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Age', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric plaintext' . (hasFlashError('age') ? ' is-invalid' : ''), 'maxlength' => '3', 'value' => oldInput('age', $worker['age']), 'readonly' => true]); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('age') ? ' is-invalid' : ''), 'value' => oldInput('age', $worker['age']), 'readonly' => true]); ?>
 									<span class="invalid-feedback"><?php echo flashError('age'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
@@ -198,11 +198,11 @@
 									</select>
 									<span class="invalid-feedback"><?php echo flashError('placement'); ?></span>
 								</div>
-								<div class="form-group col-md-3">
+								<!-- <div class="form-group col-md-3">
 									<?php echo form_label('Placement Status', null); ?>
 									<?php echo form_input(['type' => 'text', 'name' => 'placement_status', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('placement_status') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('placement_status', $worker['placement_status']), 'readonly' => true]); ?>
 									<span class="invalid-feedback"><?php echo flashError('placement_status'); ?></span>
-								</div>
+								</div> -->
 								<div class="form-group col-md-3">
 									<?php echo form_label('Username', null); ?>
 									<?php echo form_input(['type' => 'text', 'name' => 'username', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('username') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('username', $worker['username']), 'readonly' => true]); ?>
@@ -385,9 +385,9 @@
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css', ['type' => 'text/css']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/datatables/css/dataTables.bootstrap4.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/css/bs4-datatables.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
@@ -842,4 +842,18 @@
 			});
 		}
 	}
+
+	// calculate age
+	$('#formData [name="birth_date"]').on('change', function () {
+		$('#formData [name="age"]').val(null);
+
+		if (Date.parse(this.value)) {
+			var today = new Date(),
+				birthdate = new Date($(this).datepicker('getDate'));
+
+			var age = today.getFullYear() - birthdate.getFullYear();
+
+			$('#formData [name="age"]').val(age);
+		}
+	});
 </script>

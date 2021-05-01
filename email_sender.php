@@ -5,24 +5,23 @@ require __DIR__ . '/application/libraries/phpscript/config.php';
 require __DIR__ . '/application/libraries/phpscript/database.php';
 require __DIR__ . '/application/libraries/phpscript/function.php';
 
-//load phpmailer
-require __DIR__ . '/application/libraries/phpmailer/src/Exception.php';
-require __DIR__ . '/application/libraries/phpmailer/src/PHPMailer.php';
-require __DIR__ . '/application/libraries/phpmailer/src/SMTP.php';
+// Composer autoload
+require __DIR__ . '/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 $status = @$_SERVER['argv'][1];
 
 //get mailer config
-$mailer = dbget('mailer_config');
+$mailer_config = dbget('mailer_config');
 
-if (!count($mailer) > 0) {
+if (!count($mailer_config) > 0) {
 	exit();
 }
 
-$config['email_server'] = $mailer[0];
+$config['email_server'] = $mailer_config[0];
 
 // get email on queue
 $condition = [
@@ -39,6 +38,7 @@ if (count($emails) > 0) {
 
 		try {
 			// Server settings
+			$mail->SMTPDebug   = SMTP::DEBUG_SERVER;
 			$mail->SMTPOptions = [
 				'ssl' => [
 					'verify_peer'       => false,
@@ -46,31 +46,28 @@ if (count($emails) > 0) {
 					'allow_self_signed' => true
 				]
 			];
-
-			// SMTP configuration
 			$mail->isSMTP();
-			$mail->isHTML(true);
-			$mail->Host       = $config['email_server']['host'];
-			$mail->SMTPAuth   = true;
-			$mail->SMTPSecure = $config['email_server']['encryption'];
-			$mail->Port       = $config['email_server']['port'];
-			$mail->SMTPDebug  = 3;
-			$mail->Username   = $config['email_server']['username'];
-			$mail->Password   = $config['email_server']['password'];
+			$mail->Host         = $config['email_server']['host'];
+			$mail->SMTPAuth     = true;
+			$mail->Username     = $config['email_server']['username'];
+			$mail->Password     = $config['email_server']['password'];
+			$mail->SMTPSecure   = $config['email_server']['encryption'];
+			// $mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
+			$mail->Port         = $config['email_server']['port'];
 
-			//$mail->Sender     = $config['email_server']['username'];
-			//$mail->From       = (!empty($email['email_from']) ? $email['email_from'] : $config['email_server']['username']);
-			//$mail->FromName   = (!empty($email['email_from']) ? $email['email_from'] : $config['email_server']['username']);
-
-			// Set from
+			// Sender
 			$mail->setFrom($config['email_server']['username']);
-			// Email subject & body
-			$mail->Subject    = $email['subject'];
-			$mail->Body       = $email['content_html'];
+			$mail->addReplyTo($config['email_server']['username']);
 
+			// Content
+			$mail->isHTML(true);
+			$mail->Subject      = $email['subject'];
+			$mail->Body         = $email['content_html'];
+
+			// Clear recipients
 			$mail->clearAllRecipients();
 
-			// Add recipient
+			// Add recipients
 			if ($email['email_to']) {
 				$recipient_num = substr_count($email['email_to'], ';');
 				$recipient = explode(';', $email['email_to']);
@@ -86,7 +83,7 @@ if (count($emails) > 0) {
 				}
 			}
 
-			// Add CC
+			// Add CCs
 			if ($email['email_cc']) {
 				$cc_num = substr_count($email['email_cc'], ';');
 				$cc = explode(';', $email['email_cc']);
@@ -113,6 +110,10 @@ if (count($emails) > 0) {
 					}
 				}
 			}
+
+			// Add attachments
+			// $mail->addAttachment('/var/tmp/file.tar.gz'); //Add attachments
+			// $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); //Optional name
 
 			echo "\nMail debug :".$mail->SMTPDebug;
 			echo "\nMail Host :".$mail->Host;
@@ -142,6 +143,9 @@ if (count($emails) > 0) {
 			if ($process) {
 				$mail->send();
 
+				echo 'Message has been sent.';
+				echo PHP_EOL;
+
 				// update email status to sent
 				$condition = [
 					'id' => $email['id']
@@ -154,19 +158,19 @@ if (count($emails) > 0) {
 				];
 
 				$sent = dbupdate('emails', $condition, $data);
-				
-				if (!$sent) {
+
+				if ($sent) {
+					echo 'Update email ' . $status . ' id: ' . $email['id'];
+					echo PHP_EOL;
+				} else {
 					createLog($config['log']['dir'] . $config['log']['error'], basename($_SERVER['SCRIPT_FILENAME']) . ' - Email successfully sent || Error to update status to SENT. Email ID: ' . $email['id']);
 				}
-
-				echo 'update email ' . $status . ' id: ' . $email['id'];
-				echo PHP_EOL;
 			} else {
 				createLog($config['log']['dir'] . $config['log']['error'], basename($_SERVER['SCRIPT_FILENAME']) . ' - Failed to update status to PROCESS || Email not SEND. Email ID: ' . $email['id']);
 			}
 
 			$mail->clearAddresses();
-			$mail->clearAttachments();
+			// $mail->clearAttachments();
 		} catch (Exception $e) {
 			// update email status to error
 			$condition = [
@@ -187,9 +191,7 @@ if (count($emails) > 0) {
 				createLog($config['log']['dir'] . $config['log']['error'], basename($_SERVER['SCRIPT_FILENAME']) . $mail->ErrorInfo);
 			}
 
-			echo 'Message could not be sent.';
-			echo PHP_EOL;
-			echo 'Mailer Error: ' . $mail->ErrorInfo;
+			echo 'Message could not be sent. Mailer Error: ' . $mail->ErrorInfo;
 			echo PHP_EOL;
 		}
 	}

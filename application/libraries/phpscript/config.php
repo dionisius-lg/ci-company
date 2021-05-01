@@ -5,14 +5,16 @@ ini_set('date.timezone', 'Asia/Jakarta');
 $config = [
 	'database' => [
 		'host'		=> 'localhost',
-		'dbname'	=> 'ci_company', // local
-		// 'dbname'	=> 'ptarjcom_database', // ptarj.com
-		'username'	=> 'root', // local
-		// 'username'	=> 'ptarjcom_administrator', // ptarj.com
+		// local
+		'username'	=> 'root',
 		'password'	=> '',
-		// 'password'	=> 'ptarjcom102030', // ptarj.com
+		'dbname'	=> 'ci_company'
+		// ptarj.com
+		// 'dbname'	=> 'ptarjcom_database',
+		// 'username'	=> 'ptarjcom_administrator',
+		// 'password'	=> 'ptarjcom102030'
 	],
-	'socket_url' => 'http://127.0.0.1:8001',
+	'socket_url' => ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://" . @$_SERVER['HTTP_HOST'] . ":62542",
 	'log' => [
 		'dir'		=> './application/logs/',
 		'error'		=> 'error_log_'.date('Ymd').'.log',

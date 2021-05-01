@@ -104,28 +104,10 @@
 		var captcha = $('#g-recaptcha-response').val();
 
 		if (captcha == "" || captcha == undefined || captcha.length == 0) {
-			var errorMessage;
-
-			switch ('<?php echo sitelang(); ?>') {
-				case 'indonesian':
-					errorMessage = 'Captcha diperlukan';
-					break;
-				case 'japanese':
-					errorMessage = 'キャプチャが必要です';
-					break;
-				case 'korean':
-					errorMessage = '보안 문자가 필요합니다';
-					break;
-				case 'mandarin':
-					errorMessage = '必須輸入驗證碼';
-					break;
-				default:
-					errorMessage = 'Captcha is required';
-			}
-
 			Swal.fire({
 				icon: 'error',
-				title: errorMessage
+				// title: errorMessage
+				title: '<?php echo $this->lang->line('error')['captcha']; ?>'
 			});
 
 			return false;

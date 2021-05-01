@@ -42,10 +42,10 @@
 				<div class="row">
 					<div class="col-md-6 pad-right-5">
 						<ul class="nav flex-column">
-							<?php foreach ($placements as $placement) { echo
+							<?php foreach ($agency_locations as $oversea_experience) { echo
 								'<li class="nav-item">
-									<a href="' . base_url('worker?ready_placement=' . $placement['id']) . '" class="nav-link">
-										' . $placement['name'] . ' <span> ' . $placement['total_worker_ready'] . ' </span>
+									<a href="' . base_url('worker?oversea_experience=' . $oversea_experience['id']) . '" class="nav-link">
+										' . $oversea_experience['name'] . ' <span> ' . $oversea_experience['total_worker_oversea_experience'] . ' </span>
 									</a>
 								</li>';
 							} ?>

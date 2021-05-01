@@ -128,9 +128,9 @@
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="<?php echo site_url('admin/placements'); ?>" <?php echo $this->uri->segment(2) == 'placements' ? 'class="nav-link active"' : ''?> class="nav-link">
+										<a href="<?php echo site_url('admin/agency-locations'); ?>" <?php echo $this->uri->segment(2) == 'agency-locations' ? 'class="nav-link active"' : ''?> class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
-											<p>Placements</p>
+											<p>Agency Locations</p>
 										</a>
 									</li>
 								</ul>

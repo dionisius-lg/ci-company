@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Placements extends CI_Controller {
+class AgencyLocations extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -20,13 +20,13 @@ class Placements extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
-		$this->template->title = 'Placements';
+		$this->template->title = 'Agency Locations';
 
 		// $this->load->library('user_agent');
 
 		// load default models
 		$this->load->model('CompanyModel');
-		$this->load->model('PlacementsModel');
+		$this->load->model('AgencyLocationsModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -58,7 +58,7 @@ class Placements extends CI_Controller {
 		];
 
 		$request = [
-			'placements' => $this->PlacementsModel->getAll($clause)
+			'agency_locations' => $this->AgencyLocationsModel->getAll($clause)
 		];
 
 		foreach ($request as $key => $val) {
@@ -68,17 +68,17 @@ class Placements extends CI_Controller {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
 
-					if ($key == 'placements') {
+					if ($key == 'agency_locations') {
 						$total = $val['total_data'];
 					}
 				}
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/placements', $total, $clause['limit']);
+		$this->result['pagination'] = bs4pagination('admin/agency-locations', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 		
-		$this->template->content->view('templates/back/Placements/index', $this->result);
+		$this->template->content->view('templates/back/AgencyLocations/index', $this->result);
 		$this->template->publish();
 	}
 
@@ -100,7 +100,7 @@ class Placements extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->PlacementsModel->getDetail($id);
+			$request = $this->AgencyLocationsModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -135,6 +135,10 @@ class Placements extends CI_Controller {
 				$input['is_local'] = '0';
 			}
 
+			if (!array_key_exists('is_default', $input)) {
+				$input['is_default'] = '0';
+			}
+
 			$validate = $this->validate($file);
 
 			$this->form_validation->set_rules($validate);
@@ -151,12 +155,13 @@ class Placements extends CI_Controller {
 			$data = [
 				'name'				=> ucwords($input['name']),
 				'is_local'			=> $input['is_local'],
+				'is_default'		=> $input['is_default'],
 				'create_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->PlacementsModel->insert($data);
+			$request = $this->AgencyLocationsModel->insert($data);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -195,6 +200,10 @@ class Placements extends CI_Controller {
 				$input['is_local'] = '0';
 			}
 
+			if (!array_key_exists('is_default', $input)) {
+				$input['is_default'] = '0';
+			}
+
 			$validate = $this->validate($file);
 
 			$this->form_validation->set_rules($validate);
@@ -211,12 +220,13 @@ class Placements extends CI_Controller {
 			$data = [
 				'name'				=> ucwords($input['name']),
 				'is_local'			=> $input['is_local'],
+				'is_default'		=> $input['is_default'],
 				'update_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->PlacementsModel->update($data, $id);
+			$request = $this->AgencyLocationsModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -248,7 +258,7 @@ class Placements extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->PlacementsModel->delete($id);
+			$request = $this->AgencyLocationsModel->delete($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -277,6 +287,11 @@ class Placements extends CI_Controller {
 			[
 				'field' => 'is_local',
 				'label' => 'Is Local',
+				'rules' => 'trim|max_length[1]|numeric|xss_clean'
+			],
+			[
+				'field' => 'is_default',
+				'label' => 'Is Default',
 				'rules' => 'trim|max_length[1]|numeric|xss_clean'
 			],
 			

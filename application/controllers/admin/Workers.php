@@ -27,7 +27,7 @@ class Workers extends CI_Controller {
 		// load default models
 		$this->load->model('CompanyModel');
 		$this->load->model('ExperiencesModel');
-		$this->load->model('PlacementsModel');
+		$this->load->model('AgencyLocationsModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
 		$this->load->model('WorkersModel');
@@ -72,7 +72,7 @@ class Workers extends CI_Controller {
 
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
-			'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
+			'placements' => $this->AgencyLocationsModel->getAll(['order' => 'name', 'limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
 
@@ -107,7 +107,7 @@ class Workers extends CI_Controller {
 
 		$request = [
 			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name', 'limit' => 100]),
-			'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
+			'placements' => $this->AgencyLocationsModel->getAll(['order' => 'name', 'limit' => 100]),
 			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 			'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 		];
@@ -138,7 +138,7 @@ class Workers extends CI_Controller {
 			$request = [
 				'worker' => $this->WorkersModel->getDetail($id),
 				'experiences' => $this->ExperiencesModel->getAll(['order' => 'name', 'limit' => 100]),
-				'placements' => $this->PlacementsModel->getAll(['order' => 'name', 'limit' => 100]),
+				'placements' => $this->AgencyLocationsModel->getAll(['order' => 'name', 'limit' => 100]),
 				'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 				'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 			];
@@ -774,11 +774,11 @@ class Workers extends CI_Controller {
 				'label' => 'City',
 				'rules' => 'trim|is_natural|xss_clean'
 			],
-			// [
-			// 	'field' => 'description',
-			// 	'label' => 'Description',
-			// 	'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
-			// ],
+			[
+				'field' => 'description',
+				'label' => 'Description',
+				'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
+			],
 			[
 				'field' => 'link_video',
 				'label' => 'Video Link',

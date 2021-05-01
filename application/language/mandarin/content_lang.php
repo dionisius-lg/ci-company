@@ -75,13 +75,13 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'		=> '註冊新會員',
-	'fullname'	=> '全名',
-	'email'		=> '電子郵件',
-	'company'	=> '公司',
-	'city'		=> '城市',
-	'country'	=> '國家',
-	'submit'	=> '登記'
+	'intro'				=> '註冊新會員',
+	'fullname'			=> '全名',
+	'email'				=> '電子郵件',
+	'register_as'		=> '註冊為',
+	'agency_location'	=> '代理商位置',
+	'company'			=> '公司',
+	'submit'			=> '登記'
 ];
 
 $lang['error'] = [

@@ -90,7 +90,7 @@
 						</div>
 						<div class="form-group col-md-3">
 							<?php echo form_label('Age', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric plaintext' . (hasFlashError('age') ? ' is-invalid' : ''), 'maxlength' => '3', 'value' => oldInput('age'), 'readonly' => true]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('age') ? ' is-invalid' : ''), 'value' => oldInput('age'), 'readonly' => true]); ?>
 							<span class="invalid-feedback"><?php echo flashError('age'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
@@ -209,17 +209,12 @@
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/datatables/css/dataTables.bootstrap4.min.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/css/bs4-datatables.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/venobox/js/venobox.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/jquery.dataTables.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/dataTables.bootstrap4.min.js'); ?>
-<?php $this->template->javascript->add('assets/js/file-downloader.js'); ?>
 
 <!-- script for this page -->
 <script type="text/javascript">
@@ -286,5 +281,19 @@
 	$('#formPhoto').on('submit', function(e) {
 		e.preventDefault();
 		return false;
+	});
+
+	// calculate age
+	$('#formData [name="birth_date"]').on('change', function () {
+		$('#formData [name="age"]').val(null);
+
+		if (Date.parse(this.value)) {
+			var today = new Date(),
+				birthdate = new Date($(this).datepicker('getDate'));
+
+			var age = today.getFullYear() - birthdate.getFullYear();
+
+			$('#formData [name="age"]').val(age);
+		}
 	});
 </script>

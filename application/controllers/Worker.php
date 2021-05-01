@@ -23,7 +23,7 @@ class Worker extends CI_Controller {
 		$this->load->model('WorkersModel');
 		$this->load->model('WorkerAttachmentsModel');
 		$this->load->model('ExperiencesModel');
-		$this->load->model('PlacementsModel');
+		$this->load->model('AgencyLocationsModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
 
@@ -49,10 +49,8 @@ class Worker extends CI_Controller {
 			'page'						=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
 			'like_nik'					=> array_key_exists('nik', $params) ? $params['nik'] : '',
 			'like_fullname'				=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
-			'like_email'				=> array_key_exists('email', $params) ? $params['email'] : '',
 			'gender_id'					=> array_key_exists('gender', $params) ? $params['gender'] : '',
 			'marital_status_id'			=> array_key_exists('marital_status', $params) ? $params['marital_status'] : '',
-			'placement_id'				=> array_key_exists('placement', $params) ? $params['placement'] : '',
 			'order'						=> 'fullname',
 			'sort'						=> 'asc'
 		];
@@ -75,18 +73,10 @@ class Worker extends CI_Controller {
 			}
 		}
 
-		if (array_key_exists('ready_placement', $params)) {
-			if (!empty($params['ready_placement'])) {
-				$ready_placement = explode('-', $params['ready_placement']);
-				sort($ready_placement);
-				$clause['inset_ready_placement_ids'] = $ready_placement;
-			}
-		}
-
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
 			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
-			'placements' => $this->PlacementsModel->getAll(['order' => 'name']),
+			'placements' => $this->AgencyLocationsModel->getAll(['order' => 'name']),
 			// 'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
 

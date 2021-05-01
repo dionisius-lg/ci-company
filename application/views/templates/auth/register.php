@@ -42,9 +42,24 @@
 								<span class="invalid-feedback"><?php echo flashError('company'); ?></span>
 							</div>
 							<div class="col-md-6">
-								<?php echo form_label($this->lang->line('page_register')['country'], 'country'); ?>
-								<?php echo form_input(['type' => 'text', 'name' => 'country', 'id' => 'country', 'class' => 'form-control capitalize ' . (hasFlashError('country') ? 'is-invalid' : ''), 'value' => oldInput('country')]); ?>
-								<span class="invalid-feedback"><?php echo flashError('country'); ?></span>
+								<?php echo form_label($this->lang->line('page_register')['register_as'] . '&nbsp;<span class="text-danger">*</span>', 'RegisterAs'); ?>
+								<select name="register_as" id="RegisterAs" class="form-control custom-select">
+									<option value="">Please Select</option>
+									<?php foreach ($user_levels as $register_as) {
+										echo '<option value="' .$register_as['id']. '">'. $register_as['name']. '</option>';
+									} ?>
+								</select>
+								<span class="invalid-feedback"><?php echo flashError('register_as'); ?></span>
+							</div>
+							<div class="col-md-6 hidden">
+								<?php echo form_label($this->lang->line('page_register')['agency_location'] . '&nbsp;<span class="text-danger">*</span>', 'agency_location'); ?>
+								<select name="agency_location" id="agency_location" class="form-control custom-select">
+									<option value="">Please Select</option>
+									<?php foreach ($agency_locations as $agency) {
+										echo '<option value="' .$agency['id']. '">'. $agency['name']. '</option>';
+									} ?>
+								</select>
+								<span class="invalid-feedback"><?php echo flashError('agency_location'); ?></span>
 							</div>
 						</div>
 						<div class="form-row">
@@ -65,10 +80,13 @@
 <!-- load required builded stylesheet for this page -->
 <?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/parsley/parsley.css', ['type' => 'text/css', 'media' => 'all']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/parsley/parsley.min.js'); ?>
+<?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
 <?php switch (sitelang()) {
 	case 'indonesian':
 		$this->template->javascript->add('assets/vendor/parsley/i18n/id.js');
@@ -105,6 +123,18 @@
 		$( window ).resize(function() { rescaleCaptcha(); });
 	});
 
+	$('#RegisterAs').on('change', function(e) {
+		e.preventDefault();
+
+		$('#agency_location').val(null).trigger('change');
+
+		if (this.value == 3) {
+			if ($('#agency_location').parent().hasClass('hidden')) $('#agency_location').attr({'required': true}).parent().removeClass('hidden');
+		} else {
+			if (!$('#agency_location').parent().hasClass('hidden')) $('#agency_location').attr({'required': false}).parent().addClass('hidden');
+		}
+	})
+
 	$('#formRegister').on('submit', function(e) {
 		e.preventDefault();
 
@@ -115,28 +145,9 @@
 		var captcha = $('#g-recaptcha-response').val();
 
 		if (captcha == "" || captcha == undefined || captcha.length == 0) {
-			var errorMessage;
-
-			switch ('<?php echo sitelang(); ?>') {
-				case 'indonesian':
-					errorMessage = 'Captcha diperlukan';
-					break;
-				case 'japanese':
-					errorMessage = 'キャプチャが必要です';
-					break;
-				case 'korean':
-					errorMessage = '보안 문자가 필요합니다';
-					break;
-				case 'mandarin':
-					errorMessage = '必須輸入驗證碼';
-					break;
-				default:
-					errorMessage = 'Captcha is required';
-			}
-
 			Swal.fire({
 				icon: 'error',
-				title: errorMessage
+				title: '<?php echo $this->lang->line('error')['captcha']; ?>'
 			});
 
 			return false;

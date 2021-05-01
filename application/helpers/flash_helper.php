@@ -142,7 +142,7 @@ if (!function_exists('oldInput')) {
 			if ($ci->session->has_userdata('OldInput_'.$key)) {
 				return $ci->session->flashdata('OldInput_'.$key);
 			} else {
-				if (!empty($old)) {
+				if (!empty($old) || $old === '0') {
 					return $old;
 				}
 			}

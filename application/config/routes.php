@@ -91,6 +91,17 @@ $route['admin/workers/delete-attachment/(:any)'] = 'admin/Workers/deleteAttachme
 $route['admin/workers/approve-booking/(:any)'] = 'admin/Workers/approveBooking/$1';
 
 /**
+ * AgencyLocationsController
+ * Additional routes for administrator
+ */
+$route['admin/agency-locations'] = 'admin/AgencyLocations';
+$route['admin/agency-locations/(:any)'] = 'admin/AgencyLocations';
+$route['admin/agency-locations/detail/(:num)'] = 'admin/AgencyLocations/detail/$1';
+$route['admin/agency-locations/create'] = 'admin/AgencyLocations/create';
+$route['admin/agency-locations/update/(:num)'] = 'admin/AgencyLocations/update/$1';
+$route['admin/agency-locations/delete/(:num)'] = 'admin/AgencyLocations/delete/$1';
+
+/**
  * RemoteController
  * Additional routes for global
  */
