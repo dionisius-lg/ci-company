@@ -75,13 +75,13 @@ $lang['page_login'] = [
 ];
 
 $lang['page_register'] = [
-	'intro'		=> '新しいメンバーシップを登録する',
-	'fullname'	=> 'フルネーム',
-	'email'		=> '電子メイル',
-	'company'	=> '会社',
-	'city'		=> '市',
-	'country'	=> '国',
-	'submit'	=> '登録'
+	'intro'				=> '新しいメンバーシップを登録する',
+	'fullname'			=> 'フルネーム',
+	'email'				=> '電子メイル',
+	'register_as'		=> 'として登録',
+	'agency_location'	=> '代理店の場所',
+	'company'			=> '会社',
+	'submit'			=> '登録'
 ];
 
 $lang['error'] = [

@@ -8,7 +8,7 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<?php echo form_open('admin/placements', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
+				<?php echo form_open('admin/agency-locations', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-row">
 						<div class="form-group col-md-2">
 							<?php echo form_label('Name', null); ?>
@@ -43,6 +43,7 @@
 								<th class="text-nowrap">No.</th>
 								<th class="text-nowrap">Name</th>
 								<th class="text-nowrap">Is Local</th>
+								<th class="text-nowrap">Is Default</th>
 								<th class="text-nowrap">Create Date</th>
 								<th class="text-nowrap">Create By</th>
 								<th class="text-nowrap">Last Update Date</th>
@@ -51,17 +52,18 @@
 							</tr>
 						</thead>
 						<tbody>
-						<?php if (count($placements) > 0) {
-							foreach ($placements as $placement) { echo
+						<?php if (count($agency_locations) > 0) {
+							foreach ($agency_locations as $agency_location) { echo
 								'<tr>
 									<td class="text-nowrap">' . $no . '</td>
-									<td class="text-nowrap">' . $placement['name'] . '</td>
-									<td class="text-nowrap">' . (($placement['is_local'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
-									<td class="text-nowrap">' . $placement['create_date'] . '</td>
-									<td class="text-nowrap">' . $placement['create_by'] . '</td>
-									<td class="text-nowrap">' . $placement['update_date'] . '</td>
-									<td class="text-nowrap">' . $placement['update_by'] . '</td>
-									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $placement['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $placement['id'] . ')']) . '</td>
+									<td class="text-nowrap">' . $agency_location['name'] . '</td>
+									<td class="text-nowrap">' . (($agency_location['is_local'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
+									<td class="text-nowrap">' . (($agency_location['is_default'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
+									<td class="text-nowrap">' . $agency_location['create_date'] . '</td>
+									<td class="text-nowrap">' . $agency_location['create_by'] . '</td>
+									<td class="text-nowrap">' . $agency_location['update_date'] . '</td>
+									<td class="text-nowrap">' . $agency_location['update_by'] . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $agency_location['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $agency_location['id'] . ')']) . '</td>
 								</tr>';
 
 								$no++;
@@ -107,6 +109,12 @@
 								<?php echo form_label('Set As Local', 'IsLocal'); ?>
 							</div>
 						</div>
+						<div class="form-group col-md-12">
+							<div class="icheck-primary">
+								<?php echo form_checkbox(['name' => 'is_default', 'id' => 'IsDefault', 'value' => '1']); ?>
+								<?php echo form_label('Set As Default', 'IsDefault'); ?>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -130,7 +138,7 @@
 	function newData() {
 		modalDataForm[0].reset();
 		modalDataForm.find('select').val(null).trigger('change');
-		modalDataForm.attr({'action': '<?php echo base_url("admin/placements/create"); ?>'});
+		modalDataForm.attr({'action': '<?php echo base_url("admin/agency-locations/create"); ?>'});
 		modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 		modalDataForm.find('.invalid-feedback').empty();
 		modalDataForm.find('.btn-submit').html('Create');
@@ -143,13 +151,13 @@
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
-				url: '<?php echo base_url("admin/placements/detail/' + id + '"); ?>',
+				url: '<?php echo base_url("admin/agency-locations/detail/' + id + '"); ?>',
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
 					modalDataForm[0].reset();
 					modalDataForm.find('select').val(null).trigger('change');
-					modalDataForm.attr({'action': '<?php echo base_url("admin/placements/update/' + id + '"); ?>'});
+					modalDataForm.attr({'action': '<?php echo base_url("admin/agency-locations/update/' + id + '"); ?>'});
 					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 					modalDataForm.find('.invalid-feedback').empty();
 					modalDataForm.find('.btn-submit').html('Update');
@@ -163,6 +171,10 @@
 
 							if (response.data['is_local'] == '1') {
 								modalDataForm.find('[name="is_local"]').attr({'checked': true});
+							}
+
+							if (response.data['is_default'] == '1') {
+								modalDataForm.find('[name="is_default"]').attr({'checked': true});
 							}
 
 							modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
@@ -196,7 +208,7 @@
 			}).then((result) => {
 				if (result.isConfirmed) {
 					$.ajax({
-						url: '<?php echo base_url("admin/placements/delete/' + id + '"); ?>',
+						url: '<?php echo base_url("admin/agency-locations/delete/' + id + '"); ?>',
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {

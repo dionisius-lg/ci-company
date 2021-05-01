@@ -19,6 +19,10 @@
 					<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control', 'value' => $this->input->get('nik') ? $this->input->get('nik') : '']); ?>
 				</div>
 				<div class="form-group col-md-3">
+					<?php echo form_label('Fullname', null); ?>
+					<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
+				</div>
+				<div class="form-group col-md-3">
 					<?php echo form_label('Gender', null); ?>
 					<select name="gender" class="form-control select2">
 						<option value="">Please Select</option>
@@ -35,29 +39,9 @@
 						<option value="3">Divorce</option>
 					</select>
 				</div>
-				<div class="form-group col-md-3">
-					<?php echo form_label('Placement', null); ?>
-					<select name="placement" class="form-control select2">
-						<option value="">Please Select</option>
-						<?php foreach ($placements as $placement) {
-							echo '<option value="' .$placement['id']. '">'. $placement['name']. '</option>';
-						} ?>
-					</select>
-				</div>
 			</div>
 			<div class="form-row">
-				<div class="form-group col-md-6 order-1 order-lg-2">
-					<?php echo form_label('Ready For Placement', null); ?>
-					<div class="d-flex flex-wrap">
-						<?php foreach ($placements as $ready_placement) { ?>
-							<div class="icheck-secondary mr-4">
-								<?php echo form_checkbox(['name' => 'ready_placement[]', 'id' => 'ReadyPlacement' . $ready_placement['id'], 'value' => $ready_placement['id']]); ?>
-								<?php echo form_label($ready_placement['name'], 'ReadyPlacement' . $ready_placement['id']); ?>
-							</div>
-						<?php } ?>
-					</div>
-				</div>
-				<div class="form-group col-md-6 order-2 order-lg-1">
+				<div class="form-group col-md-6">
 					<?php echo form_label('Oversea Experience', null); ?>
 					<div class="d-flex flex-wrap">
 						<?php foreach ($placements as $oversea_experience) { ?>
@@ -68,8 +52,6 @@
 						<?php } ?>
 					</div>
 				</div>
-			</div>
-			<div class="form-row">
 				<div class="form-group col-md-6">
 					<?php echo form_label('Experience', null); ?>
 					<div class="d-flex flex-wrap">
@@ -117,10 +99,6 @@
 								<div class="flex-wrapper">
 									<div>Age</div>
 									<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
-								</div>
-								<div class="flex-wrapper">
-									<div>Placement</div>
-									<div><?php echo !empty($worker['placement']) ? $worker['placement'] . ((!empty($worker['placement_status'])) ? ' (' . $worker['placement_status'] . ')' : '') : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
 									<div>Experience</div>
@@ -184,15 +162,6 @@
 			}
 		}
 
-		var paramReadyPlacement = '<?php echo$this->input->get('ready_placement'); ?>',
-			elemReadyPlacement = $('#formFilter [name="ready_placement[]"');
-
-		for (var z = 0; z < elemReadyPlacement.length; z++) {
-			if($.inArray(elemReadyPlacement[z].value, paramReadyPlacement.split('-')) !== -1) {
-				elemReadyPlacement.eq(z).attr('checked', true);
-			}
-		}
-
 		if ($('#formFilter [name="gender"]').find('option[value="<?php echo $this->input->get('gender'); ?>"]').length) {
 			$('#formFilter [name="gender"]').val('<?php echo $this->input->get('gender'); ?>').trigger('change');
 		}
@@ -238,20 +207,6 @@
 
 		thisForm.append('<input type="hidden" name="oversea_experience" value="' + valueOverseaExperience.join('-') +'">');
 		thisOverseaExperience.attr({'disabled': true});
-
-		var thisReadyPlacement = thisForm.find('[name="ready_placement[]"'),
-			valueReadyPlacement = [],
-			zzz = 0;
-
-		for (var zz = 0; zz < thisReadyPlacement.length; zz++) {
-			if (thisReadyPlacement[zz].checked) {
-				valueReadyPlacement[zzz] = thisReadyPlacement[zz].value;
-				zzz++;
-			}
-		}
-
-		thisForm.append('<input type="hidden" name="ready_placement" value="' + valueReadyPlacement.join('-') +'">');
-		thisReadyPlacement.attr({'disabled': true});
 
 		thisForm.find('[type="submit"]').attr({'disabled': true});
 

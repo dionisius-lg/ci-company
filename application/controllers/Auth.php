@@ -20,6 +20,8 @@ class Auth extends CI_Controller {
 		// load default models
 		$this->load->model('CompanyModel');
 		$this->load->model('UsersModel');
+		$this->load->model('UserLevelsModel');
+		$this->load->model('AgencyLocationsModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -140,12 +142,13 @@ class Auth extends CI_Controller {
 			}
 
 			$data = [
-				'username' => strtolower($input['email']),
-				'fullname' => ucwords($input['fullname']),
-				'email' => strtolower($input['email']),
-				'country' => ucwords($input['country']),
-				'company' => ucwords($input['company']),
-				'is_request_register' => 1
+				'username'				=> strtolower($input['email']),
+				'fullname'				=> ucwords($input['fullname']),
+				'email'					=> strtolower($input['email']),
+				'user_level_id'			=> $input['register_as'],
+				'company'				=> ucwords($input['company']),
+				'agency_location_id'	=> $input['agency_location'],
+				'is_request_register'	=> 1
 			];
 
 			$data = array_map('strClean', $data);
@@ -165,6 +168,21 @@ class Auth extends CI_Controller {
 			}
 
 			redirect('auth/register');
+		}
+
+		$request = [
+			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name', 'not_id' => 1]),
+			'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name', 'limit' => 100])
+		];
+
+		foreach ($request as $key => $val) {
+			$this->result[$key] = [];
+
+			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
+				if ($request[$key]['status'] == 'success') {
+					$this->result[$key] = $val['data'];
+				}
+			}
 		}
 
 		$this->template->title = $this->lang->line('header')['topbar']['register'];
@@ -195,10 +213,20 @@ class Auth extends CI_Controller {
 				'rules' => 'trim|max_length[200]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
 			],
 			[
-				'field' => 'country',
-				'label' => $this->lang->line('page_register')['country'],
-				'rules' => 'trim|max_length[100]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
+				'field' => 'register_as',
+				'label' => $this->lang->line('page_register')['register_as'],
+				'rules' => 'trim|required|max_length[1]|numeric|xss_clean'
 			],
+			[
+				'field' => 'agency_location',
+				'label' => $this->lang->line('page_register')['agency_location'],
+				'rules' => 'trim|numeric|xss_clean'
+			],
+			// [
+			// 	'field' => 'country',
+			// 	'label' => $this->lang->line('page_register')['country'],
+			// 	'rules' => 'trim|max_length[100]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
+			// ],
 		];
 
 		return $validate;

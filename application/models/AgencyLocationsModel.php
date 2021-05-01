@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class PlacementsModel extends CI_Model {
+class AgencyLocationsModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'placements';
-	public $view_table = 'view_placements';
+	public $table = 'agency_locations';
+	public $view_table = 'view_agency_locations';
 
 	/**
 	 *  getAll method
@@ -52,7 +52,7 @@ class PlacementsModel extends CI_Model {
 							$clause[$key] = $val;
 						}
 					} else {
-						if (in_array($key, ['is_active', 'is_local']) && $val === '0') {
+						if (in_array($key, ['is_active', 'is_local', 'is_default']) && $val === '0') {
 							$clause[$key] = '\'0\'';
 						}
 					}
@@ -243,7 +243,7 @@ class PlacementsModel extends CI_Model {
 					if (!empty($val)) {
 						$data[$key] = $val;
 					} else {
-						if (in_array($key, ['is_active', 'is_local']) && $val === '0') {
+						if (in_array($key, ['is_active', 'is_local', 'is_default']) && $val === '0') {
 							$data[$key] = '0';
 						}
 					}
