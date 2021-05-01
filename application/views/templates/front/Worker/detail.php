@@ -177,8 +177,10 @@
 					<div class="col-md-3">Preview:</div>
 						<div class="col-md-6">
 							<div class="embed-responsive embed-responsive-16by9">
-								<iframe class="embed-responsive-item" src="<?php echo $worker['link_video'] ?>" allowfullscreen></iframe>
-							</div>
+								<input id="myUrl" class="form-control" type="text" value="<?php echo $worker['link_video']; ?>">
+									<button class="btn btn-sm btn-danger my-3" id="myBtn">Watch</button>
+							<div>YouTube ID: <span id="myId"></span></div>
+							<div>Embed code: <pre id="myCode"></pre></div>
 						</div>
 					</div>
 				</div>
@@ -252,4 +254,27 @@ const Toast = Swal.mixin({
 Toast.fire({
   title: '<?php echo flashSuccess() ?>'
 });
+
+function getId(url) {
+    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    var match = url.match(regExp);
+
+    if (match && match[2].length == 11) {
+        return match[2];
+    } else {
+        return 'error';
+    }
+}
+
+var myId;
+
+$('#myBtn').click(function () {
+    var myUrl = $('#myUrl').val();
+    myId = getId(myUrl);
+    
+    $('#myId').html(myId);
+    
+    $('#myCode').html('<iframe width="560" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>');
+});
+
 </script>
