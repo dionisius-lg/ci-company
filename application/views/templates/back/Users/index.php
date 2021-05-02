@@ -122,7 +122,7 @@
 					<div class="row">
 						<div class="form-group col-md-4">
 							<?php echo form_label('Fullname <span class="text-danger">*</span>', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus', true]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
@@ -247,7 +247,7 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							<?php echo form_label('Password', null); ?>
-							<?php echo form_input(['type' => 'password', 'name' => 'password', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
+							<?php echo form_input(['type' => 'password', 'name' => 'password', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10', 'autofocus' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-6">
@@ -348,12 +348,16 @@
 						if ('user' in response && typeof response.user == 'object') {
 							if (!$.isEmptyObject(response.user)) {
 								$.each(response.user, function(key, val) {
-									if ($.inArray(key, ['user_level_id', 'user_level', 'is_worker']) < 0) {
+									if ($.inArray(key, ['user_level', 'agency_location', 'is_worker']) < 0) {
 										modalDataForm.find('[name="' + key + '"]').val(val);
 									}
 
 									if (key == 'user_level_id' && modalDataForm.find('[name="user_level"] option[value="' +val+ '"]').length) {
 										modalDataForm.find('[name="user_level"]').val(val).trigger('change');
+									}
+
+									if (key == 'agency_location_id' && modalDataForm.find('[name="agency_location"] option[value="' +val+ '"]').length) {
+										modalDataForm.find('[name="agency_location"]').val(val).trigger('change');
 									}
 
 									if (key == 'is_worker') {

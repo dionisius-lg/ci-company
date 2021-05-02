@@ -191,6 +191,31 @@ class WorkersModel extends CI_Model {
 	}
 
 	/**
+	 *  getDetailByNik method
+	 *  get detail data by nik
+	 */
+	public function getDetailByNik($nik = null)
+	{
+		$column		= $this->_getColumn($this->view_table);
+		$protected	= ['id'];
+
+		if (empty($nik)) {
+			return responseBadRequest('Nik is required');
+		}
+
+		$check = $this->_getCount($this->view_table, ['nik' => $nik]);
+
+		if ($check == 0) {
+			return responseNotFound();
+		}
+
+		$query = $this->db->select($column)->where(['nik' => $nik])->get($this->view_table);
+		$result	= json_decode(json_encode($query->row()), true);
+
+		return responseSuccess($result, $check);
+	}
+
+	/**
 	 *  insert method
 	 *  insert new data
 	 */

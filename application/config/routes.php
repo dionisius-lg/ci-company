@@ -116,6 +116,12 @@ $route['remote/get-worker-attachments-datatable'] = 'Remote/getWorkerAttachments
 $route['remote/get-worker-attachments-datatable/(:any)'] = 'Remote/getWorkerAttachmentsDatatable/$1';
 
 /**
+ * WorkerController
+ * Additional routes for front
+ */
+$route['worker/download-attachment'] = 'Worker/downloadAttachment';
+
+/**
  * LanguageController
  * Additional routes for front/main
  */

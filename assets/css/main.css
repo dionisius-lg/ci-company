@@ -46,6 +46,11 @@ button {
 	outline: none;
 }
 
+a.disabled,
+button.disabled {
+	pointer-events: none;
+}
+
 .uppercase {
 	text-transform: uppercase;
 }
@@ -1708,7 +1713,7 @@ section {
 #worker .box {
 	position: relative;
 	margin: auto;
-	padding: 1.5rem;
+	padding: 1.15rem;
 	border: 0;
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
@@ -1719,6 +1724,11 @@ section {
 		width: 100%;
 		padding: 15px;
 	}
+}
+
+#worker .box > .box-title {
+	padding: 0.5rem 0;
+	margin-bottom: 0;
 }
 
 #worker .box > .profile-photo {
@@ -1754,6 +1764,7 @@ section {
 	font-size: 13px;
 }
 
+#worker.detail .profile-info > .flex-wrapper,
 #worker .box > .profile-info > .flex-wrapper {
 	display: flex;
 	flex-wrap: nowrap;
@@ -1762,20 +1773,35 @@ section {
 	margin-bottom: 3px;
 }
 
+#worker.detail .profile-info > .flex-wrapper {
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+}
+
+#worker.detail .profile-info > .flex-wrapper > div:first-child,
 #worker .box > .profile-info > .flex-wrapper > div:first-child {
 	flex: 0 0 95px;
 	margin-right: 10px;
 }
 
+@media (min-width: 575.98px) {
+	#worker.detail .profile-info > .flex-wrapper > div:first-child {
+		flex: 0 0 180px;
+	}
+}
+
+#worker.detail .profile-info > .flex-wrapper > div + div,
 #worker .box > .profile-info > .flex-wrapper > div + div {
 	display: flex;
 }
 
+#worker.detail .profile-info > .flex-wrapper > div + div:before,
 #worker .box > .profile-info > .flex-wrapper > div + div:before {
 	content: ":";
 	margin-right: 5px;
 }
 
+#worker .profile-menu,
 #worker .box > .profile-menu {
 	margin-top: 10px;
 	text-align: center;
@@ -1856,6 +1882,67 @@ section {
 
 #worker .pagination {
 	margin-top: 15px;
+}
+
+#worker.detail .profile-photo {
+	text-align: center;
+	position: relative;
+}
+
+#worker.detail .profile-photo > img {
+	margin: auto;
+	margin-bottom: 5px;
+	width: 100%;
+	max-width: 150px;
+	height: 150px;
+	object-fit: cover;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#worker.detail .booking-status {
+	margin: 3px auto;
+	/* padding: 0; */
+	color: #8796af;
+	/* font-size: 14px; */
+}
+
+#worker.detail .card {
+	margin: auto;
+	border: 0;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+#worker.detail .card-body {
+	padding: 1.25rem;
+}
+
+#worker.detail .card-header {
+	padding: 0.5rem 1.25rem;
+	margin-bottom: 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+#worker.detail ul > li {
+	position: relative;
+	border: 0;
+	padding: 0;
+	margin-bottom: 15px;
+	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+
+#worker.detail ul > li > a {
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	color: #6c757d;
+}
+
+#worker.detail ul > li:hover > a {
+	color: #424242;
+	background-color: rgba(206, 202, 206, 0.11);
 }
 
 /*--------------------------------------------------------------
@@ -1941,4 +2028,28 @@ ul.pagination  .page-item.active .page-link {
 	background: #25d366;
 	color: #fff;
 	transition: all 0.4s;
+}
+
+/*--------------------------------------------------------------
+# Modal Video
+--------------------------------------------------------------*/
+#modalVideo .modal-dialog {
+	max-width: 800px;
+	margin: 30px auto;
+}
+
+#modalVideo .modal-body {
+	position:relative;
+	padding:0px;
+}
+
+#modalVideo .close {
+	position:absolute;
+	right:-30px;
+	top:0;
+	z-index:999;
+	font-size:2rem;
+	font-weight: normal;
+	color:#fff;
+	opacity:1;
 }

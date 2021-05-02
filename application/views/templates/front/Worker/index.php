@@ -4,7 +4,7 @@
 			<h2><?php echo $this->template->title; ?></h2>
 			<ol>
 				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
-				<li><?php echo $this->template->title; ?></li>
+				<li><?php echo $this->lang->line('header')['navbar']['worker']; ?></li>
 			</ol>
 		</div>
 	</div>
@@ -22,7 +22,7 @@
 					<?php echo form_label('Fullname', null); ?>
 					<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
 				</div>
-				<div class="form-group col-md-3">
+				<div class="form-group col-md-2">
 					<?php echo form_label('Gender', null); ?>
 					<select name="gender" class="form-control select2">
 						<option value="">Please Select</option>
@@ -30,7 +30,7 @@
 						<option value="2">Female</option>
 					</select>
 				</div>
-				<div class="form-group col-md-3">
+				<div class="form-group col-md-2">
 					<?php echo form_label('Status', null); ?>
 					<select name="marital_status" class="form-control select2">
 						<option value="">Please Select</option>
@@ -38,6 +38,10 @@
 						<option value="2">Married</option>
 						<option value="3">Divorce</option>
 					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<?php echo form_label('Age', null); ?>
+					<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control numeric', 'value' => $this->input->get('age') ? $this->input->get('age') : '']); ?>
 				</div>
 			</div>
 			<div class="form-row">
@@ -102,19 +106,19 @@
 								</div>
 								<div class="flex-wrapper">
 									<div>Experience</div>
-									<div><?php echo !empty($worker['experience']) ? $worker['experience'] : '-'; ?></div>
+									<div><?php echo !empty($worker['experience']) ? implode(', ', explode(',', $worker['experience'])) : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
 									<div>Oversea Experience</div>
-									<div><?php echo !empty($worker['oversea_experience']) ? $worker['oversea_experience'] : '-'; ?></div>
+									<div><?php echo !empty($worker['oversea_experience']) ? implode(', ', explode(',', $worker['oversea_experience'])) : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
 									<div>Ready For Placement</div>
-									<div><?php echo !empty($worker['ready_placement']) ? $worker['ready_placement'] : '-'; ?></div>
+									<div><?php echo !empty($worker['ready_placement']) ? implode(', ', explode(',', $worker['ready_placement'])) : '-'; ?></div>
 								</div>
 							</div>
 							<div class="profile-menu">
-								<?php echo anchor('worker/detail/' . $worker['id'], 'View Detail', ['class' => 'btn btn-secondary']); ?>
+								<?php echo anchor('worker/detail/' . $worker['nik'], 'View Detail', ['class' => 'btn btn-secondary']); ?>
 							</div>
 						</div>
 					</div>
@@ -133,16 +137,30 @@
 </section>
 
 <!-- load required builded stylesheet for this page -->
+<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
+<?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
+
+<?php if (hasFlashError('worker')) { ?>
+<script>
+	var bsSwal = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary rounded-0'
+		},
+		buttonsStyling: false
+	});
+
+	bsSwal.fire('<?php echo flashError("worker"); ?>');
+</script>
+<?php } ?>
 
 <!-- script for this page -->
 <script type="text/javascript">
-
 	$(document).ready(function() {
 		var paramExperience = '<?php echo$this->input->get('experience'); ?>',
 			elemExperience = $('#formFilter [name="experience[]"');

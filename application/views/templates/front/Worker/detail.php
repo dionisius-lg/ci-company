@@ -1,240 +1,174 @@
 <section class="breadcrumbs">
 	<div class="container">
-    <div class="d-flex justify-content-between align-items-center">
-			<h2 class="text-uppercase"><?php echo $this->template->title; ?></h2>
+		<div class="d-flex justify-content-between align-items-center">
+			<h2><?php echo $this->template->title; ?></h2>
 			<ol>
 				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
+				<li><a href="<?php echo base_url('/worker'); ?>"><?php echo $this->lang->line('header')['navbar']['worker']; ?></a></li>
 				<li><?php echo $this->template->title; ?></li>
 			</ol>
 		</div>
 	</div>
 </section>
 
-<div class="container">
-    <div class="main-body m-3 p-3">
-	<h4 class="font-weight-bold text-primary"><i>Biodata</i></h4>
-	<hr>
-		<div class="row gutters-sm">
-			<div class="col-md-4 mb-3">
-				<div class="card border-primary">
-					<div class="card-body">
-						<div class="d-flex flex-column align-items-center text-center">
-						<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="rounded-circle">
-							<div class="mt-3">
-								<h4><?php echo $worker['nik']; ?></h4>
-								<hr>
-								<p class="text-secondary mb-2">
-									Email: <?php echo $worker['email']; ?>
-									<hr>
-									Placement: <?php echo $worker['placement']; ?> - (<?php echo $worker['placement_status']; ?>)
-								</p>
-								<form action="<?php echo base_url('worker/bookingworker/' . $worker['id']); ?>" method="POST">
-								<?php if ($worker['booking_status_id'] == 1) : ?>
-									<button type="submit" name="free" class="text-uppercase btn btn-sm btn-primary mb-2">Booking</button>
-								<?php elseif ($worker['booking_status_id'] == 3) : ?>
-									<button type="submit" hidden name="confirmed" class="text-uppercase btn btn-sm btn-primary mb-2">Approved</button>
-								<?php endif; ?>
-									<!-- Button trigger modal -->
-									<a href="" data-toggle="modal" data-target="#exampleModal" class="text-uppercase btn btn-sm btn-success mb-2">File Worker</a>
-								</form>
-								<?php if ($worker['booking_status_id'] == 3) : ?>
-								<small class=text-danger>* Waiting For Approval *</small>
-								<?php elseif ($worker['booking_status_id'] == 4) : ?>
-								<small class=text-danger>* Approval Succes *</small>
-								<?php endif; ?>
-							</div>
-						</div>
-					</div>
+<section id="worker" class="detail">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="profile-photo">
+					<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
+					
+					<p class="booking-status">Booking Status: <?php echo $worker['booking_status']; ?></p>
 				</div>
+
+				<div class="profile-menu">
+					<?php $attr_booking = [
+						'type' => 'button',
+						'class' => 'btn btn-secondary btn-booking rounded-0 d-block mx-auto mb-2',
+						'data-worker' => $worker['nik'],
+						'data-booking' => 2,
+						'content' => '<i class="fa fa-lock">&nbsp;</i> Booking'
+					];
+					
+					if ($worker['booking_status_id'] == 2) {
+						$attr_booking['data-booking'] = 3;
+						$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Confirm';
+					} elseif ($worker['booking_status_id'] == 3) {
+						$attr_booking['class'] = $attr_booking['class'] . ' disabled';
+						$attr_booking['content'] = '<i class="fa fa-spinner">&nbsp;</i> Waiting For Approval';
+						unset($attr_booking['data-worker']);
+						unset($attr_booking['data-booking']);
+					} elseif ($worker['booking_status_id'] == 4) {
+						$attr_booking['class'] = $attr_booking['class'] . ' disabled hidden';
+						$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Approved';
+						$attr_booking['hidden'] = true;
+						unset($attr_booking['data-worker']);
+						unset($attr_booking['data-booking']);
+					}
+
+					echo form_button($attr_booking);
+
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> Biodata']);
+
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary rounded-0' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> Video', 'onclick' => 'playVideo(\'' . $worker['link_video'] . '\')']); ?>
+				</div>
+
+				<?php if (count($attachments) > 0) { ?>
+					<div class="profile-menu text-left mt-4">
+						<div class="section-sub-title">
+							<h5>Attachment</h5>
+						</div>
+						<ul class="nav flex-column">
+							<?php foreach ($attachments as $attachment) { echo
+								'<li class="nav-item">
+									<a href="#" class="nav-link btn-attachment" data-worker="' . $worker['id'] . '" data-filename="' . $attachment['file_name'] . '">
+										' . $attachment['name'] . ' <i class="fa fa-download float-right"></i>
+									</a>
+								</li>';
+							} ?>
+						</ul>
+					</div>
+				<?php } ?>
 			</div>
-
-			<div class="col-md-8">
-				<div class="card mb-3 border-primary">
-					<div class="card-body">
-						<div class="row">
-							<div class="col-sm-3">
-								<h6 class="mb-0">Full Name</h6>
-							</div>
-							<div class="col-sm-9 text-secondary">
-								<?php echo $worker['fullname']; ?>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-sm-3">
-								<h6 class="mb-0">Gender</h6>
-							</div>
-							<div class="col-sm-9 text-secondary">
-								<?php echo $worker['gender']; ?>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-sm-3">
-								<h6 class="mb-0">City, Province</h6>
-							</div>
-							<div class="col-sm-9 text-secondary">
-							<?php echo $worker['city']; ?>, <?php echo $worker['province']; ?>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-sm-3">
-								<h6 class="mb-0">Birth Place</h6>
-							</div>
-							<div class="col-sm-9 text-secondary">
-							<?php echo $worker['birth_place']; ?> 
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-sm-3">
-								<h6 class="mb-0">Birth Date</h6>
-							</div>
-							<div class="col-sm-9 text-secondary">
-							<?php echo $worker['birth_date']; ?>
-							</div>
-						</div>
-						<hr>
-						<div class="row">
-							<div class="col-sm-3">
-								<h6 class="mb-0">Address</h6>
-							</div>
-							<div class="col-sm-9 text-secondary">
-							<?php echo $worker['address']; ?>
-							</div>
-						</div>
+			<div class="col-lg-8">
+				<div class="section-sub-title">
+					<h5>Profile</h5>
+				</div>
+				<div class="profile-info mb-4">
+					<div class="flex-wrapper">
+						<div>Fullname</div>
+						<div><?php echo !empty($worker['fullname']) ? $worker['fullname'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>NIK</div>
+						<div><?php echo !empty($worker['nik']) ? $worker['nik'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Gender</div>
+						<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Birth Place</div>
+						<div><?php echo !empty($worker['birth_place']) ? $worker['birth_place'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Birth Date</div>
+						<div><?php echo !empty($worker['birth_date']) ? $worker['birth_date'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Age</div>
+						<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Marital Status</div>
+						<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Religion</div>
+						<div><?php echo !empty($worker['religion']) ? $worker['religion'] : '-'; ?></div>
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<div class="card mb-4 border-primary">
-			<div class="card-body">
-				<h5 class="text-primary text-center"><i>Worker And Experience</i></h5>
-				<hr>
-				<h6 class="my-3">Experience</h6>
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">Experience Worker:</div>
-					<div class="col-md-9">
-						<?php echo $worker['experience'] ?>
+				<div class="section-sub-title">
+					<h5>Contact</h5>
+				</div>
+				<div class="profile-info mb-4">
+					<div class="flex-wrapper">
+						<div>Email</div>
+						<div><?php echo !empty($worker['email']) ? $worker['email'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Phone</div>
+						<div><?php echo !empty($worker['phone']) ? $worker['phone'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div>Address</div>
+						<div><?php echo !empty($worker['full_address']) ? $worker['full_address'] : '-'; ?></div>
 					</div>
 				</div>
-
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">Experience Oversea:</div>
-					<div class="col-md-9">
-						<?php echo $worker['oversea_experience']; ?>
-					</div>
+				<div class="section-sub-title">
+					<h5>Others</h5>
 				</div>
-
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">Placement Ready:</div>
-					<div class="col-md-9">
-					<a href="javascript:void(0)" class="text-body"><?php echo $worker['ready_placement']; ?></a>
+				<div class="profile-info ">
+					<div class="flex-wrapper">
+						<div>Description</div>
+						<div><?php echo !empty($worker['description']) ? $worker['description'] : '-'; ?></div>
 					</div>
-				</div>
-				<hr>
-				<h6 class="my-3">Contacts</h6>
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">Age:</div>
-					<div class="col-md-9">
-					<?php echo $worker['age'] ?>
+					<div class="flex-wrapper">
+						<div>Placement Now</div>
+						<div><?php echo !empty($worker['placement']) ? $worker['placement'] : '-'; ?></div>
 					</div>
-				</div>
-
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">Marital Status:</div>
-					<div class="col-md-9">
-					<?php echo $worker['marital_status'] ?>
+					<div class="flex-wrapper">
+						<div>Experience</div>
+						<div><?php echo !empty($worker['experience']) ? implode(', ', explode(',', $worker['experience'])) : '-'; ?></div>
 					</div>
-				</div>
-
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">Phone:</div>
-					<div class="col-md-9">
-					<?php echo $worker['phone_1'] ?>
+					<div class="flex-wrapper">
+						<div>Oversea Experience</div>
+						<div><?php echo !empty($worker['oversea_experience']) ? implode(', ', explode(',', $worker['oversea_experience'])) : '-'; ?></div>
 					</div>
-				</div>
-
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">Religion:</div>
-					<div class="col-md-9">
-					<?php echo $worker['religion'] ?>
-					</div>
-				</div>
-				<hr>
-				<h6 class="my-3">Info</h6>
-				<div class="row mb-2">
-					<div class="col-md-3 text-muted">description:</div>
-					<div class="col-md-9">
-					<?php echo $worker['description'] ?>
-					</div>
-				</div>
-				<hr>
-				<h6 class="my-3">Video</h6>
-				<div class="row mb-2">
-					<div class="col-md-3">Preview:</div>
-						<div class="col-md-6">
-							<div class="embed-responsive embed-responsive-16by9">
-								<input id="myUrl" class="form-control" type="text" value="<?php echo $worker['link_video']; ?>">
-									<button class="btn btn-sm btn-danger my-3" id="myBtn">Watch</button>
-							<div>YouTube ID: <span id="myId"></span></div>
-							<div>Embed code: <pre id="myCode"></pre></div>
-						</div>
+					<div class="flex-wrapper">
+						<div>Ready For Placement</div>
+						<div><?php echo !empty($worker['ready_placement']) ? implode(', ', explode(',', $worker['ready_placement'])) : '-'; ?></div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</section>
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">File Attachment</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-	  	<div class="card-body pt-0">
-			<div class="table-responsive">
-				<table class="table table-striped table-hover" id="tableDataAttachment" width="100%">
-					<thead class="table-primary">
-						<tr>
-							<th class="text-center">No.</th>
-							<th class="text-center">Name</th>
-							<th class="text-center">Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php $i = 1; ?>
-						<?php foreach($attachments AS $attachment) : ?>
-							<tr>
-								<td class="text-center"><?php echo $i; ?></td>
-								<td class="text-center"><?php echo $attachment['name']; ?></td>
-								<td class="text-center">
-									<a target="_blank" href="<?php echo base_url('worker/file/' . $attachment['id']); ?>"><i class="fa fa-download fa-fw"></i></a>
-								</td>
-							</tr>
-							<?php $i++; ?>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			</div>
-			<div class="row" id="tableDataAttachmentOption">
-				<div class="col-md-12 table-paginate"></div>
+<!-- modal video -->
+<div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" src="" allowscriptaccess="always" allowfullscreen></iframe>
+				</div>
 			</div>
 		</div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
+	</div>
 </div>
 
 <!-- load required builded stylesheet for this page -->
@@ -242,39 +176,116 @@
 
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
+<?php $this->template->javascript->add('assets/vendor/file-saver/FileSaver.js'); ?>
 
-<script>
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 2000
-});
- 
-Toast.fire({
-  title: '<?php echo flashSuccess() ?>'
-});
+<!-- script for this page -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#modalVideo').on('hide.bs.modal', function(e) {
+			$('#modalVideo iframe').attr({'src': '<?php echo base_url(); ?>'});
+		});
+	});
 
-function getId(url) {
-    var regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    var match = url.match(regExp);
+	function playVideo(url = false) {
+		if (url) {
+			try {
+				validUrl = new URL(url);
 
-    if (match && match[2].length == 11) {
-        return match[2];
-    } else {
-        return 'error';
-    }
-}
+				$('#modalVideo iframe').attr({'src': validUrl + '?autoplay=1&modestbranding=1&showinfo=0'});
+				$('#modalVideo').modal('show');
+			} catch (error) {
+				return false;
+			}
+		}
+		
+		return false;
+	}
 
-var myId;
+	// download file
+	$('.btn-attachment').on('click', function(e) {
+		e.preventDefault();
 
-$('#myBtn').click(function () {
-    var myUrl = $('#myUrl').val();
-    myId = getId(myUrl);
-    
-    $('#myId').html(myId);
-    
-    $('#myCode').html('<iframe width="560" height="315" src="//www.youtube.com/embed/' + myId + '" frameborder="0" allowfullscreen></iframe>');
-});
+		var param = {
+			'worker': $(this).data('worker'),
+			'filename': $(this).data('filename'),
+			['<?php echo $this->security->get_csrf_token_name(); ?>']: '<?php echo $this->security->get_csrf_hash(); ?>'
+		};
 
+		$.ajax({
+			url: '<?php echo base_url("worker/download-attachment"); ?>',
+			type: 'post',
+			data: param,
+			dataType: 'json',
+			success: function(response) {
+				if (response !== null && typeof response === 'object') {
+					if (response.status == 'success') {
+						saveAs(response.file);
+					} else {
+						var bsSwal = Swal.mixin({
+							customClass: {
+								confirmButton: 'btn btn-primary rounded-0'
+							},
+							buttonsStyling: false
+						});
+
+						bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+					}
+				}
+			},
+			error: function () {
+				var bsSwal = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary rounded-0'
+					},
+					buttonsStyling: false
+				});
+
+				bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+			}
+		});
+	});
+
+	// download file
+	$('.btn-booking').on('click', function(e) {
+		e.preventDefault();
+
+		var param = {
+			'worker': $(this).data('worker'),
+			'booking': $(this).data('booking'),
+			['<?php echo $this->security->get_csrf_token_name(); ?>']: '<?php echo $this->security->get_csrf_hash(); ?>'
+		};
+
+		$.ajax({
+			url: '<?php echo base_url("worker/booking"); ?>',
+			type: 'post',
+			data: param,
+			dataType: 'json',
+			success: function(response) {
+				if (response !== null && typeof response === 'object') {
+					if (response.status == 'success') {
+						 window.location.reload();
+					} else {
+						var bsSwal = Swal.mixin({
+							customClass: {
+								confirmButton: 'btn btn-primary rounded-0'
+							},
+							buttonsStyling: false
+						});
+
+						bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+					}
+				}
+			},
+			error: function () {
+				var bsSwal = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary rounded-0'
+					},
+					buttonsStyling: false
+				});
+
+				bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+			}
+		});
+	});
 </script>

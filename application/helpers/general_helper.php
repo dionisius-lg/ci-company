@@ -53,7 +53,7 @@ if (!function_exists('sitelang')) {
 
 		$allowed_lang = [
 			'english',
-			'indonesia',
+			'indonesian',
 			'japanese',
 			'korean',
 			'mandarin'

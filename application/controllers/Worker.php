@@ -16,7 +16,6 @@ class Worker extends CI_Controller {
 
 		// set template layout
 		$this->template->set_template('layouts/front');
-		$this->template->title = $this->lang->line('header')['navbar']['worker'];
 
 		// load default models
 		$this->load->model('CompanyModel');
@@ -37,6 +36,10 @@ class Worker extends CI_Controller {
 		$this->load->helper('socket');
 	}
 
+	/**
+	 *  index method
+	 *  index page
+	 */
 	public function index()
 	{
 		$session	= $this->session->userdata('AuthUser');
@@ -45,15 +48,32 @@ class Worker extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'						=> 6,
-			'page'						=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'like_nik'					=> array_key_exists('nik', $params) ? $params['nik'] : '',
-			'like_fullname'				=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
-			'gender_id'					=> array_key_exists('gender', $params) ? $params['gender'] : '',
-			'marital_status_id'			=> array_key_exists('marital_status', $params) ? $params['marital_status'] : '',
-			'order'						=> 'fullname',
-			'sort'						=> 'asc'
+			'limit'				=> 6,
+			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_nik'			=> array_key_exists('nik', $params) ? $params['nik'] : '',
+			'like_fullname'		=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
+			'gender_id'			=> array_key_exists('gender', $params) ? $params['gender'] : '',
+			'marital_status_id'	=> array_key_exists('marital_status', $params) ? $params['marital_status'] : '',
+			'age'				=> array_key_exists('age', $params) ? $params['age'] : '',
+			'order'				=> 'fullname',
+			'sort'				=> 'asc'
 		];
+
+		if ($session) {
+			// user level agency
+			if ($session['user_level_id'] == 3) {
+				$clause['inset_ready_placement_ids'] = $session['agency_location_id'];
+			}
+		}
+
+		if (!$session) {
+			if ((($clause['page'] * $clause['limit']) - $clause['limit']) >= $clause['limit']) {
+				setFlashError($this->lang->line('error')['auth'], 'worker');
+				redirect($_SERVER['HTTP_REFERER']);
+			}
+
+			$clause['page'] = 1;
+		}
 
 		$clause = array_map('strClean', $clause);
 
@@ -95,114 +115,124 @@ class Worker extends CI_Controller {
 		}
 
 		$this->result['pagination'] = bs4pagination('worker', $total, $clause['limit'], $params);
-		// $this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
 		$this->template->content->view('templates/front/Worker/index', $this->result);
 		$this->template->publish();
 	}
 
-	public function detail($id)
+	/**
+	 *  detail method
+	 *  detail page by id
+	 */
+	public function detail($worker_nik = 0)
 	{
 		$session = $this->session->userdata('AuthUser');
 
 		if (!$session) {
-			setFlashError($this->lang->line('error')['auth'], 'auth');
-			redirect(base_url('auth'));
+			setFlashError($this->lang->line('error')['auth'], 'worker');
+			redirect($_SERVER['HTTP_REFERER']);
 		}
 
-		$request = [
-			'worker' => $this->WorkersModel->getDetail($id), 
-			'workers' => $this->WorkersModel->getAll(['limit' => 10]),
-			'provinces' => $this->ProvincesModel->getAll(['limit' => 100]),
-			'user_levels' => $this->UserLevelsModel->getAll(),
-			'attachments'=> $this->WorkerAttachmentsModel->getByWorkerId($id)
-		];
-
-		foreach ($request as $key => $val) {
-			$this->result[$key] = [];
-
-			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
-				if ($request[$key]['status'] == 'success') {
-					$this->result[$key] = $val['data'];
-				}
-			}
+		if (empty($worker_nik)) {
+			redirect($_SERVER['HTTP_REFERER']);
 		}
-		
+
+		$request = $this->WorkersModel->getDetailByNik($worker_nik);
+
+		if ($request['status'] != 'success') {
+			redirect($_SERVER['HTTP_REFERER']);
+		}
+
+		$this->result['worker'] = $request['data'];
+		$this->result['attachments'] = [];
+
+		$request = $this->WorkerAttachmentsModel->getByWorkerId($this->result['worker']['id']);
+
+		if ($request['status'] == 'success') {
+			$this->result['attachments'] = $request['data'];
+		}
+
+		$this->template->title = 'Detail';
 		$this->template->content->view('templates/front/Worker/detail', $this->result);
 		$this->template->publish();
 	}
 
-	public function bookingWorker($id)
+	/**
+	 *  booking method
+	 *  booking process
+	 */
+	public function booking()
 	{
 		$session = $this->session->userdata('AuthUser');
 
-		$request = [
-			'worker' => $this->WorkersModel->getDetail($id),
-			'workers' => $this->WorkersModel->getAll(),
-			'user_levels' => $this->UserLevelsModel->getAll()
+		$this->result = [
+			'status' => 'error'
 		];
-		
-		foreach ($request as $key => $val) {
-			$this->result[$key] = [];
-			
-			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
-				if ($request[$key]['status'] == 'success') {
-					$this->result[$key] = $val['data'];
+
+		if ($this->input->is_ajax_request()) {
+			$input = array_map('strClean', $this->input->post());
+
+			if (array_key_exists('worker', $input) && array_key_exists('booking', $input)) {
+				if (!empty($input['worker']) && in_array($input['booking'], [2,3])) {
+					$request = $this->WorkersModel->getAll(['nik' => $input['worker']]);
+
+					if ($request['status'] = 'success' && $request['total_data'] > 0) {
+						$worker_id = $request['data'][0]['id'];
+
+						$data = [
+							'update_user_id' => $session['id'],
+							'booking_status_id' => $input['booking']
+						];
+
+						if ($input['booking'] == 2) {
+							$data['booking_user_id'] = $session['id'];
+						}
+
+						$request = $this->WorkersModel->update($data, $worker_id);
+
+						if ($request['status'] == 'success') {
+							$this->result['status'] = 'success';
+							// setFlashSuccess('Data successfully created.');
+							socketEmit('count-total');
+						}
+					}
 				}
 			}
-		}	
 
-		$booking_status = $request['worker'];
+			echo json_encode($this->result); exit();
+		}
 
-		if ($booking_status['data']['booking_status_id'] == 1) {
-			$data = [
-				'booking_status_id' => 3,
-				'booking_date' => date('Y-m-d H:i:s'),
-				'booking_user_id' => $session['id']
-			];
+		redirect($_SERVER['HTTP_REFERER']);
+	}
 
-			$request = $this->WorkersModel->update($data, $id);
-			if ($request['status'] == 'success') {
-				setFlashSuccess('Worker has been booked.');
-				socketEmit('count-total');
+	/**
+	 *  downloadAttachment method
+	 *  download atachment, return json
+	 */
+	public function downloadAttachment()
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
+			'status' => 'error'
+		];
+
+		if ($this->input->is_ajax_request()) {
+			$input = array_map('strClean', $this->input->post());
+
+			if (is_numeric($input['worker']) && !empty($input['filename'])) {
+				
+				$file_url = base_url('files/workers/' . $input['worker'] . '/' . $input['filename']);
+				
+				if (@fopen($file_url, 'r')) {
+					$this->result['status'] = 'success';
+					$this->result['file'] = $file_url;
+				}
 			}
-			redirect('worker/detail/'.$id);
 
-		} else if($booking_status['data']['booking_status_id'] == 3) {
-			$data = [
-				'booking_status_id' => 4,
-				'booking_user_id' => $session['id']
-			];
-
-			$request = $this->WorkersModel->update($data, $id);
+			echo json_encode($this->result); exit();
 		}
-	}
 
-	// function for get file attachment
-	public function file($id) {
-		$file = $this->WorkerAttachmentsModel->getDetail($id)['data'];
-		$url = base_url('files/workers/' . $file['worker_id'] . '/' . $file['file_name']);
-		header('location: ' . $url);
-	}
-
-	// page title in multi language
-	private function pageTitle($lang) {
-		switch ($lang) {
-			case 'english':
-				return 'Worker';
-				break;
-			case 'indonesian':
-				return 'Pekerja';
-				break;
-			case 'korean':
-				return '직원';
-				break;
-			case 'japanese':
-				return '従業員';
-				break;
-			case 'mandarin':
-				return '雇员';
-				break;
-		}
+		redirect($_SERVER['HTTP_REFERER']);
 	}
 }
