@@ -20,6 +20,7 @@
 		"mikey179/vfsstream": "1.1.*",
 		"phpunit/phpunit": "4.* || 5.*",
 		"wisembly/elephant.io": "^3.3",
-		"phpmailer/phpmailer": "6.1.4"
+		"phpmailer/phpmailer": "6.1.4",
+		"dompdf/dompdf": "0.8.3"
 	}
 }

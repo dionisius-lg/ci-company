@@ -1,6 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+// Composer autoload
+require FCPATH . 'vendor/autoload.php';
+
+use Dompdf\Dompdf;
+
 class Worker extends CI_Controller {
 
 	function __construct()
@@ -235,6 +240,47 @@ class Worker extends CI_Controller {
 				if (@fopen($file_url, 'r')) {
 					$this->result['status'] = 'success';
 					$this->result['file'] = $file_url;
+				}
+			}
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	/**
+	 *  downloadProfile method
+	 *  download profile, return json
+	 */
+	public function downloadProfile()
+	{
+		$session = $this->session->userdata('AuthUser');
+		$company = $this->result['company'];
+
+		$this->result = [
+			'status' => 'error'
+		];
+
+		if ($this->input->is_ajax_request()) {
+			$input = array_map('strClean', $this->input->post());
+
+			if (array_key_exists('worker', $input) && is_numeric($input['worker'])) {
+				$request = $this->WorkersModel->getDetailByNik($input['worker']);
+
+				if ($request['status'] == 'success' && $request['total_data'] > 0) {
+					$worker = $request['data'];
+
+					$this->load->helper('pdf');
+
+					$pdf = PdfWorkerProfile($worker, $company);
+
+					if ($pdf) {
+						if (@fopen($pdf['fileurl'], 'r')) {
+							$this->result['status'] = 'success';
+							$this->result['file'] = $pdf['fileurl'];
+						}
+					}
 				}
 			}
 

@@ -69,7 +69,9 @@
 
 					echo form_button($attr_booking);
 
-					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> Biodata']);
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> Biodata', 'data-worker' => $worker['nik']]);
+
+					// echo '<a href="' . base_url('worker/downloadBiodata') . '" class="btn btn-outline-secondary rounded-0"><i class="fa fa-download">&nbsp;</i> Biodata</a>';
 
 					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-play-youtube rounded-0' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> Video', 'data-url' => $worker['link_video']]); ?>
 				</div>
@@ -273,7 +275,50 @@
 		});
 	});
 
-	// download file
+	// download biodata
+	$('.btn-download-profile').on('click', function(e) {
+		e.preventDefault();
+
+		var param = {
+			'worker': $(this).data('worker'),
+			['<?php echo $this->security->get_csrf_token_name(); ?>']: '<?php echo $this->security->get_csrf_hash(); ?>'
+		};
+
+		$.ajax({
+			url: '<?php echo base_url("worker/download-profile"); ?>',
+			type: 'post',
+			data: param,
+			dataType: 'json',
+			success: function(response) {
+				if (response !== null && typeof response === 'object') {
+					if (response.status == 'success') {
+						saveAs(response.file);
+					} else {
+						var bsSwal = Swal.mixin({
+							customClass: {
+								confirmButton: 'btn btn-primary rounded-0'
+							},
+							buttonsStyling: false
+						});
+
+						bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+					}
+				}
+			},
+			error: function () {
+				// var bsSwal = Swal.mixin({
+				// 	customClass: {
+				// 		confirmButton: 'btn btn-primary rounded-0'
+				// 	},
+				// 	buttonsStyling: false
+				// });
+
+				// bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+			}
+		});
+	});
+
+	// booking worker
 	$('.btn-booking').on('click', function(e) {
 		e.preventDefault();
 

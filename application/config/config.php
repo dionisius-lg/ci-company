@@ -410,8 +410,8 @@ $config['cookie_domain']	= '';
 $config['cookie_path']		= '/';
 // $config['cookie_path']		= '/; SameSite=None';
 // $config['cookie_path']		= '/; samesite=strict';
-// $config['cookie_secure']	= FALSE;
-$config['cookie_secure']	= TRUE;
+$config['cookie_secure']	= FALSE;
+// $config['cookie_secure']	= TRUE;
 $config['cookie_httponly'] 	= FALSE;
 
 /*

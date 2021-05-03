@@ -120,6 +120,7 @@ $route['remote/get-worker-attachments-datatable/(:any)'] = 'Remote/getWorkerAtta
  * Additional routes for front
  */
 $route['worker/download-attachment'] = 'Worker/downloadAttachment';
+$route['worker/download-profile'] = 'Worker/downloadProfile';
 
 /**
  * LanguageController
