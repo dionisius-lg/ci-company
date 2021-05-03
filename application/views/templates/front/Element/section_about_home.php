@@ -44,7 +44,7 @@
 						<ul class="nav flex-column">
 							<?php foreach ($agency_locations as $oversea_experience) { echo
 								'<li class="nav-item">
-									<a href="' . base_url('worker?oversea_experience=' . $oversea_experience['id']) . '" class="nav-link">
+									<a href="' . base_url('worker?oversea_experience=' . $oversea_experience['slug']) . '" class="nav-link">
 										' . $oversea_experience['name'] . ' <span> ' . $oversea_experience['total_worker_oversea_experience'] . ' </span>
 									</a>
 								</li>';
@@ -56,7 +56,7 @@
 						<ul class="nav flex-column">
 							<?php foreach ($experiences as $experience) { echo
 								'<li class="nav-item">
-									<a href="' . base_url('worker?experience=' . $experience['id']) . '" class="nav-link">
+									<a href="' . base_url('worker?experience=' . $experience['slug']) . '" class="nav-link">
 										' . $experience['name'] . ' <span> ' . $experience['total_worker'] . ' </span>
 									</a>
 								</li>';

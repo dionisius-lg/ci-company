@@ -95,7 +95,7 @@ $route['admin/workers/approve-booking/(:any)'] = 'admin/Workers/approveBooking/$
  * Additional routes for administrator
  */
 $route['admin/agency-locations'] = 'admin/AgencyLocations';
-$route['admin/agency-locations/(:any)'] = 'admin/AgencyLocations';
+// $route['admin/agency-locations/(:any)'] = 'admin/AgencyLocations';
 $route['admin/agency-locations/detail/(:num)'] = 'admin/AgencyLocations/detail/$1';
 $route['admin/agency-locations/create'] = 'admin/AgencyLocations/create';
 $route['admin/agency-locations/update/(:num)'] = 'admin/AgencyLocations/update/$1';

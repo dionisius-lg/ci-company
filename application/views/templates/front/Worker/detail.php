@@ -16,7 +16,25 @@
 		<div class="row">
 			<div class="col-lg-4">
 				<div class="profile-photo">
-					<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
+					<div class="img-wrapper">
+						<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
+
+						<div class="layer">
+							<?php $attr_avatar = [
+								'type' => 'button',
+								'class' => 'btn btn-avatar venobox',
+								'content' => 'Zoom'
+							];
+
+							if (@getimagesize(base_url('files/workers/'.$worker['id'].'/'.$worker['photo']))) {
+								$attr_avatar['data-href'] = base_url('files/workers/'.$worker['id'].'/'.$worker['photo']);
+							} else {
+								$attr_avatar['class'] = $attr_avatar['class'] . ' disabled';
+							}
+
+							echo form_button($attr_avatar); ?>
+						</div>
+					</div>
 					
 					<p class="booking-status">Booking Status: <?php echo $worker['booking_status']; ?></p>
 				</div>
@@ -29,28 +47,31 @@
 						'data-booking' => 2,
 						'content' => '<i class="fa fa-lock">&nbsp;</i> Booking'
 					];
-					
-					if ($worker['booking_status_id'] == 2) {
-						$attr_booking['data-booking'] = 3;
-						$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Confirm';
-					} elseif ($worker['booking_status_id'] == 3) {
+
+					if ($this->session->userdata('AuthUser')['user_level_id'] == 3) {
+						if ($worker['booking_status_id'] == 2) {
+							$attr_booking['data-booking'] = 3;
+							$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Confirm';
+						} elseif ($worker['booking_status_id'] == 3) {
+							$attr_booking['class'] = $attr_booking['class'] . ' disabled';
+							$attr_booking['content'] = '<i class="fa fa-spinner">&nbsp;</i> Waiting For Approval';
+							unset($attr_booking['data-worker']);
+							unset($attr_booking['data-booking']);
+						} elseif ($worker['booking_status_id'] == 4) {
+							$attr_booking['class'] = $attr_booking['class'] . ' disabled';
+							$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Approved';
+							unset($attr_booking['data-worker']);
+							unset($attr_booking['data-booking']);
+						}
+					} else {
 						$attr_booking['class'] = $attr_booking['class'] . ' disabled';
-						$attr_booking['content'] = '<i class="fa fa-spinner">&nbsp;</i> Waiting For Approval';
-						unset($attr_booking['data-worker']);
-						unset($attr_booking['data-booking']);
-					} elseif ($worker['booking_status_id'] == 4) {
-						$attr_booking['class'] = $attr_booking['class'] . ' disabled hidden';
-						$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Approved';
-						$attr_booking['hidden'] = true;
-						unset($attr_booking['data-worker']);
-						unset($attr_booking['data-booking']);
 					}
 
 					echo form_button($attr_booking);
 
 					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> Biodata']);
 
-					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary rounded-0' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> Video', 'onclick' => 'playVideo(\'' . $worker['link_video'] . '\')']); ?>
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-play-youtube rounded-0' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> Video', 'data-url' => $worker['link_video']]); ?>
 				</div>
 
 				<?php if (count($attachments) > 0) { ?>
@@ -139,15 +160,15 @@
 					</div>
 					<div class="flex-wrapper">
 						<div>Experience</div>
-						<div><?php echo !empty($worker['experience']) ? implode(', ', explode(',', $worker['experience'])) : '-'; ?></div>
+						<div><?php echo !empty($worker['experience']) ? $worker['experience'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
 						<div>Oversea Experience</div>
-						<div><?php echo !empty($worker['oversea_experience']) ? implode(', ', explode(',', $worker['oversea_experience'])) : '-'; ?></div>
+						<div><?php echo !empty($worker['oversea_experience']) ? $worker['oversea_experience'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
 						<div>Ready For Placement</div>
-						<div><?php echo !empty($worker['ready_placement']) ? implode(', ', explode(',', $worker['ready_placement'])) : '-'; ?></div>
+						<div><?php echo !empty($worker['ready_placement']) ? $worker['ready_placement'] : '-'; ?></div>
 					</div>
 				</div>
 			</div>
@@ -172,10 +193,12 @@
 </div>
 
 <!-- load required builded stylesheet for this page -->
-<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
+<?php $this->template->javascript->add('assets/vendor/venobox/js/venobox.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/file-saver/FileSaver.js'); ?>
 
 <!-- script for this page -->
@@ -186,20 +209,25 @@
 		});
 	});
 
-	function playVideo(url = false) {
-		if (url) {
-			try {
-				validUrl = new URL(url);
+	// play youtube video
+	$('.btn-play-youtube').on('click', function(e) {
+		var url = $(this).data('url'),
+			regexpYoutube = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+
+		try {
+			var validUrl = new URL(url);
+			var matchUrl = validUrl['href'].match(regexpYoutube);
+
+			if (matchUrl && matchUrl[2].length == 11) {
+				validUrl = 'https://www.youtube.com/embed/' + matchUrl[2];
 
 				$('#modalVideo iframe').attr({'src': validUrl + '?autoplay=1&modestbranding=1&showinfo=0'});
 				$('#modalVideo').modal('show');
-			} catch (error) {
-				return false;
 			}
+		} catch (error) {
+			return false;
 		}
-		
-		return false;
-	}
+	});
 
 	// download file
 	$('.btn-attachment').on('click', function(e) {

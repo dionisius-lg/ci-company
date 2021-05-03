@@ -26,17 +26,17 @@
 					<?php echo form_label('Gender', null); ?>
 					<select name="gender" class="form-control select2">
 						<option value="">Please Select</option>
-						<option value="1">Male</option>
-						<option value="2">Female</option>
+						<option value="male">Male</option>
+						<option value="female">Female</option>
 					</select>
 				</div>
 				<div class="form-group col-md-2">
-					<?php echo form_label('Status', null); ?>
+					<?php echo form_label('Marital Status', null); ?>
 					<select name="marital_status" class="form-control select2">
 						<option value="">Please Select</option>
-						<option value="1">Single</option>
-						<option value="2">Married</option>
-						<option value="3">Divorce</option>
+						<option value="single">Single</option>
+						<option value="married">Married</option>
+						<option value="divorce">Divorce</option>
 					</select>
 				</div>
 				<div class="form-group col-md-2">
@@ -50,7 +50,7 @@
 					<div class="d-flex flex-wrap">
 						<?php foreach ($placements as $oversea_experience) { ?>
 							<div class="icheck-secondary mr-4">
-								<?php echo form_checkbox(['name' => 'oversea_experience[]', 'id' => 'OverseaExperience' . $oversea_experience['id'], 'value' => $oversea_experience['id']]); ?>
+								<?php echo form_checkbox(['name' => 'oversea_experience[]', 'id' => 'OverseaExperience' . $oversea_experience['id'], 'value' => $oversea_experience['slug']]); ?>
 								<?php echo form_label($oversea_experience['name'], 'OverseaExperience' . $oversea_experience['id']); ?>
 							</div>
 						<?php } ?>
@@ -61,7 +61,7 @@
 					<div class="d-flex flex-wrap">
 						<?php foreach ($experiences as $experience) { ?>
 							<div class="icheck-secondary mr-4">
-								<?php echo form_checkbox(['name' => 'experience[]', 'id' => 'Experience' . $experience['id'], 'value' => $experience['id'], 'class' => 'asd']); ?>
+								<?php echo form_checkbox(['name' => 'experience[]', 'id' => 'Experience' . $experience['id'], 'value' => $experience['slug'], 'class' => 'asd']); ?>
 								<?php echo form_label($experience['name'], 'Experience' . $experience['id']); ?>
 							</div>
 						<?php } ?>
@@ -97,7 +97,7 @@
 									<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div>Status</div>
+									<div>Marital Status</div>
 									<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
@@ -106,15 +106,15 @@
 								</div>
 								<div class="flex-wrapper">
 									<div>Experience</div>
-									<div><?php echo !empty($worker['experience']) ? implode(', ', explode(',', $worker['experience'])) : '-'; ?></div>
+									<div><?php echo !empty($worker['experience']) ? $worker['experience'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
 									<div>Oversea Experience</div>
-									<div><?php echo !empty($worker['oversea_experience']) ? implode(', ', explode(',', $worker['oversea_experience'])) : '-'; ?></div>
+									<div><?php echo !empty($worker['oversea_experience']) ? $worker['oversea_experience'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
 									<div>Ready For Placement</div>
-									<div><?php echo !empty($worker['ready_placement']) ? implode(', ', explode(',', $worker['ready_placement'])) : '-'; ?></div>
+									<div><?php echo !empty($worker['ready_placement']) ? $worker['ready_placement'] : '-'; ?></div>
 								</div>
 							</div>
 							<div class="profile-menu">
@@ -162,20 +162,22 @@
 <!-- script for this page -->
 <script type="text/javascript">
 	$(document).ready(function() {
-		var paramExperience = '<?php echo$this->input->get('experience'); ?>',
+		// var paramExperience = '<?php echo $this->input->get('experience'); ?>',
+		var paramExperience = '<?php echo urldecode($this->input->get('experience')); ?>',
 			elemExperience = $('#formFilter [name="experience[]"');
 
 		for (var x = 0; x < elemExperience.length; x++) {
-			if($.inArray(elemExperience[x].value, paramExperience.split('-')) !== -1) {
+			if($.inArray(elemExperience[x].value, paramExperience.split(',')) !== -1) {
 				elemExperience.eq(x).attr('checked', true);
 			}
 		}
 
-		var paramOverseaExperience = '<?php echo$this->input->get('oversea_experience'); ?>',
+		// var paramOverseaExperience = '<?php echo$this->input->get('oversea_experience'); ?>',
+		var paramOverseaExperience = '<?php echo urldecode($this->input->get('oversea_experience')); ?>',
 			elemOverseaExperience = $('#formFilter [name="oversea_experience[]"');
 
 		for (var y = 0; y < elemOverseaExperience.length; y++) {
-			if($.inArray(elemOverseaExperience[y].value, paramOverseaExperience.split('-')) !== -1) {
+			if($.inArray(elemOverseaExperience[y].value, paramOverseaExperience.split(',')) !== -1) {
 				elemOverseaExperience.eq(y).attr('checked', true);
 			}
 		}
@@ -209,7 +211,7 @@
 			}
 		}
 
-		thisForm.append('<input type="hidden" name="experience" value="' + valueExperience.join('-') +'">');
+		thisForm.append('<input type="hidden" name="experience" value="' + valueExperience.join(',') +'">');
 		thisExperience.attr({'disabled': true});
 
 		var thisOverseaExperience = thisForm.find('[name="oversea_experience[]"'),
@@ -223,7 +225,7 @@
 			}
 		}
 
-		thisForm.append('<input type="hidden" name="oversea_experience" value="' + valueOverseaExperience.join('-') +'">');
+		thisForm.append('<input type="hidden" name="oversea_experience" value="' + valueOverseaExperience.join(',') +'">');
 		thisOverseaExperience.attr({'disabled': true});
 
 		thisForm.find('[type="submit"]').attr({'disabled': true});

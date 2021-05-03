@@ -154,6 +154,7 @@ class AgencyLocations extends CI_Controller {
 
 			$data = [
 				'name'				=> ucwords($input['name']),
+				'slug'				=> slugify($input['name']),
 				'is_local'			=> $input['is_local'],
 				'is_default'		=> $input['is_default'],
 				'create_user_id'	=> $session['id']
@@ -219,6 +220,7 @@ class AgencyLocations extends CI_Controller {
 
 			$data = [
 				'name'				=> ucwords($input['name']),
+				'slug'				=> slugify($input['name']),
 				'is_local'			=> $input['is_local'],
 				'is_default'		=> $input['is_default'],
 				'update_user_id'	=> $session['id']
@@ -281,8 +283,8 @@ class AgencyLocations extends CI_Controller {
 		$validate = [
 			[
 				'field' => 'name',
-				'label' => 'name',
-				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|xss_clean'
+				'label' => 'Name',
+				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|checkAgencyLocationsName['.$id.']|xss_clean'
 			],
 			[
 				'field' => 'is_local',

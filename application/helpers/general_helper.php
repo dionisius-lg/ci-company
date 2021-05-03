@@ -20,11 +20,11 @@ if (!function_exists('nl2space')) {
 	}
 }
 
-if (!function_exists('slugify')) {
-	function slugify($str) {
-		return strtolower(str_slug($str, '-'));
-	}
-}
+// if (!function_exists('slugify')) {
+// 	function slugify($str) {
+// 		return strtolower(str_slug($str, '-'));
+// 	}
+// }
 
 if (!function_exists('strRandom')) {
 	function strRandom($length = '') {
@@ -129,26 +129,41 @@ if (!function_exists('bs4pagination')) {
 	}
 }
 
-/*
-function generate_url_slug($string,$table,$field='url_slug',$key=NULL,$value=NULL){
-	$t =& get_instance();
-	$slug = url_title($string);
-	$slug = strtolower($slug);
-	$i = 0;
-	$params = array ();
-	$params[$field] = $slug;
- 
-	if($key)$params["$key !="] = $value; 
- 
-	while ($t->db->where($params)->get($table)->num_rows())
-	{   
-		if (!preg_match ('/-{1}[0-9]+$/', $slug ))
-			$slug .= '-' . ++$i;
-		else
-			$slug = preg_replace ('/[0-9]+$/', ++$i, $slug );
-		 
-		$params [$field] = $slug;
-	}   
-	return $slug;   
+if (!function_exists('slugify')) {
+	function slugify($str = false, $table = null, $except = []) {
+		$ci = &get_instance();
+		$i = 0;
+		$conditions = [];
+
+		if ($str) {
+			$slug = url_title($str);
+			$slug = strtolower($slug);
+
+			if ($table) {
+				$conditions['slug'] = $slug;
+
+				if (!empty($except) && is_array($except)) {
+					foreach ($except as $key => $val) {
+						$conditions[$key . ' !='] = $val;
+					}
+				}
+
+				$query = $ci->db->where($conditions)->get($table);
+
+				while ($query->num_rows()) {
+					if (!preg_match ('/-{1}[0-9]+$/', $slug )) {
+						$slug .= '-' . ++$i;
+					} else {
+						$slug = preg_replace('/[0-9]+$/', ++$i, $slug);
+					}
+
+					$conditions['slug'] = $slug;
+				}
+			}
+
+			return $slug;
+		}
+
+		return false;
+	}
 }
-*/

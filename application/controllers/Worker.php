@@ -52,8 +52,10 @@ class Worker extends CI_Controller {
 			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
 			'like_nik'			=> array_key_exists('nik', $params) ? $params['nik'] : '',
 			'like_fullname'		=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
-			'gender_id'			=> array_key_exists('gender', $params) ? $params['gender'] : '',
-			'marital_status_id'	=> array_key_exists('marital_status', $params) ? $params['marital_status'] : '',
+			'gender'			=> array_key_exists('gender', $params) ? ucwords($params['gender']) : '',
+			// 'gender_id'			=> array_key_exists('gender', $params) ? $params['gender'] : '',
+			'marital_status'	=> array_key_exists('marital_status', $params) ? ucwords($params['marital_status']) : '',
+			// 'marital_status_id'	=> array_key_exists('marital_status', $params) ? $params['marital_status'] : '',
 			'age'				=> array_key_exists('age', $params) ? $params['age'] : '',
 			'order'				=> 'fullname',
 			'sort'				=> 'asc'
@@ -79,17 +81,23 @@ class Worker extends CI_Controller {
 
 		if (array_key_exists('experience', $params)) {
 			if (!empty($params['experience'])) {
-				$experience = explode('-', $params['experience']);
+				$experience = explode(',', urldecode($params['experience']));
 				sort($experience);
-				$clause['inset_experience_ids'] = $experience;
+
+				foreach ($experience as $key => $val) {
+					$clause['inset_experience_slug'][] = '\'' . $val . '\'';
+				}
 			}
 		}
 
 		if (array_key_exists('oversea_experience', $params)) {
 			if (!empty($params['oversea_experience'])) {
-				$experience = explode('-', $params['oversea_experience']);
-				sort($experience);
-				$clause['inset_oversea_experience_ids'] = $experience;
+				$oversea_experience = explode(',', urldecode($params['oversea_experience']));
+				sort($oversea_experience);
+
+				foreach ($oversea_experience as $key => $val) {
+					$clause['inset_oversea_experience_slug'][] = '\'' . $val . '\'';
+				}
 			}
 		}
 
@@ -180,12 +188,12 @@ class Worker extends CI_Controller {
 						$worker_id = $request['data'][0]['id'];
 
 						$data = [
-							'update_user_id' => $session['id'],
-							'booking_status_id' => $input['booking']
+							'booking_status_id' => $input['booking'],
+							'booking_user_id' => $session['id']
 						];
 
 						if ($input['booking'] == 2) {
-							$data['booking_user_id'] = $session['id'];
+							$data['booking_date'] = date('Y-m-d H:i:s');
 						}
 
 						$request = $this->WorkersModel->update($data, $worker_id);

@@ -209,7 +209,7 @@ class ProvincesModel extends CI_Model {
 		}
 
 		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['nik']]);
+			$check = $this->_getCount($this->table, ['name' => $data['name']]);
 
 			if ($check > 0) {
 				return responseBadRequest('Name already exist');

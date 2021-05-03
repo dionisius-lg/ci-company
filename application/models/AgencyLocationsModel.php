@@ -208,6 +208,14 @@ class AgencyLocationsModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
+		if (array_key_exists('name', $data)) {
+			$check = $this->_getCount($this->table, ['name' => $data['name']]);
+
+			if ($check > 0) {
+				return responseBadRequest('Name already exist');
+			}
+		}
+
 		$inserted = $this->db->insert($this->table, $data);
 
 		if ($inserted) {
@@ -259,6 +267,14 @@ class AgencyLocationsModel extends CI_Model {
 
 		if ($check == 0) {
 			return responseNotFound();
+		}
+
+		if (array_key_exists('name', $data)) {
+			$check = $this->_getCount($this->table, ['name' => $data['name'], 'id !=' => $id]);
+
+			if ($check > 0) {
+				return responseBadRequest('Name already exist');
+			}
 		}
 
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);

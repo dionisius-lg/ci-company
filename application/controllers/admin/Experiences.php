@@ -145,6 +145,7 @@ class Experiences extends CI_Controller {
 
 			$data = [
 				'name'				=> ucwords($input['name']),
+				'slug'				=> slugify($input['name']),
 				'create_user_id'	=> $session['id']
 			];
 
@@ -200,6 +201,7 @@ class Experiences extends CI_Controller {
 
 			$data = [
 				'name'				=> ucwords($input['name']),
+				'slug'				=> slugify($input['name']),
 				'update_user_id'	=> $session['id']
 			];
 
@@ -260,8 +262,8 @@ class Experiences extends CI_Controller {
 		$validate = [
 			[
 				'field' => 'name',
-				'label' => 'name',
-				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|xss_clean'
+				'label' => 'Name',
+				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|checkExperiencesName['.$id.']|xss_clean'
 			],
 			
 		];
