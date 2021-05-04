@@ -3,8 +3,8 @@
 		<div class="d-flex justify-content-between align-items-center">
 			<h2><?php echo $this->template->title; ?></h2>
 			<ol>
-				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
-				<li><?php echo $this->template->title; ?></li>
+				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
+				<li><?php echo $this->lang->line('front')['navbar']['contact']; ?></li>
 			</ol>
 		</div>
 	</div>
@@ -17,23 +17,23 @@
 				<div class="card">
 					<div class="card-header">
 						<h5 class="card-title">
-							<?php echo $this->lang->line('page_contact')['info']['title']; ?>
+							<?php echo $this->lang->line('front')['page_contact']['info']['title']; ?>
 						</h5>
 					</div>
 					<div class="card-body info">
 						<div class="clearfix">
 							<i class="fa fa-map-marker"></i>
-							<h4><?php echo $this->lang->line('page_contact')['info']['location']; ?>:</h4>
-							<p><?php echo ((sitelang() == 'english') ? $company['address_eng'] : $company['address_ind']) . ', ' . $company['city'] . ', ' . $company['province'] . (!empty($company['zip_code']) ? ' - ' . $company['zip_code'] : ''); ?></p>
+							<h4><?php echo $this->lang->line('front')['page_contact']['info']['location']; ?>:</h4>
+							<p><?php echo ((siteLang()['key'] == 'en') ? $company['address_eng'] : $company['address_ind']) . ', ' . $company['city'] . ', ' . $company['province'] . (!empty($company['zip_code']) ? ' - ' . $company['zip_code'] : ''); ?></p>
 						</div>
 						<div class="clearfix">
 							<i class="fa fa-envelope"></i>
-							<h4><?php echo $this->lang->line('page_contact')['info']['email']; ?>:</h4>
+							<h4><?php echo $this->lang->line('front')['page_contact']['info']['email']; ?>:</h4>
 							<p><?php echo $company['email_1'] . '</a> ' . (!empty($company['email_2']) ? $company['email_1'] : ''); ?></p>
 						</div>
 						<div class="clearfix">
 							<i class="fa fa-phone"></i>
-							<h4><?php echo $this->lang->line('page_contact')['info']['phone']; ?>:</h4>
+							<h4><?php echo $this->lang->line('front')['page_contact']['info']['phone']; ?>:</h4>
 							<p><?php echo $company['phone_1'] . (!empty($company['phone_2']) ? ', ' . $company['phone_2'] : ''); ?></p>
 						</div>
 
@@ -46,30 +46,30 @@
 				<div class="card">
 					<div class="card-header">
 						<h5 class="card-title">
-							<?php echo $this->lang->line('page_contact')['message']['title']; ?>
+							<?php echo $this->lang->line('front')['page_contact']['message']['title']; ?>
 						</h5>
 					</div>
 					<div class="card-body infos">
 						<form action="" method="post" role="form">
 							<div class="form-row">
 								<div class="form-group col-md-6">
-									<label for="ContactName"><?php echo $this->lang->line('page_contact')['message']['name']; ?></label>
+									<label for="ContactName"><?php echo $this->lang->line('front')['page_contact']['message']['name']; ?></label>
 									<input type="text" class="form-control rounded-0 shadow-none" name="contact_name" id="ContactName">
 									<span class="invalid-feedback"></span>
 								</div>
 								<div class="form-group col-md-6">
-									<label for="ContactEmail"><?php echo $this->lang->line('page_contact')['message']['email']; ?></label>
+									<label for="ContactEmail"><?php echo $this->lang->line('front')['page_contact']['message']['email']; ?></label>
 									<input type="email" class="form-control rounded-0 shadow-none" name="contact_email" id="ContactEmail">
 									<span class="invalid-feedback"></span>
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="ContactSubject"><?php echo $this->lang->line('page_contact')['message']['subject']; ?></label>
+								<label for="ContactSubject"><?php echo $this->lang->line('front')['page_contact']['message']['subject']; ?></label>
 								<input type="text" class="form-control rounded-0 shadow-none" name="contact_subject" id="ContactSubject">
 								<span class="invalid-feedback"></span>
 							</div>
 							<div class="form-group">
-								<label for="ContactMessage"><?php echo $this->lang->line('page_contact')['message']['message']; ?></label>
+								<label for="ContactMessage"><?php echo $this->lang->line('front')['page_contact']['message']['message']; ?></label>
 								<textarea class="form-control rounded-0 shadow-none" name="contact_message" id="ContactMessage" rows="10"></textarea>
 								<span class="invalid-feedback"></span>
 							</div>
@@ -79,7 +79,7 @@
 								<div class="sent-message">Your message has been sent. Thank you!</div>
 							</div>
 							<div class="text-center">
-								<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('page_contact')['message']['send']; ?></button>
+								<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('front')['page_contact']['message']['send']; ?></button>
 							</div>
 						</form>
 					</div>

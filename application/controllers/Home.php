@@ -11,8 +11,7 @@ class Home extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		// set site languange
-		sitelang();
-		$this->config->set_item('language', sitelang());
+		$this->config->set_item('language', siteLang()['name']);
 
 		// set template layout
 		$this->template->set_template('layouts/front');

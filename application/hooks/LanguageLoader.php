@@ -7,7 +7,7 @@ class LanguageLoader
 		$ci =& get_instance();
 		$ci->load->helper('language');
 
-		$sitelang = $ci->session->userdata('SiteLang');
+		$sitelang = $ci->session->userdata('SiteLang')['name'];
 
 		// if ($sitelang) {
 			$ci->lang->load('content', $sitelang);

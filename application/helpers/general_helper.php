@@ -45,29 +45,82 @@ if (!function_exists('strRandom')) {
 	}
 }
 
-if (!function_exists('sitelang')) {
-	function sitelang($lang = null) {
+// if (!function_exists('sitelang')) {
+// 	function sitelang($lang = null) {
+// 		$ci = &get_instance();
+// 		$ci->load->library('session');
+// 		$ci->load->helper('language');
+
+// 		$allowed_lang = [
+// 			'english',
+// 			'indonesian',
+// 			'japanese',
+// 			'korean',
+// 			'mandarin'
+// 		];
+
+// 		if (!empty($lang) && in_array($lang, $allowed_lang)) {
+// 			$ci->session->set_userdata('SiteLang', $lang);
+// 		} else {
+//             if (!$ci->session->has_userdata('SiteLang')) {
+//                 $ci->session->set_userdata('SiteLang', $allowed_lang['0']);
+//             }
+// 		}
+
+// 		$ci->lang->load('content', $ci->session->userdata('SiteLang'));
+
+// 		return $ci->session->userdata('SiteLang');
+// 	}
+// }
+
+if (!function_exists('siteLang')) {
+	function siteLang($key = 0) {
 		$ci = &get_instance();
 		$ci->load->library('session');
 		$ci->load->helper('language');
 
-		$allowed_lang = [
-			'english',
-			'indonesian',
-			'japanese',
-			'korean',
-			'mandarin'
+		$lang = [
+			'en' => [
+				'key'    => 'en',
+				'name'  => 'english',
+				'alias' => 'english'
+			],
+			'id' => [
+				'key'    => 'id',
+				'name'  => 'indonesian',
+				'alias' => 'bahasa'
+			],
+			'ja' => [
+				'key'    => 'ja',
+				'name'  => 'japanese',
+				'alias' => '日本語'
+			],
+			'ko' => [
+				'key'    => 'ko',
+				'name'  => 'korean',
+				'alias' => '한국어'
+			],
+			'zh-TW' => [
+				'key'    => 'zh-TW',
+				'name'  => 'mandarin',
+				'alias' => '繁體中文'
+			],
+			'zh-TW' => [
+				'key'    => 'zh-TW',
+				'name'  => 'mandarin',
+				'alias' => '繁體中文'
+			],
 		];
 
-		if (!empty($lang) && in_array($lang, $allowed_lang)) {
-			$ci->session->set_userdata('SiteLang', $lang);
+		if (!empty($key) && array_key_exists($key, $lang)) {
+			$ci->session->set_userdata('SiteLang', $lang[$key]);
 		} else {
-            if (!$ci->session->has_userdata('SiteLang')) {
-                $ci->session->set_userdata('SiteLang', $allowed_lang['0']);
+			if (!$ci->session->has_userdata('SiteLang')) {
+                $ci->session->set_userdata('SiteLang', $lang['en']);
             }
 		}
 
-		$ci->lang->load('content', $ci->session->userdata('SiteLang'));
+		// $ci->lang->load('content', $ci->session->userdata('SiteLang')['name']);
 
 		return $ci->session->userdata('SiteLang');
 	}

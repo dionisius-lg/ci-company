@@ -16,8 +16,7 @@ class Worker extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		// set site languange
-		sitelang();
-		$this->config->set_item('language', sitelang());
+		$this->config->set_item('language', siteLang()['name']);
 
 		// set template layout
 		$this->template->set_template('layouts/front');
@@ -75,7 +74,7 @@ class Worker extends CI_Controller {
 
 		if (!$session) {
 			if ((($clause['page'] * $clause['limit']) - $clause['limit']) >= $clause['limit']) {
-				setFlashError($this->lang->line('error')['auth'], 'worker');
+				setFlashError($this->lang->line('message')['error']['auth'], 'worker');
 				redirect($_SERVER['HTTP_REFERER']);
 			}
 
@@ -142,7 +141,7 @@ class Worker extends CI_Controller {
 		$session = $this->session->userdata('AuthUser');
 
 		if (!$session) {
-			setFlashError($this->lang->line('error')['auth'], 'worker');
+			setFlashError($this->lang->line('message')['error']['auth'], 'worker');
 			redirect($_SERVER['HTTP_REFERER']);
 		}
 

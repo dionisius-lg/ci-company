@@ -10,9 +10,9 @@ class Language extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 	}
 
-	public function change($lang = '')
+	public function change($key = '')
 	{
-		sitelang($lang);
+		sitelang($key);
 
 		($_SERVER['HTTP_REFERER']) ? redirect($_SERVER['HTTP_REFERER'], 'refresh') : redirect(base_url(), 'refresh');
 	}

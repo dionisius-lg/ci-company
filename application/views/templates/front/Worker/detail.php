@@ -3,8 +3,8 @@
 		<div class="d-flex justify-content-between align-items-center">
 			<h2><?php echo $this->template->title; ?></h2>
 			<ol>
-				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
-				<li><a href="<?php echo base_url('/worker'); ?>"><?php echo $this->lang->line('header')['navbar']['worker']; ?></a></li>
+				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
+				<li><a href="<?php echo base_url('/worker'); ?>"><?php echo $this->lang->line('front')['navbar']['worker']; ?></a></li>
 				<li><?php echo $this->template->title; ?></li>
 			</ol>
 		</div>
@@ -23,7 +23,7 @@
 							<?php $attr_avatar = [
 								'type' => 'button',
 								'class' => 'btn btn-avatar venobox',
-								'content' => 'Zoom'
+								'content' => $this->lang->line('front')['page_worker']['button']['view_avatar']
 							];
 
 							if (@getimagesize(base_url('files/workers/'.$worker['id'].'/'.$worker['photo']))) {
@@ -69,15 +69,15 @@
 
 					echo form_button($attr_booking);
 
-					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> Biodata', 'data-worker' => $worker['nik']]);
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => $worker['nik']]);
 
-					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-play-youtube rounded-0' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> Video', 'data-url' => $worker['link_video']]); ?>
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-play-youtube rounded-0' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['play_video'], 'data-url' => $worker['link_video']]); ?>
 				</div>
 
 				<?php if (count($attachments) > 0) { ?>
 					<div class="profile-menu text-left mt-4">
 						<div class="section-sub-title">
-							<h5>Attachment</h5>
+							<h5><?php echo $this->lang->line('front')['page_worker']['attachment']; ?></h5>
 						</div>
 						<ul class="nav flex-column">
 							<?php foreach ($attachments as $attachment) { echo
@@ -93,81 +93,81 @@
 			</div>
 			<div class="col-lg-8">
 				<div class="section-sub-title">
-					<h5>Profile</h5>
+					<h5><?php echo $this->lang->line('front')['page_worker']['profile']; ?></h5>
 				</div>
 				<div class="profile-info mb-4">
 					<div class="flex-wrapper">
-						<div>Fullname</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['fullname']; ?></div>
 						<div><?php echo !empty($worker['fullname']) ? $worker['fullname'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>NIK</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['nik']; ?></div>
 						<div><?php echo !empty($worker['nik']) ? $worker['nik'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Gender</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['gender']; ?></div>
 						<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Birth Place</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['birth_place']; ?></div>
 						<div><?php echo !empty($worker['birth_place']) ? $worker['birth_place'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Birth Date</div>
-						<div><?php echo !empty($worker['birth_date']) ? $worker['birth_date'] : '-'; ?></div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['birth_date']; ?></div>
+						<div><?php echo !empty($worker['birth_date']) ? date('d-m-Y', strtotime($worker['birth_date'])) : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Age</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['age']; ?></div>
 						<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Marital Status</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['marital_status']; ?></div>
 						<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Religion</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['religion']; ?></div>
 						<div><?php echo !empty($worker['religion']) ? $worker['religion'] : '-'; ?></div>
 					</div>
 				</div>
 				<div class="section-sub-title">
-					<h5>Contact</h5>
+					<h5><?php echo $this->lang->line('front')['page_worker']['contact']; ?></h5>
 				</div>
 				<div class="profile-info mb-4">
 					<div class="flex-wrapper">
-						<div>Email</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['email']; ?></div>
 						<div><?php echo !empty($worker['email']) ? $worker['email'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Phone</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['phone']; ?></div>
 						<div><?php echo !empty($worker['phone']) ? $worker['phone'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Address</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['address']; ?></div>
 						<div><?php echo !empty($worker['full_address']) ? $worker['full_address'] : '-'; ?></div>
 					</div>
 				</div>
 				<div class="section-sub-title">
-					<h5>Others</h5>
+					<h5><?php echo $this->lang->line('front')['page_worker']['others']; ?></h5>
 				</div>
 				<div class="profile-info ">
 					<div class="flex-wrapper">
-						<div>Description</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['description']; ?></div>
 						<div><?php echo !empty($worker['description']) ? $worker['description'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Placement Now</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['placement']; ?></div>
 						<div><?php echo !empty($worker['placement']) ? $worker['placement'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Experience</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['experience']; ?></div>
 						<div><?php echo !empty($worker['experience']) ? $worker['experience'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Oversea Experience</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['oversea_experience']; ?></div>
 						<div><?php echo !empty($worker['oversea_experience']) ? $worker['oversea_experience'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div>Ready For Placement</div>
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['ready_placement']; ?></div>
 						<div><?php echo !empty($worker['ready_placement']) ? $worker['ready_placement'] : '-'; ?></div>
 					</div>
 				</div>
@@ -255,24 +255,24 @@
 					} else {
 						var bsSwal = Swal.mixin({
 							customClass: {
-								confirmButton: 'btn btn-primary rounded-0'
+								confirmButton: 'btn btn-secondary rounded-0'
 							},
 							buttonsStyling: false
 						});
 
-						bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+						bsSwal.fire('<?php echo $this->lang->line('message')['error']['default']; ?>');
 					}
 				}
 			},
 			error: function () {
 				var bsSwal = Swal.mixin({
 					customClass: {
-						confirmButton: 'btn btn-primary rounded-0'
+						confirmButton: 'btn btn-secondary rounded-0'
 					},
 					buttonsStyling: false
 				});
 
-				bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+				bsSwal.fire('<?php echo $this->lang->line('message')['error']['default']; ?>');
 			}
 		});
 	});
@@ -303,7 +303,7 @@
 							buttonsStyling: false
 						});
 
-						bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+						bsSwal.fire('<?php echo $this->lang->line('message')['error']['default']; ?>');
 					}
 				}
 			},
@@ -315,7 +315,7 @@
 					buttonsStyling: false
 				});
 
-				bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+				bsSwal.fire('<?php echo $this->lang->line('message')['error']['default']; ?>');
 			}
 		});
 	});
@@ -347,7 +347,7 @@
 							buttonsStyling: false
 						});
 
-						bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+						bsSwal.fire('<?php echo $this->lang->line('message')['error']['default']; ?>');
 					}
 				}
 			},
@@ -359,7 +359,7 @@
 					buttonsStyling: false
 				});
 
-				bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+				bsSwal.fire('<?php echo $this->lang->line('message')['error']['default']; ?>');
 			}
 		});
 	});

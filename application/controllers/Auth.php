@@ -11,8 +11,7 @@ class Auth extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		// site languange
-		sitelang();
-		$this->config->set_item('language', sitelang());
+		$this->config->set_item('language', siteLang()['name']);
 
 		// set layout template
 		$this->template->set_template('layouts/front');
@@ -34,16 +33,7 @@ class Auth extends CI_Controller {
 
 		// google recapctha
 		$this->load->config('recaptcha');
-		$recaptcha_lang = [
-			'english'		=> 'en',
-			'indonesian'	=> 'id',
-			'japanese'		=> 'ja',
-			'korean'		=> 'ko',
-			'mandarin'		=> 'zh-TW'
-		];
-		if (array_key_exists(sitelang(), $recaptcha_lang)) {
-			$this->config->set_item('recaptcha_lang', $recaptcha_lang[sitelang()]);
-		}
+		$this->config->set_item('recaptcha_lang', siteLang()['key']);
 		$this->load->library('Recaptcha');
 		$this->result['recaptcha'] = $this->recaptcha->getWidget();
 		$this->result['recaptcha_script'] = $this->recaptcha->getScriptTag();
@@ -72,14 +62,14 @@ class Auth extends CI_Controller {
 			$verify_recaptcha = $this->recaptcha->verifyResponse($input['g-recaptcha-response']);
 
 			if (!isset($verify_recaptcha['success']) || $verify_recaptcha['success'] <> true) {
-				setFlashError($this->lang->line('error')['captcha']);
+				setFlashError($this->lang->line('message')['error']['captcha']);
 				redirect('auth', 'refresh');
 			}
 
 			$verify = $this->UsersModel->login($input['username'], $input['password']);
 
 			if ($verify['status'] != 'success') {
-				setFlashError($this->lang->line('error')['login']);
+				setFlashError($this->lang->line('message')['error']['login']);
 				redirect('auth', 'refresh');
 			}
 
@@ -95,11 +85,10 @@ class Auth extends CI_Controller {
 				}
 			}
 
-			setFlashError($this->lang->line('error')['default']);
+			setFlashError($this->lang->line('message')['error']['default']);
 			redirect('auth', 'refresh');
 		}
 
-		$this->template->title = $this->lang->line('header')['topbar']['login'];
 		$this->template->content->view('templates/auth/login', $this->result);
 		$this->template->publish();
 	}
@@ -134,7 +123,7 @@ class Auth extends CI_Controller {
 				}
 
 				if (!isset($verify_recaptcha['success']) || $verify_recaptcha['success'] <> true) {
-					setFlashError($this->lang->line('error')['captcha']);
+					setFlashError($this->lang->line('message')['error']['captcha']);
 				}
 
 				setOldInput($input);
@@ -160,10 +149,10 @@ class Auth extends CI_Controller {
 			$request = $this->UsersModel->insert($data);
 
 			if ($request['status'] == 'success') {
-				setFlashSuccess($this->lang->line('success')['register']);
+				setFlashSuccess($this->lang->line('message')['success']['register']);
 				socketEmit('count-total');
 			} else {
-				setFlashError($this->lang->line('error')['default']);
+				setFlashError($this->lang->line('message')['error']['default']);
 				setOldInput($input);
 			}
 
@@ -185,7 +174,6 @@ class Auth extends CI_Controller {
 			}
 		}
 
-		$this->template->title = $this->lang->line('header')['topbar']['register'];
 		$this->template->content->view('templates/auth/register', $this->result);
 		$this->template->publish();
 	}
@@ -199,34 +187,29 @@ class Auth extends CI_Controller {
 		$validate = [
 			[
 				'field' => 'fullname',
-				'label' => $this->lang->line('page_register')['fullname'],
+				'label' => $this->lang->line('front')['page_register']['fullname'],
 				'rules' => 'trim|required|max_length[100]|regex_match[/^[a-zA-Z ]*$/]|xss_clean'
 			],
 			[
 				'field' => 'email',
-				'label' => $this->lang->line('page_register')['email'],
+				'label' => $this->lang->line('front')['page_register']['email'],
 				'rules' => 'trim|required|max_length[100]|valid_email|callback__checkEmail[0]|xss_clean'
 			],
 			[
 				'field' => 'company',
-				'label' => $this->lang->line('page_register')['company'],
+				'label' => $this->lang->line('front')['page_register']['company'],
 				'rules' => 'trim|max_length[200]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
 			],
 			[
 				'field' => 'register_as',
-				'label' => $this->lang->line('page_register')['register_as'],
+				'label' => $this->lang->line('front')['page_register']['register_as'],
 				'rules' => 'trim|required|max_length[1]|numeric|xss_clean'
 			],
 			[
 				'field' => 'agency_location',
-				'label' => $this->lang->line('page_register')['agency_location'],
+				'label' => $this->lang->line('front')['page_register']['agency_location'],
 				'rules' => 'trim|numeric|xss_clean'
 			],
-			// [
-			// 	'field' => 'country',
-			// 	'label' => $this->lang->line('page_register')['country'],
-			// 	'rules' => 'trim|max_length[100]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
-			// ],
 		];
 
 		return $validate;
@@ -289,20 +272,20 @@ class Auth extends CI_Controller {
 			if ($request['total_data'] > 0) {
 				$message = '%s';
 
-				switch (sitelang()) {
-					case 'english':
+				switch (siteLang()['key']) {
+					case 'en':
 						$message .= ' already registered';
 						break;
-					case 'indonesian':
+					case 'id':
 						$message .= ' sudah terdaftar';
 						break;
-					case 'japanese':
+					case 'ja':
 						$message .= ' が既に登録されてい';
 						break;
-					case 'korean':
+					case 'ko':
 						$message .= ' 이 이미 등록되었습니다';
 						break;
-					case 'mandarin':
+					case 'zh-TW':
 						$message .= ' 已被註冊';
 						break;
 				}

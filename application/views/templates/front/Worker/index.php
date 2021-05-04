@@ -3,8 +3,8 @@
 		<div class="d-flex justify-content-between align-items-center">
 			<h2><?php echo $this->template->title; ?></h2>
 			<ol>
-				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
-				<li><?php echo $this->lang->line('header')['navbar']['worker']; ?></li>
+				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
+				<li><?php echo $this->lang->line('front')['navbar']['worker']; ?></li>
 			</ol>
 		</div>
 	</div>
@@ -15,15 +15,15 @@
 		<?php echo form_open('', ['method' => 'get', 'id' => 'formFilter', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<?php echo form_label('NIK', null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['nik'], null); ?>
 					<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control', 'value' => $this->input->get('nik') ? $this->input->get('nik') : '']); ?>
 				</div>
 				<div class="form-group col-md-3">
-					<?php echo form_label('Fullname', null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['fullname'], null); ?>
 					<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
 				</div>
 				<div class="form-group col-md-2">
-					<?php echo form_label('Gender', null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['gender'], null); ?>
 					<select name="gender" class="form-control select2">
 						<option value="">Please Select</option>
 						<option value="male">Male</option>
@@ -31,7 +31,7 @@
 					</select>
 				</div>
 				<div class="form-group col-md-2">
-					<?php echo form_label('Marital Status', null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['marital_status'], null); ?>
 					<select name="marital_status" class="form-control select2">
 						<option value="">Please Select</option>
 						<option value="single">Single</option>
@@ -40,13 +40,13 @@
 					</select>
 				</div>
 				<div class="form-group col-md-2">
-					<?php echo form_label('Age', null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['age'], null); ?>
 					<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control numeric', 'value' => $this->input->get('age') ? $this->input->get('age') : '']); ?>
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<?php echo form_label('Oversea Experience', null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['oversea_experience'], null); ?>
 					<div class="d-flex flex-wrap">
 						<?php foreach ($placements as $oversea_experience) { ?>
 							<div class="icheck-secondary mr-4">
@@ -57,7 +57,7 @@
 					</div>
 				</div>
 				<div class="form-group col-md-6">
-					<?php echo form_label('Experience', null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['experience'], null); ?>
 					<div class="d-flex flex-wrap">
 						<?php foreach ($experiences as $experience) { ?>
 							<div class="icheck-secondary mr-4">
@@ -70,13 +70,13 @@
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-right border-top mt-1 pt-2">
-					<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-secondary', 'content' => 'Search']); ?>
+					<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-secondary', 'content' => $this->lang->line('front')['page_worker']['button']['search']]); ?>
 				</div>
 			</div>
 		<?php echo form_close(); ?>
 
 		<div class="section-sub-title">
-			<h5>Result</h5>
+			<h5><?php echo $this->lang->line('front')['page_worker']['result']; ?></h5>
 		</div>
 
 		<div class="row">
@@ -89,43 +89,43 @@
 							</div>
 							<div class="profile-name">
 								<h6><?php echo $worker['fullname']; ?></h6>
-								<p>NIK: <?php echo $worker['nik']; ?></p>
+								<p><?php echo $this->lang->line('front')['page_worker']['worker_data']['nik'] . ': ' . $worker['nik']; ?></p>
 							</div>
 							<div class="profile-info match-height">
 								<div class="flex-wrapper">
-									<div>Gender</div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['gender']; ?></div>
 									<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div>Marital Status</div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['marital_status']; ?></div>
 									<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div>Age</div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['age']; ?></div>
 									<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div>Experience</div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['experience']; ?></div>
 									<div><?php echo !empty($worker['experience']) ? $worker['experience'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div>Oversea Experience</div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['oversea_experience']; ?></div>
 									<div><?php echo !empty($worker['oversea_experience']) ? $worker['oversea_experience'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div>Ready For Placement</div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['ready_placement']; ?></div>
 									<div><?php echo !empty($worker['ready_placement']) ? $worker['ready_placement'] : '-'; ?></div>
 								</div>
 							</div>
 							<div class="profile-menu">
-								<?php echo anchor('worker/detail/' . $worker['nik'], 'View Detail', ['class' => 'btn btn-secondary']); ?>
+								<?php echo anchor('worker/detail/' . $worker['nik'], $this->lang->line('front')['page_worker']['button']['view_detail'], ['class' => 'btn btn-secondary']); ?>
 							</div>
 						</div>
 					</div>
 				<?php } ?>
 			<?php } else { ?>
 				<div class="col-md-12 text-center">
-					<p class="my-4 ">No result found.</p>
+					<p class="my-4"><?php echo $this->lang->line('front')['page_worker']['no_result']; ?></p>
 				</div>
 			<?php } ?>
 		</div>
@@ -150,7 +150,7 @@
 <script>
 	var bsSwal = Swal.mixin({
 		customClass: {
-			confirmButton: 'btn btn-primary rounded-0'
+			confirmButton: 'btn btn-secondary rounded-0'
 		},
 		buttonsStyling: false
 	});
