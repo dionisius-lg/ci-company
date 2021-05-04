@@ -1787,7 +1787,7 @@ section {
 
 #worker.detail .profile-info > .flex-wrapper > div:first-child,
 #worker .box > .profile-info > .flex-wrapper > div:first-child {
-	flex: 0 0 95px;
+	flex: 0 0 105px;
 	margin-right: 10px;
 }
 
