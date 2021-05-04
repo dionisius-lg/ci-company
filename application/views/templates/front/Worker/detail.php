@@ -71,8 +71,6 @@
 
 					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> Biodata', 'data-worker' => $worker['nik']]);
 
-					// echo '<a href="' . base_url('worker/downloadBiodata') . '" class="btn btn-outline-secondary rounded-0"><i class="fa fa-download">&nbsp;</i> Biodata</a>';
-
 					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-play-youtube rounded-0' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> Video', 'data-url' => $worker['link_video']]); ?>
 				</div>
 
@@ -182,10 +180,11 @@
 <div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
+			<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button> -->
 			<div class="modal-body">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				
 				<div class="embed-responsive embed-responsive-16by9">
 					<iframe class="embed-responsive-item" src="" allowscriptaccess="always" allowfullscreen></iframe>
 				</div>
@@ -207,12 +206,14 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#modalVideo').on('hide.bs.modal', function(e) {
-			$('#modalVideo iframe').attr({'src': '<?php echo base_url(); ?>'});
+			$('#modalVideo iframe').attr({'src': null});
 		});
 	});
 
 	// play youtube video
 	$('.btn-play-youtube').on('click', function(e) {
+		e.preventDefault();
+
 		var url = $(this).data('url'),
 			regexpYoutube = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
 
@@ -223,7 +224,8 @@
 			if (matchUrl && matchUrl[2].length == 11) {
 				validUrl = 'https://www.youtube.com/embed/' + matchUrl[2];
 
-				$('#modalVideo iframe').attr({'src': validUrl + '?autoplay=1&modestbranding=1&showinfo=0'});
+				$('#modalVideo iframe').attr({'src': validUrl + '?autoplay=1&modestbranding=1&showinfo=0rel=0'});
+				// $('#modalVideo iframe').attr({'src': validUrl + '?modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&showinfo=0&autoplay=1&ytp-pause-overlay=0'});
 				$('#modalVideo').modal('show');
 			}
 		} catch (error) {
@@ -306,14 +308,14 @@
 				}
 			},
 			error: function () {
-				// var bsSwal = Swal.mixin({
-				// 	customClass: {
-				// 		confirmButton: 'btn btn-primary rounded-0'
-				// 	},
-				// 	buttonsStyling: false
-				// });
+				var bsSwal = Swal.mixin({
+					customClass: {
+						confirmButton: 'btn btn-primary rounded-0'
+					},
+					buttonsStyling: false
+				});
 
-				// bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
+				bsSwal.fire('<?php echo $this->lang->line('error')['default']; ?>');
 			}
 		});
 	});

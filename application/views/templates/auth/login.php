@@ -71,10 +71,14 @@
 
 <?php if (hasFlashError('auth')) { ?>
 <script>
-	Swal.fire({
-		icon: 'warning',
-		title: '<?php echo flashError("auth"); ?>'
+	var bsSwal = Swal.mixin({
+		customClass: {
+			confirmButton: 'btn btn-primary rounded-0'
+		},
+		buttonsStyling: false
 	});
+
+	bsSwal.fire('<?php echo flashError("auth"); ?>');
 </script>
 <?php } ?>
 
