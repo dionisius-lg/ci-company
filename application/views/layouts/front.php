@@ -74,8 +74,8 @@
 
 					<ul>
 						<li><?php echo '<a href="' . base_url() . '">' . $this->lang->line('front')['navbar']['home'] . '</a>'; ?></li>
-						<li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('front')['navbar']['worker'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('front')['navbar']['about'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('front')['navbar']['worker'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('front')['navbar']['contact'] . '</a>'; ?></li>
 						<!-- <li class="drop-down"><a href="">Drop Down</a>
 							<ul>
@@ -117,8 +117,8 @@
 							<h4><?php echo $this->lang->line('footer')['link']['title']; ?></h4>
 							<ul>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('front')['navbar']['worker']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('front')['navbar']['about']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('front')['navbar']['worker']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('front')['navbar']['contact']; ?></a></li>
 							</ul>
 						</div>
@@ -131,11 +131,8 @@
 								<?php echo '<strong>' . $this->lang->line('front')['footer']['contact']['email'] . ':</strong> <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a> ' . (!empty($company['email_2']) ? ', <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a>' : ''); ?>
 							</p>
 							<div class="social">
-								<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
 								<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
 								<a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-								<a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-								<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
 							</div>
 						</div>
 					</div>

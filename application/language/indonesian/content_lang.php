@@ -7,8 +7,8 @@ $lang['front'] = [
 		'logout'	=> 'Keluar'
 	],
 	'navbar' => [
-		'home'		=> 'Beranda',
-		'worker'	=> 'Pekerja',
+		'home'		=> 'Halaman Utama',
+		'worker'	=> 'Biodata',
 		'gallery'	=> 'Galeri',
 		'dropdown'	=> 'Turunan',
 		'about'		=> 'Tentang Kami',

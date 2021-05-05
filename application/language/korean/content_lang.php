@@ -7,8 +7,8 @@ $lang['front'] = [
 		'logout'	=> '로그 아웃'
 	],
 	'navbar' => [
-		'home'		=> '집',
-		'worker'	=> '직원',
+		'home'		=> '메인 페이지',
+		'worker'	=> '생물학적 정보',
 		'gallery'	=> '갤러리',
 		'dropdown'	=> '쓰러지 다',
 		'about'		=> '회사 소개',

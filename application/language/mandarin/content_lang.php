@@ -7,8 +7,8 @@ $lang['front'] = [
 		'logout'	=> '登出'
 	],
 	'navbar' => [
-		'home'		=> '家',
-		'worker'	=> '雇员',
+		'home'		=> '主頁',
+		'worker'	=> '生物數據',
 		'gallery'	=> '画廊',
 		'dropdown'	=> '落下',
 		'about'		=> '关于我们',
