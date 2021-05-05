@@ -164,6 +164,39 @@ class Worker extends CI_Controller {
 			$this->result['attachments'] = $request['data'];
 		}
 
+		$menu_booking = [
+			'type' => 'button',
+			'class' => 'btn btn-secondary btn-booking rounded-0 d-block mx-auto mb-2'
+		];
+
+		switch ($this->result['worker']['booking_status_id']) {
+			// on booking
+			case 2:
+				$menu_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Confirm';
+				$menu_booking['data-booking'] = 3;
+				$menu_booking['data-worker'] = $this->result['worker']['nik'];
+				break;
+			// confirmed
+			case 3:
+				$menu_booking['content'] = '<i class="fa fa-spinner">&nbsp;</i> Waiting For Approval';
+				$menu_booking['class'] = $menu_booking['class'] . ' disabled';
+				break;
+			// approved
+			case 4:
+				$menu_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Approved';
+				$menu_booking['class'] = $menu_booking['class'] . ' disabled';
+			// free
+			default:
+				$menu_booking['content'] = '<i class="fa fa-lock">&nbsp;</i> Booking';
+				$menu_booking['data-booking'] = 2;
+				$menu_booking['data-worker'] = $this->result['worker']['nik'];
+				break;
+		}
+
+		if ($session['user_level_id'] == 3 && ($this->result['worker']['booking_status_id'] == 1 || ($this->result['worker']['booking_status_id'] != 1 && $this->result['worker']['booking_user_id'] == $session['id']))) {
+			$this->result['menu_booking'] = $menu_booking;
+		}
+
 		$this->template->title = 'Detail';
 		$this->template->content->view('templates/front/Worker/detail', $this->result);
 		$this->template->publish();

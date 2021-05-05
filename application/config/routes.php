@@ -91,6 +91,14 @@ $route['admin/workers/delete-attachment/(:any)'] = 'admin/Workers/deleteAttachme
 $route['admin/workers/approve-booking/(:any)'] = 'admin/Workers/approveBooking/$1';
 
 /**
+ * BookingRequestsController
+ * Additional routes for administrator
+ */
+$route['admin/booking-requests'] = 'admin/BookingRequests';
+$route['admin/booking-requests/detail/(:any)'] = 'admin/BookingRequests/detail/$1';
+$route['admin/booking-requests/update/(:any)'] = 'admin/BookingRequests/update/$1';
+
+/**
  * AgencyLocationsController
  * Additional routes for administrator
  */

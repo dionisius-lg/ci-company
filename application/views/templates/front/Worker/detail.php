@@ -37,37 +37,20 @@
 					</div>
 					
 					<p class="booking-status">Booking Status: <?php echo $worker['booking_status']; ?></p>
+
+					<?php if (in_array($worker['booking_status_id'], [2,3])) {
+						if (!empty($worker['booking_user_id']) && $worker['booking_user_id'] != $this->session->userdata('AuthUser')['id']) {
+							echo '<p class="booking-status">' . $worker['booking_status'] . ' by ' . $worker['booking_by'] . ' on ' . date('d-m-Y H:i:s', strtotime($worker['booking_date'])) . '</p>';
+						}
+					}
+
+					if ($worker['booking_status_id'] == 4) {
+						echo '<p class="booking-status">Hired by ' . $worker['booking_by'] . ' on ' . date('d-m-Y H:i:s', strtotime($worker['booking_date'])) . '</p>';
+					} ?>
 				</div>
 
 				<div class="profile-menu">
-					<?php $attr_booking = [
-						'type' => 'button',
-						'class' => 'btn btn-secondary btn-booking rounded-0 d-block mx-auto mb-2',
-						'data-worker' => $worker['nik'],
-						'data-booking' => 2,
-						'content' => '<i class="fa fa-lock">&nbsp;</i> Booking'
-					];
-
-					if ($this->session->userdata('AuthUser')['user_level_id'] == 3) {
-						if ($worker['booking_status_id'] == 2) {
-							$attr_booking['data-booking'] = 3;
-							$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Confirm';
-						} elseif ($worker['booking_status_id'] == 3) {
-							$attr_booking['class'] = $attr_booking['class'] . ' disabled';
-							$attr_booking['content'] = '<i class="fa fa-spinner">&nbsp;</i> Waiting For Approval';
-							unset($attr_booking['data-worker']);
-							unset($attr_booking['data-booking']);
-						} elseif ($worker['booking_status_id'] == 4) {
-							$attr_booking['class'] = $attr_booking['class'] . ' disabled';
-							$attr_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Approved';
-							unset($attr_booking['data-worker']);
-							unset($attr_booking['data-booking']);
-						}
-					} else {
-						$attr_booking['class'] = $attr_booking['class'] . ' disabled';
-					}
-
-					echo form_button($attr_booking);
+					<?php if (isset($menu_booking)) echo form_button($menu_booking);
 
 					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => $worker['nik']]);
 

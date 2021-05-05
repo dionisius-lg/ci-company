@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class UserRequests extends CI_Controller {
+class BookingRequests extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -26,16 +26,14 @@ class UserRequests extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
-		$this->template->title = 'User Requests';
+		$this->template->title = 'Booking Requests';
 
 		// $this->load->library('user_agent');
 
 		// load default models
 		$this->load->model('CompanyModel');
-		$this->load->model('UsersModel');
-		$this->load->model('UserLevelsModel');
 		$this->load->model('AgencyLocationsModel');
-		$this->load->model('EmailsModel');
+		$this->load->model('WorkersModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -61,22 +59,19 @@ class UserRequests extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'					=> 10,
-			'page'					=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'like_fullname'			=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
-			'like_email'			=> array_key_exists('email', $params) ? $params['email'] : '',
-			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
-			'user_level_id'			=> array_key_exists('register_as', $params) ? $params['register_as'] : '',
-			'agency_location_id'	=> array_key_exists('agency_location', $params) ? $params['agency_location'] : '',
-			'order'					=> 'request_date',
-			'sort'					=> 'desc',
-			'is_request_register'	=> 1
+			'limit'				=> 10,
+			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_nik'			=> array_key_exists('nik', $params) ? $params['nik'] : '',
+			'like_fullname'		=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
+			'like_email'		=> array_key_exists('email', $params) ? $params['email'] : '',
+			'order'				=> 'booking_date',
+			'sort'				=> 'desc',
+			'booking_status_id'	=> 3
 		];
 
 		$request = [
-			'users' => $this->UsersModel->getAll($clause),
-			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name', 'not_id' => 1]),
-			'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name'])
+			'workers' => $this->WorkersModel->getAll($clause),
+			'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name', 'limit' => 100]),
 		];
 
 		foreach ($request as $key => $val) {
@@ -86,7 +81,7 @@ class UserRequests extends CI_Controller {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
 
-					if ($key == 'users') {
+					if ($key == 'workers') {
 						$total = $val['total_data'];
 					}
 				}
@@ -96,7 +91,7 @@ class UserRequests extends CI_Controller {
 		$this->result['pagination'] = bs4pagination('admin/user-requests', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
-		$this->template->content->view('templates/back/UserRequests/index', $this->result);
+		$this->template->content->view('templates/back/BookingRequests/index', $this->result);
 		$this->template->publish();
 	}
 
@@ -118,7 +113,7 @@ class UserRequests extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->UsersModel->getDetail($id);
+			$request = $this->WorkersModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -167,17 +162,14 @@ class UserRequests extends CI_Controller {
 			}
 
 			$data = [
-				'username'				=> strtolower($input['username']),
-				'password'				=> $input['password'],
-				'user_level_id'			=> $input['user_level'],
-				'register_user_id'		=> $session['id'],
-				'is_register'			=> 1,
-				'is_request_register'	=> '0'
+				'placement_id'		=> $input['placement'],
+				'booking_status_id'	=> 4,
+				'update_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->UsersModel->update($data, $id);
+			$request = $this->WorkersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				// $request = $this->UsersModel->getDetail($request['data']['id']);
@@ -189,7 +181,7 @@ class UserRequests extends CI_Controller {
 					// if ($this->_emailNotification($data_email)) {
 						$this->result['status'] = 'success';
 						unset($this->result['message']);
-						setFlashSuccess('Data successfully registered.');
+						setFlashSuccess('Data successfully approved.');
 						socketEmit('count-total');
 					// }
 				// }
@@ -209,23 +201,8 @@ class UserRequests extends CI_Controller {
 	{
 		$validate = [
 			[
-				'field' => 'username',
-				'label' => 'Username',
-				'rules' => 'trim|required|max_length[30]|regexUsername|checkUsersUsername['.$id.']|xss_clean'
-			],
-            [
-				'field' => 'password',
-				'label' => 'Password',
-				'rules' => 'trim|required|min_length[3]|max_length[10]|xss_clean'
-			],
-            [
-				'field' => 'password_repeat',
-				'label' => 'Password Repeat',
-				'rules' => 'trim|required|matches[password]|xss_clean'
-			],
-			[
-				'field' => 'user_level',
-				'label' => 'User Level',
+				'field' => 'placement',
+				'label' => 'Placement',
 				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 		];

@@ -1958,6 +1958,19 @@ section {
 	/* font-size: 14px; */
 }
 
+#worker.detail .booking-status span {
+	display: inline-block;
+	font-size: 13px;
+}
+
+#worker.detail .booking-status span::before {
+	content: '(';
+}
+
+#worker.detail .booking-status span::after {
+	content: ')';
+}
+
 #worker.detail .card {
 	margin: auto;
 	border: 0;

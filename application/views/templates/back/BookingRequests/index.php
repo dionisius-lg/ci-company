@@ -5,8 +5,12 @@
 				<h3 class="card-title">Filter Data</h3>
 			</div>
 			<div class="card-body">
-				<?php echo form_open('admin/user-requests', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
+				<?php echo form_open('admin/booking-requests', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-row">
+					<div class="form-group col-md-2">
+							<?php echo form_label('NIK', 'NIK'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'nik', 'id' => 'NIK', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('nik') ? $this->input->get('nik') : '']); ?>
+						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Fullname', 'Fullname'); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'id' => 'Fullname', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
@@ -14,19 +18,6 @@
 						<div class="form-group col-md-2">
 							<?php echo form_label('Email', 'Email'); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
-						</div>
-						<div class="form-group col-md-2">
-							<?php echo form_label('Company', 'Company'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'Company', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('company') ? $this->input->get('company') : '']); ?>
-						</div>
-						<div class="form-group col-md-2">
-							<?php echo form_label('Register As', 'RegisterAs'); ?>
-							<select class="form-control select2 rounded-0" name="register_as" id="RegisterAs">
-								<option value="">Please Select</option>
-								<?php foreach ($user_levels as $register_as) {
-									echo '<option value="' .$register_as['id']. '">'. $register_as['name']. '</option>';
-								} ?>
-							</select>
 						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Agency Location', 'AgencyLocation'); ?>
@@ -56,34 +47,40 @@
 						<thead>
 							<tr class="">
 								<th class="text-nowrap">No.</th>
+								<th class="text-nowrap">NIK.</th>
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
-								<th class="text-nowrap">Company</th>
-								<th class="text-nowrap">Register As</th>
-								<th class="text-nowrap">Agency Location</th>
 								<th class="text-nowrap">Request Date</th>
+								<th class="text-nowrap">Request By</th>
+								<th class="text-nowrap">Request Agency Location</th>
 								<th class="text-nowrap">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-						<?php if (count($users) > 0) {
-							foreach ($users as $user) { echo
-								'<tr>
-									<td class="text-nowrap">' . $no . '</td>
-									<td class="text-nowrap">' . $user['fullname'] . '</td>
-									<td class="text-nowrap">' . $user['email'] . '</td>
-									<td class="text-nowrap">' . $user['company'] . '</td>
-									<td class="text-nowrap">' . $user['user_level'] . '</td>
-									<td class="text-nowrap">' . $user['agency_location'] . '</td>
-									<td class="text-nowrap">' . $user['request_date'] . '</td>
-									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-sm btn-secondary rounded-0', 'content' => 'Register', 'onclick' => 'detailData(' . $user['id'] . ')']) . '</td>
-								</tr>';
+						<?php if (count($workers) > 0) { ?>
+							<?php foreach ($workers as $worker) { ?>
+								<tr>
+									<td class="text-nowrap"><?php echo $no; ?></td>
+									<td class="text-nowrap"><?php echo $worker['nik']; ?></td>
+									<td class="text-nowrap"><?php echo $worker['fullname']; ?></td>
+									<td class="text-nowrap"><?php echo $worker['email']; ?></td>
+									<td class="text-nowrap"><?php echo $worker['booking_date']; ?></td>
+									<td class="text-nowrap"><?php echo $worker['booking_by']; ?></td>
+									<td class="text-nowrap">
+										<?php for ($i = 0; $i < count($agency_locations); $i++) {
+											if ($worker['booking_agency_location_id'] == $agency_locations[$i]['id']) {
+												echo $agency_locations[$i]['name'];
+											}
+										} ?>
+									</td>
+									<td class="text-nowrap"><?php echo form_button(['type' => 'button', 'class' => 'btn btn-sm btn-secondary rounded-0', 'content' => 'Approve', 'onclick' => 'detailData(' . $worker['id'] . ')']); ?></td>
+								</tr>
 
-								$no++;
-							}
-						} else { echo
+								<?php $no++; ?>
+							<?php } ?>
+						<?php } else { echo
 							'<tr>
-								<td class="text-center" colspan="7">No data found</td>
+								<td class="text-center" colspan="8">No data found</td>
 							</tr>';
 						} ?>
 						</tbody>
@@ -111,34 +108,39 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="form-group col-md-6">
-							<?php echo form_label('Username', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'username', 'class' => 'form-control form-control-sm rounded-0 lowercase', 'maxlength' => '30', 'autofocus', true]); ?>
+							<?php echo form_label('NIK', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-6">
-							<?php echo form_label('User Level', null); ?>
-							<select name="user_level" class="form-control select2 rounded-0">
+							<?php echo form_label('Fullname', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-6">
+							<?php echo form_label('Email', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-6">
+							<?php echo form_label('Placement <span class="text-danger">*</span>', null); ?>
+							<select name="placement" class="form-control select2 rounded-0">
 								<option value="">Please Select</option>
-								<?php foreach ($user_levels as $level) {
-									echo '<option value="' .$level['id']. '">'. $level['name']. '</option>';
+								<?php foreach ($agency_locations as $placement) {
+									echo '<option value="' .$placement['id']. '">'. $placement['name']. '</option>';
 								} ?>
 							</select>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-6">
-							<?php echo form_label('Password', null); ?>
-							<?php echo form_input(['type' => 'password', 'name' => 'password', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
+							<?php echo form_label('Request By', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'request_by', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-6">
-							<?php echo form_label('Password Repeat', null); ?>
-							<?php echo form_input(['type' => 'password', 'name' => 'password_repeat', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
+							<?php echo form_label('Request Date', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'request_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
 							<span class="invalid-feedback"></span>
-						</div>
-						<div class="form-group col-md-6" hidden>
-							<?php echo form_label('Email', null, ['hidden' => true]); ?>
-							<?php echo form_input(['type' => 'email', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '100', 'readonly' => true, 'hidden' => true]); ?>
-							<span class="invalid-feedback" hidden></span>
 						</div>
 					</div>
 				</div>
@@ -165,13 +167,7 @@
 
 	$(document).ready(function() {
 		// describe required variable
-		var filterRegisterAs = '<?php echo $this->input->get('register_as'); ?>',
-			filterAgencyLocation = '<?php echo $this->input->get('agency_location'); ?>';
-
-		// set value to element if variable true or numeric
-		if (filterRegisterAs && $.isNumeric(filterRegisterAs)) {
-			$('#RegisterAs').val(filterRegisterAs).trigger('change');
-		}
+		var filterAgencyLocation = '<?php echo $this->input->get('agency_location'); ?>';
 
 		// set value to element if variable true or numeric
 		if (filterAgencyLocation && $.isNumeric(filterAgencyLocation)) {
@@ -183,27 +179,28 @@
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
-				url: '<?php echo base_url("admin/user-requests/detail/' + id + '"); ?>',
+				url: '<?php echo base_url("admin/booking-requests/detail/' + id + '"); ?>',
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
 					modalDataForm[0].reset();
 					modalDataForm.find('select').val(null).trigger('change');
-					modalDataForm.attr('action', '<?php echo base_url("admin/user-requests/update/' + id + '"); ?>');
+					modalDataForm.attr('action', '<?php echo base_url("admin/booking-requests/update/' + id + '"); ?>');
 					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 					modalDataForm.find('.invalid-feedback').empty();
-					modalDataForm.find('button[type="submit"]').html('Register');
+					modalDataForm.find('button[type="submit"]').html('Approve');
 
-					modalData.find('.modal-header .modal-title').html('Register Data');
+					modalData.find('.modal-header .modal-title').html('Approval Data');
 				},
 				success: function(response) {
 					if (response !== null && typeof response === 'object') {
 						if (response.status === 'success') {
-							modalDataForm.find('input[name="username"]').val(response.data['email']);
-							modalDataForm.find('select[name="user_level"]').val(response.data['user_level_id']).trigger('change');
-							// $.each(response.data, function(key, val) {
-							// 	modalDataForm.find('[name="' + key + '"]').val(val);
-							// });
+							modalDataForm.find('input[name="nik"]').val(response.data['nik']);
+							modalDataForm.find('input[name="fullname"]').val(response.data['fullname']);
+							modalDataForm.find('input[name="email"]').val(response.data['email']);
+							modalDataForm.find('input[name="request_by"]').val(response.data['booking_by']);
+							modalDataForm.find('input[name="request_date"]').val(response.data['booking_date']);
+							modalDataForm.find('select[name="placement"]').val(response.data['booking_agency_location_id']).trigger('change');
 
 							modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 						}

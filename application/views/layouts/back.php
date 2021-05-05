@@ -92,6 +92,12 @@
 								</a>
 							</li>
 							<li class="nav-item">
+								<a href="<?php echo site_url('admin/booking-requests'); ?>" <?php echo $this->uri->segment(2) == 'user-requests' ? 'class="nav-link active"' : '' ?> class="nav-link">
+									<i class="nav-icon fa fa-exclamation-circle"></i>
+									<p>Booking Requests</p>
+								</a>
+							</li>
+							<li class="nav-item">
 								<a href="<?php echo site_url('admin/users'); ?>" <?php echo $this->uri->segment(2) == 'users' ? 'class="nav-link active"' : ''?> class="nav-link">
 									<i class="nav-icon fa fa-users"></i>
 									<p>Users Data</p>
