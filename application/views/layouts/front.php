@@ -111,7 +111,7 @@
 					<div class="row">
 						<div class="col-lg-4 col-md-6 footer-info">
 							<h3><?php echo $company['name']; ?></h3>
-							<p><?php echo $company['name'] . $this->lang->line('footer')['company']['desc']; ?></p>
+							<p><?php echo $company['name'] . $this->lang->line('front')['footer']['company']['desc']; ?></p>
 						</div>
 						<div class="col-lg-4 col-md-6 footer-link">
 							<h4><?php echo $this->lang->line('footer')['link']['title']; ?></h4>
