@@ -118,7 +118,9 @@
 								</div>
 							</div>
 							<div class="profile-menu">
-								<?php echo anchor('worker/detail/' . $worker['nik'], $this->lang->line('front')['page_worker']['button']['view_detail'], ['class' => 'btn btn-secondary']); ?>
+								<?php echo anchor('worker/detail/' . $worker['nik'], $this->lang->line('front')['page_worker']['button']['view_detail'], ['class' => 'btn btn-secondary']);
+
+								echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-play-youtube rounded-0 ml-3' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['play_video'], 'data-url' => $worker['link_video']]); ?>
 							</div>
 						</div>
 					</div>
@@ -135,6 +137,23 @@
 		</div>
 	</div>
 </section>
+
+<!-- modal video -->
+<div class="modal fade" id="modalVideo" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button> -->
+			<div class="modal-body">
+				
+				<div class="embed-responsive embed-responsive-16by9">
+					<iframe class="embed-responsive-item" src="" allowscriptaccess="always" allowfullscreen></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- load required builded stylesheet for this page -->
 <?php $this->template->stylesheet->add('assets/vendor/sweetalert2/css/sweetalert2.min.css', ['type' => 'text/css']); ?>
@@ -231,5 +250,35 @@
 		thisForm.find('[type="submit"]').attr({'disabled': true});
 
 		e.currentTarget.submit();
+	});
+
+	// script for play video
+	$(document).ready(function() {
+		$('#modalVideo').on('hide.bs.modal', function(e) {
+			$('#modalVideo iframe').attr({'src': null});
+		});
+	});
+
+	// play youtube video
+	$('.btn-play-youtube').on('click', function(e) {
+		e.preventDefault();
+
+		var url = $(this).data('url'),
+			regexpYoutube = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+
+		try {
+			var validUrl = new URL(url);
+			var matchUrl = validUrl['href'].match(regexpYoutube);
+
+			if (matchUrl && matchUrl[2].length == 11) {
+				validUrl = 'https://www.youtube.com/embed/' + matchUrl[2];
+
+				$('#modalVideo iframe').attr({'src': validUrl + '?autoplay=1&modestbranding=1&showinfo=0rel=0'});
+				// $('#modalVideo iframe').attr({'src': validUrl + '?modestbranding=1&rel=0&iv_load_policy=3&fs=0&disablekb=1&showinfo=0&autoplay=1&ytp-pause-overlay=0'});
+				$('#modalVideo').modal('show');
+			}
+		} catch (error) {
+			return false;
+		}
 	});
 </script>
