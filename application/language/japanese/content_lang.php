@@ -8,7 +8,7 @@ $lang['front'] = [
 	],
 	'navbar' => [
 		'home'		=> 'メインページ',
-		'worker'	=> 'バイオデータ',
+		'worker'	=> '労働者',
 		'gallery'	=> 'ギャラリー',
 		'dropdown'	=> '落ちる',
 		'about'		=> '私たちに関しては',
@@ -43,7 +43,7 @@ $lang['front'] = [
 			'title'		=> '連絡先情報',
 			'location'	=> 'ロケーション',
 			'email'		=> '電子メイル',
-			'phone'		=> '電話'
+			'phone'		=> '連絡先番号'
 		],
 		'message' => [
 			'title'		=> '接続を維持',

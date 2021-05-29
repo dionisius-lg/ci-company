@@ -8,11 +8,11 @@ $lang['front'] = [
 	],
 	'navbar' => [
 		'home'		=> 'Main Page',
-		'worker'	=> 'Biodata',
-		'gallery'	=> 'Gallery',
-		'dropdown'	=> 'Dropdown',
+		'worker'	=> 'Worker Profile',
 		'about'		=> 'About Us',
 		'contact'	=> 'Contact Us'
+		// 'gallery'	=> 'Gallery',
+		// 'dropdown'	=> 'Dropdown',
 	],
 	'footer' => [
 		'company' => [
@@ -43,14 +43,14 @@ $lang['front'] = [
 			'title'		=> 'Contact Info',
 			'location'	=> 'Location',
 			'email'		=> 'Email',
-			'phone'		=> 'Call'
+			'phone'		=> 'Cell Phone/ Whatsapp Number'
 		],
 		'message' => [
 			'title'		=> 'Get In Touch',
 			'name'		=> 'Your Name',
 			'email'		=> 'Your Email',
 			'subject'	=> 'Subject',
-			'message'	=> 'Message',
+			'message'	=> 'Messages',
 			'send'		=> 'Send Message'
 		],
 	],

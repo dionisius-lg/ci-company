@@ -2,21 +2,21 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> '登录',
-		'register'	=> '登记',
+		'login'		=> '登入',
+		'register'	=> '註冊',
 		'logout'	=> '登出'
 	],
 	'navbar' => [
 		'home'		=> '主頁',
-		'worker'	=> '生物數據',
-		'gallery'	=> '画廊',
-		'dropdown'	=> '落下',
-		'about'		=> '关于我们',
-		'contact'	=> '联系我们'
+		'worker'	=> '工人資料',
+		'about'		=> '關於我們',
+		'contact'	=> '聯繫我們'
+		// 'gallery'	=> '画廊',
+		// 'dropdown'	=> '落下',
 	],
 	'footer' => [
 		'company' => [
-			'desc'	=> ' 是一家招聘和安置公司，专门从事国外熟练的印度尼西亚劳动力.'
+			'desc'	=> 'PT. Amalia Rozikin Jaya 是一家招聘和安置公司，專門從事國外熟練的印度尼西亞勞動力.'
 		],
 		'link' => [
 			'title'		=> '有用的链接',
@@ -34,24 +34,24 @@ $lang['front'] = [
 		],
 	],
 	'section_title' => [
-		'advantages'	=> '我们的优势',
-		'clients'		=> '我们的客户',
-		'news'			=> '消息'
+		'advantages'	=> '我們的優勢',
+		'clients'		=> '信賴',
+		'news'			=> '透明'
 	],
 	'page_contact' => [
 		'info' => [
-			'title'		=> '联络资料',
-			'location'	=> '地点',
-			'email'		=> '电子邮件',
-			'phone'		=> '电话'
+			'title'		=> '聯絡資料',
+			'location'	=> '地址',
+			'email'		=> '電子郵件',
+			'phone'		=> '手機號碼/ Whatsapp'
 		],
 		'message' => [
-			'title'		=> '保持联系',
-			'name'		=> '你的名字',
-			'email'		=> '你的邮件',
+			'title'		=> '與我方聯繫',
+			'name'		=> '姓名',
+			'email'		=> '電子郵件',
 			'subject'	=> '主题',
-			'message'	=> '信息',
-			'send'		=> '发信息'
+			'message'	=> '訊息',
+			'send'		=> '發送'
 		],
 	],
 	'page_login' => [
@@ -78,7 +78,7 @@ $lang['front'] = [
 		'contact'		=> '聯繫信息',
 		'others'		=> '其他',
 		'worker_data'	=> [
-			'nik'					=> '身份證號碼',
+			'nik'					=> '工人編號',
 			'fullname'				=> '全名',
 			'gender'				=> '性別',
 			'birth_place'			=> '出生地',
@@ -92,7 +92,7 @@ $lang['front'] = [
 			'description'			=> '描述',
 			'placement'				=> '現在放置',
 			'experience'			=> '經驗',
-			'oversea_experience'	=> '海外經驗',
+			'oversea_experience'	=> '工作經驗',
 			'ready_placement'		=> '準備放置'
 		],
 		'button'		=> [
@@ -104,9 +104,9 @@ $lang['front'] = [
 		],
 	],
 	'button' => [
-		'readmore'		=> '阅读更多',
+		'readmore'		=> '查閱更多',
 		'contact'		=> '联系我们',
-		'send_message'	=> '发信息'
+		'send_message'	=> '發送'
 	],
 ];
 

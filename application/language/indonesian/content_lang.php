@@ -43,7 +43,7 @@ $lang['front'] = [
 			'title'		=> 'Informasi Kontak',
 			'location'	=> 'Lokasi',
 			'email'		=> 'Email',
-			'phone'		=> 'Telepon'
+			'phone'		=> 'Nomor HP / Whatsapp'
 		],
 		'message' => [
 			'title'		=> 'Tetap Terhubung',
