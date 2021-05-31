@@ -29,9 +29,9 @@
 				<?php } ?>
 
 				<?php if (siteLang()['key'] == 'zh-TW') { ?>
-					<p><?php echo $company['name']; ?> 是一家招聘和安置公司，專門從事國外熟練的印度尼西亞勞動力. 我們致力於為印尼同胞提供更多的機會，不僅可以分享他們在最適合其學歷的領域工作的能力和才華，而且還可以獲得更多並獲得更好的福利待遇.</p>
+					<p><?php echo $company['name']; ?> 是一家招聘和安置公司, 專門從事國外熟練的印度尼西亞勞動力. 我們致力於 為印尼同胞提供更多的機會, 不僅可以分享他們在 最適合其學歷的領域工作的能力和才華, 而且還可 以獲得更多並獲得更好的福利待遇.</p>
 
-					<p><?php echo $company['name']; ?> 明白，領導資本在任何組織的績效中都起著關鍵作用.</p>
+					<p><?php echo $company['name']; ?> 明白, 領導資本在任何組織的 績效中都起著關鍵作用.</p>
 				<?php } ?>
 
 				<a href="<?php echo base_url('about'); ?>" class="btn btn-outline-secondary rounded-0"><?php echo $this->lang->line('front')['button']['readmore']; ?></a>
