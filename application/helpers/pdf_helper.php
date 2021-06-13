@@ -14,173 +14,357 @@ if (!function_exists('PdfWorkerProfile')) {
             $company_logo = (@getimagesize(FCPATH . 'files/company/thumb/' . $company['logo'])) ? '<img src="' . FCPATH . 'files/company/thumb/' . $company['logo'] . '" alt="Company Logo">' : $company['name'];
 
 			$content =
-			'<style>
-				.img-logo {
-					width: 250px;
-					float: left;
-				}
-
-				.img-towing {
-					width: 200px;
-				}
-
-				table {
-					text-align: left;
-					vertical-align: center;
-					margin-bottom: 10px;
-					padding: 5px 50px;
-				}
-
-				table.kop.atas {
-					text-align: center;
-					margin-bottom: 0;
-					padding-top: 0;
-					padding-bottom: 0;
-				}
-
-				table.kop.atas p {
-					color: navy;
-					text-align: right;
-					font-weight: bold;
-					font-size: 18px;
-					padding: 0;
-				}
-
-				table.kop.bawah {
-					border-top: 2px solid #2b2b2b;
-				}
-
-                table.konten, table.catatan {
-					border-collapse: collapse;
-					border: 1px solid black;
-				}
-
-				table.kop.bawah td, table.konten td, table.catatan td {
-					font-family: "Times New Roman", Times, serif;
-					font-size: 10px;
-					padding: 3px 10px;
-				}
-
-				table.kop.bawah td {
-					padding-top: 1px;
-					padding-bottom: 0;
-					vertical-align: center;
-				}
-
-				table.konten td {
-					vertical-align: center;
-				}
-
-				table ol {
-					counter-reset: listCounter;
-				}
-
-				table ol .list {
-					content: counter(listCounter) " . ";  
-					counter-increment: listCounter;
-				}
-
-				.konten-dua {
-					font-size: 10px;
-					border: 1px solid black;
-					padding: 5px 10px;
-				}
-
-				table .konten-dua {
-					padding-top: 1px;
-					padding-bottom: 0;
-				}
-			</style>
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop atas">
-				<tbody>
-					<tr>
-						<td>' . $company_logo .  '</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop bawah">
-				<tbody>
-					<tr>
-						<td width="22%"><strong>Fullname</strong></td>
-						<td width="33%"><strong>: &nbsp;' . $worker['fullname'] . '</strong></td>
-					</tr>
-					<tr>
-						<td width=""><strong>NIK</strong></td>
-						<td width=""><strong>: &nbsp;' . $worker['nik'] . '</strong></td>
-					</tr>
-					<tr>
-						<td width=""><strong>Gender</strong></td>
-						<td width=""><strong>: &nbsp;' . $worker['gender'] . '</strong></td>
-					</tr>
-					<tr>
-						<td width=""><strong>Birth Place</strong></td>
-						<td width=""><strong>: &nbsp;' . $worker['birth_place'] . '</strong></td>
-					</tr>
-				</tbody>
-			</table>
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="konten">
-				<tbody>
-					<tr>
-	    				<td colspan="2"><strong><u>Profile</u></strong></td>
-					</tr>
-					<tr>
-						<td width="30%">Fullname</td>
-						<td width="70%">: &nbsp;'. $worker['fullname'] . '</td>
-					</tr>
-					<tr>
-						<td>NIK</td>
-						<td>: &nbsp;' . $worker['nik'] . '</td>
-					</tr>
-					<tr>
-						<td>Gender</td>
-						<td>: &nbsp;' . $worker['gender'] . '</td>
-					</tr>
-					<tr>
-						<td>Birth Place</td>
-						<td>: &nbsp;' . $worker['birth_place'] . '</td>
-					</tr>
-					<tr>
-						<td>Birth Date</td>
-						<td>: &nbsp;' . $worker['birth_date'] . '</td>
-					</tr>
-					<tr>
-						<td>Age</td>
-						<td>: &nbsp;' . $worker['age'] . '</td>
-					</tr>
-					<tr>
-						<td>Marital Status</td>
-						<td>: &nbsp;' . $worker['marital_status'] . '</td>
-					</tr>
-					<tr>
-						<td>Religion</td>
-						<td>: &nbsp;' . $worker['religion'] . '</td>
-					</tr>
-				</tbody>
-			</table>
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" class="catatan">
-				<tbody>
-		    		<tr>
-						<td colspan="2"><strong><u>Catatan :</u></strong></td>
-					</tr>
-					<tr>
-						<td>
-							<ol class="list">
-								<li>Pelanggan wajib mengecek seluruh kondisi kendaraan sebelum menyerahkan SPK ini kepada petugas derek</li>
-								<li>Petugas derek wajib mengecek seluruh kondisi kendaraan setelah menerima SPK ini dan sebelum menaikkan kendaraan pelanggan ke truk derek</li>
-								<li>Pelanggan wajib mengecek seluruh kondisi kendaraan setelah melakukan drop off di lokasi tujuan</li>
-								<li>Petugas derek wajib mengecek seluruh kondisi kendaraan setelah melakukan drop off di lokasi tujuan</li>
-							</ol>
-						</td>
-						<td>
-							gambar bawah
-						</td>
-					</tr>
-				</tbody>
-			</table>';
+			'<style>        table .ability .cooking .working {
+				table-layout: fixed;
+			}
+	
+			td {
+				width: 20%;
+				font-size: 12px;
+			}
+			
+			table.kop.atas {
+				text-align: center;
+				border-bottom: 2px solid black;
+			}
+	
+			.kop-ref{
+				width: 100%;
+				line-height: 5px;
+				text-indent: 5px;
+			}
+	
+			.no-ref {
+				float: left;
+				font-weight: bold;
+			}
+	
+			.kop-background {
+				border-bottom: 2px solid black;
+				background-color: red;
+				color: white;
+				text-align: center;
+				line-height: 1.8;
+				text-indent: 20px;
+				font-size: 13px;
+				font-family: Tahoma, Geneva, Verdana, sans-serif;
+			}
+	
+			.kop-nama {
+				text-transform: uppercase;
+				font-size: 14px;
+				width: 50%;
+				line-height: 1.8;
+				border: 1px solid black;
+				text-indent: 30px;
+			}
+	
+			.experience, .family {
+				table-layout: auto;
+				width: 50%;
+				font-size: 13px;
+			}
+	
+			.heading-tiga th {
+				text-indent: 20px;
+				font-size: 14px;
+				color: white;
+				background-color: red;
+				text-align: center;
+				width: 259px;
+			}
+	
+			.ability {
+				border: 1px solid black;
+				width: 265px;
+				line-height: 20px;
+			}
+	
+			.cooking {
+				border: 1px solid black;
+				width: 259px;
+				line-height: 20px;
+				margin-left: 265px;
+				position: relative;
+				bottom: 160px;
+				height: 40px;
+			}
+	
+			.working {
+				border: 1px solid black;
+				width: 259px;
+				line-height: 20px;
+				margin-left: 524px;
+				margin-top: -1px;
+				position: relative;
+				bottom: 320px;
+			}
+	
+			.kop-employ {
+				border-top: 2px solid black;
+				margin-top: -300px;
+				background-color: red;
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop atas">
+			<tbody>
+				<tr>
+					<td>
+						<h4>PT. AMALIA ROZIKIN JAYA - ARJ <br>
+						INDONESIAN DOMESTIC HELPER SPECIALIST</h4>
+					</td>
+				</tr>
+				<tr>
+					<td class="kop-ref">
+						<p class="no-ref">REF No. 工人編號 : ARJ HKS-029</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop-background">
+			<tbody>
+				<tr>
+					<th><p>PERSONAL DATA 個人資料</p></th>
+				</tr>
+			</tbody>
+		</table>
+	
+		<table cellspacing="0" cellpadding="0" class="kop-nama">
+			<tbody>
+				<tr>
+					<td><strong>Name 姓名 &nbsp; : ' . $worker['fullname'] . '</strong></td>
+				</tr>
+			</tbody>
+		</table>
+	
+		<div class="kop-img" style="width: 30%; float: right; position: relative; right: 200px; left: 0;">
+			<img src="img.png">
+		</div>
+	
+		<table class="experience" border="1" cellspacing="0" cellpadding="0">
+			<tr>
+			  <td>Date of birth 出生日期 </td>
+			  <td></td>
+			  <th colspan="2" class="kop-background">EXPERIENCE/ SKILLS 工作經驗/能力</th>
+			</tr>
+			<tr>
+			  <td>Place of birth 出生地點</td>
+			  <td></td>
+			  <td>Household 家務</td>
+			  <td></td>
+			</tr>
+			<tr>
+			  <td>Religion 宗教 </td>
+			  <td></td>
+			  <td>Cooking 煮菜</td>
+			  <td></td>
+			</tr>
+			<tr>
+				<td>Age 年領</td>
+				<td></td>
+				<td>Taking care elderly 照顧老人</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Marital Status 婚姻狀況</td>
+				<td></td>
+				<td>Taking care children 照顧嬰兒</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Height 身高 </td>
+				<td></td>
+				<td>Taking care baby 照顧小孩</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Weight 體重</td>
+				<td></td>
+				<td>Others 其他</td>
+				<td></td>
+			</tr>
+		  </table>
+	
+		  <table width="50%" class="kop-background">
+			<tbody>
+				<tr>
+					<th>FAMILY BACKGROUND 家庭背景</th>
+				</tr>
+			</tbody>
+		</table>
+	
+		<table class="family" border="1" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Spouses name 丈夫</td>
+				<td></td>
+				<td>Fathers name 父親 </td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Occupation 工作 </td>
+				<td></td>
+				<td>Fathers name 父親 </td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Children 小孩</td>
+				<td></td>
+				<td>Mothers Name 母親</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>Ages of Children 年齡</td>
+				<td></td>
+				<td>Mothers Name 母親</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td colspan="4" style="line-height: 30px;">
+					Other information 其他訊息 :
+					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, ex.
+				</td>
+			</tr>
+		</table>
+	
+		<table class="heading-tiga" border="1" cellspacing="0" cellpadding="0">
+			<tr>
+				<th>LANGUAGE ABILITY 語言能力</th>
+				<th>COOKING 煮食</th>
+				<th>WORKING EX. 工作經驗</th>
+			<tr>
+		</table>
+		
+		<table class="ability" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>English 英文</td>
+				<td>X</td>
+			</tr>
+		</table>
+	
+		<table class="ability" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Cantonese 廣東話</td>
+				<td>X</td>
+			</tr>
+		</table>
+	
+		<table class="ability" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Mandarin 國語</td>
+				<td>X</td>
+			</tr>
+		</table>
+	
+		<table class="ability" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Hokkian 福建話</td>
+				<td>X</td>
+			</tr>
+		</table>
+	
+		<table class="ability" cellspacing="0" cellpadding="0">
+			<tr>
+				<td colspan="2">Other其它 : </td>
+			</tr>
+		</table>
+	
+		<table style="background-color: red; color: white;" cellspacing="0" cellpadding="0">
+			<tr>
+				<th width="265px">EDUCATION 教育程度</th>
+			</tr>
+		</table>
+	
+		<table class="ability" border="1" cellspacing="0" cellpadding="0">
+			<td colspan="2">Junior High School 中學</td>
+		</table>
+		
+		<table class="cooking" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Chinese 中式</td>
+				<td>V</td>
+			</tr>
+		</table>
+	
+		<table class="cooking" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Western 西式</td>
+				<td>V</td>
+			</tr>
+		</table>
+	
+		<table class="cooking" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Indonesian 印尼菜</td>
+				<td>V</td>
+			</tr>
+		</table>
+	
+		<table class="cooking" cellspacing="0" cellpadding="0">
+			<tr>
+				<td>Home Cooking 家常菜</td>
+				<td>V</td>
+			</tr>
+		</table>
+	
+		<table class="working" cellspacing="0" cellpading="0">
+			<tr>
+				<td>Indonesia 印尼</td>
+				<td>lll</td>
+			</tr>
+		</table>
+	
+		<table class="working" cellspacing="0" cellpading="0">
+			<tr>
+				<td>Hongkong 香港</td>
+				<td>lll</td>
+			</tr>
+		</table>
+	
+		<table class="working" cellspacing="0" cellpading="0">
+			<tr>
+				<td>Taiwan 台灣 </td>
+				<td>9 Years</td>
+			</tr>
+		</table>
+	
+		<table class="working" cellspacing="0" cellpading="0">
+			<tr>
+				<td>Singapore 新加坡</td>
+				<td></td>
+			</tr>
+		</table>
+	
+		<table class="working" cellspacing="0" cellpading="0">
+			<tr>
+				<td>Singapore 新加坡</td>
+				<td></td>
+			</tr>
+		</table>
+	
+		<table class="working" cellspacing="0" cellpading="0">
+			<tr>
+				<td>Middle East 中東</td>
+				<td></td>
+			</tr>
+		</table>
+	
+		<table class="working" cellspacing="0" cellpading="0">
+			<tr>
+				<td>Other 其他國家</td>
+				<td></td>
+			</tr>
+		</table>
+		
+		<table class="kop-employ" width="100%">
+			<tr style="text-align: center;">
+				<th>PREVIOUS EMPLOYMENT DETAILS 前雇主資料</th>
+			</tr>
+		</table>';
 
 			$pdf = new Dompdf();
 			$pdf->loadHtml($content);

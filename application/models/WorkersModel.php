@@ -108,6 +108,18 @@ class WorkersModel extends CI_Model {
 		}
 
 		if (!empty($condition) && is_array($condition)) {
+			$age = [];
+			foreach ($condition AS $key => $val) {
+				if ($key == 'age' && strpos($val, '-')) {
+					$age['start'] = explode('-', $val)[0];
+					$age['end'] = explode('-', $val)[1];
+				}	
+			}
+			if ($age) {
+				unset($condition['age']);
+				$this->db->where('age <=', $age['end']);
+				$this->db->where('age >=', $age['start']);
+			}
 			$this->db->where($condition);
 		}
 

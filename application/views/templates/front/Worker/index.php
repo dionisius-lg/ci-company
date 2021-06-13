@@ -39,9 +39,14 @@
 						<option value="divorce">Divorce</option>
 					</select>
 				</div>
-				<div class="form-group col-md-2">
-					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['age'], null); ?>
-					<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control numeric', 'value' => $this->input->get('age') ? $this->input->get('age') : '']); ?>
+				<!-- age -->
+				<div class="form-group col-md-3">
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['From'], null); ?>
+					<?php echo form_input(['type' => 'text', 'name' => 'age_start', 'class' => 'form-control numeric', 'value' => $this->input->get('age_start') ? $this->input->get('age_start') : '']); ?>
+				</div>
+				<div class="form-group col-md-3">
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['To'], null); ?>
+					<?php echo form_input(['type' => 'text', 'name' => 'age_end', 'class' => 'form-control numeric', 'value' => $this->input->get('age_end') ? $this->input->get('age_end') : '']); ?>
 				</div>
 			</div>
 			<div class="form-row">

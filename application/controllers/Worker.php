@@ -60,10 +60,17 @@ class Worker extends CI_Controller {
 			// 'gender_id'			=> array_key_exists('gender', $params) ? $params['gender'] : '',
 			'marital_status'	=> array_key_exists('marital_status', $params) ? ucwords($params['marital_status']) : '',
 			// 'marital_status_id'	=> array_key_exists('marital_status', $params) ? $params['marital_status'] : '',
-			'age'				=> array_key_exists('age', $params) ? $params['age'] : '',
+			// 'age'				=> array_key_exists('age', $params) ? $params['age'] : '',
+			'age_start'			=> array_key_exists('age_start', $params) ? $params['age_start'] : '',
+			'age_end'			=> array_key_exists('age_end', $params) ? $params['age_end'] : '',
 			'order'				=> 'fullname',
 			'sort'				=> 'asc'
 		];
+
+		if ($clause['age_start'] && $clause['age_end']) {
+			$clause['age'] = $clause['age_start'] .'-'. $clause['age_end'];
+			unset($clause['age_start'], $clause['age_end']);
+		}
 
 		if ($session) {
 			// user level agency
