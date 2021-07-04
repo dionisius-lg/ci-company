@@ -374,7 +374,12 @@ if (!function_exists('PdfWorkerProfile')) {
 			$output = $pdf->output();
 
 			$filepath = 'files/workers/' . $worker['id'] . '/';
-			$filename = 'worker_' . $worker['nik'] . '.pdf';
+
+			if (!is_dir('./' . $filepath)) {
+				mkdir('./' . $filepath, 0777, true);
+			}
+
+			$filename = 'worker_' . base64url_encode($worker['id']) . '.pdf';
 
 			file_put_contents($filepath.$filename, $output);
 
