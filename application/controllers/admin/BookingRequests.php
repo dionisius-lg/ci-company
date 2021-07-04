@@ -61,7 +61,7 @@ class BookingRequests extends CI_Controller {
 		$clause = [
 			'limit'				=> 10,
 			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'like_nik'			=> array_key_exists('nik', $params) ? $params['nik'] : '',
+			'like_ref_number'	=> array_key_exists('ref_number', $params) ? $params['ref_number'] : '',
 			'like_fullname'		=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
 			'like_email'		=> array_key_exists('email', $params) ? $params['email'] : '',
 			'order'				=> 'booking_date',

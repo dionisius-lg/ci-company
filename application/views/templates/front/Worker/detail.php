@@ -52,7 +52,7 @@
 				<div class="profile-menu">
 					<?php if (isset($menu_booking)) echo form_button($menu_booking);
 
-					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => $worker['ref_number']]); ?>
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => base64url_encode($worker['id'])]); ?>
 				</div>
 
 				<?php if (count($attachments) > 0) { ?>

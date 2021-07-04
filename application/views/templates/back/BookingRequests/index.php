@@ -8,8 +8,8 @@
 				<?php echo form_open('admin/booking-requests', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-row">
 					<div class="form-group col-md-2">
-							<?php echo form_label('NIK', 'NIK'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'nik', 'id' => 'NIK', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('nik') ? $this->input->get('nik') : '']); ?>
+							<?php echo form_label('Ref Number', 'RefNumber'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'ref_number', 'id' => 'RefNumber', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('ref_number') ? $this->input->get('ref_number') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Fullname', 'Fullname'); ?>
@@ -47,7 +47,7 @@
 						<thead>
 							<tr class="">
 								<th class="text-nowrap">No.</th>
-								<th class="text-nowrap">NIK.</th>
+								<th class="text-nowrap">Ref Number</th>
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
 								<th class="text-nowrap">Request Date</th>
@@ -61,7 +61,7 @@
 							<?php foreach ($workers as $worker) { ?>
 								<tr>
 									<td class="text-nowrap"><?php echo $no; ?></td>
-									<td class="text-nowrap"><?php echo $worker['nik']; ?></td>
+									<td class="text-nowrap"><?php echo $worker['ref_number']; ?></td>
 									<td class="text-nowrap"><?php echo $worker['fullname']; ?></td>
 									<td class="text-nowrap"><?php echo $worker['email']; ?></td>
 									<td class="text-nowrap"><?php echo $worker['booking_date']; ?></td>
@@ -108,8 +108,8 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="form-group col-md-6">
-							<?php echo form_label('NIK', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<?php echo form_label('Ref Number', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'ref_number', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-6">
@@ -195,7 +195,7 @@
 				success: function(response) {
 					if (response !== null && typeof response === 'object') {
 						if (response.status === 'success') {
-							modalDataForm.find('input[name="nik"]').val(response.data['nik']);
+							modalDataForm.find('input[name="ref_number"]').val(response.data['ref_number']);
 							modalDataForm.find('input[name="fullname"]').val(response.data['fullname']);
 							modalDataForm.find('input[name="email"]').val(response.data['email']);
 							modalDataForm.find('input[name="request_by"]').val(response.data['booking_by']);

@@ -191,7 +191,7 @@ class Worker extends CI_Controller {
 
 		$menu_booking = [
 			'type' => 'button',
-			'class' => 'btn btn-secondary btn-booking rounded-0 d-block mx-auto mb-2'
+			'class' => 'btn btn-secondary btn-booking rounded-0'
 		];
 
 		switch ($this->result['worker']['booking_status_id']) {
@@ -199,7 +199,7 @@ class Worker extends CI_Controller {
 			case 2:
 				$menu_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Confirm';
 				$menu_booking['data-booking'] = 3;
-				$menu_booking['data-worker'] = $this->result['worker']['ref_number'];
+				$menu_booking['data-worker'] = base64url_encode($this->result['worker']['id']);
 				break;
 			// confirmed
 			case 3:
@@ -214,7 +214,7 @@ class Worker extends CI_Controller {
 			default:
 				$menu_booking['content'] = '<i class="fa fa-lock">&nbsp;</i> Booking';
 				$menu_booking['data-booking'] = 2;
-				$menu_booking['data-worker'] = $this->result['worker']['ref_number'];
+				$menu_booking['data-worker'] = base64url_encode($this->result['worker']['id']);
 				break;
 		}
 
@@ -244,27 +244,23 @@ class Worker extends CI_Controller {
 
 			if (array_key_exists('worker', $input) && array_key_exists('booking', $input)) {
 				if (!empty($input['worker']) && in_array($input['booking'], [2,3])) {
-					$request = $this->WorkersModel->getAll(['ref_number' => $input['worker']]);
+					$worker_id = base64url_decode($input['worker']);
 
-					if ($request['status'] = 'success' && $request['total_data'] > 0) {
-						$worker_id = $request['data'][0]['id'];
+					$data = [
+						'booking_status_id' => $input['booking'],
+						'booking_user_id' => $session['id']
+					];
 
-						$data = [
-							'booking_status_id' => $input['booking'],
-							'booking_user_id' => $session['id']
-						];
+					if ($input['booking'] == 2) {
+						$data['booking_date'] = date('Y-m-d H:i:s');
+					}
 
-						if ($input['booking'] == 2) {
-							$data['booking_date'] = date('Y-m-d H:i:s');
-						}
+					$request = $this->WorkersModel->update($data, $worker_id);
 
-						$request = $this->WorkersModel->update($data, $worker_id);
-
-						if ($request['status'] == 'success') {
-							$this->result['status'] = 'success';
-							// setFlashSuccess('Data successfully created.');
-							socketEmit('count-total');
-						}
+					if ($request['status'] == 'success') {
+						$this->result['status'] = 'success';
+						// setFlashSuccess('Data successfully created.');
+						socketEmit('count-total');
 					}
 				}
 			}
@@ -322,8 +318,9 @@ class Worker extends CI_Controller {
 		if ($this->input->is_ajax_request()) {
 			$input = array_map('strClean', $this->input->post());
 
-			if (array_key_exists('worker', $input) && is_numeric($input['worker'])) {
-				$request = $this->WorkersModel->getDetailByRefNumber($input['worker']);
+			if (array_key_exists('worker', $input) && !empty($input['worker'])) {
+				$worker_id = base64url_decode($input['worker']);
+				$request = $this->WorkersModel->getDetail($worker_id);
 
 				if ($request['status'] == 'success' && $request['total_data'] > 0) {
 					$worker = $request['data'];
