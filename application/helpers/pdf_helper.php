@@ -60,6 +60,18 @@ if (!function_exists('PdfWorkerProfile')) {
 				border: 1px solid black;
 				text-indent: 30px;
 			}
+
+			.kop-img {
+				width: 50%;
+				float: right;
+				padding-bottom: 48px;
+				border-bottom: 1px solid black;
+			 }
+	
+			.kop-img img {
+				margin-left: 30%;
+				height: 100%;
+			}
 	
 			.experience, .family {
 				table-layout: auto;
@@ -144,7 +156,7 @@ if (!function_exists('PdfWorkerProfile')) {
 			</tbody>
 		</table>
 	
-		<div class="kop-img" style="width: 30%; float: right; position: relative; right: 200px; left: 0;">
+		<div class="kop-img">
 			' . $worker_photo . '
 		</div>
 	
