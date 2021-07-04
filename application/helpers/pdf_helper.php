@@ -13,6 +13,8 @@ if (!function_exists('PdfWorkerProfile')) {
 		if (is_array($worker) && !empty($worker) && is_array($company) && !empty($company)) {
             $company_logo = (@getimagesize(FCPATH . 'files/company/thumb/' . $company['logo'])) ? '<img src="' . FCPATH . 'files/company/thumb/' . $company['logo'] . '" alt="Company Logo">' : $company['name'];
 
+            $worker_photo = (@getimagesize(FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'])) ? '<img src="' . FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'] . '" alt="Worker Photo">' : '<img src="' . FCPATH . 'assets/img/default-avatar.jpg' . '" alt="Worker Photo">';
+
 			$content =
 			'<style>        table .ability .cooking .working {
 				table-layout: fixed;
@@ -143,7 +145,7 @@ if (!function_exists('PdfWorkerProfile')) {
 		</table>
 	
 		<div class="kop-img" style="width: 30%; float: right; position: relative; right: 200px; left: 0;">
-			<img src="img.png">
+			' . $worker_photo . '
 		</div>
 	
 		<table class="experience" border="1" cellspacing="0" cellpadding="0">
