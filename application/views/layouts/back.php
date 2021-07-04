@@ -80,61 +80,73 @@
 					<nav class="mt-2">
 						 <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-compact text-sm" data-widget="treeview" role="menu" data-accordion="false">
 						 	<li class="nav-item">
-								<a href="<?php echo site_url('admin'); ?>" <?php echo $this->uri->segment(2) == 'dashboard' || $this->uri->segment(2) == '' ? 'class="nav-link active"' : ''?> class="nav-link">
+								<a href="<?php echo site_url('admin'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-tachometer"></i>
 									<p>Dashboard</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="<?php echo site_url('admin/user-requests'); ?>" <?php echo $this->uri->segment(2) == 'user-requests' ? 'class="nav-link active"' : '' ?> class="nav-link">
+								<a href="<?php echo site_url('admin/user-requests'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-exclamation-circle"></i>
 									<p>User Requests</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="<?php echo site_url('admin/booking-requests'); ?>" <?php echo $this->uri->segment(2) == 'user-requests' ? 'class="nav-link active"' : '' ?> class="nav-link">
+								<a href="<?php echo site_url('admin/booking-requests'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-exclamation-circle"></i>
 									<p>Booking Requests</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="<?php echo site_url('admin/users'); ?>" <?php echo $this->uri->segment(2) == 'users' ? 'class="nav-link active"' : ''?> class="nav-link">
+								<a href="<?php echo site_url('admin/users'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-users"></i>
 									<p>Users Data</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="<?php echo site_url('admin/workers'); ?>" <?php echo $this->uri->segment(2) == 'workers' ? 'class="nav-link active"' : ''?> class="nav-link">
+								<a href="<?php echo site_url('admin/workers'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-users"></i>
 									<p>Workers Data</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="<?php echo site_url('admin/company'); ?>" <?php echo $this->uri->segment(2) == 'company' ? 'class="nav-link active"' : ''?> class="nav-link">
+								<a href="<?php echo site_url('admin/company'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-building-o"></i>
 									<p>Company Profile</p>
 								</a>
 							</li>
 							<li class="nav-item">
-								<a href="<?php echo site_url('admin/sliders'); ?>" <?php echo $this->uri->segment(2) == 'sliders' ? 'class="nav-link active"' : ''?> class="nav-link">
+								<a href="<?php echo site_url('admin/sliders'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-television"></i>
 									<p>Sliders</p>
 								</a>
 							</li>
-							<li class="nav-item has-treeview <?php echo $this->uri->segment(2) == 'experiences' || $this->uri->segment(2) == 'placements' ? '"active"' : ''?>">
-								<a href="#" class="nav-link">
+							<li class="nav-item has-treeview">
+								<a href="#" class="nav-link treeview-link">
 									<i class="nav-icon fa fa-cog"></i>
 									<p>Settings <i class="right fa fa-angle-left"></i></p>
 								</a>
-								<ul class="nav nav-treeview ">
+								<ul class="nav nav-treeview">
 									<li class="nav-item">
-										<a href="<?php echo site_url('admin/experiences'); ?>" <?php echo $this->uri->segment(2) == 'experiences' ? 'class="nav-link active"' : ''?> class="nav-link">
+										<a href="<?php echo site_url('admin/skill-experiences'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
-											<p>Experiences</p>
+											<p>Skill Experiences</p>
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="<?php echo site_url('admin/agency-locations'); ?>" <?php echo $this->uri->segment(2) == 'agency-locations' ? 'class="nav-link active"' : ''?> class="nav-link">
+										<a href="<?php echo site_url('admin/language-abilities'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Language Abilities</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/cooking-abilities'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Cooking Abilities</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/agency-locations'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
 											<p>Agency Locations</p>
 										</a>

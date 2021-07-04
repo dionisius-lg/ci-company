@@ -1834,9 +1834,9 @@ section {
 	border-radius: 0;
 }
 
-#worker form .input-group .form-control {
+/* #worker form .input-group .form-control {
 	border-right: 0;
-}
+} */
 
 #worker form .form-control,
 #worker form .input-group .form-control:focus {
@@ -1862,7 +1862,7 @@ section {
 	color: #a4a4a4;
 }
 
-#worker form .input-group .form-control:focus ~ .input-group-append .input-group-text {
+/* #worker form .input-group .form-control:focus ~ .input-group-append .input-group-text {
 	border-color: #787878;
 }
 
@@ -1881,7 +1881,7 @@ section {
 	border-top-right-radius: 0;
 	color: #777;
 	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
+} */
 
 #worker form [type="submit"] {
 	border-radius: 0;

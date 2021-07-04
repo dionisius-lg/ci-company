@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Experiences extends CI_Controller {
+class SkillExperiences extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -26,13 +26,13 @@ class Experiences extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
-		$this->template->title = 'Experiences';
+		$this->template->title = 'Skill Experiences';
 
 		// $this->load->library('user_agent');
 
 		// load default models
 		$this->load->model('CompanyModel');
-		$this->load->model('ExperiencesModel');
+		$this->load->model('SkillExperiencesModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -63,7 +63,7 @@ class Experiences extends CI_Controller {
 		];
 
 		$request = [
-			'experiences' => $this->ExperiencesModel->getAll($clause)
+			'skill_experiences' => $this->SkillExperiencesModel->getAll($clause)
 		];
 
 		foreach ($request as $key => $val) {
@@ -73,17 +73,17 @@ class Experiences extends CI_Controller {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
 
-					if ($key == 'experiences') {
+					if ($key == 'skill_experiences') {
 						$total = $val['total_data'];
 					}
 				}
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/experiences', $total, $clause['limit'], $params);
+		$this->result['pagination'] = bs4pagination('admin/skill-experiences', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 		
-		$this->template->content->view('templates/back/Experiences/index', $this->result);
+		$this->template->content->view('templates/back/SkillExperiences/index', $this->result);
 		$this->template->publish();
 	}
 
@@ -105,7 +105,7 @@ class Experiences extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->ExperiencesModel->getDetail($id);
+			$request = $this->SkillExperiencesModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -157,7 +157,7 @@ class Experiences extends CI_Controller {
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->ExperiencesModel->insert($data);
+			$request = $this->SkillExperiencesModel->insert($data);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -192,7 +192,7 @@ class Experiences extends CI_Controller {
 			$input = array_map('trim', $this->input->post());
 			$file = true;
 
-			$validate = $this->validate($file);
+			$validate = $this->validate($file, $id);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
@@ -213,7 +213,7 @@ class Experiences extends CI_Controller {
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->ExperiencesModel->update($data, $id);
+			$request = $this->SkillExperiencesModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -245,7 +245,7 @@ class Experiences extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->ExperiencesModel->delete($id);
+			$request = $this->SkillExperiencesModel->delete($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -263,13 +263,13 @@ class Experiences extends CI_Controller {
 	 *  validate method
 	 *  validate data before action
 	 */
-	private function validate($file = false, $password = false, $id = 0)
+	private function validate($file = false, $id = 0)
 	{
 		$validate = [
 			[
 				'field' => 'name',
 				'label' => 'Name',
-				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|checkExperiencesName['.$id.']|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|checkSkillExperiencesName['.$id.']|xss_clean'
 			],
 			
 		];

@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AgencyLocations extends CI_Controller {
+class LanguageAbilities extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -26,13 +26,13 @@ class AgencyLocations extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
-		$this->template->title = 'Agency Locations';
+		$this->template->title = 'Language Abilities';
 
 		// $this->load->library('user_agent');
 
 		// load default models
 		$this->load->model('CompanyModel');
-		$this->load->model('AgencyLocationsModel');
+		$this->load->model('LanguageAbilitiesModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -55,17 +55,15 @@ class AgencyLocations extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'			=> 10,
-			'page'			=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'like_name'		=> array_key_exists('name', $params) ? $params['name'] : '',
-			'is_local'		=> array_key_exists('is_local', $params) ? $params['is_local'] : '',
-			'is_default'	=> array_key_exists('is_default', $params) ? $params['is_default'] : '',
-			'order'			=> 'name',
-			'sort'			=> 'asc'
+			'limit'		=> 10,
+			'page'		=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_name'	=> array_key_exists('name', $params) ? $params['name'] : '',
+			'order'		=> 'name',
+			'sort'		=> 'asc'
 		];
 
 		$request = [
-			'agency_locations' => $this->AgencyLocationsModel->getAll($clause)
+			'language_abilities' => $this->LanguageAbilitiesModel->getAll($clause)
 		];
 
 		foreach ($request as $key => $val) {
@@ -75,17 +73,17 @@ class AgencyLocations extends CI_Controller {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
 
-					if ($key == 'agency_locations') {
+					if ($key == 'language_abilities') {
 						$total = $val['total_data'];
 					}
 				}
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/agency-locations', $total, $clause['limit'], $params);
+		$this->result['pagination'] = bs4pagination('admin/language-abilities', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 		
-		$this->template->content->view('templates/back/AgencyLocations/index', $this->result);
+		$this->template->content->view('templates/back/LanguageAbilities/index', $this->result);
 		$this->template->publish();
 	}
 
@@ -107,7 +105,7 @@ class AgencyLocations extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->AgencyLocationsModel->getDetail($id);
+			$request = $this->LanguageAbilitiesModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -138,14 +136,6 @@ class AgencyLocations extends CI_Controller {
 			$input = array_map('trim', $this->input->post());
 			$file = true;
 
-			if (!array_key_exists('is_local', $input)) {
-				$input['is_local'] = '0';
-			}
-
-			if (!array_key_exists('is_default', $input)) {
-				$input['is_default'] = '0';
-			}
-
 			$validate = $this->validate($file);
 
 			$this->form_validation->set_rules($validate);
@@ -162,14 +152,12 @@ class AgencyLocations extends CI_Controller {
 			$data = [
 				'name'				=> ucwords($input['name']),
 				'slug'				=> slugify($input['name']),
-				'is_local'			=> $input['is_local'],
-				'is_default'		=> $input['is_default'],
 				'create_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->AgencyLocationsModel->insert($data);
+			$request = $this->LanguageAbilitiesModel->insert($data);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -204,14 +192,6 @@ class AgencyLocations extends CI_Controller {
 			$input = array_map('trim', $this->input->post());
 			$file = true;
 
-			if (!array_key_exists('is_local', $input)) {
-				$input['is_local'] = '0';
-			}
-
-			if (!array_key_exists('is_default', $input)) {
-				$input['is_default'] = '0';
-			}
-
 			$validate = $this->validate($file, $id);
 
 			$this->form_validation->set_rules($validate);
@@ -228,14 +208,12 @@ class AgencyLocations extends CI_Controller {
 			$data = [
 				'name'				=> ucwords($input['name']),
 				'slug'				=> slugify($input['name']),
-				'is_local'			=> $input['is_local'],
-				'is_default'		=> $input['is_default'],
 				'update_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->AgencyLocationsModel->update($data, $id);
+			$request = $this->LanguageAbilitiesModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -267,7 +245,7 @@ class AgencyLocations extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->AgencyLocationsModel->delete($id);
+			$request = $this->LanguageAbilitiesModel->delete($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -291,17 +269,7 @@ class AgencyLocations extends CI_Controller {
 			[
 				'field' => 'name',
 				'label' => 'Name',
-				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|checkAgencyLocationsName['.$id.']|xss_clean'
-			],
-			[
-				'field' => 'is_local',
-				'label' => 'Is Local',
-				'rules' => 'trim|max_length[1]|numeric|xss_clean'
-			],
-			[
-				'field' => 'is_default',
-				'label' => 'Is Default',
-				'rules' => 'trim|max_length[1]|numeric|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|checkLanguageAbilitiesName['.$id.']|xss_clean'
 			],
 			
 		];

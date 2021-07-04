@@ -15,8 +15,8 @@
 		<?php echo form_open('', ['method' => 'get', 'id' => 'formFilter', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 			<div class="form-row">
 				<div class="form-group col-md-3">
-					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['nik'], null); ?>
-					<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control', 'value' => $this->input->get('nik') ? $this->input->get('nik') : '']); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['ref_number'], null); ?>
+					<?php echo form_input(['type' => 'text', 'name' => 'ref_number', 'class' => 'form-control', 'value' => $this->input->get('ref_number') ? $this->input->get('ref_number') : '']); ?>
 				</div>
 				<div class="form-group col-md-3">
 					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['fullname'], null); ?>
@@ -39,35 +39,38 @@
 						<option value="divorce">Divorce</option>
 					</select>
 				</div>
-				<!-- age -->
-				<div class="form-group col-md-3">
-					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['From'], null); ?>
-					<?php echo form_input(['type' => 'text', 'name' => 'age_start', 'class' => 'form-control numeric', 'value' => $this->input->get('age_start') ? $this->input->get('age_start') : '']); ?>
-				</div>
-				<div class="form-group col-md-3">
-					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['To'], null); ?>
-					<?php echo form_input(['type' => 'text', 'name' => 'age_end', 'class' => 'form-control numeric', 'value' => $this->input->get('age_end') ? $this->input->get('age_end') : '']); ?>
+				<div class="form-group col-md-2">
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['age'], null); ?>
+					<div class="d-flex flex-wrap">
+						<div class="input-group input-group-sm input-daterange">
+							<?php echo form_input(['type' => 'text', 'name' => 'age_start', 'class' => 'form-control numeric age-range', 'value' => $this->input->get('age_start') ? $this->input->get('age_start') : '']); ?>
+							<div class="input-group-prepend input-group-append">
+								<span class="input-group-text">to</span>
+							</div>
+							<?php echo form_input(['type' => 'text', 'name' => 'age_end', 'class' => 'form-control numeric age-range', 'value' => $this->input->get('age_end') ? $this->input->get('age_end') : '']); ?>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['oversea_experience'], null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['work_experience'], null); ?>
 					<div class="d-flex flex-wrap">
-						<?php foreach ($placements as $oversea_experience) { ?>
+						<?php foreach ($agency_locations as $work_experience) { ?>
 							<div class="icheck-secondary mr-4">
-								<?php echo form_checkbox(['name' => 'oversea_experience[]', 'id' => 'OverseaExperience' . $oversea_experience['id'], 'value' => $oversea_experience['slug']]); ?>
-								<?php echo form_label($oversea_experience['name'], 'OverseaExperience' . $oversea_experience['id']); ?>
+								<?php echo form_checkbox(['name' => 'work_experience[]', 'id' => 'WorkExperience' . $work_experience['id'], 'value' => $work_experience['slug']]); ?>
+								<?php echo form_label($work_experience['name'], 'WorkExperience' . $work_experience['id']); ?>
 							</div>
 						<?php } ?>
 					</div>
 				</div>
 				<div class="form-group col-md-6">
-					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['experience'], null); ?>
+					<?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['skill_experience'], null); ?>
 					<div class="d-flex flex-wrap">
-						<?php foreach ($experiences as $experience) { ?>
+						<?php foreach ($skill_experiences as $skill_experience) { ?>
 							<div class="icheck-secondary mr-4">
-								<?php echo form_checkbox(['name' => 'experience[]', 'id' => 'Experience' . $experience['id'], 'value' => $experience['slug'], 'class' => 'asd']); ?>
-								<?php echo form_label($experience['name'], 'Experience' . $experience['id']); ?>
+								<?php echo form_checkbox(['name' => 'skill_experience[]', 'id' => 'SkillExperience' . $skill_experience['id'], 'value' => $skill_experience['slug'], 'class' => 'asd']); ?>
+								<?php echo form_label($skill_experience['name'], 'SkillExperience' . $skill_experience['id']); ?>
 							</div>
 						<?php } ?>
 					</div>
@@ -94,7 +97,7 @@
 							</div>
 							<div class="profile-name">
 								<h6><?php echo $worker['fullname']; ?></h6>
-								<p><?php echo $this->lang->line('front')['page_worker']['worker_data']['nik'] . ': ' . $worker['nik']; ?></p>
+								<p><?php echo $this->lang->line('front')['page_worker']['worker_data']['ref_number'] . ': ' . $worker['ref_number']; ?></p>
 							</div>
 							<div class="profile-info match-height">
 								<div class="flex-wrapper">
@@ -110,12 +113,12 @@
 									<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['experience']; ?></div>
-									<div><?php echo !empty($worker['experience']) ? $worker['experience'] : '-'; ?></div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['skill_experience']; ?></div>
+									<div><?php echo !empty($worker['skill_experience']) ? $worker['skill_experience'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
-									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['oversea_experience']; ?></div>
-									<div><?php echo !empty($worker['oversea_experience']) ? $worker['oversea_experience'] : '-'; ?></div>
+									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['work_experience']; ?></div>
+									<div><?php echo !empty($worker['work_experience']) ? $worker['work_experience'] : '-'; ?></div>
 								</div>
 								<div class="flex-wrapper">
 									<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['ready_placement']; ?></div>
@@ -123,7 +126,7 @@
 								</div>
 							</div>
 							<div class="profile-menu">
-								<?php echo anchor('worker/detail/' . $worker['nik'], $this->lang->line('front')['page_worker']['button']['view_detail'], ['class' => 'btn btn-secondary']);
+								<?php echo anchor('worker/detail/' . base64url_encode($worker['id']), $this->lang->line('front')['page_worker']['button']['view_detail'], ['class' => 'btn btn-secondary']);
 
 								echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-play-youtube rounded-0 ml-3' . (!filter_var($worker['link_video'], FILTER_VALIDATE_URL) ? ' disabled' : ''), 'content' => '<i class="fa fa-play">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['play_video'], 'data-url' => $worker['link_video']]); ?>
 							</div>
@@ -186,23 +189,23 @@
 <!-- script for this page -->
 <script type="text/javascript">
 	$(document).ready(function() {
-		// var paramExperience = '<?php echo $this->input->get('experience'); ?>',
-		var paramExperience = '<?php echo urldecode($this->input->get('experience')); ?>',
-			elemExperience = $('#formFilter [name="experience[]"');
+		// var paramSkillExperience = '<?php echo $this->input->get('skill_experience'); ?>',
+		var paramSkillExperience = '<?php echo urldecode($this->input->get('skill_experience')); ?>',
+			elemSkillExperience = $('#formFilter [name="skill_experience[]"');
 
-		for (var x = 0; x < elemExperience.length; x++) {
-			if($.inArray(elemExperience[x].value, paramExperience.split(',')) !== -1) {
-				elemExperience.eq(x).attr('checked', true);
+		for (var x = 0; x < elemSkillExperience.length; x++) {
+			if($.inArray(elemSkillExperience[x].value, paramSkillExperience.split(',')) !== -1) {
+				elemSkillExperience.eq(x).attr('checked', true);
 			}
 		}
 
-		// var paramOverseaExperience = '<?php echo$this->input->get('oversea_experience'); ?>',
-		var paramOverseaExperience = '<?php echo urldecode($this->input->get('oversea_experience')); ?>',
-			elemOverseaExperience = $('#formFilter [name="oversea_experience[]"');
+		// var paramWorkExperience = '<?php echo $this->input->get('work_experience'); ?>',
+		var paramWorkExperience = '<?php echo urldecode($this->input->get('work_experience')); ?>',
+			elemWorkExperience = $('#formFilter [name="work_experience[]"');
 
-		for (var y = 0; y < elemOverseaExperience.length; y++) {
-			if($.inArray(elemOverseaExperience[y].value, paramOverseaExperience.split(',')) !== -1) {
-				elemOverseaExperience.eq(y).attr('checked', true);
+		for (var y = 0; y < elemWorkExperience.length; y++) {
+			if($.inArray(elemWorkExperience[y].value, paramWorkExperience.split(',')) !== -1) {
+				elemWorkExperience.eq(y).attr('checked', true);
 			}
 		}
 
@@ -224,33 +227,33 @@
 
 		var thisForm = $(this);
 
-		var thisExperience = thisForm.find('[name="experience[]"'),
-			valueExperience = [],
+		var thisSkillExperience = thisForm.find('[name="skill_experience[]"'),
+			valueSkillExperience = [],
 			xxx = 0;
 
-		for (var xx = 0; xx < thisExperience.length; xx++) {
-			if (thisExperience[xx].checked) {
-				valueExperience[xxx] = thisExperience[xx].value;
+		for (var xx = 0; xx < thisSkillExperience.length; xx++) {
+			if (thisSkillExperience[xx].checked) {
+				valueSkillExperience[xxx] = thisSkillExperience[xx].value;
 				xxx++;
 			}
 		}
 
-		thisForm.append('<input type="hidden" name="experience" value="' + valueExperience.join(',') +'">');
-		thisExperience.attr({'disabled': true});
+		thisForm.append('<input type="hidden" name="skill_experience" value="' + valueSkillExperience.join(',') +'">');
+		thisSkillExperience.attr({'disabled': true});
 
-		var thisOverseaExperience = thisForm.find('[name="oversea_experience[]"'),
-			valueOverseaExperience = [],
+		var thisWorkExperience = thisForm.find('[name="work_experience[]"'),
+			valueWorkExperience = [],
 			yyy = 0;
 
-		for (var yy = 0; yy < thisOverseaExperience.length; yy++) {
-			if (thisOverseaExperience[yy].checked) {
-				valueOverseaExperience[yyy] = thisOverseaExperience[yy].value;
+		for (var yy = 0; yy < thisWorkExperience.length; yy++) {
+			if (thisWorkExperience[yy].checked) {
+				valueWorkExperience[yyy] = thisWorkExperience[yy].value;
 				yyy++;
 			}
 		}
 
-		thisForm.append('<input type="hidden" name="oversea_experience" value="' + valueOverseaExperience.join(',') +'">');
-		thisOverseaExperience.attr({'disabled': true});
+		thisForm.append('<input type="hidden" name="work_experience" value="' + valueWorkExperience.join(',') +'">');
+		thisWorkExperience.attr({'disabled': true});
 
 		thisForm.find('[type="submit"]').attr({'disabled': true});
 

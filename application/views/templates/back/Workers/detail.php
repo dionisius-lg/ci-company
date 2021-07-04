@@ -32,6 +32,9 @@
 						<a class="nav-link rounded-0 active" data-toggle="tab" href="#Detail">Detail</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link rounded-0" data-toggle="tab" href="#Employment">Employment Detail</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link rounded-0" data-toggle="tab" href="#Attachment">Attachment</a>
 					</li>
 				</ul>
@@ -40,31 +43,45 @@
 				<div class="tab-content">
 					<div class="tab-pane container active" id="Detail">
 						<?php echo form_open('admin/workers/update/'.$worker['id'], ['method' => 'post', 'id' => 'formData', 'autocomplete' => 'off']); ?>
+							<?php echo form_label('Personal Data', null, ['class' => 'form-label border-bottom']); ?>
 							<div class="row">
-								<div class="form-group col-md-3">
-									<?php echo form_label('NIK <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('nik') ? ' is-invalid' : ''), 'maxlength' => '20', 'value' => oldInput('nik', $worker['nik'])]); ?>
-									<span class="invalid-feedback"><?php echo flashError('nik'); ?></span>
+								<div class="form-group col-md-4">
+									<?php echo form_label('Ref Number <span class="text-danger">*</span>', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'ref_number', 'class' => 'form-control form-control-sm rounded-0 uppercase' . (hasFlashError('ref_number') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('ref_number', unStrClean($worker['ref_number']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('ref_number'); ?></span>
 								</div>
-								<div class="form-group col-md-5">
+								<div class="form-group col-md-8">
 									<?php echo form_label('Fullname <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('fullname') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('fullname', $worker['fullname'])]); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('fullname') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('fullname', unStrClean($worker['fullname']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('fullname'); ?></span>
 								</div>
-								<div class="form-group col-md-4">
-									<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase' . (hasFlashError('email') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('email', $worker['email'])]); ?>
-									<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Birth Place <span class="text-danger">*</span>', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'birth_place', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('birth_place') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('birth_place', unStrClean($worker['birth_place']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('birth_place'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Phone 1 <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'phone_1', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone_1') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone_1', $worker['phone_1'])]); ?>
-									<span class="invalid-feedback"><?php echo flashError('phone_1'); ?></span>
+									<?php echo form_label('Birth Date <span class="text-danger">*</span>', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'birth_date', 'class' => 'form-control form-control-sm rounded-0 date' . (hasFlashError('birth_date') ? ' is-invalid' : ''), 'maxlength' => '20', 'value' => oldInput('birth_date', unStrClean($worker['birth_date']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('birth_date'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Phone 2', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'phone_2', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone_2') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone_2', $worker['phone_2'])]); ?>
-									<span class="invalid-feedback"><?php echo flashError('phone_2'); ?></span>
+									<?php echo form_label('Age', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('age') ? ' is-invalid' : ''), 'value' => oldInput('age', unStrClean($worker['age'])), 'readonly' => true]); ?>
+									<span class="invalid-feedback"><?php echo flashError('age'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Religion', null); ?>
+									<select name="religion" class="form-control select2 rounded-0 <?php echo (hasFlashError('religion')) ? 'is-invalid' : ''; ?>">
+										<option value="">Please Select</option>
+										<option value="1">Moslem</option>
+										<option value="2">Christian</option>
+										<option value="3">Catholic Christians</option>
+										<option value="4">Hindu</option>
+										<option value="5">Buddha</option>
+										<option value="6">Others</option>
+									</select>
+									<span class="invalid-feedback"><?php echo flashError('religion'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Gender <span class="text-danger">*</span>', null); ?>
@@ -86,38 +103,18 @@
 									<span class="invalid-feedback"><?php echo flashError('marital_status'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Birth Place <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'birth_place', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('birth_place') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('birth_place', $worker['birth_place'])]); ?>
-									<span class="invalid-feedback"><?php echo flashError('birth_place'); ?></span>
+									<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase' . (hasFlashError('email') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('email', unStrClean($worker['email']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Birth Date <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'birth_date', 'class' => 'form-control form-control-sm rounded-0 date' . (hasFlashError('birth_date') ? ' is-invalid' : ''), 'maxlength' => '20', 'value' => oldInput('birth_date', $worker['birth_date'])]); ?>
-									<span class="invalid-feedback"><?php echo flashError('birth_date'); ?></span>
+									<?php echo form_label('Phone <span class="text-danger">*</span>', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'phone', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone', unStrClean($worker['phone']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('phone'); ?></span>
 								</div>
-								<div class="form-group col-md-3">
-									<?php echo form_label('Age', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('age') ? ' is-invalid' : ''), 'value' => oldInput('age', $worker['age']), 'readonly' => true]); ?>
-									<span class="invalid-feedback"><?php echo flashError('age'); ?></span>
-								</div>
-								<div class="form-group col-md-3">
-									<?php echo form_label('Religion', null); ?>
-									<select name="religion" class="form-control select2 rounded-0 <?php echo (hasFlashError('religion')) ? 'is-invalid' : ''; ?>">
-										<option value="">Please Select</option>
-										<option value="1">Moslem</option>
-										<option value="2">Christian</option>
-										<option value="3">Catholic Christians</option>
-										<option value="4">Hindu</option>
-										<option value="5">Buddha</option>
-										<option value="6">Others</option>
-									</select>
-									<span class="invalid-feedback"><?php echo flashError('religion'); ?></span>
-								</div>
-							</div>
-							<div class="row">
 								<div class="form-group col-md-6">
 									<?php echo form_label('Address', null); ?>
-									<?php echo form_textarea(['name' => 'address', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('address') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('address', $worker['address'])]); ?>
+									<?php echo form_textarea(['name' => 'address', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('address') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('address', unStrClean($worker['address']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('address'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
@@ -137,49 +134,143 @@
 									</select>
 									<span class="invalid-feedback"><?php echo flashError('city'); ?></span>
 								</div>
+								<div class="form-group col-md-6">
+									<?php echo form_label('Character Evaluation', null); ?>
+									<?php echo form_textarea(['name' => 'character_evaluation', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('character_evaluation') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('character_evaluation', unStrClean($worker['character_evaluation']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('character_evaluation'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Last Education', null); ?>
+									<select name="last_education" class="form-control select2 rounded-0 <?php echo (hasFlashError('last_education')) ? 'is-invalid' : ''; ?>">
+										<option value="">Please Select</option>
+										<option value="1">Kindergarten</option>
+										<option value="2">Primary School</option>
+										<option value="3">Junior High School</option>
+										<option value="4">Senior High School</option>
+										<option value="5">Diploma Degree</option>
+										<option value="6">Bachelor Degree</option>
+										<option value="7">Other</option>
+									</select>
+									<span class="invalid-feedback"><?php echo flashError('last_education'); ?></span>
+								</div>
 							</div>
+							<?php echo form_label('Family Background', null, ['class' => 'form-label border-bottom']); ?>
+							<div class="row">
+								<div class="form-group col-md-3">
+									<?php echo form_label('Spouse Name', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'spouse_name', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('spouse_name') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('spouse_name', unStrClean($worker['spouse_name']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('spouse_name'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Spouse Occupation', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'spouse_occupation', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('spouse_occupation') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('spouse_occupation', unStrClean($worker['spouse_occupation']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('spouse_occupation'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Children', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'children', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('children') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children', unStrClean($worker['children']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('children'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Children Age', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'children_age', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('children_age') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children_age', unStrClean($worker['children_age']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('children_age'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Father Name', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'father_name', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('father_name') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('father_name', unStrClean($worker['father_name']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('father_name'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Father Occupation', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'father_occupation', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('father_occupation') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('father_occupation', unStrClean($worker['father_occupation']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('father_occupation'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Mother Name', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'mother_name', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('mother_name') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('mother_name', unStrClean($worker['mother_name']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('mother_name'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Mother Occupation', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'mother_occupation', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('mother_occupation') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('mother_occupation', unStrClean($worker['mother_occupation']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('mother_occupation'); ?></span>
+								</div>
+							</div>
+							<?php echo form_label('Skills', null, ['class' => 'form-label border-bottom']); ?>
 							<div class="row">
 								<div class="form-group col-md-12">
+									<?php echo form_label('Skill Experience', null); ?>
+									<div class="d-flex flex-wrap">
+										<?php $skill_experience_ids = explode(',', oldInput('skill_experience', $worker['skill_experience_ids'])); ?>
+										<?php foreach ($skill_experiences as $skill_experience) { ?>
+											<div class="icheck-primary mr-4">
+												<?php echo form_checkbox(['name' => 'skill_experience[]', 'id' => 'SkillExperience' . $skill_experience['id'], 'value' => $skill_experience['id'], 'checked' => in_array($skill_experience['id'], $skill_experience_ids) ? true : false]); ?>
+												<?php echo form_label($skill_experience['name'], 'SkillExperience' . $skill_experience['id']); ?>
+											</div>
+										<?php } ?>
+									</div>
+									<span class="invalid-feedback"><?php echo flashError('skill_experience'); ?></span>
+								</div>
+								<div class="form-group col-md-12">
+									<?php echo form_label('Language Ability', null); ?>
+									<div class="d-flex flex-wrap">
+										<?php $language_ability_ids = explode(',', oldInput('language_ability', $worker['language_ability_ids'])); ?>
+										<?php foreach ($language_abilities as $language_ability) { ?>
+											<div class="icheck-primary mr-4">
+												<?php echo form_checkbox(['name' => 'language_ability[]', 'id' => 'LanguageAbility' . $language_ability['id'], 'value' => $language_ability['id'], 'checked' => in_array($language_ability['id'], $language_ability_ids) ? true : false]); ?>
+												<?php echo form_label($language_ability['name'], 'LanguageAbility' . $language_ability['id']); ?>
+											</div>
+										<?php } ?>
+									</div>
+									<span class="invalid-feedback"><?php echo flashError('language_ability'); ?></span>
+								</div>
+								<div class="form-group col-md-12">
+									<?php echo form_label('Cooking Ability', null); ?>
+									<div class="d-flex flex-wrap">
+										<?php $cooking_ability_ids = explode(',', oldInput('cooking_ability', $worker['cooking_ability_ids'])); ?>
+										<?php foreach ($cooking_abilities as $cooking_ability) { ?>
+											<div class="icheck-primary mr-4">
+												<?php echo form_checkbox(['name' => 'cooking_ability[]', 'id' => 'CookingAbility' . $cooking_ability['id'], 'value' => $cooking_ability['id'], 'checked' => in_array($cooking_ability['id'], $cooking_ability_ids) ? true : false]); ?>
+												<?php echo form_label($cooking_ability['name'], 'CookingAbility' . $cooking_ability['id']); ?>
+											</div>
+										<?php } ?>
+									</div>
+									<span class="invalid-feedback"><?php echo flashError('cooking_ability'); ?></span>
+								</div>
+								<div class="form-group col-md-12">
+									<?php echo form_label('Work Experience', null); ?>
+									<div class="d-flex flex-wrap">
+										<?php $work_experience_ids = explode(',', oldInput('work_experience', $worker['work_experience_ids'])); ?>
+										<?php foreach ($agency_locations as $work_experience) { ?>
+											<div class="icheck-primary mr-4">
+												<?php echo form_checkbox(['name' => 'work_experience[]', 'id' => 'WorkExperience' . $work_experience['id'], 'value' => $work_experience['id'], 'checked' => in_array($work_experience['id'], $work_experience_ids) ? true : false]); ?>
+												<?php echo form_label($work_experience['name'], 'WorkExperience' . $work_experience['id']); ?>
+											</div>
+										<?php } ?>
+									</div>
+									<span class="invalid-feedback"><?php echo flashError('work_experience'); ?></span>
+								</div>
+							</div>
+							<?php echo form_label('Others', null, ['class' => 'form-label border-bottom']); ?>
+							<div class="row">
+								<div class="form-group col-md-6">
 									<?php echo form_label('Description', null); ?>
 									<?php echo form_textarea(['name' => 'description', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('description') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('description', unStrClean($worker['description']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('description'); ?></span>
 								</div>
-								<div class="form-group col-md-12">
+								<div class="form-group col-md-6">
 									<?php echo form_label('Link Video', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'link_video', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('link_video') ? ' is-invalid' : ''), 'value' => oldInput('link_video', $worker['link_video'])]); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'link_video', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('link_video') ? ' is-invalid' : ''), 'value' => oldInput('link_video', unStrClean($worker['link_video']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('link_video'); ?></span>
 								</div>
-								<div class="form-group col-md-12">
-									<?php echo form_label('Experience', null); ?>
-									<div class="d-flex flex-wrap">
-										<?php $experience_ids = explode(',', oldInput('experience', $worker['experience_ids'])); ?>
-										<?php foreach ($experiences as $experience) { ?>
-											<div class="icheck-primary mr-4">
-												<?php echo form_checkbox(['name' => 'experience[]', 'id' => 'Experience' . $experience['id'], 'value' => $experience['id'], 'checked' => in_array($experience['id'], $experience_ids) ? true : false]); ?>
-												<?php echo form_label($experience['name'], 'Experience' . $experience['id']); ?>
-											</div>
-										<?php } ?>
-									</div>
-									<span class="invalid-feedback"><?php echo flashError('experience'); ?></span>
-								</div>
-								<div class="form-group col-md-12">
-									<?php echo form_label('Oversea Experience', null); ?>
-									<div class="d-flex flex-wrap">
-										<?php $oversea_experience_ids = explode(',', oldInput('oversea_experience', $worker['oversea_experience_ids'])); ?>
-										<?php foreach ($placements as $oversea_experience) { ?>
-											<div class="icheck-primary mr-4">
-												<?php echo form_checkbox(['name' => 'oversea_experience[]', 'id' => 'OverseaExperience' . $oversea_experience['id'], 'value' => $oversea_experience['id'], 'checked' => in_array($oversea_experience['id'], $oversea_experience_ids) ? true : false]); ?>
-												<?php echo form_label($oversea_experience['name'], 'OverseaExperience' . $oversea_experience['id']); ?>
-											</div>
-										<?php } ?>
-									</div>
-									<span class="invalid-feedback"><?php echo flashError('oversea_experience'); ?></span>
-								</div>
+							</div>
+							<div class="row">
 								<div class="form-group col-md-12">
 									<?php echo form_label('Ready to Placement', null); ?>
 									<div class="d-flex flex-wrap">
 										<?php $ready_placement_ids = explode(',', oldInput('ready_placement', $worker['ready_placement_ids'])); ?>
-										<?php foreach ($placements as $ready_placement) { ?>
+										<?php foreach ($agency_locations as $ready_placement) { ?>
 											<div class="icheck-primary mr-4">
 												<?php echo form_checkbox(['name' => 'ready_placement[]', 'id' => 'ReadyPlacement' . $ready_placement['id'], 'value' => $ready_placement['id'], 'checked' => in_array($ready_placement['id'], $ready_placement_ids) ? true : false]); ?>
 												<?php echo form_label($ready_placement['name'], 'ReadyPlacement' . $ready_placement['id']); ?>
@@ -189,20 +280,15 @@
 									<span class="invalid-feedback"><?php echo flashError('ready_placement'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Placement', null); ?>
+									<?php echo form_label('Placement Now', null); ?>
 									<select name="placement" class="form-control select2 rounded-0 <?php echo (hasFlashError('placement')) ? 'is-invalid' : ''; ?>">
 										<option value="">Please Select</option>
-										<?php foreach ($placements as $placement) {
+										<?php foreach ($agency_locations as $placement) {
 											echo '<option value="' .$placement['id']. '">'. $placement['name'] . (($placement['is_local'] == 1) ? ' (Local)' : ' (Oversea)') . '</option>';
 										} ?>
 									</select>
 									<span class="invalid-feedback"><?php echo flashError('placement'); ?></span>
 								</div>
-								<!-- <div class="form-group col-md-3">
-									<?php echo form_label('Placement Status', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'placement_status', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('placement_status') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('placement_status', $worker['placement_status']), 'readonly' => true]); ?>
-									<span class="invalid-feedback"><?php echo flashError('placement_status'); ?></span>
-								</div> -->
 								<div class="form-group col-md-3">
 									<?php echo form_label('Username', null); ?>
 									<?php echo form_input(['type' => 'text', 'name' => 'username', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('username') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('username', $worker['username']), 'readonly' => true]); ?>
@@ -241,11 +327,47 @@
 									<?php echo form_input(['type' => 'hidden', 'name' => 'user_id', 'value' => oldInput('user_id', $worker['user_id'])]); ?>
 									<?php echo form_button(['type' => 'button', 'class' => 'btn btn-sm btn-success rounded-0 float-left', 'content' => 'Select User', 'onclick' => 'modalUser()']); ?>
 
-									<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-sm btn-primary rounded-0', 'content' => 'Update']); ?>
+									<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-sm btn-primary rounded-0', 'content' => 'Update Detail']); ?>
 									<?php echo anchor('admin/workers', 'Back', ['class' => 'btn btn-sm btn-default rounded-0']); ?>
 								</div>
 							</div>
 						<?php echo form_close(); ?>
+					</div>
+
+					<div class="tab-pane container fade" id="Employment">
+						<?php echo form_label('Previous Employment Details', null, ['class' => 'form-label border-bottom']); ?>
+						<div class="row">
+							<div class="input-group col-md-4 col-8" id="tableDataEmploymentFilter">
+								<input type="text" class="form-control form-control-sm rounded-0 input-search" placeholder="Search Working Area or Country">
+								<div class="input-group-append">
+									<button type="button" class="btn btn-info btn-sm rounded-0 btn-search" title="Search"><i class="fa fa-search"></i></button>
+								</div>
+							</div>
+							<div class="col-md-8 col-4 text-right">
+								<?php echo form_button(['type' => 'button', 'class' => 'btn btn-sm btn-info rounded-0', 'content' => 'New Data', 'onclick' => 'newDataEmployment()']); ?>
+							</div>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-striped table-hover" id="tableDataEmployment" width="100%">
+								<thead class="table-primary">
+									<tr>
+										<th class="text-center">No.</th>
+										<th class="text-center">Employer Name</th>
+										<th class="text-center">Working Area</th>
+										<th class="text-center">Country</th>
+										<th class="text-center">Period</th>
+										<!-- <th class="text-center">Job Content</th>
+										<th class="text-center">Quit Reason</th> -->
+										<!-- <th class="text-center">Create Date</th>
+										<th class="text-center">Create By</th> -->
+										<th class="text-center">Action</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+						<div class="row" id="tableDataEmploymentOption">
+							<div class="col-md-12 table-paginate"></div>
+						</div>
 					</div>
 
 					<div class="tab-pane container fade" id="Attachment">
@@ -278,7 +400,8 @@
 							</div>
 						<?php echo form_close(); ?>
 
-						<div class="card mt-4">
+						<?php echo form_label('Attachments List', null, ['class' => 'form-label border-bottom mt-4']); ?>
+						<div class="card">
 							<div class="card-header row border-0">
 								<div class="input-group col-md-4" id="tableDataAttachmentFilter">
 									<input type="text" class="form-control form-control-sm rounded-0 input-search" placeholder="Search Name">
@@ -380,6 +503,88 @@
 	</div>
 </div>
 
+<!-- modal employment details -->
+<div class="modal fade" id="modalEmployment" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-primary rounded-0">
+				<h5 class="modal-title">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<?php echo form_open(null, ['method' => 'post', 'autocomplete' => 'off']); ?>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group col-md-3">
+							<?php echo form_label('Employer Name', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'employer_name', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'autofocus' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Period <span class="text-danger">*</span>', null); ?>
+							<div class="input-group input-group-sm input-daterange">
+								<?php echo form_input(['type' => 'text', 'name' => 'period_start', 'class' => 'form-control form-control-sm rounded-0 numeric year-range']); ?>
+								<div class="input-group-prepend input-group-append">
+									<span class="input-group-text">to</span>
+								</div>
+								<?php echo form_input(['type' => 'text', 'name' => 'period_end', 'class' => 'form-control form-control-sm rounded-0 numeric year-range']); ?>
+							</div>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Working Area', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'working_area', 'class' => 'form-control form-control-sm rounded-0 capitalize']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Country <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'country', 'class' => 'form-control form-control-sm rounded-0 capitalize']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-6">
+							<?php echo form_label('Quit Reason', null); ?>
+							<?php echo form_textarea(['name' => 'quit_reason', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'rows' => '2', 'style' => 'resize:none;']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-6">
+							<?php echo form_label('Job Content <span class="text-danger">*</span>', null); ?>
+							<?php echo form_textarea(['name' => 'job_content', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'rows' => '2', 'style' => 'resize:none;']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+					</div>
+					<div class="row group-detail">
+						<div class="form-group col-md-3">
+							<?php echo form_label('Create Date', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'create_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Create By', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'create_by', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Last Update Date', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'update_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Last Update By', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'update_by', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<?php echo form_button(['type' => 'submit', 'class' => 'btn btn-primary btn-sm rounded-0 btn-submit', 'content' => 'Submit']); ?>
+					<?php echo form_button(['type' => 'button', 'class' => 'btn btn-default btn-sm rounded-0 btn-cancel', 'content' => 'Cancel', 'data-dismiss' => 'modal']); ?>
+				</div>
+			<?php echo form_close(); ?>
+		</div>
+	</div>
+</div>
+
 <!-- load required builded stylesheet for this page -->
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
@@ -403,9 +608,23 @@
 	var modalSearch = $('#modalSearch'),
 		modalSearchForm = $('#modalSearch form'),
 		modalSearchResult = $('#modalSearch .result'),
+		modalEmployment = $('#modalEmployment'),
+		modalEmploymentForm = $('#modalEmployment form'),
+		// modalEmploymentResult = $('#modalEmployment .result'),
+		tableDataEmployment,
 		tableDataAttachment;
 
 	$(document).ready(function() {
+		// initialize datepicker for year range
+		if ($.isFunction($.fn.datepicker)) {
+			$('.year-range').datepicker({
+				'format' : 'yyyy',
+				'autoclose' : true,
+				'minViewMode' : 2,
+				'language' : 'en',
+			});
+		}
+
 		// describe required variable
 		var workerGender = '<?php echo oldInput('gender', $worker['gender_id']); ?>',
 			workerMaritalStatus = '<?php echo oldInput('marital_status', $worker['marital_status_id']); ?>',
@@ -437,6 +656,47 @@
 		if (workerPlacement && $.isNumeric(workerPlacement)) {
 			$('#formData [name="placement"]').val(workerPlacement).trigger('change');
 		}
+
+		// get datatable employement
+		tableDataEmployment = $('#tableDataEmployment').DataTable({
+			'processing': true,
+			'serverSide': true,
+			'order': [
+				[ 0, 'desc' ]
+			],
+			'lengthMenu': [
+				[5]
+			],
+			'ajax': {
+				'url': '<?php echo base_url("remote/get-worker-employment-details-datatable/".$worker['id']); ?>',
+				'type': 'post',
+				'data': function(d) {
+					d.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash();?>"
+				}
+			},
+			'columnDefs': [{
+				'targets': [-1, 0, 4],
+				'orderable': false
+			}, {
+				'targets': [-1],
+				'className': 'text-center'
+			}],
+			'drawCallback': function( settings ) {
+				$('.form-control').addClass('rounded-0');
+				$('.pagination').addClass('pagination-sm float-right');
+				$('#tableDataEmployment').next().attr({'id': 'tableDataEmployment_option'});
+				$('thead tr th').addClass('text-nowrap');
+				$('tbody tr').find('td:last').addClass('text-nowrap');
+				$('.venobox').venobox();
+			},
+			'language': {
+				'processing': '<div class="spinner-grow text-primary"></div><div class="spinner-grow text-warning"></div><div class="spinner-grow text-secondary"></div><div class="d-block text-center"><strong>Loading..</strong></div>'
+			},
+			'sDom': 'rpt',
+			'initComplete': (settings, json)=>{
+				$('#tableDataEmployment_paginate').appendTo('#tableDataEmploymentOption .table-paginate');
+			},
+		});
 
 		// get datatable attachment
 		tableDataAttachment = $('#tableDataAttachment').DataTable({
@@ -480,12 +740,24 @@
 		});
 	});
 
-	// on click submit filter
+	// on click submit filter employments
+	$('#tableDataEmploymentFilter .btn-search').on('click', function() {
+		tableDataEmployment.search($('#tableDataAttachmentFilter .input-search').val()).draw();
+	});
+
+	// on click enter input filter employments
+	$('#tableDataEmploymentFilter .input-search').keypress(function(e) {
+		if (e.which === 13) {
+			tableDataEmployment.search($(this).val()).draw();
+		}
+	});
+
+	// on click submit filter attahcments
 	$('#tableDataAttachmentFilter .btn-search').on('click', function() {
 		tableDataAttachment.search($('#tableDataAttachmentFilter .input-search').val()).draw();
 	});
 
-	// on click enter input filter
+	// on click enter input filter attahcments
 	$('#tableDataAttachmentFilter .input-search').keypress(function(e) {
 		if (e.which === 13) {
 			tableDataAttachment.search($(this).val()).draw();
@@ -724,6 +996,172 @@
 					console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
 
 					modalSearchResult.find('table tbody').html('<tr><td colspan="4" align="center">Data Not Found</td></tr>');
+				}
+			});
+		}
+	}
+
+	// add new previus employment details for workers
+	function newDataEmployment() {
+		modalEmploymentForm[0].reset();
+		// modalEmploymentForm.find('select').val(null).trigger('change');
+		modalEmploymentForm.attr({'action': '<?php echo base_url("admin/workers/create-employment/".$worker['id']); ?>'});
+		modalEmploymentForm.find('input, select, textarea').removeClass('is-invalid');
+		modalEmploymentForm.find('.invalid-feedback').empty();
+		modalEmploymentForm.find('.btn-submit').html('Create');
+		modalEmploymentForm.find('.group-detail').attr({'hidden': true});
+
+		modalEmployment.find('.modal-header .modal-title').html('Create New Data Employment Details');
+		modalEmployment.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+	}
+
+	// detail previus employment details for workers by id
+	function detailDataEmployment(id) {
+		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
+			$.ajax({
+				url: '<?php echo base_url("admin/workers/detail-employment/' + id + '"); ?>',
+				type: 'get',
+				dataType: 'json',
+				beforeSend: function() {
+					modalEmploymentForm[0].reset();
+					modalEmploymentForm.attr({'action': '<?php echo base_url("admin/workers/update-employment/' + id + '"); ?>'});
+					modalEmploymentForm.find('input, select, textarea').removeClass('is-invalid');
+					modalEmploymentForm.find('.invalid-feedback').empty();
+					modalEmploymentForm.find('.btn-submit').html('Update');
+					modalEmploymentForm.find('.group-detail').attr({'hidden': false});
+
+					modalEmployment.find('.modal-header .modal-title').html('Detail Data Employment Details');
+				},
+				success: function(response) {
+					if (response !== null && typeof response === 'object') {
+						if (response.status === 'success') {
+							$.each(response.data, function(key, val) {
+								if (key !== 'period') {
+									modalEmploymentForm.find('[name="' + key + '"]').val(val);
+								}
+
+								if (key == 'period') {
+									valPeriod = val.split('-');
+									modalEmploymentForm.find('[name="period_start"]').val(valPeriod[0]);
+									modalEmploymentForm.find('[name="period_end"]').val(valPeriod[1]);
+								}
+							});
+
+							modalEmployment.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
+						}
+					}
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+					console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
+				}
+			});
+		}
+	}
+
+	// submited form modal employment
+	modalEmploymentForm.on('submit', function(e) {
+		e.preventDefault();
+
+		$.ajax({
+			url: modalEmploymentForm.attr('action'),
+			type: 'post',
+			data: modalEmploymentForm.serialize(),
+			dataType: 'json',
+			beforeSend: function() {
+				modalEmploymentForm.find('.invalid-feedback').empty();
+				modalEmploymentForm.find('.btn-submit, .btn-cancel').attr('disabled', true);
+				modalEmploymentForm.find('.btn-submit').prepend('<span class="spinner-border spinner-border-sm mr-2">&nbsp;</span>');
+				modalEmployment.find('.close').attr('disabled', true);
+			},
+			success: function(response) {
+				if (response !== null && typeof response === 'object') {
+					if ('error' in response) {
+						if (response.error !== null && typeof response.error === 'object') {
+							var errorPeriod = [];
+
+							$.each(response.error, function(key, val) {
+								if (val !== '') {
+									modalEmploymentForm.find('[name="' + key + '"]').addClass('is-invalid');
+									if ($.inArray(key, ['period_start', 'period_end']) < 0) {
+										modalEmploymentForm.find('[name="' + key + '"]').parents('.form-group').find('.invalid-feedback').html(val).show();
+										// console.log('ada')
+									}
+
+									if (key == 'period_start') {
+										errorPeriod.push(response.error[key]);
+									}
+
+									if (key == 'period_end') {
+										errorPeriod.push(response.error[key]);
+									}
+								}
+							});
+
+							if (errorPeriod.length > 0) {
+								modalEmploymentForm.find('[name="period_start"]').parents('.form-group').find('.invalid-feedback').html(errorPeriod.join('<br>')).show();
+							}
+						}
+					} else {
+						modalEmployment.modal('hide');
+
+						if (response.status == 'success') {
+							toastr.success(response.message);
+							tableDataEmployment.ajax.reload();
+						} else {
+							toastr.error(response.message);
+						}
+					}
+				}
+
+				modalEmploymentForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalEmploymentForm.find('.btn-submit').find('span').remove();
+				modalEmployment.find('.close').attr('disabled', false);
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
+
+				modalEmploymentForm.find('.btn-submit, .btn-cancel, .btn-password').attr('disabled', false);
+				modalEmploymentForm.find('.btn-submit').find('span').remove();
+				modalEmployment.find('.close').attr('disabled', false);
+			}
+		});
+	});
+
+	// delete previus employment details for workers by id
+	function deleteDataEmployment(id) {
+		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
+			var swalBootstrap = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-primary rounded-0 mr-2',
+					cancelButton: 'btn btn-default rounded-0'
+				},
+				buttonsStyling: false
+			});
+
+			swalBootstrap.fire({
+				title: 'Delete this data?',
+				text: 'This action cannot be undone.',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Confirm'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					$.ajax({
+						url: '<?php echo base_url("admin/workers/delete-employment/' + id + '"); ?>',
+						type: 'get',
+						dataType: 'json',
+						success: function(response) {
+							if (response.status == 'success') {
+								toastr.success(response.message);
+								tableDataEmployment.ajax.reload();
+							} else {
+								toastr.error(response.message);
+							}
+						},
+						error: function (jqXHR, textStatus, errorThrown) {
+							console.log(jqXHR.status + '|' + textStatus + '|' + errorThrown);
+						}
+					});
 				}
 			});
 		}

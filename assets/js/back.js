@@ -113,6 +113,27 @@
 
 	// custom ci3 pagination to bootstrap 4
 	$('ul.pagination-ci3-bs4 > li').find('a, span').addClass('page-link');
+
+	// Activate navigation on current page
+	$(document).ready(function() {
+		if (!window.location.origin){
+			// For IE
+			window.location.origin = window.location.protocol + "//" + (window.location.port ? ':' + window.location.port : '');      
+		}
+
+		var currentUrl = window.location.origin + window.location.pathname,
+			newCurrentUrl = currentUrl.split("/").splice(0, 6).join("/");
+
+		$('.main-sidebar nav li > a').each(function() {
+			var linkUrl = this.href;
+
+			if (linkUrl == newCurrentUrl) {
+				// $(this).remove();
+				$(this).addClass('active');
+				$(this).closest('li.has-treeview').addClass('menu-open').find('.treeview-link').addClass('active');
+			}
+		});
+	});
 })(jQuery);
 
 // request data cities

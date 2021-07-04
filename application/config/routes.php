@@ -89,6 +89,10 @@ $route['admin/workers/upload-photo/(:any)'] = 'admin/Workers/uploadPhoto/$1';
 $route['admin/workers/upload-attachment/(:any)'] = 'admin/Workers/uploadAttachment/$1';
 $route['admin/workers/delete-attachment/(:any)'] = 'admin/Workers/deleteAttachment/$1';
 $route['admin/workers/approve-booking/(:any)'] = 'admin/Workers/approveBooking/$1';
+$route['admin/workers/create-employment/(:any)'] = 'admin/Workers/createEmployment/$1';
+$route['admin/workers/detail-employment/(:any)'] = 'admin/Workers/detailEmployment/$1';
+$route['admin/workers/update-employment/(:any)'] = 'admin/Workers/updateEmployment/$1';
+$route['admin/workers/delete-employment/(:any)'] = 'admin/Workers/deleteEmployment/$1';
 
 /**
  * BookingRequestsController
@@ -110,6 +114,39 @@ $route['admin/agency-locations/update/(:num)'] = 'admin/AgencyLocations/update/$
 $route['admin/agency-locations/delete/(:num)'] = 'admin/AgencyLocations/delete/$1';
 
 /**
+ * SkillExperiencesController
+ * Additional routes for administrator
+ */
+$route['admin/skill-experiences'] = 'admin/SkillExperiences';
+// $route['admin/skill-experiences/(:any)'] = 'admin/SkillExperiences';
+$route['admin/skill-experiences/detail/(:num)'] = 'admin/SkillExperiences/detail/$1';
+$route['admin/skill-experiences/create'] = 'admin/SkillExperiences/create';
+$route['admin/skill-experiences/update/(:num)'] = 'admin/SkillExperiences/update/$1';
+$route['admin/skill-experiences/delete/(:num)'] = 'admin/SkillExperiences/delete/$1';
+
+/**
+ * LanguageAbilitiesController
+ * Additional routes for administrator
+ */
+$route['admin/language-abilities'] = 'admin/LanguageAbilities';
+// $route['admin/language-abilities/(:any)'] = 'admin/LanguageAbilities';
+$route['admin/language-abilities/detail/(:num)'] = 'admin/LanguageAbilities/detail/$1';
+$route['admin/language-abilities/create'] = 'admin/LanguageAbilities/create';
+$route['admin/language-abilities/update/(:num)'] = 'admin/LanguageAbilities/update/$1';
+$route['admin/language-abilities/delete/(:num)'] = 'admin/LanguageAbilities/delete/$1';
+
+/**
+ * CookingAbilitiesController
+ * Additional routes for administrator
+ */
+$route['admin/cooking-abilities'] = 'admin/CookingAbilities';
+// $route['admin/cooking-abilities/(:any)'] = 'admin/CookingAbilities';
+$route['admin/cooking-abilities/detail/(:num)'] = 'admin/CookingAbilities/detail/$1';
+$route['admin/cooking-abilities/create'] = 'admin/CookingAbilities/create';
+$route['admin/cooking-abilities/update/(:num)'] = 'admin/CookingAbilities/update/$1';
+$route['admin/cooking-abilities/delete/(:num)'] = 'admin/CookingAbilities/delete/$1';
+
+/**
  * RemoteController
  * Additional routes for global
  */
@@ -120,6 +157,8 @@ $route['remote/get-company-advantages-list'] = 'Remote/getCompanyAdvantagesDatat
 $route['remote/get-sliders-list'] = 'Remote/getSlidersDatatable';
 $route['remote/get-users'] = 'Remote/getUsers';
 $route['remote/get-employees'] = 'Remote/getEmployees';
+$route['remote/get-worker-employment-details-datatable'] = 'Remote/getWorkerEmploymentDetailsDatatable';
+$route['remote/get-worker-employment-details-datatable/(:any)'] = 'Remote/getWorkerEmploymentDetailsDatatable/$1';
 $route['remote/get-worker-attachments-datatable'] = 'Remote/getWorkerAttachmentsDatatable';
 $route['remote/get-worker-attachments-datatable/(:any)'] = 'Remote/getWorkerAttachmentsDatatable/$1';
 

@@ -42,10 +42,10 @@
 				<div class="row">
 					<div class="col-md-6 pad-right-5">
 						<ul class="nav flex-column">
-							<?php foreach ($agency_locations as $oversea_experience) { echo
+							<?php foreach ($agency_locations as $work_experience) { echo
 								'<li class="nav-item">
-									<a href="' . base_url('worker?oversea_experience=' . $oversea_experience['slug']) . '" class="nav-link">
-										' . $oversea_experience['name'] . ' <span> ' . $oversea_experience['total_worker_oversea_experience'] . ' </span>
+									<a href="' . base_url('worker?work_experience=' . $work_experience['slug']) . '" class="nav-link">
+										' . $work_experience['name'] . ' <span> ' . $work_experience['total_worker_work_experience'] . ' </span>
 									</a>
 								</li>';
 							} ?>
@@ -54,10 +54,10 @@
 
 					<div class="col-md-6 pad-left-5">
 						<ul class="nav flex-column">
-							<?php foreach ($experiences as $experience) { echo
+							<?php foreach ($skill_experiences as $skill_experience) { echo
 								'<li class="nav-item">
-									<a href="' . base_url('worker?experience=' . $experience['slug']) . '" class="nav-link">
-										' . $experience['name'] . ' <span> ' . $experience['total_worker'] . ' </span>
+									<a href="' . base_url('worker?skill_experience=' . $skill_experience['slug']) . '" class="nav-link">
+										' . $skill_experience['name'] . ' <span> ' . $skill_experience['total_worker'] . ' </span>
 									</a>
 								</li>';
 							} ?>

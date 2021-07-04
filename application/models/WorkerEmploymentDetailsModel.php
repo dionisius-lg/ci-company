@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class WorkerAttachmentsModel extends CI_Model {
+class WorkerEmploymentDetailsModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'worker_attachments';
-	public $view_table = 'view_worker_attachments';
+	public $table = 'worker_employment_details';
+	public $view_table = 'view_worker_employment_details';
 
 	/**
 	 *  getAll method
@@ -28,7 +28,9 @@ class WorkerAttachmentsModel extends CI_Model {
 		$condition_inset	= [];
 
 		$column_like = [
-			'like_name'
+			'like_empoyer_name',
+			'like_working_area',
+			'like_country'
 		];
 
 		$column_inset = [
@@ -391,8 +393,8 @@ class WorkerAttachmentsModel extends CI_Model {
 	 *  return query
 	 */
 	private function _getDatatablesQuery($worker_id = 0) {
-		$search	= ['name'];
-		$order	= [null, 'name', 'worker', 'create_date', 'create_user_id', null];
+		$search	= ['working_area', 'country'];
+		$order	= [null, 'employer_name', 'working_area', 'country', 'period', null];
 
 		$this->db->from($this->view_table)->where(['is_active' => 1]);
 

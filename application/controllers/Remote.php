@@ -221,6 +221,44 @@ class Remote extends CI_Controller {
 	// 	redirect($_SERVER['HTTP_REFERER']);
 	// }
 
+	public function getWorkerEmploymentDetailsDatatable($worker_id = 0)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		if ($this->input->is_ajax_request()) {
+			$this->load->model('WorkerEmploymentDetailsModel');
+
+			$list	= $this->WorkerEmploymentDetailsModel->getDatatables($worker_id);
+			$no		= $_POST['start'];
+			$data	= [];
+
+			foreach ($list as $col) {
+				$no++;
+
+				$row	= [];
+				$row[]	= $no;
+				$row[]	= $col['employer_name'];
+				$row[]	= $col['working_area'];
+				$row[]	= $col['country'];
+				$row[]	= $col['period'];
+				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailDataEmployment(' . $col['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteDataEmployment(' . $col['id'] . ')']);
+
+				$data[]	= $row; 
+			}
+
+			$this->result = [
+				'draw'				=> $_POST['draw'],
+				'recordsTotal'		=> $this->WorkerEmploymentDetailsModel->getAll(['worker_id' => $worker_id])['total_data'],
+				'recordsFiltered'	=> $this->WorkerEmploymentDetailsModel->countDatatablesFilter($worker_id),
+				'data'				=> $data
+			];
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
 	public function getWorkerAttachmentsDatatable($worker_id = 0)
 	{
 		$session = $this->session->userdata('AuthUser');
@@ -246,7 +284,7 @@ class Remote extends CI_Controller {
 				$row[]	= $col['name'];
 				$row[]	= $col['create_date'];
 				$row[]	= $col['create_by'];
-				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'onclick' => $download_file]) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
+				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'title' => 'Download', 'onclick' => $download_file]) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
 
 				$data[]	= $row; 
 			}

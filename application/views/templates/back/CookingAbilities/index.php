@@ -8,7 +8,7 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<?php echo form_open('admin/experiences', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
+				<?php echo form_open('admin/cooking-abilities', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-row">
 						<div class="form-group col-md-2">
 							<?php echo form_label('Name', null); ?>
@@ -42,16 +42,16 @@
 							</tr>
 						</thead>
 						<tbody>
-						<?php if (count($experiences) > 0) {
-							foreach ($experiences as $experience) { echo
+						<?php if (count($cooking_abilities) > 0) {
+							foreach ($cooking_abilities as $cooking_ability) { echo
 								'<tr>
 									<td class="text-nowrap">' . $no . '</td>
-									<td class="text-nowrap">' . $experience['name'] . '</td>
-									<td class="text-nowrap">' . $experience['create_date'] . '</td>
-									<td class="text-nowrap">' . $experience['create_by'] . '</td>
-									<td class="text-nowrap">' . $experience['update_date'] . '</td>
-									<td class="text-nowrap">' . $experience['update_by'] . '</td>
-									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $experience['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $experience['id'] . ')']) . '</td>
+									<td class="text-nowrap">' . $cooking_ability['name'] . '</td>
+									<td class="text-nowrap">' . $cooking_ability['create_date'] . '</td>
+									<td class="text-nowrap">' . $cooking_ability['create_by'] . '</td>
+									<td class="text-nowrap">' . $cooking_ability['update_date'] . '</td>
+									<td class="text-nowrap">' . $cooking_ability['update_by'] . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $cooking_ability['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $cooking_ability['id'] . ')']) . '</td>
 								</tr>';
 
 								$no++;
@@ -111,7 +111,7 @@
 	function newData() {
 		modalDataForm[0].reset();
 		modalDataForm.find('select').val(null).trigger('change');
-		modalDataForm.attr({'action': '<?php echo base_url("admin/experiences/create"); ?>'});
+		modalDataForm.attr({'action': '<?php echo base_url("admin/cooking-abilities/create"); ?>'});
 		modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 		modalDataForm.find('.invalid-feedback').empty();
 		modalDataForm.find('.btn-submit').html('Create');
@@ -124,13 +124,13 @@
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
-				url: '<?php echo base_url("admin/experiences/detail/' + id + '"); ?>',
+				url: '<?php echo base_url("admin/cooking-abilities/detail/' + id + '"); ?>',
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
 					modalDataForm[0].reset();
 					modalDataForm.find('select').val(null).trigger('change');
-					modalDataForm.attr({'action': '<?php echo base_url("admin/experiences/update/' + id + '"); ?>'});
+					modalDataForm.attr({'action': '<?php echo base_url("admin/cooking-abilities/update/' + id + '"); ?>'});
 					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 					modalDataForm.find('.invalid-feedback').empty();
 					modalDataForm.find('.btn-submit').html('Update');
@@ -175,7 +175,7 @@
 			}).then((result) => {
 				if (result.isConfirmed) {
 					$.ajax({
-						url: '<?php echo base_url("admin/experiences/delete/' + id + '"); ?>',
+						url: '<?php echo base_url("admin/cooking-abilities/delete/' + id + '"); ?>',
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {

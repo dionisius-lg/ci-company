@@ -19,7 +19,7 @@ class Home extends CI_Controller {
 		// load default models
 		$this->load->model('CompanyModel');
 		$this->load->model('SlidersModel');
-		$this->load->model('ExperiencesModel');
+		$this->load->model('SkillExperiencesModel');
 		$this->load->model('AgencyLocationsModel');
 		$this->load->model('WorkersModel');
 
@@ -36,7 +36,7 @@ class Home extends CI_Controller {
 
 		$request = [
 			'sliders' => $this->SlidersModel->getAll(['limit' => 10, 'order' => 'order_number', 'sort' => 'asc']),
-			'experiences' => $this->ExperiencesModel->getAll(['limit' => 3, 'order' => 'rand()']),
+			'skill_experiences' => $this->SkillExperiencesModel->getAll(['limit' => 3, 'order' => 'rand()']),
 			'agency_locations' => $this->AgencyLocationsModel->getAll(['limit' => 3, 'is_default' => 1]),
 		];
 

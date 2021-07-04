@@ -52,7 +52,7 @@
 				<div class="profile-menu">
 					<?php if (isset($menu_booking)) echo form_button($menu_booking);
 
-					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => $worker['nik']]); ?>
+					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => $worker['ref_number']]); ?>
 				</div>
 
 				<?php if (count($attachments) > 0) { ?>
@@ -81,16 +81,12 @@
 				</div>
 				<div class="profile-info mb-4">
 					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['ref_number']; ?></div>
+						<div><?php echo !empty($worker['ref_number']) ? $worker['ref_number'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
 						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['fullname']; ?></div>
 						<div><?php echo !empty($worker['fullname']) ? $worker['fullname'] : '-'; ?></div>
-					</div>
-					<div class="flex-wrapper">
-						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['nik']; ?></div>
-						<div><?php echo !empty($worker['nik']) ? $worker['nik'] : '-'; ?></div>
-					</div>
-					<div class="flex-wrapper">
-						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['gender']; ?></div>
-						<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
 						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['birth_place']; ?></div>
@@ -105,18 +101,17 @@
 						<div><?php echo !empty($worker['age']) ? $worker['age'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['marital_status']; ?></div>
-						<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
-					</div>
-					<div class="flex-wrapper">
 						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['religion']; ?></div>
 						<div><?php echo !empty($worker['religion']) ? $worker['religion'] : '-'; ?></div>
 					</div>
-				</div>
-				<div class="section-sub-title">
-					<h5><?php echo $this->lang->line('front')['page_worker']['contact']; ?></h5>
-				</div>
-				<div class="profile-info mb-4">
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['gender']; ?></div>
+						<div><?php echo !empty($worker['gender']) ? $worker['gender'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['marital_status']; ?></div>
+						<div><?php echo !empty($worker['marital_status']) ? $worker['marital_status'] : '-'; ?></div>
+					</div>
 					<div class="flex-wrapper">
 						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['email']; ?></div>
 						<div><?php echo !empty($worker['email']) ? $worker['email'] : '-'; ?></div>
@@ -129,30 +124,88 @@
 						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['address']; ?></div>
 						<div><?php echo !empty($worker['full_address']) ? $worker['full_address'] : '-'; ?></div>
 					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['last_education']; ?></div>
+						<div><?php echo !empty($worker['last_education']) ? $worker['last_education'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['character_evaluation']; ?></div>
+						<div><?php echo !empty($worker['character_evaluation']) ? $worker['character_evaluation'] : '-'; ?></div>
+					</div>
+				</div>
+				<div class="section-sub-title">
+					<h5><?php echo $this->lang->line('front')['page_worker']['family_background']; ?></h5>
+				</div>
+				<div class="profile-info mb-4">
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['spouse_name']; ?></div>
+						<div><?php echo !empty($worker['spouse_name']) ? $worker['spouse_name'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['spouse_occupation']; ?></div>
+						<div><?php echo !empty($worker['spouse_occupation']) ? $worker['spouse_occupation'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['children']; ?></div>
+						<div><?php echo !empty($worker['children']) ? $worker['children'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['children_age']; ?></div>
+						<div><?php echo !empty($worker['children_age']) ? $worker['children_age'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['father_name']; ?></div>
+						<div><?php echo !empty($worker['father_name']) ? $worker['father_name'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['father_occupation']; ?></div>
+						<div><?php echo !empty($worker['father_occupation']) ? $worker['father_occupation'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['mother_name']; ?></div>
+						<div><?php echo !empty($worker['mother_name']) ? $worker['mother_name'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['mother_occupation']; ?></div>
+						<div><?php echo !empty($worker['mother_occupation']) ? $worker['mother_occupation'] : '-'; ?></div>
+					</div>
+				</div>
+				<div class="section-sub-title">
+					<h5><?php echo $this->lang->line('front')['page_worker']['skills']; ?></h5>
+				</div>
+				<div class="profile-info mb-4">
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['skill_experience']; ?></div>
+						<div><?php echo !empty($worker['skill_experience']) ? $worker['skill_experience'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['language_ability']; ?></div>
+						<div><?php echo !empty($worker['language_ability']) ? $worker['language_ability'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['cooking_ability']; ?></div>
+						<div><?php echo !empty($worker['cooking_ability']) ? $worker['cooking_ability'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['work_experience']; ?></div>
+						<div><?php echo !empty($worker['work_experience']) ? $worker['work_experience'] : '-'; ?></div>
+					</div>
 				</div>
 				<div class="section-sub-title">
 					<h5><?php echo $this->lang->line('front')['page_worker']['others']; ?></h5>
 				</div>
 				<div class="profile-info ">
 					<div class="flex-wrapper">
-						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['description']; ?></div>
-						<div><?php echo !empty($worker['description']) ? $worker['description'] : '-'; ?></div>
-					</div>
-					<div class="flex-wrapper">
 						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['placement']; ?></div>
 						<div><?php echo !empty($worker['placement']) ? $worker['placement'] : '-'; ?></div>
 					</div>
 					<div class="flex-wrapper">
-						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['experience']; ?></div>
-						<div><?php echo !empty($worker['experience']) ? $worker['experience'] : '-'; ?></div>
-					</div>
-					<div class="flex-wrapper">
-						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['oversea_experience']; ?></div>
-						<div><?php echo !empty($worker['oversea_experience']) ? $worker['oversea_experience'] : '-'; ?></div>
-					</div>
-					<div class="flex-wrapper">
 						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['ready_placement']; ?></div>
 						<div><?php echo !empty($worker['ready_placement']) ? $worker['ready_placement'] : '-'; ?></div>
+					</div>
+					<div class="flex-wrapper">
+						<div><?php echo $this->lang->line('front')['page_worker']['worker_data']['description']; ?></div>
+						<div><?php echo !empty($worker['description']) ? $worker['description'] : '-'; ?></div>
 					</div>
 				</div>
 			</div>

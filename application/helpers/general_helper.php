@@ -10,7 +10,7 @@ if (!function_exists('strClean')) {
 
 if (!function_exists('unStrClean')) {
 	function unStrClean($str) {
-		return stripslashes(html_entity_decode($str));
+		return stripslashes(html_entity_decode($str, ENT_QUOTES, 'UTF-8'));
 	}
 }
 
@@ -20,11 +20,35 @@ if (!function_exists('nl2space')) {
 	}
 }
 
-// if (!function_exists('slugify')) {
-// 	function slugify($str) {
-// 		return strtolower(str_slug($str, '-'));
-// 	}
-// }
+if (!function_exists('base64url_encode')) {
+	function base64url_encode($str) {
+		if ($str) {
+			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+			$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+			$mcrypt_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $str, MCRYPT_MODE_ECB, $iv);
+			$base64_encode = strtr(base64_encode($mcrypt_encrypt), '+/', '-_');
+
+			return rtrim($base64_encode, '=');
+		}
+
+		return false;
+	}
+}
+
+if (!function_exists('base64url_decode')) {
+	function base64url_decode($str) {
+		if ($str) {
+			$base64_decode = base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
+			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+			$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+			$mcrypt_decrypt = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $base64_decode, MCRYPT_MODE_ECB, $iv);
+
+			return trim($mcrypt_decrypt);
+		}
+
+		return false;
+	}
+}
 
 if (!function_exists('strRandom')) {
 	function strRandom($length = '') {

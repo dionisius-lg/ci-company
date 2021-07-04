@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ExperiencesModel extends CI_Model {
+class SkillExperiencesModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'experiences';
-	public $view_table = 'view_experiences';
+	public $table = 'Skill_experiences';
+	public $view_table = 'view_skill_experiences';
 
 	/**
 	 *  getAll method
@@ -36,7 +36,8 @@ class ExperiencesModel extends CI_Model {
 		];
 
 		$column_date = [
-			
+			'create_date',
+			'update_date'
 		];
 
 		if (!empty($data_temp) && is_array($data_temp)) {

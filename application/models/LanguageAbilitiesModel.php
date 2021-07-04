@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class WorkerAttachmentsModel extends CI_Model {
+class LanguageAbilitiesModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'worker_attachments';
-	public $view_table = 'view_worker_attachments';
+	public $table = 'language_abilities';
+	public $view_table = 'view_language_abilities';
 
 	/**
 	 *  getAll method
@@ -36,7 +36,8 @@ class WorkerAttachmentsModel extends CI_Model {
 		];
 
 		$column_date = [
-			
+			'create_date',
+			'update_date'
 		];
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -208,6 +209,14 @@ class WorkerAttachmentsModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
+		if (array_key_exists('name', $data)) {
+			$check = $this->_getCount($this->table, ['name' => $data['name']]);
+
+			if ($check > 0) {
+				return responseBadRequest('Name already exist');
+			}
+		}
+
 		$inserted = $this->db->insert($this->table, $data);
 
 		if ($inserted) {
@@ -261,6 +270,14 @@ class WorkerAttachmentsModel extends CI_Model {
 			return responseNotFound();
 		}
 
+		if (array_key_exists('name', $data)) {
+			$check = $this->_getCount($this->table, ['name' => $data['name'], 'id !=' => $id]);
+
+			if ($check > 0) {
+				return responseBadRequest('Name already exist');
+			}
+		}
+
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);
 
 		if ($updated) {
@@ -297,38 +314,6 @@ class WorkerAttachmentsModel extends CI_Model {
 
 		if ($deleted) {
 			return responseSuccess(['id' => $id]);
-		}
-
-		return responseError();
-	}
-
-	/**
-	 *  deleteByWorker method
-	 *  delete existing data by worker id
-	 */
-	public function deleteByWorker($worker_id = null)
-	{
-		$column		= $this->_getColumn($this->table);
-		$protected	= ['id'];
-
-		if (empty($worker_id)) {
-			return responseBadRequest();
-		}
-
-		if (!is_numeric($worker_id)) {
-			return responseBadRequest();
-		}
-
-		$check = $this->_getCount($this->table, ['worker_id' => $worker_id]);
-
-		if ($check == 0) {
-			return responseNotFound();
-		}
-
-		$deleted = $this->db->where(['worker_id' => $worker_id])->delete($this->table);
-
-		if ($deleted) {
-			return responseSuccess(['worker_id' => $worker_id]);
 		}
 
 		return responseError();
@@ -384,74 +369,5 @@ class WorkerAttachmentsModel extends CI_Model {
 		}
 
 		return 0;
-	}
-
-	/**
-	 *  private _getDatatablesQuery method
-	 *  return query
-	 */
-	private function _getDatatablesQuery($worker_id = 0) {
-		$search	= ['name'];
-		$order	= [null, 'name', 'worker', 'create_date', 'create_user_id', null];
-
-		$this->db->from($this->view_table)->where(['is_active' => 1]);
-
-		$i = 0;
-
-		if (!empty($worker_id) && is_numeric($worker_id)) {
-			$this->db->where(['worker_id' => $worker_id]);
-		}
-
-		foreach ($search as $item) {
-			if ($_POST['search']['value']) {
-				if ($i===0) {
-					$this->db->group_start(); 
-					$this->db->like($item, $_POST['search']['value']);
-				} else {
-					$this->db->or_like($item, $_POST['search']['value']);
-				}
-
-				if (count($search) - 1 == $i) {
-					$this->db->group_end();
-				}
-			}
-
-			$i++;
-		}
-
-		if (isset($_POST['order'])) {
-			$this->db->order_by($order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-		}
-	}
-
-	/**
-	 *  getDatatables method
-	 *  get all data for datatables
-	 */
-	public function getDatatables($worker_id = 0)
-	{
-		$this->_getDatatablesQuery($worker_id);
-
-		if ($_POST['length'] != -1) {
-			$this->db->limit($_POST['length'], $_POST['start']);
-		}
-
-		$result = $this->db->get()->result();
-
-		return json_decode(json_encode($result), true);
-	}
-
-	public function countDatatablesFilter($worker_id = 0)
-	{
-		$this->_getDatatablesQuery($worker_id);
-		$result = $this->db->get()->num_rows();
-
-		return $result;
-	}
-
-	// function for get data attach by id worker
-	public function getByWorkerId($id) {
-		$attachments = $this->db->where(['worker_id' => $id])->get($this->view_table)->result_array();
-		return responseSuccess($attachments); 
 	}
 }

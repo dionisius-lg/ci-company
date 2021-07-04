@@ -25,7 +25,7 @@ class Worker extends CI_Controller {
 		$this->load->model('CompanyModel');
 		$this->load->model('WorkersModel');
 		$this->load->model('WorkerAttachmentsModel');
-		$this->load->model('ExperiencesModel');
+		$this->load->model('SkillExperiencesModel');
 		$this->load->model('AgencyLocationsModel');
 		$this->load->model('ProvincesModel');
 		$this->load->model('UserLevelsModel');
@@ -54,7 +54,7 @@ class Worker extends CI_Controller {
 		$clause = [
 			'limit'				=> 6,
 			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'like_nik'			=> array_key_exists('nik', $params) ? $params['nik'] : '',
+			'like_ref_number'	=> array_key_exists('ref_number', $params) ? $params['ref_number'] : '',
 			'like_fullname'		=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
 			'gender'			=> array_key_exists('gender', $params) ? ucwords($params['gender']) : '',
 			// 'gender_id'			=> array_key_exists('gender', $params) ? $params['gender'] : '',
@@ -67,10 +67,13 @@ class Worker extends CI_Controller {
 			'sort'				=> 'asc'
 		];
 
-		if ($clause['age_start'] && $clause['age_end']) {
-			$clause['age'] = $clause['age_start'] .'-'. $clause['age_end'];
-			unset($clause['age_start'], $clause['age_end']);
+		if (is_numeric($clause['age_start']) && is_numeric($clause['age_end'])) {
+			$clause['between_age'] = [
+				$clause['age_start'], $clause['age_end']
+			];
 		}
+
+		unset($clause['age_start'], $clause['age_end']);
 
 		if ($session) {
 			// user level agency
@@ -88,33 +91,46 @@ class Worker extends CI_Controller {
 			$clause['page'] = 1;
 		}
 
-		$clause = array_map('strClean', $clause);
+		foreach ($clause as $key => $val) {
+			if (is_array($val)) {
+				$vals = [];
 
-		if (array_key_exists('experience', $params)) {
-			if (!empty($params['experience'])) {
-				$experience = explode(',', urldecode($params['experience']));
-				sort($experience);
+				foreach ($val as $each_val) {
+					$vals[] = strClean($each_val);
+				}
 
-				foreach ($experience as $key => $val) {
-					$clause['inset_experience_slug'][] = '\'' . $val . '\'';
+				$clause[$key] = $vals;
+			} else {
+				$clause[$key] = strClean($val);
+			}
+		}
+
+		if (array_key_exists('skill_experience', $params)) {
+			if (!empty($params['skill_experience'])) {
+				$skil_experience = explode(',', urldecode($params['skill_experience']));
+				sort($skil_experience);
+
+				foreach ($skil_experience as $key => $val) {
+					$clause['inset_skill_experience_slug'][] = '\'' . $val . '\'';
 				}
 			}
 		}
 
-		if (array_key_exists('oversea_experience', $params)) {
-			if (!empty($params['oversea_experience'])) {
-				$oversea_experience = explode(',', urldecode($params['oversea_experience']));
-				sort($oversea_experience);
+		if (array_key_exists('work_experience', $params)) {
+			if (!empty($params['work_experience'])) {
+				$work_experience = explode(',', urldecode($params['work_experience']));
+				sort($work_experience);
 
-				foreach ($oversea_experience as $key => $val) {
-					$clause['inset_oversea_experience_slug'][] = '\'' . $val . '\'';
+				foreach ($work_experience as $key => $val) {
+					$clause['inset_work_experience_slug'][] = '\'' . $val . '\'';
 				}
 			}
 		}
 
 		$request = [
 			'workers' => $this->WorkersModel->getAll($clause),
-			'experiences' => $this->ExperiencesModel->getAll(['order' => 'name']),
+			'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name']),
+			'skill_experiences' => $this->SkillExperiencesModel->getAll(['order' => 'name']),
 			'placements' => $this->AgencyLocationsModel->getAll(['order' => 'name']),
 			// 'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
 		];
@@ -143,7 +159,7 @@ class Worker extends CI_Controller {
 	 *  detail method
 	 *  detail page by id
 	 */
-	public function detail($worker_nik = 0)
+	public function detail($worker_id = false)
 	{
 		$session = $this->session->userdata('AuthUser');
 
@@ -152,11 +168,13 @@ class Worker extends CI_Controller {
 			redirect($_SERVER['HTTP_REFERER']);
 		}
 
-		if (empty($worker_nik)) {
+		if (!$worker_id) {
 			redirect($_SERVER['HTTP_REFERER']);
 		}
 
-		$request = $this->WorkersModel->getDetailByNik($worker_nik);
+		$worker_id = base64url_decode($worker_id);
+
+		$request = $this->WorkersModel->getDetail($worker_id);
 
 		if ($request['status'] != 'success') {
 			redirect($_SERVER['HTTP_REFERER']);
@@ -181,7 +199,7 @@ class Worker extends CI_Controller {
 			case 2:
 				$menu_booking['content'] = '<i class="fa fa-check">&nbsp;</i> Confirm';
 				$menu_booking['data-booking'] = 3;
-				$menu_booking['data-worker'] = $this->result['worker']['nik'];
+				$menu_booking['data-worker'] = $this->result['worker']['ref_number'];
 				break;
 			// confirmed
 			case 3:
@@ -196,7 +214,7 @@ class Worker extends CI_Controller {
 			default:
 				$menu_booking['content'] = '<i class="fa fa-lock">&nbsp;</i> Booking';
 				$menu_booking['data-booking'] = 2;
-				$menu_booking['data-worker'] = $this->result['worker']['nik'];
+				$menu_booking['data-worker'] = $this->result['worker']['ref_number'];
 				break;
 		}
 
@@ -226,7 +244,7 @@ class Worker extends CI_Controller {
 
 			if (array_key_exists('worker', $input) && array_key_exists('booking', $input)) {
 				if (!empty($input['worker']) && in_array($input['booking'], [2,3])) {
-					$request = $this->WorkersModel->getAll(['nik' => $input['worker']]);
+					$request = $this->WorkersModel->getAll(['ref_number' => $input['worker']]);
 
 					if ($request['status'] = 'success' && $request['total_data'] > 0) {
 						$worker_id = $request['data'][0]['id'];
@@ -305,7 +323,7 @@ class Worker extends CI_Controller {
 			$input = array_map('strClean', $this->input->post());
 
 			if (array_key_exists('worker', $input) && is_numeric($input['worker'])) {
-				$request = $this->WorkersModel->getDetailByNik($input['worker']);
+				$request = $this->WorkersModel->getDetailByRefNumber($input['worker']);
 
 				if ($request['status'] == 'success' && $request['total_data'] > 0) {
 					$worker = $request['data'];

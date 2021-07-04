@@ -137,6 +137,27 @@ class MY_Form_validation extends CI_Form_validation {
 	}
 
 	/**
+	 *  regexYear method
+	 *  validate format regex
+	 */
+	public function regexYear($str = false, $id = 0)
+	{
+		$ci = &get_instance();
+
+		if ($str) {
+			$date = DateTime::createFromFormat('Y', $str);
+			$error = DateTime::getLastErrors();
+
+			if ($error['warning_count'] > 0 || $error['error_count'] > 0) {
+				$ci->form_validation->set_message('regexYear', '%s must contain a valid year.');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 *  filterValidateUrl method
 	 *  validate url
 	 */
@@ -174,6 +195,33 @@ class MY_Form_validation extends CI_Form_validation {
 
 			if ($request['total_data'] > 0) {
 				$ci->form_validation->set_message('checkWorkersNik', '%s already exist.');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 *  checkWorkersRefNumber method
+	 *  validate data check
+	 */
+	public function checkWorkersRefNumber($str = false, $id = 0)
+	{
+		$ci = &get_instance();
+		$ci->load->model('WorkersModel');
+
+		if ($str) {
+			$term = ['ref_number' => $str];
+
+			if (!empty($id) && is_numeric($id)) {
+				$term['not_id'] = $id;
+			}
+
+			$request = $ci->WorkersModel->getAll($term);
+
+			if ($request['total_data'] > 0) {
+				$ci->form_validation->set_message('checkWorkersRefNumber', '%s already exist.');
 				return false;
 			}
 		}
@@ -317,13 +365,13 @@ class MY_Form_validation extends CI_Form_validation {
 	}
 
 	/**
-	 *  checkExperiencesName method
+	 *  checkSkillExperiencesName method
 	 *  validate data check
 	 */
-	public function checkExperiencesName($str = false, $id = 0)
+	public function checkSkillExperiencesName($str = false, $id = 0)
 	{
 		$ci = &get_instance();
-		$ci->load->model('ExperiencesModel');
+		$ci->load->model('SkillExperiencesModel');
 
 		if ($str) {
 			$term = ['name' => $str];
@@ -332,10 +380,64 @@ class MY_Form_validation extends CI_Form_validation {
 				$term['not_id'] = $id;
 			}
 
-			$request = $ci->ExperiencesModel->getAll($term);
+			$request = $ci->SkillExperiencesModel->getAll($term);
 
 			if ($request['total_data'] > 0) {
-				$ci->form_validation->set_message('checkExperiencesName', '%s already exist.');
+				$ci->form_validation->set_message('checkSkillExperiencesName', '%s already exist.');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 *  checkLanguageAbilitiesName method
+	 *  validate data check
+	 */
+	public function checkLanguageAbilitiesName($str = false, $id = 0)
+	{
+		$ci = &get_instance();
+		$ci->load->model('LanguageAbilitiesModel');
+
+		if ($str) {
+			$term = ['name' => $str];
+
+			if (!empty($id) && is_numeric($id)) {
+				$term['not_id'] = $id;
+			}
+
+			$request = $ci->LanguageAbilitiesModel->getAll($term);
+
+			if ($request['total_data'] > 0) {
+				$ci->form_validation->set_message('checkLanguageAbilitiesName', '%s already exist.');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 *  checkCookingAbilitiesName method
+	 *  validate data check
+	 */
+	public function checkCookingAbilitiesName($str = false, $id = 0)
+	{
+		$ci = &get_instance();
+		$ci->load->model('CookingAbilitiesModel');
+
+		if ($str) {
+			$term = ['name' => $str];
+
+			if (!empty($id) && is_numeric($id)) {
+				$term['not_id'] = $id;
+			}
+
+			$request = $ci->CookingAbilitiesModel->getAll($term);
+
+			if ($request['total_data'] > 0) {
+				$ci->form_validation->set_message('checkCookingAbilitiesName', '%s already exist.');
 				return false;
 			}
 		}

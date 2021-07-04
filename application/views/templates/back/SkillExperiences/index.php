@@ -8,27 +8,11 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<?php echo form_open('admin/agency-locations', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
+				<?php echo form_open('admin/skill-experiences', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-row">
 						<div class="form-group col-md-2">
-							<?php echo form_label('Name', 'Name'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'name', 'id' => 'Name', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('name') ? $this->input->get('name') : '']); ?>
-						</div>
-						<div class="form-group col-md-2">
-							<?php echo form_label('Is Local', 'IsLocal'); ?>
-							<select class="form-control form-control-sm rounded-0" name="is_local" id="IsLocal">
-								<option value="">Please Select</option>
-								<option value="1">Yes</option>
-								<option value="0">No</option>
-							</select>
-						</div>
-						<div class="form-group col-md-2">
-							<?php echo form_label('Is Default', 'IsDefault'); ?>
-							<select class="form-control form-control-sm rounded-0" name="is_default" id="IsDefault">
-								<option value="">Please Select</option>
-								<option value="1">Yes</option>
-								<option value="0">No</option>
-							</select>
+							<?php echo form_label('Name', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'name', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('name') ? $this->input->get('name') : '']); ?>
 						</div>
 					</div>
 					<div class="row">
@@ -50,8 +34,6 @@
 							<tr class="">
 								<th class="text-nowrap">No.</th>
 								<th class="text-nowrap">Name</th>
-								<th class="text-nowrap">Is Local</th>
-								<th class="text-nowrap">Is Default</th>
 								<th class="text-nowrap">Create Date</th>
 								<th class="text-nowrap">Create By</th>
 								<th class="text-nowrap">Last Update Date</th>
@@ -60,18 +42,16 @@
 							</tr>
 						</thead>
 						<tbody>
-						<?php if (count($agency_locations) > 0) {
-							foreach ($agency_locations as $agency_location) { echo
+						<?php if (count($skill_experiences) > 0) {
+							foreach ($skill_experiences as $skill_experience) { echo
 								'<tr>
 									<td class="text-nowrap">' . $no . '</td>
-									<td class="text-nowrap">' . $agency_location['name'] . '</td>
-									<td class="text-nowrap">' . (($agency_location['is_local'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
-									<td class="text-nowrap">' . (($agency_location['is_default'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
-									<td class="text-nowrap">' . $agency_location['create_date'] . '</td>
-									<td class="text-nowrap">' . $agency_location['create_by'] . '</td>
-									<td class="text-nowrap">' . $agency_location['update_date'] . '</td>
-									<td class="text-nowrap">' . $agency_location['update_by'] . '</td>
-									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $agency_location['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $agency_location['id'] . ')']) . '</td>
+									<td class="text-nowrap">' . $skill_experience['name'] . '</td>
+									<td class="text-nowrap">' . $skill_experience['create_date'] . '</td>
+									<td class="text-nowrap">' . $skill_experience['create_by'] . '</td>
+									<td class="text-nowrap">' . $skill_experience['update_date'] . '</td>
+									<td class="text-nowrap">' . $skill_experience['update_by'] . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $skill_experience['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $skill_experience['id'] . ')']) . '</td>
 								</tr>';
 
 								$no++;
@@ -111,18 +91,6 @@
 							<?php echo form_input(['type' => 'text', 'name' => 'name', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
-						<div class="form-group col-md-12">
-							<div class="icheck-primary">
-								<?php echo form_checkbox(['name' => 'is_local', 'id' => 'IsLocal', 'value' => '1']); ?>
-								<?php echo form_label('Set As Local', 'IsLocal'); ?>
-							</div>
-						</div>
-						<div class="form-group col-md-12">
-							<div class="icheck-primary">
-								<?php echo form_checkbox(['name' => 'is_default', 'id' => 'IsDefault', 'value' => '1']); ?>
-								<?php echo form_label('Set As Default', 'IsDefault'); ?>
-							</div>
-						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -134,36 +102,16 @@
 	</div>
 </div>
 
-<!-- load required builded stylesheet for this page -->
-<?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.css', ['type' => 'text/css']); ?>
-
 <script type="text/javascript">
 	// describe required variable
 	var modalData = $('#modalData'),
 		modalDataForm = $('#modalData form');
 
-	$(document).ready(function() {
-		// describe required variable
-		var filterIsLocal = '<?php echo $this->input->get('is_local'); ?>',
-			filterIsDefault = '<?php echo $this->input->get('is_default'); ?>';
-
-		// set value to element if variable true or numeric
-		if (filterIsLocal && $.isNumeric(filterIsLocal)) {
-			console.log(filterIsLocal);
-			$('#IsLocal').val(filterIsLocal).trigger('change');
-		}
-
-		// set value to element if variable true or numeric
-		if (filterIsDefault && $.isNumeric(filterIsDefault)) {
-			$('#IsDefault').val(filterIsDefault).trigger('change');
-		}
-	});
-
 	// add new data
 	function newData() {
 		modalDataForm[0].reset();
 		modalDataForm.find('select').val(null).trigger('change');
-		modalDataForm.attr({'action': '<?php echo base_url("admin/agency-locations/create"); ?>'});
+		modalDataForm.attr({'action': '<?php echo base_url("admin/skill-experiences/create"); ?>'});
 		modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 		modalDataForm.find('.invalid-feedback').empty();
 		modalDataForm.find('.btn-submit').html('Create');
@@ -176,13 +124,13 @@
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
 			$.ajax({
-				url: '<?php echo base_url("admin/agency-locations/detail/' + id + '"); ?>',
+				url: '<?php echo base_url("admin/skill-experiences/detail/' + id + '"); ?>',
 				type: 'get',
 				dataType: 'json',
 				beforeSend: function() {
 					modalDataForm[0].reset();
 					modalDataForm.find('select').val(null).trigger('change');
-					modalDataForm.attr({'action': '<?php echo base_url("admin/agency-locations/update/' + id + '"); ?>'});
+					modalDataForm.attr({'action': '<?php echo base_url("admin/skill-experiences/update/' + id + '"); ?>'});
 					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 					modalDataForm.find('.invalid-feedback').empty();
 					modalDataForm.find('.btn-submit').html('Update');
@@ -192,15 +140,9 @@
 				success: function(response) {
 					if (response !== null && typeof response === 'object') {
 						if (response.status === 'success') {
-							modalDataForm.find('[name="name"]').val(response.data['name']);
-
-							if (response.data['is_local'] == '1') {
-								modalDataForm.find('[name="is_local"]').attr({'checked': true});
-							}
-
-							if (response.data['is_default'] == '1') {
-								modalDataForm.find('[name="is_default"]').attr({'checked': true});
-							}
+							$.each(response.data, function(key, val) {
+							 	modalDataForm.find('[name="' + key + '"]').val(val);
+							});
 
 							modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
 						}
@@ -233,7 +175,7 @@
 			}).then((result) => {
 				if (result.isConfirmed) {
 					$.ajax({
-						url: '<?php echo base_url("admin/agency-locations/delete/' + id + '"); ?>',
+						url: '<?php echo base_url("admin/skill-experiences/delete/' + id + '"); ?>',
 						type: 'get',
 						dataType: 'json',
 						success: function(response) {
