@@ -16,7 +16,8 @@ if (!function_exists('PdfWorkerProfile')) {
             $worker_photo = (@getimagesize(FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'])) ? '<img src="' . FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'] . '" alt="Worker Photo">' : '<img src="' . FCPATH . 'assets/img/default-avatar.jpg' . '" alt="Worker Photo">';
 
 			$content =
-			'<style>        table .ability .cooking .working {
+			'<style>
+			table .ability .cooking .working {
 				table-layout: fixed;
 			}
 	
@@ -49,7 +50,7 @@ if (!function_exists('PdfWorkerProfile')) {
 				line-height: 1.8;
 				text-indent: 20px;
 				font-size: 13px;
-				font-family: Tahoma, Geneva, Verdana, sans-serif;
+				font-family: Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
 			}
 	
 			.kop-nama {
@@ -60,7 +61,7 @@ if (!function_exists('PdfWorkerProfile')) {
 				border: 1px solid black;
 				text-indent: 30px;
 			}
-
+	
 			.kop-img {
 				width: 50%;
 				float: right;
@@ -70,7 +71,6 @@ if (!function_exists('PdfWorkerProfile')) {
 	
 			.kop-img img {
 				margin-left: 30%;
-				height: 100%;
 			}
 	
 			.experience, .family {
@@ -159,24 +159,24 @@ if (!function_exists('PdfWorkerProfile')) {
 		<div class="kop-img">
 			' . $worker_photo . '
 		</div>
-	
+
 		<table class="experience" border="1" cellspacing="0" cellpadding="0">
 			<tr>
-			  <td>Date of birth 出生日期 </td>
-			  <td></td>
-			  <th colspan="2" class="kop-background">EXPERIENCE/ SKILLS 工作經驗/能力</th>
+				<td>Date of birth 出生日期 </td>
+				<td></td>
+				<th colspan="2" class="kop-background">EXPERIENCE/ SKILLS 工作經驗/能力</th>
 			</tr>
 			<tr>
-			  <td>Place of birth 出生地點</td>
-			  <td></td>
-			  <td>Household 家務</td>
-			  <td></td>
+				<td>Place of birth 出生地點</td>
+				<td></td>
+				<td>Household 家務</td>
+				<td></td>
 			</tr>
 			<tr>
-			  <td>Religion 宗教 </td>
-			  <td></td>
-			  <td>Cooking 煮菜</td>
-			  <td></td>
+				<td>Religion 宗教 </td>
+				<td></td>
+				<td>Cooking 煮菜</td>
+				<td></td>
 			</tr>
 			<tr>
 				<td>Age 年領</td>
@@ -202,16 +202,16 @@ if (!function_exists('PdfWorkerProfile')) {
 				<td>Others 其他</td>
 				<td></td>
 			</tr>
-		  </table>
-	
-		  <table width="50%" class="kop-background">
+		</table>
+
+		<table width="50%" class="kop-background">
 			<tbody>
 				<tr>
 					<th>FAMILY BACKGROUND 家庭背景</th>
 				</tr>
 			</tbody>
 		</table>
-	
+
 		<table class="family" border="1" cellspacing="0" cellpadding="0">
 			<tr>
 				<td>Spouses name 丈夫</td>
@@ -242,141 +242,6 @@ if (!function_exists('PdfWorkerProfile')) {
 					Other information 其他訊息 :
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, ex.
 				</td>
-			</tr>
-		</table>
-	
-		<table class="heading-tiga" border="1" cellspacing="0" cellpadding="0">
-			<tr>
-				<th>LANGUAGE ABILITY 語言能力</th>
-				<th>COOKING 煮食</th>
-				<th>WORKING EX. 工作經驗</th>
-			<tr>
-		</table>
-		
-		<table class="ability" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>English 英文</td>
-				<td>X</td>
-			</tr>
-		</table>
-	
-		<table class="ability" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>Cantonese 廣東話</td>
-				<td>X</td>
-			</tr>
-		</table>
-	
-		<table class="ability" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>Mandarin 國語</td>
-				<td>X</td>
-			</tr>
-		</table>
-	
-		<table class="ability" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>Hokkian 福建話</td>
-				<td>X</td>
-			</tr>
-		</table>
-	
-		<table class="ability" cellspacing="0" cellpadding="0">
-			<tr>
-				<td colspan="2">Other其它 : </td>
-			</tr>
-		</table>
-	
-		<table style="background-color: red; color: white;" cellspacing="0" cellpadding="0">
-			<tr>
-				<th width="265px">EDUCATION 教育程度</th>
-			</tr>
-		</table>
-	
-		<table class="ability" border="1" cellspacing="0" cellpadding="0">
-			<td colspan="2">Junior High School 中學</td>
-		</table>
-		
-		<table class="cooking" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>Chinese 中式</td>
-				<td>V</td>
-			</tr>
-		</table>
-	
-		<table class="cooking" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>Western 西式</td>
-				<td>V</td>
-			</tr>
-		</table>
-	
-		<table class="cooking" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>Indonesian 印尼菜</td>
-				<td>V</td>
-			</tr>
-		</table>
-	
-		<table class="cooking" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>Home Cooking 家常菜</td>
-				<td>V</td>
-			</tr>
-		</table>
-	
-		<table class="working" cellspacing="0" cellpading="0">
-			<tr>
-				<td>Indonesia 印尼</td>
-				<td>lll</td>
-			</tr>
-		</table>
-	
-		<table class="working" cellspacing="0" cellpading="0">
-			<tr>
-				<td>Hongkong 香港</td>
-				<td>lll</td>
-			</tr>
-		</table>
-	
-		<table class="working" cellspacing="0" cellpading="0">
-			<tr>
-				<td>Taiwan 台灣 </td>
-				<td>9 Years</td>
-			</tr>
-		</table>
-	
-		<table class="working" cellspacing="0" cellpading="0">
-			<tr>
-				<td>Singapore 新加坡</td>
-				<td></td>
-			</tr>
-		</table>
-	
-		<table class="working" cellspacing="0" cellpading="0">
-			<tr>
-				<td>Singapore 新加坡</td>
-				<td></td>
-			</tr>
-		</table>
-	
-		<table class="working" cellspacing="0" cellpading="0">
-			<tr>
-				<td>Middle East 中東</td>
-				<td></td>
-			</tr>
-		</table>
-	
-		<table class="working" cellspacing="0" cellpading="0">
-			<tr>
-				<td>Other 其他國家</td>
-				<td></td>
-			</tr>
-		</table>
-		
-		<table class="kop-employ" width="100%">
-			<tr style="text-align: center;">
-				<th>PREVIOUS EMPLOYMENT DETAILS 前雇主資料</th>
 			</tr>
 		</table>';
 
