@@ -24,7 +24,7 @@ if (!function_exists('PdfWorkerProfile')) {
 		
 				table.kop.atas {
 					text-align: center;
-					border-bottom: 2px solid black;
+					border-bottom: 1px solid black;
 				}
 		
 				.kop-ref {
@@ -39,43 +39,39 @@ if (!function_exists('PdfWorkerProfile')) {
 				}
 		
 				.kop-background {
-					border-bottom: 2px solid black;
+					border: 1px solid black;
 					background-color: red;
 					color: white;
 					text-align: center;
 					font-size: 12px;
 					text-transform: uppercase;
+					font-weight: bold;
 				}
 		
 				.kop-nama {
 					text-transform: uppercase;
-					width: 50%;
-					line-height: 1.8;
-					border: 2px solid black;
+					width: 100%;
+					line-height: 1.6;
+					border: 1px solid black;
 					text-indent: 30px;
-					border-spacing: 5px;
-				}
-		
-				.kop-img {
-					width: 50%;
-					float: right;
-					border-bottom: 1px solid black;
-					/* position: absolute;
-					left: 789.5px;
-					bottom: 84px; */
 				}
 		
 				img {
-					margin-left: 100px;
-					height: 200px;
-					display: block;
+					width: 100%;
+  					height: 500px;
+					border: 1px solid black;
+				}
+
+				.row-img {
+					width: 50%;
+					float: right;
 				}
 		
 				.ability {
-					width: 16.5%;
-					border-spacing: 3px;
-					border: 2px solid black;
+					width: 50%;
+					border: 1px solid black;
 					text-indent: 10px;
+					line-height: 1.6;
 				}
 		
 				.experience, .family {
@@ -84,37 +80,51 @@ if (!function_exists('PdfWorkerProfile')) {
 				}
 		
 				.employ-detail {
-					border-top: 2px solid black;
+					border: 1px solid black;
 					background-color: red;
 					color: white;
 					text-indent: 10px;
 					text-align: left;
-					line-height: 20px;
+					line-height: 1,6;
 					font-size: 12px;
+					font-weight: bold;
 				}
 		
 				.employ-body {
 					text-indent: 10px;
 					border: 1px solid black;
 				}
+
+				.q-satu {
+					text-align: center;
+					text-indent: 15px;
+					font-size: 12px;
+				}
+
+				.q-dua {
+					text-align: center;
+					font-weight: bold;
+					font-size: 12px;
+				}
+
 			</style>
 			</head>
 
 			<body>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop atas">
-				<tbody>
-					<tr>
-						<td>
-							<h4>PT. AMALIA ROZIKIN JAYA - ARJ <br>
-								INDONESIAN DOMESTIC HELPER SPECIALIST</h4>
-						</td>
-					</tr>
-					<tr>
-						<td class="kop-ref">
-							<p class="no-ref">REF No. 工人編號 : ARJ HKS-029</p>
-						</td>
-					</tr>
-				</tbody>
+					<tbody>
+						<tr>
+							<td>
+								<h4>PT. AMALIA ROZIKIN JAYA - ARJ <br>
+									INDONESIAN DOMESTIC HELPER SPECIALIST</h4>
+							</td>
+						</tr>
+						<tr>
+							<td class="kop-ref">
+								<p class="no-ref">REF No. 工人編號 : ARJ HKS-029</p>
+							</td>
+						</tr>
+					</tbody>
 				</table>
 
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop-background">
@@ -128,19 +138,15 @@ if (!function_exists('PdfWorkerProfile')) {
 				</table>
 
 				<table cellspacing="0" cellpadding="0" class="kop-nama">
-					<tbody>
-						<tr>
-							<td><strong>Name 姓名 &nbsp; : ' . $worker['fullname'] . '</strong></td>
-						</tr>
-					</tbody>
-				</table>
-
-				<table border="1" class="kop-img">
 					<tr>
-						<td>' . $worker_photo .'</td>
+						<td><strong>Name 姓名 &nbsp; : ' . $worker['fullname'] . '</strong></td>
 					</tr>
 				</table>
 
+				<div class="row-img">
+					' . $worker_photo .'
+				</div>
+					
 				<table class="experience" border="1" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>Date of birth 出生日期 </td>
@@ -219,16 +225,16 @@ if (!function_exists('PdfWorkerProfile')) {
 						<td></td>
 					</tr>
 					<tr>
-						<td colspan="4" style="line-height: 30px;">
+						<td colspan="4">
 							Other information 其他訊息 :
 							Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, ex.
 						</td>
 					</tr>
 				</table>
 
-				<table border="1" cellpadding="0" cellspacing="0" class="ability" style="display: inline-table;">
+				<table border="1" cellpadding="0" cellspacing="0" class="ability">
 					<tr>
-						<th colspan="2" style="background: red; color: white; font-size: 14px;">Languange Ability 語言能力</th>
+						<th colspan="2" class="kop-background">Languange Ability 語言能力</th>
 					</tr>
 
 					<tr>
@@ -259,15 +265,15 @@ if (!function_exists('PdfWorkerProfile')) {
 						<th colspan="2" class="kop-background">Education 教育程度</th>
 					</tr>
 					<tr>
-						<th colspan="2">
-							<p style="font-size: 12px; color: black;">Junior High School 中學</p>
-						</th>
+						<td colspan="2">
+							<p style="font-size: 12px; color: black; text-align:center;">Junior High School 中學</p>
+						</td>
 					</tr>
 				</table>
 
-				<table border="1" cellpadding="0" cellspacing="0" class="ability" style="display: inline-table;">
+				<table border="1" cellpadding="0" cellspacing="0" class="ability">
 					<tr>
-						<th colspan="2" style="background: red; color: white; font-size: 14px;">Cooking 煮食</th>
+						<th colspan="2" class="kop-background">Cooking 煮食</th>
 					</tr>
 
 					<tr>
@@ -291,9 +297,9 @@ if (!function_exists('PdfWorkerProfile')) {
 					</tr>
 				</table>
 
-				<table border="1" cellpadding="0" cellspacing="0" class="ability" style="display: inline-table;">
+				<table border="1" cellpadding="0" cellspacing="0" class="ability">
 					<tr>
-						<th colspan="2" style="background: red; color: white; font-size: 14px;">Working Ex 工作經驗</th>
+						<th colspan="2" class="kop-background">Working Ex 工作經驗</th>
 					</tr>
 					<tr>
 						<td>Indonesia 印尼</td>
@@ -339,7 +345,9 @@ if (!function_exists('PdfWorkerProfile')) {
 
 				<table border="1" cellpadding="0" cellspacing="0" width="100%" class="employ-body">
 					<tr>
-						<th colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">Name Of Employer 雇主 :</th>
+						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
+							Name Of Employer 雇主 :
+						</td>
 					</tr>
 					
 					<tr>
@@ -354,14 +362,18 @@ if (!function_exists('PdfWorkerProfile')) {
 						<td><b>2010-2017</b></td>
 					</tr>
 
-					<tr height="50px">
-						<th colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">Job Content 工作內容: works include cooking,house keeping,take care of elderly ( 84 years old ) and all general housework.</th>
+					<tr>
+						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
+							Job Content 工作內容: works include cooking,house keeping,take care of elderly ( 84 years old ) and all general housework.
+						</td>
 					</tr>
 				</table>
 
 				<table border="1" cellpadding="0" cellspacing="0" width="100%" class="employ-body">
 					<tr>
-						<th colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">Name Of Employer 雇主 :</th>
+						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
+							Name Of Employer 雇主 :
+						</td>
 					</tr>
 					
 					<tr>
@@ -376,10 +388,122 @@ if (!function_exists('PdfWorkerProfile')) {
 						<td><b>2017-2019</b></td>
 					</tr>
 
-					<tr height="50px">
-						<th colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">Job Content 工作內容: works include cooking,house keeping,take care of elderly ( 70 years old ) and all general housework.</th>
+					<tr>
+						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
+							Job Content 工作內容: works include cooking,house keeping,take care of elderly ( 70 years old ) and all general housework.
+						</td>
 					</tr>
-				</table>';
+				</table>
+
+				<table border="1" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<th class="employ-detail">Personal Character Evaluation 女傭總體評價</th>
+					</tr>
+				</table>
+
+				<table border="1" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<td colspan="3" height="30px" text-indent: 20px;>
+							<p style="font-size:14px; text-indent: 20px;">
+								She is studying hard Cantonese in the training center
+							</p>
+							<p style="font-size:8px; color: red; text-indent: 20px;">
+								* Please note that we are not able to bear fully responsibility for this evaluation result due to human act.
+							</p>
+						</td>
+					</tr>
+				</table>
+
+				<table border="1" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<th class="employ-detail">SUPLEMENTARY QUESTIONS 附加問題</th>
+					</tr>
+				</table>
+
+				<table border="1" cellpadding="0" cellspacing="0" width="100%">
+					<tr>
+						<th colspan="4"></th>
+					</tr>
+
+					<tr>
+						<td class="q-satu">
+							1) Will you work where there are pets?
+						</td>
+						<td colspan="3" class="q-dua" style="background-color:#ADD8E6;">
+							YES
+						</td>
+						<td colspan="3" class="q-dua" style="background-color:#ADD8E6;">
+							NO
+						</td>
+						<td colspan="3" style="text-indent: 10px; font-weight:bold; ">
+							Remark :
+						</td>
+					</tr>
+
+					<tr>
+						<td class="q-satu">
+							2) Do you have any allergies (such as skin allergy)?
+						</td>
+						<td colspan="3" class="q-dua">
+							X
+						</td>
+						<td colspan="3" class="q-dua">
+							
+						</td>
+						<td colspan="3">
+							
+						</td>
+					</tr>
+
+					<tr>
+						<td class="q-satu">
+							3) Do you have any knowledge in gardening?
+						</td>
+						<td colspan="3" class="q-dua">
+							X
+						</td>
+						<td colspan="3" class="q-dua">
+							
+						</td>
+						<td colspan="3">
+							
+						</td>
+					</tr>
+
+					<tr>
+						<td class="q-satu">
+							4) Can you handle and cook pork? 
+						</td>
+						<td colspan="3" class="q-dua">
+							X
+						</td>
+						<td colspan="3" class="q-dua">
+							
+						</td>
+						<td colspan="3">
+							
+						</td>
+					</tr>
+
+					<tr>
+						<td class="q-satu">
+							5) Can you do eat pork?
+						</td>
+						<td colspan="3" class="q-dua">
+							X
+						</td>
+						<td colspan="3" class="q-dua">
+							
+						</td>
+						<td colspan="3">
+							
+						</td>
+					</tr>
+
+					
+			</table>
+
+				';
 
 			$pdf = new Dompdf();
 			$pdf->loadHtml($content);
