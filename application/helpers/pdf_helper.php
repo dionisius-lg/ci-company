@@ -24,18 +24,11 @@ if (!function_exists('PdfWorkerProfile')) {
 		
 				table.kop.atas {
 					text-align: center;
-					border-bottom: 1px solid black;
-				}
-		
-				.kop-ref {
-					width: 100%;
-					line-height: 5px;
-					text-indent: 10px;
 				}
 		
 				.no-ref {
-					float: left;
 					font-weight: bold;
+					color: black;
 				}
 		
 				.kop-background {
@@ -112,20 +105,15 @@ if (!function_exists('PdfWorkerProfile')) {
 
 			<body>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop atas">
-					<tbody>
-						<tr>
-							<td>
-								<h4>PT. AMALIA ROZIKIN JAYA - ARJ <br>
-									INDONESIAN DOMESTIC HELPER SPECIALIST</h4>
-							</td>
-						</tr>
-						<tr>
-							<td class="kop-ref">
-								<p class="no-ref">REF No. 工人編號 : ARJ HKS-029</p>
-							</td>
-						</tr>
-					</tbody>
+					<tr>
+						<td>
+							<h4>PT. AMALIA ROZIKIN JAYA - ARJ <br>
+								INDONESIAN DOMESTIC HELPER SPECIALIST</h4>
+						</td>
+					</tr>
 				</table>
+
+				<h5 class="no-ref">REF No. 工人編號 : '.$worker['ref_number'].'</h5>
 
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop-background">
 					<tbody>
@@ -150,18 +138,18 @@ if (!function_exists('PdfWorkerProfile')) {
 				<table class="experience" border="1" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>Date of birth 出生日期 </td>
-						<td></td>
+						<td>'. $worker['birth_date'] .'</td>
 						<th colspan="2" class="kop-background">EXPERIENCE/ SKILLS 工作經驗/能力</th>
 					</tr>
 					<tr>
 						<td>Place of birth 出生地點</td>
-						<td></td>
+						<td>'. $worker['birth_place'] .'</td>
 						<td>Household 家務</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>Religion 宗教 </td>
-						<td></td>
+						<td>'. $worker['religion_id'] .'</td>
 						<td>Cooking 煮菜</td>
 						<td></td>
 					</tr>
@@ -179,13 +167,13 @@ if (!function_exists('PdfWorkerProfile')) {
 					</tr>
 					<tr>
 						<td>Height 身高 </td>
-						<td></td>
+						<td>'. $worker['height'] .'</td>
 						<td>Taking care baby 照顧小孩</td>
 						<td></td>
 					</tr>
 					<tr>
 						<td>Weight 體重</td>
-						<td></td>
+						<td>'. $worker['weight'] .'</td>
 						<td>Others 其他</td>
 						<td></td>
 					</tr>
@@ -202,27 +190,27 @@ if (!function_exists('PdfWorkerProfile')) {
 				<table class="family" border="1" cellspacing="0" cellpadding="0">
 					<tr>
 						<td>Spouses name 丈夫</td>
-						<td></td>
+						<td>'. $worker['spouse_name'] .'</td>
 						<td>Fathers name 父親 </td>
-						<td></td>
+						<td>'. $worker['father_name'] .'</td>
 					</tr>
 					<tr>
 						<td>Occupation 工作 </td>
-						<td></td>
-						<td>Fathers name 父親 </td>
-						<td></td>
+						<td>'. $worker['spouse_occupation'] .'</td>
+						<td>Fathers Occupation 父親 </td>
+						<td>'. $worker['father_occupation'] .'</td>
 					</tr>
 					<tr>
 						<td>Children 小孩</td>
 						<td></td>
 						<td>Mothers Name 母親</td>
-						<td></td>
+						<td>'. $worker['mother_name'] .'</td>
 					</tr>
 					<tr>
 						<td>Ages of Children 年齡</td>
 						<td></td>
-						<td>Mothers Name 母親</td>
-						<td></td>
+						<td>Mothers Occupation 母親</td>
+						<td>'. $worker['mother_occupation'] .'</td>
 					</tr>
 					<tr>
 						<td colspan="4">
@@ -499,8 +487,6 @@ if (!function_exists('PdfWorkerProfile')) {
 							
 						</td>
 					</tr>
-
-					
 			</table>
 
 				';

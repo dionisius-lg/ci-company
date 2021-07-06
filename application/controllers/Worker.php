@@ -321,6 +321,7 @@ class Worker extends CI_Controller {
 			if (array_key_exists('worker', $input) && !empty($input['worker'])) {
 				$worker_id = base64url_decode($input['worker']);
 				$request = $this->WorkersModel->getDetail($worker_id);
+				// print_r($request); die();
 
 				if ($request['status'] == 'success' && $request['total_data'] > 0) {
 					$worker = $request['data'];
