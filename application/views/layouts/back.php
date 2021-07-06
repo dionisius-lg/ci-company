@@ -151,6 +151,12 @@
 											<p>Agency Locations</p>
 										</a>
 									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/suplementary-questions'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Suplementary Questions</p>
+										</a>
+									</li>
 								</ul>
 							</li>
 							<li class="nav-item">

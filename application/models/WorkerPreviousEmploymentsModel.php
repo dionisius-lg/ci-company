@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class CookingAbilitiesModel extends CI_Model {
+class WorkerPreviousEmploymentsModel extends CI_Model {
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
-	public $table = 'cooking_abilities';
-	public $view_table = 'view_cooking_abilities';
+	public $table = 'worker_previous_employments';
+	public $view_table = 'view_worker_previous_employments';
 
 	/**
 	 *  getAll method
@@ -29,7 +29,9 @@ class CookingAbilitiesModel extends CI_Model {
 		$condition_between	= [];
 
 		$column_like = [
-			'like_name'
+			'like_empoyer_name',
+			'like_working_area',
+			'like_country'
 		];
 
 		$column_inset = [
@@ -228,14 +230,6 @@ class CookingAbilitiesModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['name']]);
-
-			if ($check > 0) {
-				return responseBadRequest('Name already exist');
-			}
-		}
-
 		$inserted = $this->db->insert($this->table, $data);
 
 		if ($inserted) {
@@ -289,14 +283,6 @@ class CookingAbilitiesModel extends CI_Model {
 			return responseNotFound();
 		}
 
-		if (array_key_exists('name', $data)) {
-			$check = $this->_getCount($this->table, ['name' => $data['name'], 'id !=' => $id]);
-
-			if ($check > 0) {
-				return responseBadRequest('Name already exist');
-			}
-		}
-
 		$updated = $this->db->update($this->table, $data, ['id' => $id]);
 
 		if ($updated) {
@@ -333,6 +319,38 @@ class CookingAbilitiesModel extends CI_Model {
 
 		if ($deleted) {
 			return responseSuccess(['id' => $id]);
+		}
+
+		return responseError();
+	}
+
+	/**
+	 *  deleteByWorkerId method
+	 *  delete existing data by worker id
+	 */
+	public function deleteByWorkerId($worker_id = null)
+	{
+		$column		= $this->_getColumn($this->table);
+		$protected	= ['id'];
+
+		if (empty($worker_id)) {
+			return responseBadRequest();
+		}
+
+		if (!is_numeric($worker_id)) {
+			return responseBadRequest();
+		}
+
+		$check = $this->_getCount($this->table, ['worker_id' => $worker_id]);
+
+		if ($check == 0) {
+			return responseNotFound();
+		}
+
+		$deleted = $this->db->where(['worker_id' => $worker_id])->delete($this->table);
+
+		if ($deleted) {
+			return responseSuccess(['worker_id' => $worker_id]);
 		}
 
 		return responseError();
@@ -406,14 +424,18 @@ class CookingAbilitiesModel extends CI_Model {
 	 *  private _getDatatablesQuery method
 	 *  return query
 	 */
-	private function _getDatatablesQuery()
+	private function _getDatatablesQuery($worker_id = 0)
 	{
-		$search	= ['name'];
-		$order	= [null, 'name', 'total_worker', null];
+		$search	= ['working_area', 'country'];
+		$order	= [null, 'employer_name', 'working_area', 'country', 'period', null];
 
 		$this->db->from($this->view_table)->where(['is_active' => 1]);
 
 		$i = 0;
+
+		if (!empty($worker_id) && is_numeric($worker_id)) {
+			$this->db->where(['worker_id' => $worker_id]);
+		}
 
 		foreach ($search as $item) {
 			if ($_POST['search']['value']) {
@@ -441,9 +463,9 @@ class CookingAbilitiesModel extends CI_Model {
 	 *  getDatatables method
 	 *  get all data for datatables
 	 */
-	public function getDatatables()
+	public function getDatatables($worker_id = 0)
 	{
-		$this->_getDatatablesQuery();
+		$this->_getDatatablesQuery($worker_id);
 
 		if ($_POST['length'] != -1) {
 			$this->db->limit($_POST['length'], $_POST['start']);
@@ -454,13 +476,9 @@ class CookingAbilitiesModel extends CI_Model {
 		return json_decode(json_encode($result), true);
 	}
 
-	/**
-	 *  countDatatablesFilter method
-	 *  count filter data for datatables
-	 */
-	public function countDatatablesFilter()
+	public function countDatatablesFilter($worker_id = 0)
 	{
-		$this->_getDatatablesQuery();
+		$this->_getDatatablesQuery($worker_id);
 		$result = $this->db->get()->num_rows();
 
 		return $result;

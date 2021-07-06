@@ -133,7 +133,7 @@
 
 			swalBootstrap.fire({
 				title: 'Delete this data?',
-				text: 'This action cannot be undone.',
+				text: 'All previous employments, suplementary questions, and attachments for this worker also will be deleted as well. This action cannot be undone.',
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonText: 'Confirm'

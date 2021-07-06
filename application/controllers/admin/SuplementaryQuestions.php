@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Sliders extends CI_Controller {
+class SuplementaryQuestions extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -26,13 +26,14 @@ class Sliders extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
-		$this->template->title = 'Sliders';
+		$this->template->title = 'Suplementary Questions';
 
 		// $this->load->library('user_agent');
 
 		// load default models
 		$this->load->model('CompanyModel');
-		$this->load->model('SlidersModel');
+		$this->load->model('SuplementaryQuestionsModel');
+		$this->load->model('WorkerSuplementaryQuestionsModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -55,14 +56,16 @@ class Sliders extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'	=> 10,
-			'page'	=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'order'	=> 'order_number',
-			'sort'	=> 'asc'
+			'limit'				=> 10,
+			'page'				=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'like_question'		=> array_key_exists('question', $params) ? $params['question'] : '',
+			'answer_type_id'	=> array_key_exists('answer_type', $params) ? $params['answer_type'] : '',
+			'order'				=> 'question',
+			'sort'				=> 'asc'
 		];
 
 		$request = [
-			'sliders' => $this->SlidersModel->getAll($clause)
+			'suplementary_questions' => $this->SuplementaryQuestionsModel->getAll($clause)
 		];
 
 		foreach ($request as $key => $val) {
@@ -72,17 +75,17 @@ class Sliders extends CI_Controller {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
 
-					if ($key == 'sliders') {
+					if ($key == 'suplementary_questions') {
 						$total = $val['total_data'];
 					}
 				}
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/sliders', $total, $clause['limit'], $params);
+		$this->result['pagination'] = bs4pagination('admin/suplementary-questions', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
-
-		$this->template->content->view('templates/back/Sliders/index', $this->result);
+		
+		$this->template->content->view('templates/back/SuplementaryQuestions/index', $this->result);
 		$this->template->publish();
 	}
 
@@ -104,19 +107,15 @@ class Sliders extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->SlidersModel->getDetail($id);
+			$request = $this->SuplementaryQuestionsModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
-				$this->result['data'] = [
-					'file' => @getimagesize(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
-					'order_number' => $request['data']['order_number'],
-					'link_to' => $request['data']['link_to'],
-					'create_date' => $request['data']['create_date'],
-					'create_by' => $request['data']['create_by'],
-					'update_date' => $request['data']['update_date'],
-					'update_by' => $request['data']['update_by'],
-				];
+
+				foreach ($request['data'] as $key => $val) {
+					$this->result['data'][$key] = unStrClean($val);
+				}
+
 				unset($this->result['message']);
 			}
 
@@ -142,50 +141,9 @@ class Sliders extends CI_Controller {
 		if ($this->input->is_ajax_request()) {
 			$input = array_map('trim', $this->input->post());
 			$file = true;
+			$answer_type = true;
 
-			$input['picture'] = $_FILES['picture'];
-
-			$file_path = './files/sliders/';
-
-			if (!is_dir($file_path)) {
-				mkdir($file_path, 0777, true);
-			}
-
-			$config_file = [
-				'upload_path' => $file_path,
-				'allowed_types' => 'jpg|jpeg|png',
-				'max_size' => '500',
-				//'max_width' => '1200',
-				//'max_height' => '675',
-				'encrypt_name' => true,
-				//'file_name' => 'slider'.time()
-			];
-
-			$this->load->library('upload', $config_file);
-
-			if ($this->upload->do_upload('picture')) {
-				$upload_data = $this->upload->data();
-
-				$config_resize = [
-					'image_library' => 'gd2',
-					'source_image' => $upload_data['full_path'],
-					'create_thumb' => false,
-					'maintain_ratio' => true,
-					'quality' => '50%',
-					'width' => '1200',
-					'height' => '675',
-					'new_image' => $upload_data['full_path'],
-					//'new_image' => $file_path,
-				];
-
-				$this->load->library('image_lib', $config_resize);
-				$this->image_lib->resize();
-				$this->image_lib->clear();
-			} else {
-				$this->upload_errors['file'] = $this->upload->display_errors('','');
-			}
-
-			$validate = $this->validate($file);
+			$validate = $this->validate($file, $answer_type);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
@@ -199,16 +157,14 @@ class Sliders extends CI_Controller {
 			}
 
 			$data = [
-				'order_number'		=> $input['order_number'],
-				'link_to'			=> $input['link_to'],
+				'question'			=> $input['question'],
+				'answer_type_id'	=> slugify($input['answer_type']),
 				'create_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
 
-			$data['picture'] = $upload_data['file_name'];
-
-			$request = $this->SlidersModel->insert($data);
+			$request = $this->SuplementaryQuestionsModel->insert($data);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -241,53 +197,10 @@ class Sliders extends CI_Controller {
 			}
 
 			$input = array_map('trim', $this->input->post());
-			$file = false;
+			$file = true;
+			$answer_type = false;
 
-			if (is_uploaded_file($_FILES['picture']['tmp_name'])) {
-				$input['picture'] = $_FILES['picture'];
-				$file = true;
-			}
-
-			if ($file) {
-				$file_path = './files/sliders/';
-
-				if (!is_dir($file_path)) {
-					mkdir($file_path, 0777, true);
-				}
-
-				$config_file = [
-					'upload_path' => $file_path,
-					'allowed_types' => 'jpg|jpeg|png',
-					'max_size' => '500',
-					'encrypt_name' => true,
-					//'file_name' => 'slider'.time()
-				];
-
-				$this->load->library('upload', $config_file);
-
-				if (!$this->upload->do_upload('picture')) {
-					$this->upload_errors['file'] = $this->upload->display_errors('','');
-				} else {
-					$upload_data = $this->upload->data();
-
-					$config_resize = [
-						'image_library' => 'gd2',
-						'source_image' => $upload_data['full_path'],
-						'create_thumb' => false,
-						'maintain_ratio' => true,
-						'quality' => '50%',
-						'width' => '1200',
-						'height' => '675',
-						'new_image' => $upload_data['full_path']
-					];
-
-					$this->load->library('image_lib', $config_resize);
-					$this->image_lib->resize();
-					$this->image_lib->clear();
-				}
-			}
-
-			$validate = $this->validate($file, $id);
+			$validate = $this->validate($file, $answer_type, $id);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
@@ -301,43 +214,19 @@ class Sliders extends CI_Controller {
 			}
 
 			$data = [
-				'order_number'		=> $input['order_number'],
-				'link_to'			=> $input['link_to'],
+				'question'			=> $input['question'],
+				// 'answer_type_id'	=> slugify($input['answer_type']),
 				'update_user_id'	=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
 
-			if ($file) {
-				$data['picture'] = $upload_data['file_name'];
-
-				$request = $this->SlidersModel->getDetail($id);
-
-				$file_old = null;
-
-				if ($request['status'] == 'success') {
-					$file_old = $request['data']['picture'];
-				}
-			}
-
-			$request = $this->SlidersModel->update($data, $id);
+			$request = $this->SuplementaryQuestionsModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
-				setFlashSuccess('Data successfully created.');
-
-				if ($file) {
-					if (file_exists($file_path.$file_old)) {
-						unlink($file_path.$file_old);
-					}
-				}
-			} else {
-				if ($file) {
-					if (file_exists($file_path.$upload_data['file_name'])) {
-						unlink($file_path.$upload_data['file_name']);
-					}
-				}
+				setFlashSuccess('Data successfully updated.');
 			}
 
 			echo json_encode($this->result); exit();
@@ -364,26 +253,14 @@ class Sliders extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$file_old = null;
-
-			$request = $this->SlidersModel->getDetail($id);
+			$request = $this->SuplementaryQuestionsModel->delete($id);
 
 			if ($request['status'] == 'success') {
-				$file_old = './files/sliders/'.$request['data']['picture'];
-			}
+				$this->WorkerSuplementaryQuestionsModel->deleteBySuplementaryQuestionId($id);
 
-			$request = $this->SlidersModel->delete($id);
-
-			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Data successfully deleted.');
-
-				if (!empty($file_old)) {
-					if (file_exists($file_old)) {
-						unlink($file_old);
-					}
-				}
 			}
 
 			echo json_encode($this->result); exit();
@@ -392,25 +269,32 @@ class Sliders extends CI_Controller {
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	private function validate($file = false, $id = 0)
+	/**
+	 *  validate method
+	 *  validate data before action
+	 */
+	private function validate($file = false, $answer_type = false, $id = 0)
 	{
 		$validate = [
 			[
-				'field' => 'order_number',
-				'label' => 'Order',
-				'rules' => 'trim|is_natural_no_zero|xss_clean'
-			],
-			[
-				'field' => 'link_to',
-				'label' => 'Link To',
-				'rules' => 'trim|valid_url|filterValidateUrl|xss_clean'
+				'field' => 'question',
+				'label' => 'Question',
+				'rules' => 'trim|required|max_length[100]|regexTextQuestion|xss_clean'
 			],
 		];
+
+		if ($answer_type) {
+			$validate[] = [
+				'field' => 'answer_type',
+				'label' => 'Answer Type',
+				'rules' => 'trim|required|is_natural|xss_clean'
+			];
+		}
 
 		if ($file) {
 			$validate[] = [
 				'field' => 'picture',
-				'label' => 'Slider',
+				'label' => 'Picture',
 				'rules' => 'trim|callback__errorFile|xss_clean'
 			];
 		}
@@ -418,6 +302,10 @@ class Sliders extends CI_Controller {
 		return $validate;
 	}
 
+	/**
+	 *  _errorFile method
+	 *  display file upload error
+	 */
 	public function _errorFile($str)
 	{
 		if (isset($this->upload_errors['file'])) {

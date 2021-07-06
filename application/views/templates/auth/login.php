@@ -16,7 +16,11 @@
 			<div class="col-md-4 col-sm-12 mx-auto">
 				<div class="box mx-auto">
 					<div class="message">
-						<?php echo (hasFlashError('auth')) ? '<span class="text-danger"><i class="fa fa-warning"></i> ' . $this->lang->line('message')['error']['auth'] . '</span>' : $this->lang->line('front')['page_login']['intro']; ?>
+						<?php if (hasFlashError('auth')) {
+							echo '<span class="text-danger"><i class="fa fa-warning"></i> ' . ((flashError('auth') === 'unauthorized') ? $error_auth = $this->lang->line('message')['error']['auth'] : flashError('auth')) . '</span>';
+						} else {
+							echo $this->lang->line('front')['page_login']['intro'];
+						} ?>
 					</div>
 					<?php echo form_open('auth', ['id' => 'formAuth', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 						<div class="form-group">
@@ -55,19 +59,6 @@
 <?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/parsley/parsley.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/parsley/i18n/' . strtolower(str_replace('-', '_', siteLang()['key'])) . '.js'); ?>
-
-<?php if (hasFlashError('auth')) { ?>
-<script>
-	// var bsSwal = Swal.mixin({
-	// 	customClass: {
-	// 		confirmButton: 'btn btn-secondary rounded-0'
-	// 	},
-	// 	buttonsStyling: false
-	// });
-
-	// bsSwal.fire('<?php echo $this->lang->line('message')['error']['auth']; ?>');
-</script>
-<?php } ?>
 
 <script type="text/javascript">
 	$(document).ready(function() {

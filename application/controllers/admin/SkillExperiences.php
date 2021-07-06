@@ -16,7 +16,7 @@ class SkillExperiences extends CI_Controller {
 
 			// show error message and redirect to login
 			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
-			setFlashError('error', 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 

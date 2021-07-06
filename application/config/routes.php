@@ -89,10 +89,14 @@ $route['admin/workers/upload-photo/(:any)'] = 'admin/Workers/uploadPhoto/$1';
 $route['admin/workers/upload-attachment/(:any)'] = 'admin/Workers/uploadAttachment/$1';
 $route['admin/workers/delete-attachment/(:any)'] = 'admin/Workers/deleteAttachment/$1';
 $route['admin/workers/approve-booking/(:any)'] = 'admin/Workers/approveBooking/$1';
-$route['admin/workers/create-employment/(:any)'] = 'admin/Workers/createEmployment/$1';
-$route['admin/workers/detail-employment/(:any)'] = 'admin/Workers/detailEmployment/$1';
-$route['admin/workers/update-employment/(:any)'] = 'admin/Workers/updateEmployment/$1';
-$route['admin/workers/delete-employment/(:any)'] = 'admin/Workers/deleteEmployment/$1';
+$route['admin/workers/detail-previous-employment/(:any)'] = 'admin/Workers/detailPreviousEmployment/$1';
+$route['admin/workers/create-previous-employment/(:any)'] = 'admin/Workers/createPreviousEmployment/$1';
+$route['admin/workers/update-previous-employment/(:any)'] = 'admin/Workers/updatePreviousEmployment/$1';
+$route['admin/workers/delete-previous-employment/(:any)'] = 'admin/Workers/deletePreviousEmployment/$1';
+$route['admin/workers/detail-suplementary-question/(:any)'] = 'admin/Workers/detailSuplementaryQuestion/$1';
+$route['admin/workers/create-suplementary-question/(:any)'] = 'admin/Workers/createSuplementaryQuestion/$1';
+// $route['admin/workers/update-suplementary-question/(:any)'] = 'admin/Workers/updateSuplementaryQuestion/$1';
+$route['admin/workers/delete-suplementary-question/(:any)'] = 'admin/Workers/deleteSuplementaryQuestion/$1';
 
 /**
  * BookingRequestsController
@@ -123,6 +127,17 @@ $route['admin/skill-experiences/detail/(:num)'] = 'admin/SkillExperiences/detail
 $route['admin/skill-experiences/create'] = 'admin/SkillExperiences/create';
 $route['admin/skill-experiences/update/(:num)'] = 'admin/SkillExperiences/update/$1';
 $route['admin/skill-experiences/delete/(:num)'] = 'admin/SkillExperiences/delete/$1';
+
+/**
+ * SuplementaryQuestionsController
+ * Additional routes for administrator
+ */
+$route['admin/suplementary-questions'] = 'admin/SuplementaryQuestions';
+// $route['admin/suplementary-questions/(:any)'] = 'admin/SuplementaryQuestions';
+$route['admin/suplementary-questions/detail/(:num)'] = 'admin/SuplementaryQuestions/detail/$1';
+$route['admin/suplementary-questions/create'] = 'admin/SuplementaryQuestions/create';
+$route['admin/suplementary-questions/update/(:num)'] = 'admin/SuplementaryQuestions/update/$1';
+$route['admin/suplementary-questions/delete/(:num)'] = 'admin/SuplementaryQuestions/delete/$1';
 
 /**
  * LanguageAbilitiesController
@@ -156,9 +171,11 @@ $route['remote/get-employees-list'] = 'Remote/getEmployeesDatatable';
 $route['remote/get-company-advantages-list'] = 'Remote/getCompanyAdvantagesDatatable';
 $route['remote/get-sliders-list'] = 'Remote/getSlidersDatatable';
 $route['remote/get-users'] = 'Remote/getUsers';
-$route['remote/get-employees'] = 'Remote/getEmployees';
-$route['remote/get-worker-employment-details-datatable'] = 'Remote/getWorkerEmploymentDetailsDatatable';
-$route['remote/get-worker-employment-details-datatable/(:any)'] = 'Remote/getWorkerEmploymentDetailsDatatable/$1';
+$route['remote/get-suplementary-questions'] = 'Remote/getSuplementaryQuestions';
+$route['remote/get-worker-previous-employments-datatable'] = 'Remote/getWorkerPreviousEmploymentsDatatable';
+$route['remote/get-worker-previous-employments-datatable/(:any)'] = 'Remote/getWorkerPreviousEmploymentsDatatable/$1';
+$route['remote/get-worker-suplementary-questions-datatable'] = 'Remote/getWorkerSuplementaryQuestionsDatatable';
+$route['remote/get-worker-suplementary-questions-datatable/(:any)'] = 'Remote/getWorkerSuplementaryQuestionsDatatable/$1';
 $route['remote/get-worker-attachments-datatable'] = 'Remote/getWorkerAttachmentsDatatable';
 $route['remote/get-worker-attachments-datatable/(:any)'] = 'Remote/getWorkerAttachmentsDatatable/$1';
 

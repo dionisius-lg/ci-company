@@ -62,14 +62,14 @@ class Auth extends CI_Controller {
 			$verify_recaptcha = $this->recaptcha->verifyResponse($input['g-recaptcha-response']);
 
 			if (!isset($verify_recaptcha['success']) || $verify_recaptcha['success'] <> true) {
-				setFlashError($this->lang->line('message')['error']['captcha']);
+				setFlashError($this->lang->line('message')['error']['captcha'], 'auth');
 				redirect('auth', 'refresh');
 			}
 
 			$verify = $this->UsersModel->login($input['username'], $input['password']);
 
 			if ($verify['status'] != 'success') {
-				setFlashError($this->lang->line('message')['error']['login']);
+				setFlashError($this->lang->line('message')['error']['login'], 'auth');
 				redirect('auth', 'refresh');
 			}
 
@@ -85,7 +85,7 @@ class Auth extends CI_Controller {
 				}
 			}
 
-			setFlashError($this->lang->line('message')['error']['default']);
+			setFlashError($this->lang->line('message')['error']['default'], 'auth');
 			redirect('auth', 'refresh');
 		}
 

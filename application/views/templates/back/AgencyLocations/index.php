@@ -11,20 +11,20 @@
 				<?php echo form_open('admin/agency-locations', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-row">
 						<div class="form-group col-md-2">
-							<?php echo form_label('Name', 'Name'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'name', 'id' => 'Name', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('name') ? $this->input->get('name') : '']); ?>
+							<?php echo form_label('Name', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'name', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('name') ? $this->input->get('name') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
-							<?php echo form_label('Is Local', 'IsLocal'); ?>
-							<select class="form-control form-control-sm rounded-0" name="is_local" id="IsLocal">
+							<?php echo form_label('Is Local', null); ?>
+							<select class="form-control select2 rounded-0" name="is_local">
 								<option value="">Please Select</option>
 								<option value="1">Yes</option>
 								<option value="0">No</option>
 							</select>
 						</div>
 						<div class="form-group col-md-2">
-							<?php echo form_label('Is Default', 'IsDefault'); ?>
-							<select class="form-control form-control-sm rounded-0" name="is_default" id="IsDefault">
+							<?php echo form_label('Is Default', null); ?>
+							<select class="form-control select2 rounded-0" name="is_default">
 								<option value="">Please Select</option>
 								<option value="1">Yes</option>
 								<option value="0">No</option>
@@ -135,7 +135,12 @@
 </div>
 
 <!-- load required builded stylesheet for this page -->
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2.min.css', ['type' => 'text/css']); ?>
+<?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.css', ['type' => 'text/css']); ?>
+
+<!-- load required builded script for this page -->
+<?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
 
 <script type="text/javascript">
 	// describe required variable
@@ -150,12 +155,12 @@
 		// set value to element if variable true or numeric
 		if (filterIsLocal && $.isNumeric(filterIsLocal)) {
 			console.log(filterIsLocal);
-			$('#IsLocal').val(filterIsLocal).trigger('change');
+			$('#formFilter select[name="is_local"]').val(filterIsLocal).trigger('change');
 		}
 
 		// set value to element if variable true or numeric
 		if (filterIsDefault && $.isNumeric(filterIsDefault)) {
-			$('#IsDefault').val(filterIsDefault).trigger('change');
+			$('#formFilter select[name="is_default"]').val(filterIsDefault).trigger('change');
 		}
 	});
 
@@ -165,6 +170,7 @@
 		modalDataForm.find('select').val(null).trigger('change');
 		modalDataForm.attr({'action': '<?php echo base_url("admin/agency-locations/create"); ?>'});
 		modalDataForm.find('input, select, textarea').removeClass('is-invalid');
+		modalDataForm.find('input[type="checkbox"]').attr('checked', false);
 		modalDataForm.find('.invalid-feedback').empty();
 		modalDataForm.find('.btn-submit').html('Create');
 

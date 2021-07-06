@@ -16,7 +16,7 @@ class Workers extends CI_Controller {
 
 			// show error message and redirect to login
 			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
-			setFlashError('error', 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 
@@ -40,7 +40,9 @@ class Workers extends CI_Controller {
 		$this->load->model('UserLevelsModel');
 		$this->load->model('WorkersModel');
 		$this->load->model('WorkerAttachmentsModel');
-		$this->load->model('WorkerEmploymentDetailsModel');
+		$this->load->model('WorkerPreviousEmploymentsModel');
+		$this->load->model('SuplementaryQuestionsModel');
+		$this->load->model('WorkerSuplementaryQuestionsModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -153,6 +155,7 @@ class Workers extends CI_Controller {
 				'cooking_abilities' => $this->CookingAbilitiesModel->getAll(['order' => 'name', 'limit' => 100]),
 				'language_abilities' => $this->LanguageAbilitiesModel->getAll(['order' => 'name', 'limit' => 100]),
 				'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name', 'limit' => 100]),
+				'suplementary_questions' => $this->SuplementaryQuestionsModel->getAll(['order' => 'question', 'limit' => 1000]),
 				'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
 				'provinces' => $this->ProvincesModel->getAll(['order' => 'name', 'limit' => 100])
 			];
@@ -484,7 +487,9 @@ class Workers extends CI_Controller {
 						}
 					}
 
-					$request = $this->WorkerAttachmentsModel->deleteByWorker($id);
+					$this->WorkerAttachmentsModel->deleteByWorkerId($id);
+					$this->WorkerPreviousEmploymentsModel->deleteByWorkerId($id);
+					$this->WorkerSuplementaryQuestionsModel->deleteByWorkerId($id);
 
 					$this->result['status'] = 'success';
 					unset($this->result['message']);
@@ -781,10 +786,10 @@ class Workers extends CI_Controller {
 	}
 
 	/**
-	 *  detailEmployment method
-	 *  detail employment data, return json
+	 *  detailPreviousEmployment method
+	 *  detail previous employment data, return json
 	 */
-	public function detailEmployment($id)
+	public function detailPreviousEmployment($id)
 	{
 		$session = $this->session->userdata('AuthUser');
 
@@ -798,7 +803,7 @@ class Workers extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->WorkerEmploymentDetailsModel->getDetail($id);
+			$request = $this->WorkerPreviousEmploymentsModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -813,10 +818,10 @@ class Workers extends CI_Controller {
 	}
 
 	/**
-	 *  createEmployment method
-	 *  create employment data, return json
+	 *  createPreviousEmployment method
+	 *  create previous employment data, return json
 	 */
-	public function createEmployment($worker_id)
+	public function createPreviousEmployment($worker_id)
 	{
 		$session = $this->session->userdata('AuthUser');
 
@@ -833,7 +838,7 @@ class Workers extends CI_Controller {
 			$input = array_map('trim', $this->input->post());
 			$file = false;
 
-			$validate = $this->validateEmployment($file);
+			$validate = $this->validatePreviousEmployment($file);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
@@ -865,7 +870,7 @@ class Workers extends CI_Controller {
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->WorkerEmploymentDetailsModel->insert($data);
+			$request = $this->WorkerPreviousEmploymentsModel->insert($data);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -879,10 +884,10 @@ class Workers extends CI_Controller {
 	}
 
 	/**
-	 *  updateEmployment method
-	 *  update employment data, return json
+	 *  updatePreviousEmployment method
+	 *  update previous employment data, return json
 	 */
-	public function updateEmployment($id)
+	public function updatePreviousEmployment($id)
 	{
 		$session = $this->session->userdata('AuthUser');
 
@@ -899,7 +904,7 @@ class Workers extends CI_Controller {
 			$input = array_map('trim', $this->input->post());
 			$file = false;
 
-			$validate = $this->validateEmployment($file);
+			$validate = $this->validatePreviousEmployment($file);
 
 			$this->form_validation->set_rules($validate);
 			$this->form_validation->set_error_delimiters('','');
@@ -930,7 +935,7 @@ class Workers extends CI_Controller {
 
 			$data = array_map('strClean', $data);
 
-			$request = $this->WorkerEmploymentDetailsModel->update($data, $id);
+			$request = $this->WorkerPreviousEmploymentsModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -944,10 +949,10 @@ class Workers extends CI_Controller {
 	}
 
 	/**
-	 *  deleteEmployment method
-	 *  delete employment data, return json
+	 *  deletePreviousEmployment method
+	 *  delete previous employment data, return json
 	 */
-	public function deleteEmployment($id = null)
+	public function deletePreviousEmployment($id = null)
 	{
 		$session = $this->session->userdata('AuthUser');
 
@@ -961,7 +966,130 @@ class Workers extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->WorkerEmploymentDetailsModel->delete($id);
+			$request = $this->WorkerPreviousEmploymentsModel->delete($id);
+
+			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				$this->result['message'] = 'Data successfully deleted.';
+			}
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	/**
+	 *  detailSuplementaryQuestion method
+	 *  detail suplementary question data, return json
+	 */
+	public function detailSuplementaryQuestion($id)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
+			'status' => 'error',
+			'message' => 'An error occurred, please try again.'
+		];
+
+		if ($this->input->is_ajax_request()) {
+			if (empty($id) && !is_numeric($id)) {
+				echo json_encode($this->result); exit();
+			}
+
+			$request = $this->WorkerSuplementaryQuestionsModel->getDetail($id);
+
+			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				$this->result['data'] = $request['data'];
+				unset($this->result['message']);
+			}
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	/**
+	 *  createSuplementaryQuestion method
+	 *  create suplementary question data, return json
+	 */
+	public function createSuplementaryQuestion($worker_id)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
+			'status' => 'error',
+			'message' => 'An error occurred, please try again.'
+		];
+
+		if ($this->input->method() == 'post') {
+			if (empty($worker_id) && !is_numeric($worker_id)) {
+				echo json_encode($this->result); exit();
+			}
+
+			$input = array_map('trim', $this->input->post());
+			$file = false;
+
+			$validate = $this->validateSuplementaryQuestion($file);
+
+			$this->form_validation->set_rules($validate);
+			$this->form_validation->set_error_delimiters('','');
+
+			if ($this->form_validation->run() == false) {
+				foreach ($input as $key => $val) {
+					$this->result['error'][$key] = form_error($key);
+				}
+
+				echo json_encode($this->result); exit();
+			}
+
+			if (empty($input['question_id']) && !is_numeric($input['question_id'])) {
+				echo json_encode($this->result); exit();
+			}
+
+			$data = [
+				'suplementary_question_id' => $input['question_id'],
+				'worker_id' => $worker_id,
+				'answer' => $input['answer'],
+				'create_user_id' => $session['id']
+			];
+
+			$data = array_map('strClean', $data);
+
+			$request = $this->WorkerSuplementaryQuestionsModel->insert($data);
+
+			if ($request['status'] == 'success') {
+				$this->result['status'] = 'success';
+				$this->result['message'] = 'Data successfully created.';
+			}
+
+			echo json_encode($this->result); exit();
+		}
+
+		redirect($_SERVER['HTTP_REFERER']);
+	}
+
+	/**
+	 *  deleteSuplementaryQuestion method
+	 *  delete suplementary question data, return json
+	 */
+	public function deleteSuplementaryQuestion($id = null)
+	{
+		$session = $this->session->userdata('AuthUser');
+
+		$this->result = [
+			'status' => 'error',
+			'message' => 'An error occurred, please try again.'
+		];
+
+		if ($this->input->is_ajax_request()) {
+			if (empty($id) && !is_numeric($id)) {
+				echo json_encode($this->result); exit();
+			}
+
+			$request = $this->WorkerSuplementaryQuestionsModel->delete($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -1144,13 +1272,12 @@ class Workers extends CI_Controller {
 	}
 
 	/**
-	 *  validateEmployment method
-	 *  validate employment data before action
+	 *  validatePreviousEmployment method
+	 *  validate previous employment data before action
 	 */
-	private function validateEmployment($file = false, $id = null)
+	private function validatePreviousEmployment($file = false, $id = null)
 	{
 		$validate = [
-			// personal data
 			[
 				'field' => 'employer_name',
 				'label' => 'Employer Name',
@@ -1185,6 +1312,28 @@ class Workers extends CI_Controller {
 				'field' => 'job_content',
 				'label' => 'Job Content',
 				'rules' => 'trim|required|max_length[255]|regexTextArea|xss_clean'
+			],
+		];
+
+		return $validate;
+	}
+
+	/**
+	 *  validateSuplementaryQuestion method
+	 *  validate suplementary question data before action
+	 */
+	private function validateSuplementaryQuestion($file = false, $id = null)
+	{
+		$validate = [
+			[
+				'field' => 'question',
+				'label' => 'Question',
+				'rules' => 'trim|required|xss_clean'
+			],
+			[
+				'field' => 'answer',
+				'label' => 'Answer',
+				'rules' => 'trim|required|max_length[255]|regexTextQuestion|xss_clean'
 			],
 		];
 

@@ -215,31 +215,6 @@ class WorkersModel extends CI_Model {
 	}
 
 	/**
-	 *  getDetailByRefNumber method
-	 *  get detail data by ref number
-	 */
-	public function getDetailByRefNumber($ref_number = null)
-	{
-		$column		= $this->_getColumn($this->view_table);
-		$protected	= ['id'];
-
-		if (empty($ref_number)) {
-			return responseBadRequest('Ref Number is required');
-		}
-
-		$check = $this->_getCount($this->view_table, ['ref_number' => $ref_number]);
-
-		if ($check == 0) {
-			return responseNotFound();
-		}
-
-		$query = $this->db->select($column)->where(['ref_number' => $ref_number])->get($this->view_table);
-		$result	= json_decode(json_encode($query->row()), true);
-
-		return responseSuccess($result, $check);
-	}
-
-	/**
 	 *  insert method
 	 *  insert new data
 	 */
@@ -461,9 +436,10 @@ class WorkersModel extends CI_Model {
 	 *  private _getDatatablesQuery method
 	 *  return query
 	 */
-	private function _getDatatablesQuery() {
+	private function _getDatatablesQuery()
+	{
 		$search	= ['ref_number', 'fullname', 'email'];
-		$order	= ['id', 'ref_number', 'fullname', 'email', 'create_date', 'create_by', 'update_date', 'update_by', 'user_id'];
+		$order	= [null, 'ref_number', 'fullname', 'email', 'placement', 'booking_status', 'user_id', null];
 
 		$this->db->from($this->view_table)->where(['is_active' => 1]);
 
@@ -508,6 +484,10 @@ class WorkersModel extends CI_Model {
 		return json_decode(json_encode($result), true);
 	}
 
+	/**
+	 *  countDatatablesFilter method
+	 *  count filter data for datatables
+	 */
 	public function countDatatablesFilter()
 	{
 		$this->_getDatatablesQuery();

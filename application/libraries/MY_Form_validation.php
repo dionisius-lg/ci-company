@@ -62,7 +62,7 @@ class MY_Form_validation extends CI_Form_validation {
 	}
 
 	/**
-	 *  regexDefaultText1 method
+	 *  regexTextInput method
 	 *  validate format regex
 	 */
 	public function regexTextInput($str = false, $id = 0)
@@ -72,6 +72,24 @@ class MY_Form_validation extends CI_Form_validation {
 		if ($str) {
 			if (!preg_match('/^[a-zA-Z0-9 .,\-\&]*$/', $str)) {
 				$ci->form_validation->set_message('regexTextInput', '%s may only contain alpha-numeric characters, comma, dot, dash, and \'&\' symbol.');
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 *  regexTextQuestion method
+	 *  validate format regex
+	 */
+	public function regexTextQuestion($str = false, $id = 0)
+	{
+		$ci = &get_instance();
+
+		if ($str) {
+			if (!preg_match('/^[a-zA-Z0-9 .,\-\&\?\(\)]*$/', $str)) {
+				$ci->form_validation->set_message('regexTextQuestion', '%s may only contain alpha-numeric characters, comma, dot, dash, \'&\', \'(\', \')\', and \'?\' symbol.');
 				return false;
 			}
 		}
