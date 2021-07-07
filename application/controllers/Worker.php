@@ -183,7 +183,7 @@ class Worker extends CI_Controller {
 		$this->result['worker'] = $request['data'];
 		$this->result['attachments'] = [];
 
-		$request = $this->WorkerAttachmentsModel->getByWorkerId($this->result['worker']['id']);
+		$request = $this->WorkerAttachmentsModel->getAll($this->result['worker']['id']);
 
 		if ($request['status'] == 'success') {
 			$this->result['attachments'] = $request['data'];
