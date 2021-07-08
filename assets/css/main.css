@@ -185,24 +185,34 @@ button.focus {
 	border-color: #fff;
 }
 
-#topbar .menu-lang .dropdown-menu {
+#topbar .menu-lang .dropdown-menu,
+#topbar .menu-user .dropdown-menu {
 	font-size: 0.738rem;
 	text-transform: uppercase;
 	color: #c5c5c5;
 	border-color: #c5c5c5;
 	border-radius: 0;
-	min-width: 140px !important;
+	min-width: 120px !important;
 	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
 }
 
-#topbar .menu-lang .dropdown-menu a {
+#topbar .menu-user .dropdown-menu {
+	margin-top: 8px;
+}
+
+#topbar .menu-lang .dropdown-menu a,
+#topbar .menu-user .dropdown-menu a {
+	color: #000;
 	padding: 1.5px 8px;
 	opacity: 0.5;
 }
 
 #topbar .menu-lang .dropdown-menu a:hover,
-#topbar .menu-lang .dropdown-menu a:active {
+#topbar .menu-lang .dropdown-menu a:active,
+#topbar .menu-user .dropdown-menu a:hover,
+#topbar .menu-user .dropdown-menu a:active {
+	color: #000;
 	opacity: 1;
 	background: none;
 }

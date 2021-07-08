@@ -150,7 +150,7 @@ class SkillExperiences extends CI_Controller {
 			}
 
 			$data = [
-				'name'				=> ucwords($input['name']),
+				'name'				=> $input['name'],
 				'slug'				=> slugify($input['name']),
 				'create_user_id'	=> $session['id']
 			];
@@ -206,7 +206,7 @@ class SkillExperiences extends CI_Controller {
 			}
 
 			$data = [
-				'name'				=> ucwords($input['name']),
+				'name'				=> $input['name'],
 				'slug'				=> slugify($input['name']),
 				'update_user_id'	=> $session['id']
 			];

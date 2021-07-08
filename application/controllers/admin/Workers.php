@@ -259,7 +259,7 @@ class Workers extends CI_Controller {
 				'marital_status_id' => $input['marital_status'],
 				'email' => strtolower($input['email']),
 				'phone' => $input['phone'],
-				'address' => nl2space(ucwords($input['address'])),
+				'address' => nl2space($input['address']),
 				'province_id' => $input['province'],
 				'city_id' => $input['city'],
 				'character_evaluation' => $input['character_evaluation'],
@@ -386,7 +386,7 @@ class Workers extends CI_Controller {
 				'marital_status_id' => $input['marital_status'],
 				'email' => strtolower($input['email']),
 				'phone' => $input['phone'],
-				'address' => nl2space(ucwords($input['address'])),
+				'address' => nl2space($input['address']),
 				'province_id' => $input['province'],
 				'city_id' => $input['city'],
 				'character_evaluation' => $input['character_evaluation'],
@@ -862,8 +862,8 @@ class Workers extends CI_Controller {
 				'period' => $input['period_start'] . '-' . $input['period_end'],
 				'working_area' => ucwords($input['working_area']),
 				'country' => ucwords($input['country']),
-				'quit_reason' => nl2space(ucwords($input['quit_reason'])),
-				'job_content' => nl2space(ucwords($input['job_content'])),
+				'quit_reason' => nl2space($input['quit_reason']),
+				'job_content' => nl2space($input['job_content']),
 				'worker_id' => $worker_id,
 				'create_user_id' => $session['id']
 			];
@@ -928,8 +928,8 @@ class Workers extends CI_Controller {
 				'period' => $input['period_start'] . '-' . $input['period_end'],
 				'working_area' => ucwords($input['working_area']),
 				'country' => ucwords($input['country']),
-				'quit_reason' => nl2space(ucwords($input['quit_reason'])),
-				'job_content' => nl2space(ucwords($input['job_content'])),
+				'quit_reason' => nl2space($input['quit_reason']),
+				'job_content' => nl2space($input['job_content']),
 				'update_user_id' => $session['id']
 			];
 

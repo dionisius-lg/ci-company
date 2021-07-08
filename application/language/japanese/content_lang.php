@@ -4,7 +4,8 @@ $lang['front'] = [
 	'topbar' => [
 		'login'		=> 'ログインする',
 		'register'	=> '登録',
-		'logout'	=> 'ログアウト'
+		'logout'	=> 'ログアウト',
+		'welcome'	=> 'こんにちは',
 	],
 	'navbar' => [
 		'home'		=> 'メインページ',
