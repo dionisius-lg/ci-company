@@ -10,13 +10,12 @@ if (!function_exists('PdfWorkerProfile')) {
 	function PdfWorkerProfile($worker = [], $company = [], $paper_size = 'A4', $orientation = 'portrait') {
 		$result = false;
 
+		// print_r($worker); die();
+
 		if (is_array($worker) && !empty($worker) && is_array($company) && !empty($company)) {
             $company_logo = (@getimagesize(FCPATH . 'files/company/thumb/' . $company['logo'])) ? '<img src="' . FCPATH . 'files/company/thumb/' . $company['logo'] . '" alt="Company Logo">' : $company['name'];
 
             $worker_photo = (@getimagesize(FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'])) ? '<img src="' . FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'] . '" alt="Worker Photo">' : '<img src="' . FCPATH . 'assets/img/default-avatar.jpg' . '" alt="Worker Photo">';
-
-			$languanges = $worker['language_ability_slug'];
-			$hokkian = " " . (!empty($worker['language_ability_ids'])) ? "<td>V</td>" : "<td>-</td>" . " ";
 
 			$content =
 			'<style>				
@@ -225,7 +224,7 @@ if (!function_exists('PdfWorkerProfile')) {
 					</tr>
 					<tr>
 						<th colspan="2">
-							<p style="font-size: 12px; color: black;">Junior High School 中學</p>
+							<p style="font-size: 12px; color: black;">'.$worker['last_education'].'</p>
 								<td>Other 其他國家</td>
 								<td></td>
 						</th>
