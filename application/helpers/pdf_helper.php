@@ -15,137 +15,87 @@ if (!function_exists('PdfWorkerProfile')) {
 
             $worker_photo = (@getimagesize(FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'])) ? '<img src="' . FCPATH . 'files/workers/' . $worker['id'] . '/' . $worker['photo'] . '" alt="Worker Photo">' : '<img src="' . FCPATH . 'assets/img/default-avatar.jpg' . '" alt="Worker Photo">';
 
+			$languanges = $worker['language_ability_slug'];
+			$hokkian = " " . (!empty($worker['language_ability_ids'])) ? "<td>V</td>" : "<td>-</td>" . " ";
+
 			$content =
-			'<style>
-				td {
-					width: 20%;
-					font-size: 12px;
-				}
-		
-				table.kop.atas {
+			'<style>				
+				h2 {
 					text-align: center;
-				}
-		
-				.no-ref {
 					font-weight: bold;
-					color: black;
-				}
-		
-				.kop-background {
-					border: 1px solid black;
-					background-color: red;
-					color: white;
-					text-align: center;
-					font-size: 12px;
-					text-transform: uppercase;
-					font-weight: bold;
-				}
-		
-				.kop-nama {
-					text-transform: uppercase;
-					width: 100%;
-					line-height: 1.6;
-					border: 1px solid black;
-					text-indent: 30px;
-				}
-		
-				img {
-					width: 100%;
-  					height: 500px;
-					border: 1px solid black;
 				}
 
-				.row-img {
-					width: 50%;
+				p {
+					font-size: 10px;
+					font-weight: bold;
+					text-align: center;
+				}
+
+				img {
+					width: 30%;
+					height: 100%;
 					float: right;
 				}
-		
-				.ability {
-					width: 50%;
-					border: 1px solid black;
-					text-indent: 10px;
-					line-height: 1.6;
+				
+				table {
+					border-spacing: 5px;
 				}
-		
-				.experience, .family {
-					width: 50%;
-					text-indent: 5px;
+
+				td {
+					text-indent: 2px;
+					text-transform: capitalize;
 				}
-		
-				.employ-detail {
-					border: 1px solid black;
-					background-color: red;
+
+				.head {
+					background: red;
 					color: white;
-					text-indent: 10px;
-					text-align: left;
-					line-height: 1,6;
-					font-size: 12px;
-					font-weight: bold;
-				}
-		
-				.employ-body {
-					text-indent: 10px;
-					border: 1px solid black;
+					text-align: center;
+					text-transform: uppercase;
+					font-size: 14px;
 				}
 
-				.q-satu {
-					text-align: center;
-					text-indent: 15px;
+				.questions {
 					font-size: 12px;
-				}
-
-				.q-dua {
 					text-align: center;
-					font-weight: bold;
-					font-size: 12px;
 				}
 
 			</style>
 			</head>
-
 			<body>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop atas">
+				<h2>PT. AMALIA ROZIKIN JAYA - ARJ</h2>
+				<p>INDONESIAN DOMESTIC HELPER SPECIALIST</p>
+				<table>
 					<tr>
-						<td>
-							<h4>PT. AMALIA ROZIKIN JAYA - ARJ <br>
-								INDONESIAN DOMESTIC HELPER SPECIALIST</h4>
-						</td>
+						<th>REF No. 工人編號 : '.$worker['ref_number'].'</th>
 					</tr>
 				</table>
-
-				<h5 class="no-ref">REF No. 工人編號 : '.$worker['ref_number'].'</h5>
-
-				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="kop-background">
-					<tbody>
-						<tr>
-							<th>
-								<p>PERSONAL DATA 個人資料</p>
-							</th>
-						</tr>
-					</tbody>
-				</table>
-
-				<table cellspacing="0" cellpadding="0" class="kop-nama">
+			
+				<table width="100%" border="1">
 					<tr>
-						<td><strong>Name 姓名 &nbsp; : ' . $worker['fullname'] . '</strong></td>
+						<th class="head">
+							personal data
+						</th>
 					</tr>
 				</table>
-
-				<div class="row-img">
-					' . $worker_photo .'
-				</div>
-					
-				<table class="experience" border="1" cellspacing="0" cellpadding="0">
+			
+				<table width="100%" border="1">
+					<tr>
+						<th style="text-indent: 10px;">Name : '.$worker['fullname'].'</th>
+					</tr>
+					' .$worker_photo. '
+				</table>
+			
+				<table width="70%" border="1">
 					<tr>
 						<td>Date of birth 出生日期 </td>
-						<td>'. $worker['birth_date'] .'</td>
-						<th colspan="2" class="kop-background">EXPERIENCE/ SKILLS 工作經驗/能力</th>
+						<td>' .$worker['birth_date']. '</td>
+						<th colspan="3" class="head">EXPERIENCE/ SKILLS 工作經驗/能力</th>
 					</tr>
 					<tr>
-						<td>Place of birth 出生地點</td>
+						<td>Place of birth 出生地點 </td>
 						<td>'. $worker['birth_place'] .'</td>
 						<td>Household 家務</td>
-						<td></td>
+						<td>Yes</td>
 					</tr>
 					<tr>
 						<td>Religion 宗教 </td>
@@ -178,317 +128,267 @@ if (!function_exists('PdfWorkerProfile')) {
 						<td></td>
 					</tr>
 				</table>
-
-				<table width="50%" class="kop-background">
-					<tbody>
-						<tr>
-							<th>FAMILY BACKGROUND 家庭背景</th>
-						</tr>
-					</tbody>
+			
+				<table width="70%" border="1">
+					<tr>
+						<th rowspan="4" class="head">FAMILY BACKGROUND 家庭背景</th>
+					</tr>
 				</table>
-
-				<table class="family" border="1" cellspacing="0" cellpadding="0">
+			
+				<table width="70%" border="1">
 					<tr>
 						<td>Spouses name 丈夫</td>
 						<td>'. $worker['spouse_name'] .'</td>
-						<td>Fathers name 父親 </td>
+						<td>Fathers name 父親</td>
 						<td>'. $worker['father_name'] .'</td>
 					</tr>
+			
 					<tr>
 						<td>Occupation 工作 </td>
 						<td>'. $worker['spouse_occupation'] .'</td>
-						<td>Fathers Occupation 父親 </td>
+						<td>Fathers occupation 工作</td>
 						<td>'. $worker['father_occupation'] .'</td>
 					</tr>
+			
 					<tr>
 						<td>Children 小孩</td>
 						<td></td>
 						<td>Mothers Name 母親</td>
 						<td>'. $worker['mother_name'] .'</td>
 					</tr>
+			
 					<tr>
 						<td>Ages of Children 年齡</td>
 						<td></td>
-						<td>Mothers Occupation 母親</td>
+						<td>Mothers occupation 工作</td>
 						<td>'. $worker['mother_occupation'] .'</td>
 					</tr>
+			
 					<tr>
-						<td colspan="4">
-							Other information 其他訊息 :
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi, ex.
-						</td>
+						<td colspan="4" style="height: 50px;">Other information 其他訊息: '. $worker['other_information'] .'</td>
 					</tr>
 				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" class="ability">
+			
+				<table width="70%" border="1">
 					<tr>
-						<th colspan="2" class="kop-background">Languange Ability 語言能力</th>
+						<th colspan="2" class="head">Languange Ability 語言能力</th>
+						<th colspan="2" class="head">COOKING 煮食 </th>
+						<th colspan="2" class="head">WORKING EX. 工作經驗</th>
 					</tr>
 
 					<tr>
-						<td>English 英文</td>
-						<td>V</td>
-					</tr>
-
-					<tr>
-						<td>Cantonese 廣東話</td>
-						<td>V</td>
-					</tr>
-
-					<tr>
-						<td>Mandarin 國語 </td>
-						<td>V</td>
-					</tr>
-
-					<tr>
-						<td>Hokkian 福建話 </td>
-						<td>V</td>
-					</tr>
-
-					<tr>
-						<th colspan="2" style="font-size:12px; text-align: left;">Other 其它 :</th>
-					</tr>
-
-					<tr>
-						<th colspan="2" class="kop-background">Education 教育程度</th>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<p style="font-size: 12px; color: black; text-align:center;">Junior High School 中學</p>
-						</td>
-					</tr>
-				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" class="ability">
-					<tr>
-						<th colspan="2" class="kop-background">Cooking 煮食</th>
-					</tr>
-
-					<tr>
-						<td>Chinese</td>
+						<td width="20%">English 英文</td>
 						<td></td>
-					</tr>
-
-					<tr>
-						<td>Western</td>
-						<td>V</td>
-					</tr>
-
-					<tr>
-						<td>Indonesia</td>
+						<td width="20%">Chinese 中式</td>
 						<td></td>
-					</tr>
-
-					<tr style="height: 115px;">
-						<td>Home Cooking</td>
-						<td>V</td>
-					</tr>
-				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" class="ability">
-					<tr>
-						<th colspan="2" class="kop-background">Working Ex 工作經驗</th>
-					</tr>
-					<tr>
 						<td>Indonesia 印尼</td>
 						<td></td>
 					</tr>
-
+					
 					<tr>
+						<td>Cantonese 廣東話</td>
+						<td></td>
+						<td>Western</td>
+						<td></td>
 						<td>Hongkong 香港</td>
 						<td></td>
 					</tr>
-
+			
 					<tr>
+						<td>Mandarin 國語 </td>
+						<td></td>
+						<td>Indonesia</td>
+						<td></td>
 						<td>Taiwan 台灣</td>
 						<td>4 years</td>
 					</tr>
-
+			
 					<tr>
+						<td>Hokkian 福建話 </td>
+						<td></td>
+						<td rowspan="5">Home Cooking</td>
+						<td rowspan="5"></td>
 						<td>Singapore 新加坡</td>
 						<td></td>
 					</tr>
-
+			
 					<tr>
+						<th colspan="2" style="font-size:12px; text-align: left;">Other 其它 :</th>
 						<td>Malaysia 馬來西亞</td>
 						<td></td>
 					</tr>
-
+			
 					<tr>
+						<th colspan="2" class="head">Education 教育程度</th>
 						<td>Middle East 中東</td>
 						<td></td>
 					</tr>
-
-					<tr style="height: 43px;">
-						<td>Other 其他國家</td>
-						<td></td>
+					<tr>
+						<th colspan="2">
+							<p style="font-size: 12px; color: black;">Junior High School 中學</p>
+								<td>Other 其他國家</td>
+								<td></td>
+						</th>
 					</tr>
 				</table>
 
-				<table border="1" cellpadding="0" cellspacing="0" width="100%">
+				<table width="100%" border="1">
 					<tr>
-						<th class="employ-detail">PREVIOUS EMPLOYMENT DETAILS 前雇主資料</th>
+						<th align="left" style="background:red; color:white;">PREVIOUS EMPLOYMENT DETAILS 前雇主資料</th>
 					</tr>
 				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" width="100%" class="employ-body">
+			
+				<table width="100%" border="1">
 					<tr>
-						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
-							Name Of Employer 雇主 :
-						</td>
+						<td colspan="5">Name Of Employer</td>
 					</tr>
+					<tr>
+						<td>Working Area</td>
+						<td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, aliquam.</td>
+						<td>Country</td>
+						<td>taiwan</td>
+					</tr>
+					<tr>
+						<td>Reason of Quit</td>
+						<td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, aliquam.</td>
+						<td>Periodic</td>
+						<td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, modi!</td>
+					</tr>
+					<tr style="height: 50px;">
+						<td colspan="5">job content</td>
+					</tr>
+			
+					<tr>
+						<td colspan="5">name</td>
+					</tr>
+					<tr>
+						<td>working area</td>
+						<td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, aliquam.</td>
+						<td>country</td>
+						<td>taiwan</td>
+					</tr>
+					<tr>
+						<td>reason of quir</td>
+						<td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, aliquam.</td>
+						<td>Periodic</td>
+						<td>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum, modi!</td>
+					</tr>
+					<tr style="height: 15px;">
+						<td colspan="5">job content</td>
+					</tr>
+				</table>
+			
+				<table width="100%" border="1">
+					<tr>
+						<th align="left" style="background:red; color:white;">Personal Character Evaluation 女傭總體評價 </th>
+					</tr>
+					<tr>
+						<td style="height: 15px;">
+							She is studying hard Cantonese in the training center <br><br>
+							<p style="font-size: 10px; color: red;">* Please note that we are not able to bear fully responsibility for this evaluation result due to human act.</p>
+						</td>            
+					</tr>
+				</table>
+			
+				<table width="100%" border="1">
+					<tr>
+						<th colspan="2" style="background: red; color: white; text-align: left;">SUPLEMENTARY QUESTIONS 附加問題</th>
+					</tr>
+				</table>
+			
+				<table width="100%" border="1" style="text-align: center; font-size: 14px;">
+				<tr>
+					<th colspan="1"></th>
+					<th colspan="1" style="background-color: skyblue; text-transform: uppercase;">Yes</th>
+					<th colspan="1" style="background-color: skyblue; text-transform: uppercase;">No</th>
+					<th rowspan="17" style="vertical-align: top;">Remark</th>
+				</tr>
+				<tr>
+					<td>1) Will you work where there are pets?</td>
+					<td>X</td>
+					<td></td>
+				</tr>
 					
-					<tr>
-						<td>Working Area 工作地點 :</td>
-						<td>Country 國家</td>
-						<td><b>Taiwan</b></td>
-					</tr>
+				<tr>
+					<td>2) Do you have any allergies (such as skin allergy)?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
+				<tr>
+					<td>3) Do you have any knowledge in gardening?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
+				<tr>
+					<td>4) Can you handle and cook pork?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
+				<tr>
+					<td>5) Can you do eat pork?</td>
+					<td>X</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>6) Can do you simple sewing?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
 
-					<tr>
-						<td>Reason of Quit 終止合約/不續約原因:</td>
-						<td>Periodic 期間</td>
-						<td><b>2010-2017</b></td>
-					</tr>
+				<tr>
+					<td>7) Dou you smoke?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
 
-					<tr>
-						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
-							Job Content 工作內容: works include cooking,house keeping,take care of elderly ( 84 years old ) and all general housework.
-						</td>
-					</tr>
-				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" width="100%" class="employ-body">
-					<tr>
-						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
-							Name Of Employer 雇主 :
-						</td>
-					</tr>
+				<tr>
+					<td>8) Do you drink alcohol?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
+				<tr>
+					<td>9) Can you wash car?</td>
+					<td>X</td>
+					<td></td>
+				</tr>
 					
-					<tr>
-						<td>Working Area 工作地點 :</td>
-						<td>Country 國家</td>
-						<td><b>Taiwan</b></td>
-					</tr>
+				<tr>
+					<td>10) Are you afraid of dogs?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
+				<tr>
+					<td>11) Can you bake cakes?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
+				<tr>
+					<td>12) Are you willing to take care of newly born baby?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
+				<tr>
+					<td>13) Are you willing to take care of invalid person?</td>
+					<td>X</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>14) Are you willing to follow the code of discipline drawn up?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
 
-					<tr>
-						<td>Reason of Quit 終止合約/不續約原因:</td>
-						<td>Periodic 期間</td>
-						<td><b>2017-2019</b></td>
-					</tr>
+				<tr>
+					<td>15) Who will take care of your children if you work in HONG KONG?</td>
+					<td colspan="2">My Parents</td>
+				</tr>
 
-					<tr>
-						<td colspan="3" style="font-size: 12px; text-align: left; text-indent: 5px;">
-							Job Content 工作內容: works include cooking,house keeping,take care of elderly ( 70 years old ) and all general housework.
-						</td>
-					</tr>
-				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" width="100%">
-					<tr>
-						<th class="employ-detail">Personal Character Evaluation 女傭總體評價</th>
-					</tr>
-				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" width="100%">
-					<tr>
-						<td colspan="3" height="30px" text-indent: 20px;>
-							<p style="font-size:14px; text-indent: 20px;">
-								She is studying hard Cantonese in the training center
-							</p>
-							<p style="font-size:8px; color: red; text-indent: 20px;">
-								* Please note that we are not able to bear fully responsibility for this evaluation result due to human act.
-							</p>
-						</td>
-					</tr>
-				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" width="100%">
-					<tr>
-						<th class="employ-detail">SUPLEMENTARY QUESTIONS 附加問題</th>
-					</tr>
-				</table>
-
-				<table border="1" cellpadding="0" cellspacing="0" width="100%">
-					<tr>
-						<th colspan="4"></th>
-					</tr>
-
-					<tr>
-						<td class="q-satu">
-							1) Will you work where there are pets?
-						</td>
-						<td colspan="3" class="q-dua" style="background-color:#ADD8E6;">
-							YES
-						</td>
-						<td colspan="3" class="q-dua" style="background-color:#ADD8E6;">
-							NO
-						</td>
-						<td colspan="3" style="text-indent: 10px; font-weight:bold; ">
-							Remark :
-						</td>
-					</tr>
-
-					<tr>
-						<td class="q-satu">
-							2) Do you have any allergies (such as skin allergy)?
-						</td>
-						<td colspan="3" class="q-dua">
-							X
-						</td>
-						<td colspan="3" class="q-dua">
-							
-						</td>
-						<td colspan="3">
-							
-						</td>
-					</tr>
-
-					<tr>
-						<td class="q-satu">
-							3) Do you have any knowledge in gardening?
-						</td>
-						<td colspan="3" class="q-dua">
-							X
-						</td>
-						<td colspan="3" class="q-dua">
-							
-						</td>
-						<td colspan="3">
-							
-						</td>
-					</tr>
-
-					<tr>
-						<td class="q-satu">
-							4) Can you handle and cook pork? 
-						</td>
-						<td colspan="3" class="q-dua">
-							X
-						</td>
-						<td colspan="3" class="q-dua">
-							
-						</td>
-						<td colspan="3">
-							
-						</td>
-					</tr>
-
-					<tr>
-						<td class="q-satu">
-							5) Can you do eat pork?
-						</td>
-						<td colspan="3" class="q-dua">
-							X
-						</td>
-						<td colspan="3" class="q-dua">
-							
-						</td>
-						<td colspan="3">
-							
-						</td>
-					</tr>
+				<tr>
+					<td>16) Do you have any relatives in HONG KONG? if yes, who is she/he?</td>
+					<td></td>
+					<td>X</td>
+				</tr>
 			</table>
-
 				';
 
 			$pdf = new Dompdf();
