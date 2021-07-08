@@ -160,7 +160,7 @@ class AgencyLocations extends CI_Controller {
 			}
 
 			$data = [
-				'name'				=> ucwords($input['name']),
+				'name'				=> $input['name'],
 				'slug'				=> slugify($input['name']),
 				'is_local'			=> $input['is_local'],
 				'is_default'		=> $input['is_default'],
@@ -226,7 +226,7 @@ class AgencyLocations extends CI_Controller {
 			}
 
 			$data = [
-				'name'				=> ucwords($input['name']),
+				'name'				=> $input['name'],
 				'slug'				=> slugify($input['name']),
 				'is_local'			=> $input['is_local'],
 				'is_default'		=> $input['is_default'],

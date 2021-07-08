@@ -171,12 +171,12 @@
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Children', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'children', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('children') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children', unStrClean($worker['children']))]); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'children', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('children') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children', unStrClean($worker['children']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('children'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Children Age', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'children_age', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('children_age') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children_age', unStrClean($worker['children_age']))]); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'children_age', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('children_age') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children_age', unStrClean($worker['children_age']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('children_age'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
@@ -669,12 +669,12 @@
 						</div>
 						<div class="form-group col-md-6">
 							<?php echo form_label('Quit Reason', null); ?>
-							<?php echo form_textarea(['name' => 'quit_reason', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'rows' => '2', 'style' => 'resize:none;']); ?>
+							<?php echo form_textarea(['name' => 'quit_reason', 'class' => 'form-control form-control-sm rounded-0', 'rows' => '2', 'style' => 'resize:none;']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-6">
 							<?php echo form_label('Job Content <span class="text-danger">*</span>', null); ?>
-							<?php echo form_textarea(['name' => 'job_content', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'rows' => '2', 'style' => 'resize:none;']); ?>
+							<?php echo form_textarea(['name' => 'job_content', 'class' => 'form-control form-control-sm rounded-0', 'rows' => '2', 'style' => 'resize:none;']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
