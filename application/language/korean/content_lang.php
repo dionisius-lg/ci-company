@@ -4,7 +4,8 @@ $lang['front'] = [
 	'topbar' => [
 		'login'		=> '로그인',
 		'register'	=> '레지스터',
-		'logout'	=> '로그 아웃'
+		'logout'	=> '로그 아웃',
+		'welcome'	=> '안녕하세요',
 	],
 	'navbar' => [
 		'home'		=> '메인 페이지',

@@ -4,7 +4,8 @@ $lang['front'] = [
 	'topbar' => [
 		'login'		=> 'Masuk',
 		'register'	=> 'Daftar',
-		'logout'	=> 'Keluar'
+		'logout'	=> 'Keluar',
+		'welcome'	=> 'Hai',
 	],
 	'navbar' => [
 		'home'		=> 'Halaman Utama',

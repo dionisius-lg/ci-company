@@ -33,7 +33,7 @@
 						<button class="btn btn-outline-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 						<?php echo sitelang()['alias']; ?>
 						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						<div class="dropdown-menu">
 							<?php echo anchor(base_url('lang/en'), 'English', ['class' => 'dropdown-item']); ?>
 							<?php echo anchor(base_url('lang/id'), 'Bahasa', ['class' => 'dropdown-item']); ?>
 							<?php echo anchor(base_url('lang/ja'), '日本語', ['class' => 'dropdown-item']); ?>
@@ -45,9 +45,14 @@
 				<div class="menu-user">
 					<ul class="list-inline mb-0">
 						<?php if (!$this->session->has_userdata('AuthUser')) {
-							echo '<li class="list-inline-item"><a href="' . base_url('auth') . '">' . $this->lang->line('front')['topbar']['login'] , '</a></li> <li class="list-inline-item"><a href="' . base_url('auth/register') . '">' . $this->lang->line('front')['topbar']['register'] , '</a></li>';
+							echo '<li class="list-inline-item">' . anchor(base_url('auth'), $this->lang->line('front')['topbar']['login']) . '</li>';
+							echo '<li class="list-inline-item">' . anchor(base_url('auth/register'), $this->lang->line('front')['topbar']['register']) . '</li>';
 						} else {
-							echo '<li class="list-inline-item"><a href="' . base_url('auth/logout') . '">' . $this->lang->line('front')['topbar']['logout'] , '</a></li>';
+							echo '<li class="list-inline-item dropdown">';
+								// echo anchor('#', $this->lang->line('front')['topbar']['welcome'] . ', ' . strtok($this->session->userdata('AuthUser')['fullname'], ' '), ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
+								echo anchor('#', $this->session->userdata('AuthUser')['fullname'], ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
+								echo '<div class="dropdown-menu dropdown-menu-right">' . anchor(base_url('auth/logout'), $this->lang->line('front')['topbar']['logout'], ['class' => 'dropdown-item']) . '</div>';
+							echo '</li>';
 						} ?>
 					</ul>
 				</div>
