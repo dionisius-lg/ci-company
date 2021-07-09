@@ -34,6 +34,8 @@ if (!function_exists('PdfWorkerDetail')) {
 				'company' => $ci->CompanyModel->get(),
 			];
 
+			// print_r($request); die();
+
 			foreach ($request as $key => $val) {
 				$data[$key] = [];
 	

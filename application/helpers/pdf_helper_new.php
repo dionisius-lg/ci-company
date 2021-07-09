@@ -296,97 +296,97 @@ if (!function_exists('PdfWorkerProfile')) {
 				</table>
 			
 				<table width="100%" border="1" style="text-align: center; font-size: 14px;">
-				<tr>
-					<th colspan="1"></th>
-					<th colspan="1" style="background-color: skyblue; text-transform: uppercase;">Yes</th>
-					<th colspan="1" style="background-color: skyblue; text-transform: uppercase;">No</th>
-					<th rowspan="17" style="vertical-align: top;">Remark</th>
-				</tr>
-				<tr>
-					<td>1) Will you work where there are pets?</td>
-					<td>X</td>
-					<td></td>
-				</tr>
-					
-				<tr>
-					<td>2) Do you have any allergies (such as skin allergy)?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
-				<tr>
-					<td>3) Do you have any knowledge in gardening?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
-				<tr>
-					<td>4) Can you handle and cook pork?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
-				<tr>
-					<td>5) Can you do eat pork?</td>
-					<td>X</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>6) Can do you simple sewing?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
+					<tr>
+						<th colspan="1"></th>
+						<th colspan="1" style="background-color: skyblue; text-transform: uppercase;">Yes</th>
+						<th colspan="1" style="background-color: skyblue; text-transform: uppercase;">No</th>
+						<th rowspan="17" style="vertical-align: top;">Remark</th>
+					</tr>
+					<tr>
+						<td>1) Will you work where there are pets?</td>
+						<td>X</td>
+						<td></td>
+					</tr>
+						
+					<tr>
+						<td>2) Do you have any allergies (such as skin allergy)?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
+					<tr>
+						<td>3) Do you have any knowledge in gardening?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
+					<tr>
+						<td>4) Can you handle and cook pork?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
+					<tr>
+						<td>5) Can you do eat pork?</td>
+						<td>X</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>6) Can do you simple sewing?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
 
-				<tr>
-					<td>7) Dou you smoke?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
+					<tr>
+						<td>7) Dou you smoke?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
 
-				<tr>
-					<td>8) Do you drink alcohol?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
-				<tr>
-					<td>9) Can you wash car?</td>
-					<td>X</td>
-					<td></td>
-				</tr>
-					
-				<tr>
-					<td>10) Are you afraid of dogs?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
-				<tr>
-					<td>11) Can you bake cakes?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
-				<tr>
-					<td>12) Are you willing to take care of newly born baby?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
-				<tr>
-					<td>13) Are you willing to take care of invalid person?</td>
-					<td>X</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>14) Are you willing to follow the code of discipline drawn up?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
+					<tr>
+						<td>8) Do you drink alcohol?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
+					<tr>
+						<td>9) Can you wash car?</td>
+						<td>X</td>
+						<td></td>
+					</tr>
+						
+					<tr>
+						<td>10) Are you afraid of dogs?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
+					<tr>
+						<td>11) Can you bake cakes?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
+					<tr>
+						<td>12) Are you willing to take care of newly born baby?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
+					<tr>
+						<td>13) Are you willing to take care of invalid person?</td>
+						<td>X</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>14) Are you willing to follow the code of discipline drawn up?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
 
-				<tr>
-					<td>15) Who will take care of your children if you work in HONG KONG?</td>
-					<td colspan="2">My Parents</td>
-				</tr>
+					<tr>
+						<td>15) Who will take care of your children if you work in HONG KONG?</td>
+						<td colspan="2">My Parents</td>
+					</tr>
 
-				<tr>
-					<td>16) Do you have any relatives in HONG KONG? if yes, who is she/he?</td>
-					<td></td>
-					<td>X</td>
-				</tr>
+					<tr>
+						<td>16) Do you have any relatives in HONG KONG? if yes, who is she/he?</td>
+						<td></td>
+						<td>X</td>
+					</tr>
 			</table>
 				';
 

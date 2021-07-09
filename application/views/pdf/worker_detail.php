@@ -61,6 +61,13 @@
 				color: #ff0000;
 			}
 
+			.q-head {
+				background: #00FFFF !important;
+				color: black !important;
+				font-weight: bold;
+				text-transform: uppercase;
+			}
+
 			body {
 				color: #000;
 				font-size: 6px;
@@ -128,8 +135,11 @@
 				</tr>
 				<tr>
 					<td class="border-top border-right border-bottom border-left px" width="85%"><span class="font-bold">NAME</span> <span class="font-chinese-bold-bold">姓名</span> <span class="font-bold text-uppercase"> : <?php echo $worker['fullname']; ?></span></td>
-					<td class="border-top border-right border-bottom border-left px" width="15%" rowspan="5">Photo</td>
+					<td class="border-top border-right border-bottom border-left px" width="15%" rowspan="5">
+						<img src="data:image/png;base64, <?= base64_encode(file_get_contents('files/workers/' . $worker['id'] . '/' . $worker['photo'])) ?>" alt="photo">
+					</td>
 				</tr>
+
 				<tr>
 					<td class="border-top border-right border-bottom border-left" width="85%">
 						<table class="" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -332,6 +342,26 @@
 						<br><br><span class="text-red">* Please note that we are not able to bear fully responsibility for this evaluation result due to human act</span>
 					</td>
 				</tr>
+				<tr>
+					<td class="border-top border-right border-bottom border-left px red text-center" width="100%" colspan="2">
+						<span class="font-bold text-uppercase">SUPLEMENTARY QUESTIONS</span><span class="font-chinese-bold">附加問題</span>
+					</td>
+				</tr>
+				<td class="border-top border-right border-bottom border-left" width="100%">
+					<table border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td class="border-bottom text-center q-head" width="100%" colspan="2">
+							<?php foreach ($suplementary_questions as $suplementary_question) { echo
+									'<tr>
+										<td class="border-bottom px" width="70%">'.$suplementary_question['question'].'</td>
+										
+										<td class="border-bottom border-left px" width="30%">'.(($suplementary_question['answer_type_id'] == 1) ? 'YES' : 'NO').'</td>
+									</tr>';
+							} ?>
+						</tr>
+					</table>
+					<?php// print_r($suplementary_questions); die();?>
+				</td>
 			</table>
 		</div>
 
