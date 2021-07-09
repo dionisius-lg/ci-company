@@ -320,21 +320,13 @@ class Worker extends CI_Controller {
 
 			if (array_key_exists('worker', $input) && !empty($input['worker'])) {
 				$worker_id = base64url_decode($input['worker']);
-				$request = $this->WorkersModel->getDetail($worker_id);
-				// print_r($request); die();
+				$this->load->helper('pdf');
+				$pdf = PdfWorkerDetail($worker_id);
 
-				if ($request['status'] == 'success' && $request['total_data'] > 0) {
-					$worker = $request['data'];
-
-					$this->load->helper('pdf');
-
-					$pdf = PdfWorkerProfile($worker, $company);
-
-					if ($pdf) {
-						if (@fopen($pdf['fileurl'], 'r')) {
-							$this->result['status'] = 'success';
-							$this->result['file'] = $pdf['fileurl'];
-						}
+				if ($pdf) {
+					if (@fopen($pdf['fileurl'], 'r')) {
+						$this->result['status'] = 'success';
+						$this->result['file'] = $pdf['fileurl'];
 					}
 				}
 			}
