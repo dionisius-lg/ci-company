@@ -112,6 +112,11 @@
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-12">
+							<?php echo form_label('Name In Mandarin (for PDF)', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'name_chn', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '100']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-12">
 							<div class="icheck-primary">
 								<?php echo form_checkbox(['name' => 'is_local', 'id' => 'IsLocal', 'value' => '1']); ?>
 								<?php echo form_label('Set As Local', 'IsLocal'); ?>
@@ -199,6 +204,7 @@
 					if (response !== null && typeof response === 'object') {
 						if (response.status === 'success') {
 							modalDataForm.find('[name="name"]').val(response.data['name']);
+							modalDataForm.find('[name="name_chn"]').val(response.data['name_chn']);
 
 							if (response.data['is_local'] == '1') {
 								modalDataForm.find('[name="is_local"]').attr({'checked': true});

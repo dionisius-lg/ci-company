@@ -109,7 +109,11 @@ class SkillExperiences extends CI_Controller {
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
-				$this->result['data'] = $request['data'];
+
+				foreach ($request['data'] as $key => $val) {
+					$this->result['data'][$key] = unStrClean($val);
+				}
+
 				unset($this->result['message']);
 			}
 
@@ -151,6 +155,7 @@ class SkillExperiences extends CI_Controller {
 
 			$data = [
 				'name'				=> $input['name'],
+				'name_chn'			=> $input['name_chn'],
 				'slug'				=> slugify($input['name']),
 				'create_user_id'	=> $session['id']
 			];
@@ -207,6 +212,7 @@ class SkillExperiences extends CI_Controller {
 
 			$data = [
 				'name'				=> $input['name'],
+				'name_chn'			=> $input['name_chn'],
 				'slug'				=> slugify($input['name']),
 				'update_user_id'	=> $session['id']
 			];

@@ -147,7 +147,7 @@
 										if (count($skill_experiences) > 0) {
 											foreach ($skill_experiences as $skill_experience) { echo
 												'<tr>
-													<td class="border-bottom px" width="70%">'.$skill_experience['name'].'<span class="font-chinese">工作經驗/能力</span></td>
+													<td class="border-bottom px" width="70%">'.$skill_experience['name'].'<span class="font-chinese">'.$skill_experience['name_chn'].'</span></td>
 													<td class="border-bottom border-left px" width="30%">'.(in_array($skill_experience['id'], $skill_experience_ids) ? 'YES' : 'NO').'</td>
 												</tr>';
 											}
@@ -231,7 +231,7 @@
 										if (count($language_abilities) > 0) {
 											foreach ($language_abilities as $language_ability) { echo
 												'<tr>
-													<td class="border-bottom px" width="70%">'.$language_ability['name'].'<span class="font-chinese">工作經驗/能力</span></td>
+													<td class="border-bottom px" width="70%">'.$language_ability['name'].'<span class="font-chinese">'.$language_ability['name_chn'].'</span></td>
 													<td class="border-bottom border-left px" width="30%">'.(in_array($language_ability['id'], $language_ability_ids) ? 'YES' : 'NO').'</td>
 												</tr>';
 											}
@@ -239,8 +239,26 @@
 										<tr>
 											<td class="border-bottom px red text-center" width="100%" colspan="2"><span class="font-bold text-uppercase">Education</span> <span class="font-chinese-bold">教育程度</span></td>
 										</tr>
+										<?php switch ($worker['last_education_id']) {
+											case 1:
+												$worker_last_education_china = '幼兒園'; break;
+											case 2:
+												$worker_last_education_china = '小學'; break;
+											case 3:
+												$worker_last_education_china = '初中'; break;
+											case 4:
+												$worker_last_education_china = '高中'; break;
+											case 5:
+												$worker_last_education_china = '學歷學位'; break;
+											case 6:
+												$worker_last_education_china = '學士文憑'; break;
+											case 7:
+												$worker_last_education_china = '其他'; break;
+											default:
+												$worker_last_education_china = ''; break;
+										} ?>
 										<tr>
-											<td class="px-5 py-3" width="100%" colspan="2"><?php echo $worker['last_education']; ?> <span class="font-chinese">語言能力</span></td>
+											<td class="px-5 py-3" width="100%" colspan="2"><?php echo $worker['last_education']; ?> <span class="font-chinese"><?php echo $worker_last_education_china; ?></span></td>
 										</tr>
 									</table>
 								</td>
@@ -250,7 +268,7 @@
 										if (count($cooking_abilities) > 0) {
 											foreach ($cooking_abilities as $cooking_ability) { echo
 												'<tr>
-													<td class="border-bottom px" width="70%">'.$cooking_ability['name'].'<span class="font-chinese">工作經驗/能力</span></td>
+													<td class="border-bottom px" width="70%">'.$cooking_ability['name'].'<span class="font-chinese">'.$cooking_ability['name_chn'].'</span></td>
 													<td class="border-bottom border-left px" width="30%">'.(in_array($cooking_ability['id'], $cooking_ability_ids) ? 'YES' : 'NO').'</td>
 												</tr>';
 											}
@@ -263,7 +281,7 @@
 										if (count($agency_locations) > 0) {
 											foreach ($agency_locations as $work_experience) { echo
 												'<tr>
-													<td class="border-bottom px" width="70%">'.$work_experience['name'].'<span class="font-chinese">工作經驗/能力</span></td>
+													<td class="border-bottom px" width="70%">'.$work_experience['name'].'<span class="font-chinese">'.$work_experience['name_chn'].'</span></td>
 													<td class="border-bottom border-left px" width="30%">'.(in_array($work_experience['id'], $work_experience_ids) ? 'YES' : 'NO').'</td>
 												</tr>';
 											}

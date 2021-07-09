@@ -111,7 +111,11 @@ class AgencyLocations extends CI_Controller {
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
-				$this->result['data'] = $request['data'];
+
+				foreach ($request['data'] as $key => $val) {
+					$this->result['data'][$key] = unStrClean($val);
+				}
+
 				unset($this->result['message']);
 			}
 
@@ -161,6 +165,7 @@ class AgencyLocations extends CI_Controller {
 
 			$data = [
 				'name'				=> $input['name'],
+				'name_chn'			=> $input['name_chn'],
 				'slug'				=> slugify($input['name']),
 				'is_local'			=> $input['is_local'],
 				'is_default'		=> $input['is_default'],
@@ -227,6 +232,7 @@ class AgencyLocations extends CI_Controller {
 
 			$data = [
 				'name'				=> $input['name'],
+				'name_chn'			=> $input['name_chn'],
 				'slug'				=> slugify($input['name']),
 				'is_local'			=> $input['is_local'],
 				'is_default'		=> $input['is_default'],

@@ -91,6 +91,11 @@
 							<?php echo form_input(['type' => 'text', 'name' => 'name', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '100', 'autofocus' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
+						<div class="form-group col-md-12">
+							<?php echo form_label('Name In Mandarin (for PDF)', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'name_chn', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '100']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
