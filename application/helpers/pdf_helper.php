@@ -22,6 +22,7 @@ if (!function_exists('PdfWorkerDetail')) {
 			$ci->load->model('SuplementaryQuestionsModel');
 			$ci->load->model('WorkersModel');
 			$ci->load->model('WorkerPreviousEmploymentsModel');
+			$ci->load->model('WorkerSuplementaryQuestionsModel');
 
 			$request = [
 				'worker' => $ci->WorkersModel->getDetail($worker_id),
@@ -29,12 +30,10 @@ if (!function_exists('PdfWorkerDetail')) {
 				'cooking_abilities' => $ci->CookingAbilitiesModel->getAll(['order' => 'name', 'limit' => 100]),
 				'language_abilities' => $ci->LanguageAbilitiesModel->getAll(['order' => 'name', 'limit' => 100]),
 				'agency_locations' => $ci->AgencyLocationsModel->getAll(['order' => 'name', 'limit' => 100]),
-				'suplementary_questions' => $ci->SuplementaryQuestionsModel->getAll(['order' => 'question', 'limit' => 1000]),
+				'suplementary_questions' => $ci->WorkerSuplementaryQuestionsModel->getAll(['order' => 'question', 'limit' => 1000]),
 				'previous_employments' => $ci->WorkerPreviousEmploymentsModel->getAll(['order' => 'period', 'sort' => 'desc', 'limit' => 100, 'worker_id' => $worker_id]),
 				'company' => $ci->CompanyModel->get(),
 			];
-
-			// print_r($request); die();
 
 			foreach ($request as $key => $val) {
 				$data[$key] = [];
@@ -47,8 +46,10 @@ if (!function_exists('PdfWorkerDetail')) {
 			}
 
 			if (!empty($data['worker'])) {
+				$data['worker_photo'] = '<img class="worker-photo" src="'.((@getimagesize(FCPATH.'files/workers/'.$data['worker']['id'].'/'.$data['worker']['photo'])) ? FCPATH.'files/workers/'.$data['worker']['id'].'/'.$data['worker']['photo'] : FCPATH.'assets/img/default-avatar.jpg').'" alt="Worker Photo">';
+
 				$content = $ci->load->view('pdf/worker_detail', $data, true);
-// return $content;
+
 				// config and render dompdf
 				$pdf = new Dompdf();
 				$pdf->loadHtml($content);

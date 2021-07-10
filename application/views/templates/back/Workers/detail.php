@@ -48,15 +48,25 @@
 						<?php echo form_open('admin/workers/update/'.$worker['id'], ['method' => 'post', 'id' => 'formData', 'autocomplete' => 'off']); ?>
 							<?php echo form_label('Personal Data', null, ['class' => 'form-label border-bottom']); ?>
 							<div class="row">
-								<div class="form-group col-md-4">
+								<div class="form-group col-md-3">
 									<?php echo form_label('Ref Number <span class="text-danger">*</span>', null); ?>
 									<?php echo form_input(['type' => 'text', 'name' => 'ref_number', 'class' => 'form-control form-control-sm rounded-0 uppercase' . (hasFlashError('ref_number') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('ref_number', unStrClean($worker['ref_number']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('ref_number'); ?></span>
 								</div>
-								<div class="form-group col-md-8">
+								<div class="form-group col-md-6">
 									<?php echo form_label('Fullname <span class="text-danger">*</span>', null); ?>
 									<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('fullname') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('fullname', unStrClean($worker['fullname']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('fullname'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase' . (hasFlashError('email') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('email', unStrClean($worker['email']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Phone', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'phone', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone', unStrClean($worker['phone']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('phone'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Birth Place <span class="text-danger">*</span>', null); ?>
@@ -72,19 +82,6 @@
 									<?php echo form_label('Age', null); ?>
 									<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('age') ? ' is-invalid' : ''), 'value' => oldInput('age', unStrClean($worker['age'])), 'readonly' => true]); ?>
 									<span class="invalid-feedback"><?php echo flashError('age'); ?></span>
-								</div>
-								<div class="form-group col-md-3">
-									<?php echo form_label('Religion', null); ?>
-									<select name="religion" class="form-control select2 rounded-0 <?php echo (hasFlashError('religion')) ? 'is-invalid' : ''; ?>">
-										<option value="">Please Select</option>
-										<option value="1">Moslem</option>
-										<option value="2">Christian</option>
-										<option value="3">Catholic Christians</option>
-										<option value="4">Hindu</option>
-										<option value="5">Buddha</option>
-										<option value="6">Others</option>
-									</select>
-									<span class="invalid-feedback"><?php echo flashError('religion'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
 									<?php echo form_label('Gender <span class="text-danger">*</span>', null); ?>
@@ -106,14 +103,46 @@
 									<span class="invalid-feedback"><?php echo flashError('marital_status'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase' . (hasFlashError('email') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('email', unStrClean($worker['email']))]); ?>
-									<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
+									<?php echo form_label('Religion', null); ?>
+									<select name="religion" class="form-control select2 rounded-0 <?php echo (hasFlashError('religion')) ? 'is-invalid' : ''; ?>">
+										<option value="">Please Select</option>
+										<option value="1">Moslem</option>
+										<option value="2">Christian</option>
+										<option value="3">Catholic Christians</option>
+										<option value="4">Hindu</option>
+										<option value="5">Buddha</option>
+										<option value="6">Others</option>
+									</select>
+									<span class="invalid-feedback"><?php echo flashError('religion'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Phone <span class="text-danger">*</span>', null); ?>
-									<?php echo form_input(['type' => 'text', 'name' => 'phone', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone', unStrClean($worker['phone']))]); ?>
-									<span class="invalid-feedback"><?php echo flashError('phone'); ?></span>
+									<?php echo form_label('Last Education', null); ?>
+									<select name="last_education" class="form-control select2 rounded-0 <?php echo (hasFlashError('last_education')) ? 'is-invalid' : ''; ?>">
+										<option value="">Please Select</option>
+										<option value="1">Kindergarten</option>
+										<option value="2">Primary School</option>
+										<option value="3">Junior High School</option>
+										<option value="4">Senior High School</option>
+										<option value="5">Diploma Degree</option>
+										<option value="6">Bachelor Degree</option>
+										<option value="7">Other</option>
+									</select>
+									<span class="invalid-feedback"><?php echo flashError('last_education'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Height (CM)', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'height', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('height') ? ' is-invalid' : ''), 'maxlength' => '3', 'value' => oldInput('height', unStrClean($worker['height']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('height'); ?></span>
+								</div>
+								<div class="form-group col-md-3">
+									<?php echo form_label('Weight (KG)', null); ?>
+									<?php echo form_input(['type' => 'text', 'name' => 'weight', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('weight') ? ' is-invalid' : ''), 'maxlength' => '3', 'value' => oldInput('weight', unStrClean($worker['weight']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('weight'); ?></span>
+								</div>
+								<div class="form-group col-md-6">
+									<?php echo form_label('Character Evaluation', null); ?>
+									<?php echo form_textarea(['name' => 'character_evaluation', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('character_evaluation') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('character_evaluation', unStrClean($worker['character_evaluation']))]); ?>
+									<span class="invalid-feedback"><?php echo flashError('character_evaluation'); ?></span>
 								</div>
 								<div class="form-group col-md-6">
 									<?php echo form_label('Address', null); ?>
@@ -136,25 +165,6 @@
 										<option value="">Please Select</option>
 									</select>
 									<span class="invalid-feedback"><?php echo flashError('city'); ?></span>
-								</div>
-								<div class="form-group col-md-6">
-									<?php echo form_label('Character Evaluation', null); ?>
-									<?php echo form_textarea(['name' => 'character_evaluation', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('character_evaluation') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('character_evaluation', unStrClean($worker['character_evaluation']))]); ?>
-									<span class="invalid-feedback"><?php echo flashError('character_evaluation'); ?></span>
-								</div>
-								<div class="form-group col-md-3">
-									<?php echo form_label('Last Education', null); ?>
-									<select name="last_education" class="form-control select2 rounded-0 <?php echo (hasFlashError('last_education')) ? 'is-invalid' : ''; ?>">
-										<option value="">Please Select</option>
-										<option value="1">Kindergarten</option>
-										<option value="2">Primary School</option>
-										<option value="3">Junior High School</option>
-										<option value="4">Senior High School</option>
-										<option value="5">Diploma Degree</option>
-										<option value="6">Bachelor Degree</option>
-										<option value="7">Other</option>
-									</select>
-									<span class="invalid-feedback"><?php echo flashError('last_education'); ?></span>
 								</div>
 							</div>
 							<?php echo form_label('Family Background', null, ['class' => 'form-label border-bottom']); ?>

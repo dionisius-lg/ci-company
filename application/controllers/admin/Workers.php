@@ -252,18 +252,20 @@ class Workers extends CI_Controller {
 				// personal info
 				'ref_number' => strtoupper($input['ref_number']),
 				'fullname' => ucwords($input['fullname']),
-				'birth_place' => ucwords($input['birth_place']),
-				'birth_date' => $input['birth_date'],
-				'religion_id' => $input['religion'],
-				'gender_id' => $input['gender'],
-				'marital_status_id' => $input['marital_status'],
 				'email' => strtolower($input['email']),
 				'phone' => $input['phone'],
+				'birth_place' => ucwords($input['birth_place']),
+				'birth_date' => $input['birth_date'],
+				'gender_id' => $input['gender'],
+				'marital_status_id' => $input['marital_status'],
+				'religion_id' => $input['religion'],
+				'last_education_id' => $input['last_education'],
+				'height' => $input['height'],
+				'weight' => $input['weight'],
 				'address' => nl2space($input['address']),
 				'province_id' => $input['province'],
 				'city_id' => $input['city'],
 				'character_evaluation' => $input['character_evaluation'],
-				'last_education_id' => $input['last_education'],
 
 				// family background
 				'spouse_name' => $input['spouse_name'],
@@ -379,18 +381,20 @@ class Workers extends CI_Controller {
 				// personal info
 				'ref_number' => strtoupper($input['ref_number']),
 				'fullname' => ucwords($input['fullname']),
-				'birth_place' => ucwords($input['birth_place']),
-				'birth_date' => $input['birth_date'],
-				'religion_id' => $input['religion'],
-				'gender_id' => $input['gender'],
-				'marital_status_id' => $input['marital_status'],
 				'email' => strtolower($input['email']),
 				'phone' => $input['phone'],
+				'birth_place' => ucwords($input['birth_place']),
+				'birth_date' => $input['birth_date'],
+				'gender_id' => $input['gender'],
+				'marital_status_id' => $input['marital_status'],
+				'religion_id' => $input['religion'],
+				'last_education_id' => $input['last_education'],
+				'height' => $input['height'],
+				'weight' => $input['weight'],
 				'address' => nl2space($input['address']),
 				'province_id' => $input['province'],
 				'city_id' => $input['city'],
 				'character_evaluation' => $input['character_evaluation'],
-				'last_education_id' => $input['last_education'],
 
 				// family background
 				'spouse_name' => $input['spouse_name'],
@@ -1121,6 +1125,16 @@ class Workers extends CI_Controller {
 				'rules' => 'trim|required|max_length[100]|regexTextInput|xss_clean'
 			],
 			[
+				'field' => 'email',
+				'label' => 'Email',
+				'rules' => 'trim|required|max_length[100]|valid_email|checkWorkersEmail['.$id.']|xss_clean'
+			],
+			[
+				'field' => 'phone',
+				'label' => 'Phone',
+				'rules' => 'trim|max_length[30]|is_natural|xss_clean'
+			],
+			[
 				'field' => 'birth_place',
 				'label' => 'Birth Place',
 				'rules' => 'trim|required|max_length[100]|regexAlphaSpace|xss_clean'
@@ -1129,11 +1143,6 @@ class Workers extends CI_Controller {
 				'field' => 'birth_date',
 				'label' => 'Birth Date',
 				'rules' => 'trim|required|max_length[20]|regexDate|xss_clean'
-			],
-			[
-				'field' => 'religion',
-				'label' => 'Religion',
-				'rules' => 'trim|is_natural|xss_clean'
 			],
 			[
 				'field' => 'gender',
@@ -1146,14 +1155,29 @@ class Workers extends CI_Controller {
 				'rules' => 'trim|required|is_natural|xss_clean'
 			],
 			[
-				'field' => 'email',
-				'label' => 'Email',
-				'rules' => 'trim|required|max_length[100]|valid_email|checkWorkersEmail['.$id.']|xss_clean'
+				'field' => 'religion',
+				'label' => 'Religion',
+				'rules' => 'trim|is_natural|xss_clean'
 			],
 			[
-				'field' => 'phone',
-				'label' => 'Phone',
-				'rules' => 'trim|required|max_length[30]|is_natural|xss_clean'
+				'field' => 'last_education',
+				'label' => 'Last Education',
+				'rules' => 'trim|is_natural|xss_clean'
+			],
+			[
+				'field' => 'height',
+				'label' => 'Height',
+				'rules' => 'trim|is_natural|xss_clean'
+			],
+			[
+				'field' => 'weight',
+				'label' => 'Weight',
+				'rules' => 'trim|is_natural|xss_clean'
+			],
+			[
+				'field' => 'character_evaluation',
+				'label' => 'Character Evaluation',
+				'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
 			],
 			[
 				'field' => 'address',
@@ -1168,16 +1192,6 @@ class Workers extends CI_Controller {
 			[
 				'field' => 'city',
 				'label' => 'City',
-				'rules' => 'trim|is_natural|xss_clean'
-			],
-			[
-				'field' => 'character_evaluation',
-				'label' => 'Character Evaluation',
-				'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
-			],
-			[
-				'field' => 'last_education',
-				'label' => 'Last Education',
 				'rules' => 'trim|is_natural|xss_clean'
 			],
 
