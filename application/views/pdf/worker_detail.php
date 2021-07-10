@@ -275,13 +275,13 @@
 						<table class="px-0" width="100%" border="0" cellspacing="0" cellpadding="0">
 							<tr>
 								<td class="border-bottom px-2">Spouse Name <span class="font-chinese">丈夫</span></td>
-								<td class="border-bottom border-left px-2"><?php echo $worker['spouse_occupation']; ?></td>
+								<td class="border-bottom border-left px-2"><?php echo $worker['spouse_name']; ?></td>
 								<td class="border-bottom border-left px-2">Father Name <span class="font-chinese">父親</span></td>
 								<td class="border-bottom border-left px-2"><?php echo $worker['father_name']; ?></td>
 							</tr>
 							<tr>
 								<td class="border-bottom px-2">Occupation <span class="font-chinese">工作</span></td>
-								<td class="border-bottom border-left px-2"><?php echo $worker['spouse_name']; ?></td>
+								<td class="border-bottom border-left px-2"><?php echo $worker['spouse_occupation']; ?></td>
 								<td class="border-bottom border-left px-2">Father Occupation <span class="font-chinese">工作</span></td>
 								<td class="border-bottom border-left px-2"><?php echo $worker['father_occupation']; ?></td>
 							</tr>
