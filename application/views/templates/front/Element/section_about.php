@@ -49,14 +49,14 @@
 		<div class="row">
 			<div class="col-lg-6 col-12">
 				<h3>Vision</h3>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+				<p>Sebagai pedoman dalam mencapaI rencana adalah menjadikan PT. Amalia Rozikin Jaya sebagai PPTKIS yang professional, memperlakukan TKI sesuai harkat dan martabatnya sebagai manusia dan tetap bertanggung jawab dalam memberikan perlindungan TKI. </p>
 			</div>
 			<div class="col-lg-6 col-12">
 				<h3>Mission</h3>
 				<ul>
-					<li>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
-					<li>Duis aute irure dolor in reprehenderit in voluptate velit.</li>
-					<li>Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+					<li>Menciptakan lapangan pekerjaan dan memberikan kesempatan kerja kepada masyarakat pencari kerja yang berminat kerja ke luar negeri. Membekali Calon Tenaga Kerja Indonesia dengan pendidikan dan keterampilan sehingga menjadi Sumber Daya Manusia yang professional.</li>
+					<li>Membantu pemerintah dalam penanggulan masalah pengangguran dalam negeri dan mencetak tenaga kerja yang memiliki keterampilan, pengetahuan, attitude dan pemasukan devisa negara serta Mensejahterakan kehidupan tenaga kerja sendiri dan keluarga.</li>
+					<li>Menyalurkan calon tenaga kerja Indonesia ke negara-negara yang membutuhkan tenaga kerja asing yang professional. Memberikan pengawasan dan perlindungan kepada Tenaga Kerja Indonesia di luar negeri.</li>
 				</ul>
 			</div>
 		</div>
