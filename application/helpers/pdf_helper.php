@@ -52,6 +52,7 @@ if (!function_exists('PdfWorkerDetail')) {
 
 				// config and render dompdf
 				$pdf = new Dompdf();
+				$pdf->getOptions()->setIsFontSubsettingEnabled(true);
 				$pdf->loadHtml($content);
 				$pdf->setPaper($paper_size, $orientation);
 				$pdf->render();
