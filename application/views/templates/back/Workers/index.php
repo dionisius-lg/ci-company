@@ -11,16 +11,12 @@
 				<?php echo form_open('admin/workers', ['id' => 'formFilter', 'method' => 'get', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 					<div class="form-row">
 						<div class="form-group col-md-2">
-							<?php echo form_label('NIK', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('nik') ? $this->input->get('nik') : '']); ?>
+							<?php echo form_label('Ref Number', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'ref_number', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('ref_number') ? $this->input->get('ref_number') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Fullname', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('fullname') ? $this->input->get('fullname') : '']); ?>
-						</div>
-						<div class="form-group col-md-2">
-							<?php echo form_label('Email', 'Email'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('email') ? $this->input->get('email') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
 							<?php echo form_label('Placement', null); ?>
@@ -60,9 +56,8 @@
 						<thead>
 							<tr class="">
 								<th class="text-nowrap">No.</th>
-								<th class="text-nowrap">NIK</th>
+								<th class="text-nowrap">Ref Number</th>
 								<th class="text-nowrap">Fullname</th>
-								<th class="text-nowrap">Email</th>
 								<th class="text-nowrap">Placement</th>
 								<th class="text-nowrap">Booking Status</th>
 								<th class="text-nowrap">User Account</th>
@@ -74,13 +69,12 @@
 							foreach ($workers as $worker) { echo
 								'<tr>
 									<td class="text-nowrap">' . $no . '</td>
-									<td class="text-nowrap">' . $worker['nik'] . '</td>
+									<td class="text-nowrap">' . $worker['ref_number'] . '</td>
 									<td class="text-nowrap">' . $worker['fullname'] . '</td>
-									<td class="text-nowrap">' . $worker['email'] . '</td>
 									<td class="text-nowrap">' . $worker['placement'] . '</td>
 									<td class="text-nowrap">' . $worker['booking_status'] . '</td>
 									<td class="text-nowrap">' . ((!empty($worker['user_id'])) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
-									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'return window.location.href = \'' . base_url('admin/workers/detail/' . $worker['id']) . '\';']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $worker['id'] . ')']) . (($worker['booking_status_id'] == 3) ? form_button(['type' => 'button', 'class' => 'btn btn-warning btn-xs rounded-0', 'content' => '<i class="fa fa-check fa-fw"></i>', 'title' => 'Approve Booking', 'onclick' => 'approveBooking(' . $worker['id'] . ')']) : '') . '</td>
+									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'return window.location.href = \'' . base_url('admin/workers/detail/' . $worker['id']) . '\';']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $worker['id'] . ')']) . (($worker['booking_status_id'] == 3) ? form_button(['type' => 'button', 'class' => 'btn btn-warning btn-xs rounded-0', 'content' => '<i class="fa fa-exclamation-triangle fa-fw"></i>', 'title' => 'Booking Request', 'onclick' => 'window.location.href = \'' . base_url('admin/booking-requests?ref_number=' . $worker['ref_number']) . '\'']) : '') . '</td>
 								</tr>';
 
 								$no++;
@@ -139,7 +133,7 @@
 
 			swalBootstrap.fire({
 				title: 'Delete this data?',
-				text: 'This action cannot be undone.',
+				text: 'All previous employments, suplementary questions, and attachments for this worker also will be deleted as well. This action cannot be undone.',
 				icon: 'warning',
 				showCancelButton: true,
 				confirmButtonText: 'Confirm'

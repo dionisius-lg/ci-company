@@ -19,14 +19,6 @@
 							<?php echo form_input(['type' => 'text', 'name' => 'email', 'id' => 'Email', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('email') ? $this->input->get('email') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
-							<?php echo form_label('Company', 'Company'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'Company', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('company') ? $this->input->get('company') : '']); ?>
-						</div>
-						<div class="form-group col-md-2">
-							<?php echo form_label('Country', 'Country'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'country', 'id' => 'Country', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('country') ? $this->input->get('country') : '']); ?>
-						</div>
-						<div class="form-group col-md-2">
 							<?php echo form_label('Username', 'Username'); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'username', 'id' => 'Username', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('username') ? $this->input->get('username') : '']); ?>
 						</div>
@@ -38,6 +30,19 @@
 									echo '<option value="' .$user_level['id']. '">'. $user_level['name']. '</option>';
 								} ?>
 							</select>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Agency Location', 'AgencyLocation'); ?>
+							<select class="form-control select2 rounded-0" name="agency_location" id="AgencyLocation">
+								<option value="">Please Select</option>
+								<?php foreach ($agency_locations as $agency_location) {
+									echo '<option value="' .$agency_location['id']. '">'. $agency_location['name']. '</option>';
+								} ?>
+							</select>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Company', 'Company'); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'Company', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('company') ? $this->input->get('company') : '']); ?>
 						</div>
 					</div>
 					<div class="row">
@@ -61,8 +66,9 @@
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
 								<th class="text-nowrap">Username</th>
+								<th class="text-nowrap">User Level</th>
+								<th class="text-nowrap">Agency Location</th>
 								<th class="text-nowrap">Company</th>
-								<th class="text-nowrap">Country</th>
 								<th class="text-nowrap">Is Worker</th>
 								<th class="text-nowrap">Action</th>
 							</tr>
@@ -75,8 +81,9 @@
 									<td class="text-nowrap">' . $user['fullname'] . '</td>
 									<td class="text-nowrap">' . $user['email'] . '</td>
 									<td class="text-nowrap">' . $user['username'] . '</td>
+									<td class="text-nowrap">' . $user['user_level'] . '</td>
+									<td class="text-nowrap">' . $user['agency_location'] . '</td>
 									<td class="text-nowrap">' . $user['company'] . '</td>
-									<td class="text-nowrap">' . $user['country'] . '</td>
 									<td class="text-nowrap">' . (($user['is_worker'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
 									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $user['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => ($this->session->userdata('AuthUser')['id'] == $user['id'] ? 'return toastr.error(\'Cannot delete your current account\');' : 'deleteData(' . $user['id'] . ')')]) . '</td>
 								</tr>';
@@ -115,7 +122,7 @@
 					<div class="row">
 						<div class="form-group col-md-4">
 							<?php echo form_label('Fullname <span class="text-danger">*</span>', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus', true]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100', 'autofocus' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
@@ -139,13 +146,18 @@
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
-							<?php echo form_label('Company', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'company', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '200']); ?>
+							<?php echo form_label('Agency Location', null); ?>
+							<select class="form-control select2 rounded-0" name="agency_location">
+								<option value="">Please Select</option>
+								<?php foreach ($agency_locations as $agency) {
+									echo '<option value="' .$agency['id']. '">'. $agency['name']. '</option>';
+								} ?>
+							</select>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
-							<?php echo form_label('Country', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'country', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '100']); ?>
+							<?php echo form_label('Company', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'company', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '200']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
@@ -235,7 +247,7 @@
 					<div class="row">
 						<div class="form-group col-md-6">
 							<?php echo form_label('Password', null); ?>
-							<?php echo form_input(['type' => 'password', 'name' => 'password', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10']); ?>
+							<?php echo form_input(['type' => 'password', 'name' => 'password', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '10', 'autofocus' => true]); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-6">
@@ -270,11 +282,17 @@
 
 	$(document).ready(function() {
 		// describe required variable
-		var filterUserLevel = '<?php echo $this->input->get('user_level'); ?>';
+		var filterUserLevel = '<?php echo $this->input->get('user_level'); ?>',
+			filterAgencyLocation = '<?php echo $this->input->get('agency_location'); ?>';
 
 		// set value to element if variable true or numeric
-		if (filterUserLevel !== null && filterUserLevel !== undefined && $.isNumeric(filterUserLevel)) {
+		if (filterUserLevel && $.isNumeric(filterUserLevel)) {
 			$('#UserLevel').val(filterUserLevel).trigger('change');
+		}
+
+		// set value to element if variable true or numeric
+		if (filterAgencyLocation && $.isNumeric(filterAgencyLocation)) {
+			$('#AgencyLocation').val(filterAgencyLocation).trigger('change');
 		}
 	});
 
@@ -330,12 +348,16 @@
 						if ('user' in response && typeof response.user == 'object') {
 							if (!$.isEmptyObject(response.user)) {
 								$.each(response.user, function(key, val) {
-									if ($.inArray(key, ['user_level_id', 'user_level', 'is_worker']) < 0) {
+									if ($.inArray(key, ['user_level', 'agency_location', 'is_worker']) < 0) {
 										modalDataForm.find('[name="' + key + '"]').val(val);
 									}
 
 									if (key == 'user_level_id' && modalDataForm.find('[name="user_level"] option[value="' +val+ '"]').length) {
 										modalDataForm.find('[name="user_level"]').val(val).trigger('change');
+									}
+
+									if (key == 'agency_location_id' && modalDataForm.find('[name="agency_location"] option[value="' +val+ '"]').length) {
+										modalDataForm.find('[name="agency_location"]').val(val).trigger('change');
 									}
 
 									if (key == 'is_worker') {

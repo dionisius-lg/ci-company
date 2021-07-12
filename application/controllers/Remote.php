@@ -7,12 +7,17 @@ class Remote extends CI_Controller {
 	{
 		parent::__construct();
 		date_default_timezone_set('Asia/Jakarta');
+
+		$this->result = [];
 	}
 
+	/**
+	 *  getUsers getCities
+	 *  get all cities data, return json
+	 */
 	public function getCities()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->is_ajax_request()) {
 			$this->load->model('CitiesModel');
@@ -41,19 +46,22 @@ class Remote extends CI_Controller {
 			}
 
 			if ($request['status'] == 'success') {
-				echo json_encode($request['data']);
+				$this->result = $request;
 			}
 
-			exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
+	/**
+	 *  getUsers method
+	 *  get all users data, return json
+	 */
 	public function getUsers()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->is_ajax_request()) {
 			$this->load->model('UsersModel');
@@ -82,71 +90,31 @@ class Remote extends CI_Controller {
 			}
 
 			if ($request['status'] == 'success') {
-				echo json_encode($request);
+				$this->result = $request;
 			}
 
-			exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	public function getUsersDatatable()
+	/**
+	 *  getSuplementaryQuestions method
+	 *  get all suplementary questions data, return json
+	 */
+	public function getSuplementaryQuestions()
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->is_ajax_request()) {
-			$this->load->model('UsersModel');
-
-			$list	= $this->UsersModel->getDatatables();
-			$no		= $_POST['start'];
-			$data	= [];
-
-			foreach ($list as $col) {
-				$no++;
-
-				$row	= [];
-				$row[]	= $no;
-				$row[]	= $col['username'];
-				$row[]	= $col['user_level'];
-				$row[]	= $col['is_register'] == 1 ? $col['register_date'] : '';
-				$row[]	= $col['is_register'] == 1 ? $col['register_by'] : '';
-				$row[]	= $col['update_date'];
-				$row[]	= $col['update_by'];
-				$row[]	= ($col['is_employees'] == 1) ? '<span class="badge bg-primary rounded-0">Employees</span>' : '<span class="badge bg-danger rounded-0">Not Employees</span>';
-				$row[]	= ($col['is_register'] == 1) ? '<span class="badge bg-primary rounded-0">Register</span>' : '<span class="badge bg-danger rounded-0 my-1">Not Register</span>';
-				$row[]	= '<button type="button" class="btn btn-info btn-xs rounded-0" onclick="detailData(' . $col['id'] . ')" title="Detail"><i class="fa fa-eye fa-fw"></i></button> <button type="button" class="btn btn-danger btn-xs rounded-0 my-1" onclick="deleteData(' . $col['id'] . ')" title="Delete"><i class="fa fa-trash fa-fw"></i></button>';
-
-				$data[]	= $row; 
-			}
-
-			$result = [
-				'draw'				=> $_POST['draw'],
-				'recordsTotal'		=> $this->UsersModel->getAll()['total_data'],
-				'recordsFiltered'	=> $this->UsersModel->countDatatablesFilter(),
-				'data'				=> $data
-			];
-
-			echo json_encode($result); exit();
-		}
-
-		redirect($_SERVER['HTTP_REFERER']);
-	}
-
-	public function getEmployees()
-	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
-
-		if ($this->input->is_ajax_request()) {
-			$this->load->model('EmployeesModel');
+			$this->load->model('SuplementaryQuestionsModel');
 
 			$input = array_map('trim', $this->input->post());
 
 			if (array_key_exists('id', $input)) {
 				if (is_numeric($input['id'])) {
-					$request = $this->EmployeesModel->getDetail($input['id']);
+					$request = $this->SuplementaryQuestionsModel->getDetail($input['id']);
 				}
 			} else {
 				$condition = [];
@@ -161,29 +129,32 @@ class Remote extends CI_Controller {
 					}
 				}
 
-				$request = $this->EmployeesModel->getAll($condition);
+				$request = $this->SuplementaryQuestionsModel->getAll($condition);
 
 			}
 
 			if ($request['status'] == 'success') {
-				echo json_encode($request);
+				$this->result = $request;
 			}
 
-			exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	public function getEmployeesDatatable()
+	/**
+	 *  getWorkerPreviousEmploymentsDatatable method
+	 *  get all worker previous employments data, return json on datatables
+	 */
+	public function getWorkerPreviousEmploymentsDatatable($worker_id = 0)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->is_ajax_request()) {
-			$this->load->model('EmployeesModel');
+			$this->load->model('WorkerPreviousEmploymentsModel');
 
-			$list	= $this->EmployeesModel->getDatatables();
+			$list	= $this->WorkerPreviousEmploymentsModel->getDatatables($worker_id);
 			$no		= $_POST['start'];
 			$data	= [];
 
@@ -192,41 +163,40 @@ class Remote extends CI_Controller {
 
 				$row	= [];
 				$row[]	= $no;
-				$row[]	= $col['nik'];
-				$row[]	= $col['fullname'];
-				$row[]	= $col['email'];
-				$row[]	= $col['create_date'];
-				$row[]	= $col['create_by'];
-				$row[]	= $col['update_date'];
-				$row[]	= $col['update_by'];
-				$row[]	= (!empty($col['user_id'])) ? '<span class="badge bg-primary rounded-0">Register</span>' : '<span class="badge bg-danger rounded-0">Not Register</span>';
-				$row[]	= '<a href="' . base_url('admin/employees/detail/' . $col['id']) . '" class="btn btn-info btn-xs rounded-0" title="Detail"><i class="fa fa-eye fa-fw"></i></a> <button type="button" class="btn btn-danger btn-xs rounded-0 my-1" onclick="deleteData(' . $col['id'] . ')" title="Delete"><i class="fa fa-trash fa-fw"></i></button>';
+				$row[]	= unStrClean($col['employer_name']);
+				$row[]	= unStrClean($col['working_area']);
+				$row[]	= unStrClean($col['country']);
+				$row[]	= unStrClean($col['period']);
+				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailDataPreviousEmployment(' . $col['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteDataPreviousEmployment(' . $col['id'] . ')']);
 
 				$data[]	= $row; 
 			}
 
-			$result = [
+			$this->result = [
 				'draw'				=> $_POST['draw'],
-				'recordsTotal'		=> $this->EmployeesModel->getAll()['total_data'],
-				'recordsFiltered'	=> $this->EmployeesModel->countDatatablesFilter(),
+				'recordsTotal'		=> $this->WorkerPreviousEmploymentsModel->getAll(['worker_id' => $worker_id])['total_data'],
+				'recordsFiltered'	=> $this->WorkerPreviousEmploymentsModel->countDatatablesFilter($worker_id),
 				'data'				=> $data
 			];
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	public function getCompanyAdvantagesDatatable()
+	/**
+	 *  getWorkerSuplementaryQuestionsDatatable method
+	 *  get all worker suplementary questions data, return json on datatables
+	 */
+	public function getWorkerSuplementaryQuestionsDatatable($worker_id = 0)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->is_ajax_request()) {
-			$this->load->model('CompanyAdvantagesModel');
+			$this->load->model('WorkerSuplementaryQuestionsModel');
 
-			$list	= $this->CompanyAdvantagesModel->getDatatables();
+			$list	= $this->WorkerSuplementaryQuestionsModel->getDatatables($worker_id);
 			$no		= $_POST['start'];
 			$data	= [];
 
@@ -235,76 +205,33 @@ class Remote extends CI_Controller {
 
 				$row	= [];
 				$row[]	= $no;
-				$row[]	= $col['title_eng'];
-				$row[]	= $col['title_ind'];
-				$row[]	= $col['create_date'];
-				$row[]	= $col['create_by'];
-				$row[]	= $col['update_date'];
-				$row[]	= $col['update_by'];
-				$row[]	= '<button type="button" class="btn btn-info btn-xs rounded-0" onclick="detailData(' . $col['id'] . ')" title="Detail"><i class="fa fa-eye fa-fw"></i></button> <button type="button" class="btn btn-danger btn-xs rounded-0 my-1" onclick="deleteData(' . $col['id'] . ')" title="Delete"><i class="fa fa-trash fa-fw"></i></button>';
+				$row[]	= unStrClean($col['question']);
+				$row[]	= unStrClean($col['answer']);
+				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailDataSuplementaryQuestion(' . $col['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteDataSuplementaryQuestion(' . $col['id'] . ')']);
 
 				$data[]	= $row; 
 			}
 
-			$result = [
+			$this->result = [
 				'draw'				=> $_POST['draw'],
-				'recordsTotal'		=> $this->CompanyAdvantagesModel->getAll()['total_data'],
-				'recordsFiltered'	=> $this->CompanyAdvantagesModel->countDatatablesFilter(),
+				'recordsTotal'		=> $this->WorkerSuplementaryQuestionsModel->getAll(['worker_id' => $worker_id])['total_data'],
+				'recordsFiltered'	=> $this->WorkerSuplementaryQuestionsModel->countDatatablesFilter($worker_id),
 				'data'				=> $data
 			];
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);
 	}
 
-	public function getSlidersDatatable()
-	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
-
-		if ($this->input->is_ajax_request()) {
-			$this->load->model('SlidersModel');
-
-			$list	= $this->SlidersModel->getDatatables();
-			$no		= $_POST['start'];
-			$data	= [];
-
-			foreach ($list as $col) {
-				$no++;
-
-				$row	= [];
-				$row[]	= $no;
-				$row[]	= @getimagesize(base_url('files/sliders/'.$col['picture'])) ? '<a href="' . base_url('files/sliders/'.$col['picture']) . '" class="venobox" data-href="">View Slider</button>' : 'File not found';
-				$row[]	= $col['order_number'];
-				$row[]	= !empty($col['link_to']) ? '<div class="text-center text-primary"><i class="fa fa-check fa-fw"></i></div>' : '<div class="text-center text-danger"><i class="fa fa-close fa-fw"></i></div>';
-				$row[]	= $col['create_date'];
-				$row[]	= $col['create_by'];
-				$row[]	= $col['update_date'];
-				$row[]	= $col['update_by'];
-				$row[]	= '<button type="button" class="btn btn-info btn-xs rounded-0" onclick="detailData(' . $col['id'] . ')" title="Detail"><i class="fa fa-eye fa-fw"></i></button> <button type="button" class="btn btn-danger btn-xs rounded-0 my-1" onclick="deleteData(' . $col['id'] . ')" title="Delete"><i class="fa fa-trash fa-fw"></i></button>';
-
-				$data[]	= $row; 
-			}
-
-			$result = [
-				'draw'				=> $_POST['draw'],
-				'recordsTotal'		=> $this->SlidersModel->getAll()['total_data'],
-				'recordsFiltered'	=> $this->SlidersModel->countDatatablesFilter(),
-				'data'				=> $data
-			];
-
-			echo json_encode($result); exit();
-		}
-
-		redirect($_SERVER['HTTP_REFERER']);
-	}
-
+	/**
+	 *  getWorkerAttachmentsDatatable method
+	 *  get all worker attachments data, return json on datatables
+	 */
 	public function getWorkerAttachmentsDatatable($worker_id = 0)
 	{
-		$session	= $this->session->userdata('AuthUser');
-		$result		= [];
+		$session = $this->session->userdata('AuthUser');
 
 		if ($this->input->is_ajax_request()) {
 			$this->load->model('WorkerAttachmentsModel');
@@ -324,22 +251,22 @@ class Remote extends CI_Controller {
 
 				$row	= [];
 				$row[]	= $no;
-				$row[]	= $col['name'];
+				$row[]	= unStrClean($col['name']);
 				$row[]	= $col['create_date'];
 				$row[]	= $col['create_by'];
-				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'onclick' => $download_file]) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
+				$row[] = form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-download fa-fw"></i>', 'title' => 'Download', 'onclick' => $download_file]) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteAttachment(' . $col['id'] . ')']);
 
 				$data[]	= $row; 
 			}
 
-			$result = [
+			$this->result = [
 				'draw'				=> $_POST['draw'],
 				'recordsTotal'		=> $this->WorkerAttachmentsModel->getAll(['worker_id' => $worker_id])['total_data'],
 				'recordsFiltered'	=> $this->WorkerAttachmentsModel->countDatatablesFilter($worker_id),
 				'data'				=> $data
 			];
 
-			echo json_encode($result); exit();
+			echo json_encode($this->result); exit();
 		}
 
 		redirect($_SERVER['HTTP_REFERER']);

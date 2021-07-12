@@ -76,16 +76,21 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 	'hostname' => 'localhost',
-	'username' => 'root', // local
-	// 'username' => 'ptarjcom_administrator', // arj.com
-	'password' => '', // local
-	// 'password' => 'ptarjcom102030', // arj.com
+	// local
+	'username' => 'root',
+	'password' => '',
 	'database' => 'ci_company',
-	// 'database' => 'ptarjcom_database', // arj.com
+	// ptarj.com
+	// 'username' => 'ptarjcom_administrator',
+	// 'password' => 'ptarjcom102030',
+	// 'database' => 'ptarjcom_database',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
+	// local
 	'db_debug' => (ENVIRONMENT !== 'production'),
+	// ptarj.com
+	// 'db_debug' => FALSE,
 	'cache_on' => FALSE,
 	'cachedir' => '',
 	'char_set' => 'utf8',

@@ -7,8 +7,6 @@ Web based Company Profile
 * Codeigniter 3.1.11
 * Bootstrap 4
 * jQuery v3.5.1
-* NodeJs
-* SocketIO
 
 ## License
 

@@ -8,9 +8,15 @@ class Users extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		if (!$this->session->has_userdata('AuthUser')) {
+			// save referer to session
 			$this->session->set_userdata('referer', current_url());
-			$this->config->item('language', sitelang());
-			setFlashError($this->lang->line('error')['auth'], 'auth');
+
+			// set site languange
+			$this->config->set_item('language', siteLang()['name']);
+
+			// show error message and redirect to login
+			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 
@@ -29,6 +35,7 @@ class Users extends CI_Controller {
 		$this->load->model('UsersModel');
 		$this->load->model('UserLevelsModel');
 		$this->load->model('WorkersModel');
+		$this->load->model('AgencyLocationsModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -58,19 +65,21 @@ class Users extends CI_Controller {
 			'page'					=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
 			'like_fullname'			=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
 			'like_email'			=> array_key_exists('email', $params) ? $params['email'] : '',
-			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
-			'like_country'			=> array_key_exists('country', $params) ? $params['country'] : '',
 			'like_username'			=> array_key_exists('username', $params) ? $params['username'] : '',
 			'user_level_id'			=> array_key_exists('user_level', $params) ? $params['user_level'] : '',
+			'agency_location_id'	=> array_key_exists('agency_location', $params) ? $params['agency_location'] : '',
+			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
 			'order'					=> 'fullname',
 			'sort'					=> 'asc',
 			'is_register'			=> 1,
 			'is_request_register'	=> '0',
+			'not_id'				=> '1'
 		];
 
 		$request = [
 			'users' => $this->UsersModel->getAll($clause),
-			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
+			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name']),
+			'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name'])
 		];
 
 		foreach ($request as $key => $val) {
@@ -177,15 +186,15 @@ class Users extends CI_Controller {
 			}
 
 			$data = [
-				'username'			=> strtolower($input['username']),
-				'password'			=> $input['password'],
-				'fullname'			=> ucwords($input['fullname']),
-				'email'				=> strtolower($input['email']),
-				'country'			=> ucwords($input['country']),
-				'company'			=> ucwords($input['company']),
-				'user_level_id'		=> $input['user_level'],
-				'register_user_id'	=> $session['id'],
-				'is_register'		=> 1
+				'username'				=> strtolower($input['username']),
+				'password'				=> $input['password'],
+				'fullname'				=> ucwords($input['fullname']),
+				'email'					=> strtolower($input['email']),
+				'agency_location_id'	=> $input['agency_location'],
+				'company'				=> ucwords($input['company']),
+				'user_level_id'			=> $input['user_level'],
+				'register_user_id'		=> $session['id'],
+				'is_register'			=> 1
 			];
 
 			$data = array_map('strClean', $data);
@@ -241,13 +250,13 @@ class Users extends CI_Controller {
 			}
 
 			$data = [
-				'username'			=> strtolower($input['username']),
-				'fullname'			=> ucwords($input['fullname']),
-				'email'				=> strtolower($input['email']),
-				'country'			=> ucwords($input['country']),
-				'company'			=> ucwords($input['company']),
-				'user_level_id'		=> $input['user_level'],
-				'update_user_id'	=> $session['id']
+				'username'				=> strtolower($input['username']),
+				'fullname'				=> ucwords($input['fullname']),
+				'email'					=> strtolower($input['email']),
+				'agency_location_id'	=> $input['agency_location'],
+				'company'				=> ucwords($input['company']),
+				'user_level_id'			=> $input['user_level'],
+				'update_user_id'		=> $session['id']
 			];
 
 			$data = array_map('strClean', $data);
@@ -426,9 +435,9 @@ class Users extends CI_Controller {
 				'rules' => 'trim|required|max_length[100]|valid_email|checkUsersEmail['.$id.']|xss_clean'
 			],
 			[
-				'field' => 'country',
-				'label' => 'Country',
-				'rules' => 'trim|max_length[100]|regexTextInput|xss_clean'
+				'field' => 'agency_location',
+				'label' => 'Agency Location',
+				'rules' => 'trim|is_natural|xss_clean'
 			],
 			[
 				'field' => 'company',

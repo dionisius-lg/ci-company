@@ -307,3 +307,12 @@
 	line-height: 1.5;
 	border-radius: 0.2rem;
 }
+
+.form-label {
+	color: #a4a4a4 !important;
+	font-weight: 600 !important;
+	font-size: 18px !important;
+	text-transform: uppercase !important;
+	letter-spacing: 2px;
+	display: block !important;
+}

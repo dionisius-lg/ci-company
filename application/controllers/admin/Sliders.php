@@ -8,9 +8,15 @@ class Sliders extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		if (!$this->session->has_userdata('AuthUser')) {
+			// save referer to session
 			$this->session->set_userdata('referer', current_url());
-			$this->config->item('language', sitelang());
-			setFlashError($this->lang->line('error')['auth'], 'auth');
+
+			// set site languange
+			$this->config->set_item('language', siteLang()['name']);
+
+			// show error message and redirect to login
+			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 
@@ -105,7 +111,11 @@ class Sliders extends CI_Controller {
 				$this->result['data'] = [
 					'file' => @getimagesize(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
 					'order_number' => $request['data']['order_number'],
-					'link_to' => $request['data']['link_to']
+					'link_to' => $request['data']['link_to'],
+					'create_date' => $request['data']['create_date'],
+					'create_by' => $request['data']['create_by'],
+					'update_date' => $request['data']['update_date'],
+					'update_by' => $request['data']['update_by'],
 				];
 				unset($this->result['message']);
 			}
@@ -145,10 +155,8 @@ class Sliders extends CI_Controller {
 				'upload_path' => $file_path,
 				'allowed_types' => 'jpg|jpeg|png',
 				'max_size' => '500',
-				//'max_width' => '1200',
-				//'max_height' => '675',
-				'encrypt_name' => true,
-				//'file_name' => 'slider'.time()
+				// 'encrypt_name' => true,
+				'file_name' => 'slider_'.base64url_encode(time())
 			];
 
 			$this->load->library('upload', $config_file);
@@ -249,8 +257,8 @@ class Sliders extends CI_Controller {
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png',
 					'max_size' => '500',
-					'encrypt_name' => true,
-					//'file_name' => 'slider'.time()
+					// 'encrypt_name' => true,
+					'file_name' => 'slider_'.base64url_encode(time())
 				];
 
 				$this->load->library('upload', $config_file);

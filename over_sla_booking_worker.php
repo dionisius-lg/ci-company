@@ -22,20 +22,22 @@ if (count($workers) > 0) {
 		$start_date = date('Y-m-d H:i:s', strtotime($worker['booking_date']));
 
 		$working_hour = $config['working_hour'];
-		
-		$get_second = getWorkingSeconds($start_date, $current_date, [], $working_hour);
+
+		$get_second = getWorkingEverydaySeconds($start_date, $current_date, [], $working_hour);
 
 		// if over than 3 days in second
 		if ($get_second > 259200) {
 			$data = [
 				'booking_status_id' => 1,
+				'booking_user_id' => null,
+				'booking_date' => null,
 				'is_over_sla' => 1
 			];
 
 			$update = dbupdate('workers', ['id' => $worker['id']], $data);
 
 			if ($update) {
-				echo 'update worker ' . $status . ' id: ' . $worker['id'];
+				echo 'Update worker ' . $status . ' id: ' . $worker['id'];
 				echo PHP_EOL;
 
 				createLog($config['log']['dir'] . $config['log']['success'], basename($_SERVER['SCRIPT_FILENAME']) . ' - Success update workers over sla booking. Worker ID: ' . $worker['id']);

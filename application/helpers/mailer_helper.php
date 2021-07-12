@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+// Composer autoload
+require FCPATH.'vendor/autoload.php';
 
-require APPPATH.'libraries/phpmailer/src/Exception.php';
-require APPPATH.'libraries/phpmailer/src/PHPMailer.php';
-require APPPATH.'libraries/phpmailer/src/SMTP.php';
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 if (!function_exists('sendMail')) {
 	function sendMail($subject = '', $body = '', $data = []) {
@@ -28,52 +28,48 @@ if (!function_exists('sendMail')) {
         $config = $request['data'];
 		$mail   = new PHPMailer(true);
 
-        // Server settings
-		$mail->SMTPOptions = [
-			'ssl' => [
-				'verify_peer'       => false,
-				'verify_peer_name'  => false,
-				'allow_self_signed' => true
-			]
-		];
+		try {
+			// Server settings
+			$mail->SMTPDebug   = SMTP::DEBUG_SERVER;
+			$mail->SMTPOptions = [
+				'ssl' => [
+					'verify_peer'       => false,
+					'verify_peer_name'  => false,
+					'allow_self_signed' => true
+				]
+			];
+			$mail->isSMTP();
+			$mail->Host         = $config['host'];
+			$mail->SMTPAuth     = true;
+			$mail->Username     = $config['username'];
+			$mail->Password     = $config['password'];
+			$mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
+			// $mail->SMTPSecure   = $config['encryption'];
+			$mail->Port         = $config['port'];
 
-		// SMTP configuration
-		$mail->isSMTP();
-		$mail->isHTML(true);
-		$mail->Host       = $config['host'];
-		$mail->SMTPAuth   = true;
-		$mail->SMTPSecure = $config['encryption'];
-		$mail->Port       = $config['port'];
-		// $mail->SMTPDebug  = 3;
-		$mail->Username   = $config['username'];
-		$mail->Password   = $config['password'];
+			// Recipients
+			$mail->setFrom($config['username']);
+			$mail->addAddress($data['email']);
+			$mail->addReplyTo($config['username']);
 
-		$mail->setFrom($config['username']);
-		$mail->addReplyTo($config['username']);
+			// Attachments
+			// $mail->addAttachment('/var/tmp/file.tar.gz'); //Add attachments
+			// $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); //Optional name
 
-		// Add a recipient
-		$mail->addAddress($data['email']);
-		// $mail->addAddress('gatotbeling288@yahoo.co.id');
+			// Content
+			$mail->isHTML(true);
+			$mail->Subject      = $subject;
+			$mail->Body         = $body;
+			// $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-		// Email subject
-		$mail->Subject = $subject;
-		// $mail->Subject = 'Test Mail Sender';
+			// Send mail
+			$mail->send();
 
-		// Email body content
-		$mail->Body = $body;
-		// $mailContent = "<h1>SMTP Mailer</h1><p>Test mail sender</p>";
-		// $mail->Body = $mailContent;
+			echo 'Message has been sent.';
 
-		// Send email
-		// if (!$mail->send()) {
-		// 	echo 'Message could not be sent.';
-		// 	echo 'Mailer Error: ' . $mail->ErrorInfo;
-		// } else {
-		// 	echo 'Message has been sent';
-		// }
-
-		if ($mail->send()) {
 			$response = true;
+		} catch (Exception $e) {
+			echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 		}
 
 		return $response;

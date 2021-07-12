@@ -35,14 +35,33 @@
 	});
 
 	// Activate navigation on current page
-	$(document).ready(function() {
-		var currentUrl = window.location.href;
+	// $(document).ready(function() {
+	// 	var currentUrl = window.location.href;
 
-		$('#header nav li > a').each(function() {
+	// 	$('#header nav li > a').each(function() {
+	// 		var linkUrl = this.href;
+
+	// 		if (linkUrl == currentUrl) {
+	// 			// $(this).remove();
+	// 			$(this).closest('li').addClass('active');
+	// 		}
+	// 	});
+	// });
+
+	// Activate navigation on current page
+	$(document).ready(function() {
+		if (!window.location.origin){
+			// For IE
+			window.location.origin = window.location.protocol + "//" + (window.location.port ? ':' + window.location.port : '');      
+		}
+
+		var currentUrl = window.location.origin + window.location.pathname,
+			newCurrentUrl = currentUrl.split("/").splice(0, 5).join("/");
+
+			$('#header nav li > a').each(function() {
 			var linkUrl = this.href;
 
-			if (linkUrl == currentUrl) {
-				// $(this).remove();
+			if (linkUrl == newCurrentUrl) {
 				$(this).closest('li').addClass('active');
 			}
 		});

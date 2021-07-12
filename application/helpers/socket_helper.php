@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Composer autoload
-require FCPATH.'/vendor/autoload.php';
+require FCPATH.'vendor/autoload.php';
 
 use ElephantIO\Client as Elephant;
 use ElephantIO\Engine\SocketIO\Version2X;
@@ -15,7 +15,6 @@ if (!function_exists('socketEmit')) {
 				// $server = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://socket." . @$_SERVER['HTTP_HOST'];
 
 				$socket_server = ($nameserver) ? $nameserver : $server;
-				// $socket_server = $server;
 				$parse = parse_url($socket_server);
 
 				if (!array_key_exists('host', $parse) || !array_key_exists('port', $parse)) {

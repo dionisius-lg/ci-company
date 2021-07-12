@@ -26,25 +26,35 @@ class WorkersModel extends CI_Model {
 		$condition			= [];
 		$condition_like		= [];
 		$condition_inset	= [];
+		$condition_between	= [];
 
 		$column_like = [
-			'like_nik',
+			'like_ref_number',
 			'like_fullname',
 			'like_email',
-			'like_phone_1',
-			'like_phone_2',
-			'like_birth_place'
+			'like_phone'
 		];
 
 		$column_inset = [
+			'inset_language_ability_ids',
+			'inset_language_ability_slug',
+			'inset_cooking_ability_ids',
+			'inset_cooking_ability_slug',
+			'inset_skill_experience_ids',
+			'inset_skill_experience_slug',
+			'inset_work_experience_ids',
+			'inset_work_experience_slug',
 			'inset_ready_placement_ids',
-			'inset_oversea_experience_ids',
-			'inset_experience_ids'
+			'inset_ready_placement_slug'
 		];
 
 		$column_date = [
 			'create_date',
 			'update_date'
+		];
+
+		$column_between = [
+			'between_age'
 		];
 
 		if (!empty($data_temp) && is_array($data_temp)) {
@@ -94,10 +104,12 @@ class WorkersModel extends CI_Model {
 					} else {
 						$condition[$key] = $val;
 					}
-				} elseif (in_array($key, $column_like) && in_array(substr($key, 5), $column)) {
-					$condition_like[substr($key, 5)] = $val;
-				} elseif (in_array($key, $column_inset) && in_array(substr($key, 6), $column)) {
-					$condition_inset[substr($key, 6)] = $val;
+				} elseif (in_array($key, $column_like) && in_array(substr($key, strlen('like_')), $column)) {
+					$condition_like[substr($key, strlen('like_'))] = $val;
+				} elseif (in_array($key, $column_inset) && in_array(substr($key, strlen('inset_')), $column)) {
+					$condition_inset[substr($key, strlen('inset_'))] = $val;
+				} elseif (in_array($key, $column_between) && in_array(substr($key, strlen('between_')), $column)) {
+					$condition_between[substr($key, strlen('between_'))] = $val;
 				} elseif ($key == 'not_id' && is_numeric($val)) {
 					$condition['id !='] = $val;
 				}
@@ -130,6 +142,18 @@ class WorkersModel extends CI_Model {
 			}
 		}
 
+		if (!empty($condition_between) && is_array($condition_between)) {
+			foreach ($condition_between as $key => $val) {
+				if (!empty($val) && is_array($val) && count($val) === 2) {
+					if (!empty($val[0]) && !empty($val[1])) {
+						$term_between = $key . ' BETWEEN ' . implode(' AND ', $val);
+
+						$this->db->where($term_between);
+					}
+				}
+			}
+		}
+
 		$offset = ($clause['limit'] * $clause['page']) - $clause['limit'];
 
 		if (is_numeric($offset) && $offset >= 0) {
@@ -140,7 +164,7 @@ class WorkersModel extends CI_Model {
 
 		$query	= $this->db->order_by($clause['order'], strtoupper($clause['sort']))->get($this->view_table);
 		$result	= json_decode(json_encode($query->result()), true);
-		$total	= $this->_getCount($this->view_table, $condition, $condition_like, $condition_inset);
+		$total	= $this->_getCount($this->view_table, $condition, $condition_like, $condition_inset, $condition_between);
 
 		if (!empty($clause['limit'])) {
 			$page_first		= 1;
@@ -216,11 +240,11 @@ class WorkersModel extends CI_Model {
 			return responseBadRequest('Empty data');
 		}
 
-		if (array_key_exists('nik', $data)) {
-			$check = $this->_getCount($this->table, ['nik' => $data['nik']]);
+		if (array_key_exists('ref_number', $data)) {
+			$check = $this->_getCount($this->table, ['ref_number' => $data['ref_number']]);
 
 			if ($check > 0) {
-				return responseBadRequest('NIK already exist');
+				return responseBadRequest('Ref Number already exist');
 			}
 		}
 
@@ -269,6 +293,8 @@ class WorkersModel extends CI_Model {
 					} else {
 						if (in_array($key, ['is_active']) && $val === '0') {
 							$data[$key] = '0';
+						} elseif (in_array($key, ['placement_id']) && empty($val)) {
+							$data[$key] = null;
 						}
 					}
 				}
@@ -285,11 +311,11 @@ class WorkersModel extends CI_Model {
 			return responseNotFound();
 		}
 
-		if (array_key_exists('nik', $data)) {
-			$check = $this->_getCount($this->table, ['nik' => $data['nik'], 'id !=' => $id]);
+		if (array_key_exists('ref_number', $data)) {
+			$check = $this->_getCount($this->table, ['ref_number' => $data['ref_number'], 'id !=' => $id]);
 
 			if ($check > 0) {
-				return responseBadRequest('NIK already exist');
+				return responseBadRequest('Ref Number already exist');
 			}
 		}
 
@@ -357,7 +383,7 @@ class WorkersModel extends CI_Model {
 	 *  private _getCount method
 	 *  return interger
 	 */
-	public function _getCount($table = null, $condition = [], $condition_like = [], $condition_inset = [])
+	public function _getCount($table = null, $condition = [], $condition_like = [], $condition_inset = [], $condition_between = [])
 	{
 		if (!empty($table)) {
 			$this->db->from($table);
@@ -388,6 +414,18 @@ class WorkersModel extends CI_Model {
 				}
 			}
 
+			if (!empty($condition_between) && is_array($condition_between)) {
+				foreach ($condition_between as $key => $val) {
+					if (!empty($val) && is_array($val) && count($val) === 2) {
+						if (!empty($val[0]) && !empty($val[1])) {
+							$term_between = $key . ' BETWEEN ' . implode(' AND ', $val);
+	
+							$this->db->where($term_between);
+						}
+					}
+				}
+			}
+
 			return $this->db->count_all_results();
 		}
 
@@ -398,9 +436,10 @@ class WorkersModel extends CI_Model {
 	 *  private _getDatatablesQuery method
 	 *  return query
 	 */
-	private function _getDatatablesQuery() {
-		$search	= ['nik', 'fullname', 'email'];
-		$order	= ['id', 'nik', 'fullname', 'email', 'create_date', 'create_by', 'update_date', 'update_by', 'user_id'];
+	private function _getDatatablesQuery()
+	{
+		$search	= ['ref_number', 'fullname', 'email'];
+		$order	= [null, 'ref_number', 'fullname', 'email', 'placement', 'booking_status', 'user_id', null];
 
 		$this->db->from($this->view_table)->where(['is_active' => 1]);
 
@@ -445,6 +484,10 @@ class WorkersModel extends CI_Model {
 		return json_decode(json_encode($result), true);
 	}
 
+	/**
+	 *  countDatatablesFilter method
+	 *  count filter data for datatables
+	 */
 	public function countDatatablesFilter()
 	{
 		$this->_getDatatablesQuery();

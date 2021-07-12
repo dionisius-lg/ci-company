@@ -8,9 +8,15 @@ class Mailer extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		if (!$this->session->has_userdata('AuthUser')) {
+			// save referer to session
 			$this->session->set_userdata('referer', current_url());
-			$this->config->item('language', sitelang());
-			setFlashError($this->lang->line('error')['auth'], 'auth');
+
+			// set site languange
+			$this->config->set_item('language', siteLang()['name']);
+
+			// show error message and redirect to login
+			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 

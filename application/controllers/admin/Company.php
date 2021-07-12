@@ -8,9 +8,15 @@ class Company extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		if (!$this->session->has_userdata('AuthUser')) {
+			// save referer to session
 			$this->session->set_userdata('referer', current_url());
-			$this->config->item('language', sitelang());
-			setFlashError($this->lang->line('error')['auth'], 'auth');
+
+			// set site languange
+			$this->config->set_item('language', siteLang()['name']);
+
+			// show error message and redirect to login
+			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 
@@ -108,8 +114,8 @@ class Company extends CI_Controller {
 					'max_size' => '2048',
 					//'max_width' => '1024',
 					//'max_height' => '768',
-					'encrypt_name' => true,
-					//'file_name' => 'company_'.time()
+					// 'encrypt_name' => true,
+					'file_name' => 'logo_'.base64url_encode(time())
 				];
 
 				$this->load->library('upload', $config_file);

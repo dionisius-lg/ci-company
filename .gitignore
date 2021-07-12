@@ -38,7 +38,11 @@ socket/node_modules/*
 # Vendor
 #-------------------------
 vendor/*
+!vendor/index.html
+!vendor/.htaccess
 
 # Files
 #-------------------------
 files/*
+!files/index.html
+!files/.htaccess

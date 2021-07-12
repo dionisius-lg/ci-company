@@ -77,20 +77,10 @@
 					<span class="brand-text font-weight-light">Administrator</span>
 				</a>
 				<div class="sidebar">
-					<!--
-					<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-						<div class="image">
-							<img src="" class="img-circle elevation-2" alt="User Image">
-						</div>
-						<div class="info">
-							<a href="#" class="d-block">asd</a>
-						</div>
-					</div>
-					-->
 					<nav class="mt-2">
 						 <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-compact text-sm" data-widget="treeview" role="menu" data-accordion="false">
 						 	<li class="nav-item">
-								<a href="<?php echo site_url('admin'); ?>" class="nav-link active">
+								<a href="<?php echo site_url('admin'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-tachometer"></i>
 									<p>Dashboard</p>
 								</a>
@@ -99,6 +89,12 @@
 								<a href="<?php echo site_url('admin/user-requests'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-exclamation-circle"></i>
 									<p>User Requests</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?php echo site_url('admin/booking-requests'); ?>" class="nav-link">
+									<i class="nav-icon fa fa-exclamation-circle"></i>
+									<p>Booking Requests</p>
 								</a>
 							</li>
 							<li class="nav-item">
@@ -113,12 +109,6 @@
 									<p>Workers Data</p>
 								</a>
 							</li>
-							<!-- <li class="nav-item">
-								<a href="<?php echo site_url('admin/employees'); ?>" class="nav-link">
-									<i class="nav-icon fa fa-users"></i>
-									<p>Employees Data</p>
-								</a>
-							</li> -->
 							<li class="nav-item">
 								<a href="<?php echo site_url('admin/company'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-building-o"></i>
@@ -132,29 +122,41 @@
 								</a>
 							</li>
 							<li class="nav-item has-treeview">
-								<a href="#" class="nav-link">
+								<a href="#" class="nav-link treeview-link">
 									<i class="nav-icon fa fa-cog"></i>
 									<p>Settings <i class="right fa fa-angle-left"></i></p>
 								</a>
 								<ul class="nav nav-treeview">
 									<li class="nav-item">
-										<a href="<?php echo site_url('admin/experiences'); ?>" class="nav-link">
+										<a href="<?php echo site_url('admin/skill-experiences'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
-											<p>Experiences</p>
+											<p>Skill Experiences</p>
 										</a>
 									</li>
 									<li class="nav-item">
-										<a href="<?php echo site_url('admin/placements'); ?>" class="nav-link">
+										<a href="<?php echo site_url('admin/language-abilities'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
-											<p>Placements</p>
+											<p>Language Abilities</p>
 										</a>
 									</li>
-									<!-- <li class="nav-item">
-										<a href="<?php echo site_url('admin/mailer'); ?>" class="nav-link">
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/cooking-abilities'); ?>" class="nav-link">
 											<i class="fa fa-circle-thin nav-icon"></i>
-											<p>Mailer Config</p>
+											<p>Cooking Abilities</p>
 										</a>
-									</li> -->
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/agency-locations'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Agency Locations</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/suplementary-questions'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Suplementary Questions</p>
+										</a>
+									</li>
 								</ul>
 							</li>
 							<li class="nav-item">

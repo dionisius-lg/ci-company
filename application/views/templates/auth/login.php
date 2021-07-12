@@ -3,8 +3,8 @@
 		<div class="d-flex justify-content-between align-items-center">
 			<h2><?php echo $this->template->title; ?></h2>
 			<ol>
-				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
-				<li><?php echo $this->template->title; ?></li>
+				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
+				<li><?php echo $this->lang->line('front')['topbar']['login']; ?></li>
 			</ol>
 		</div>
 	</div>
@@ -16,16 +16,20 @@
 			<div class="col-md-4 col-sm-12 mx-auto">
 				<div class="box mx-auto">
 					<div class="message">
-						<?php echo (hasFlashError()) ? '<span class="text-danger"><i class="fa fa-warning"></i> ' . flashError() . '</span>' : $this->lang->line('page_login')['intro']; ?>
+						<?php if (hasFlashError('auth')) {
+							echo '<span class="text-danger"><i class="fa fa-warning"></i> ' . ((flashError('auth') === 'unauthorized') ? $error_auth = $this->lang->line('message')['error']['auth'] : flashError('auth')) . '</span>';
+						} else {
+							echo $this->lang->line('front')['page_login']['intro'];
+						} ?>
 					</div>
 					<?php echo form_open('auth', ['id' => 'formAuth', 'autocomplete' => 'off', 'data-parsley-validate' => true]); ?>
 						<div class="form-group">
-							<?php echo form_input(['type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['username'], 'data-parsley-errors-container' => '.parsley-username', 'required' => true, 'autofocus' => true]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'username', 'id' => 'username', 'class' => 'form-control', 'placeholder' => $this->lang->line('front')['page_login']['username'], 'data-parsley-errors-container' => '.parsley-username', 'required' => true, 'autofocus' => true]); ?>
 							<span class="text-danger parsley-username"></span>
 						</div>
 						<div class="form-group">
 							<div class="input-group">
-								<?php echo form_input(['type' => 'password', 'name' => 'password', 'id' => 'password', 'class' => 'form-control', 'placeholder' => $this->lang->line('page_login')['password'], 'data-parsley-errors-container' => '.parsley-password', 'required' => true]); ?>
+								<?php echo form_input(['type' => 'password', 'name' => 'password', 'id' => 'password', 'class' => 'form-control', 'placeholder' => $this->lang->line('front')['page_login']['password'], 'data-parsley-errors-container' => '.parsley-password', 'required' => true]); ?>
 								<div class="input-group-append">
 									<div class="input-group-text">
 										<i class="fa fa-fw fa-eye toggle-password"></i>
@@ -38,7 +42,7 @@
 							<?php echo $recaptcha ?>
 						</div>
 						<div class="text-right">
-							<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('page_login')['submit']; ?></button>
+							<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('front')['page_login']['submit']; ?></button>
 						</div>
 					<?php echo form_close(); ?>
 				</div>
@@ -54,29 +58,7 @@
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/sweetalert2/js/sweetalert2.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/parsley/parsley.min.js'); ?>
-<?php switch (sitelang()) {
-	case 'indonesian':
-		$this->template->javascript->add('assets/vendor/parsley/i18n/id.js');
-		break;
-	case 'japanese':
-		$this->template->javascript->add('assets/vendor/parsley/i18n/ja.js');
-		break;
-	case 'korean':
-		$this->template->javascript->add('assets/vendor/parsley/i18n/ko.js');
-		break;
-	case 'mandarin':
-		$this->template->javascript->add('assets/vendor/parsley/i18n/zh_tw.js');
-		break;
-} ?>
-
-<?php if (hasFlashError('auth')) { ?>
-<script>
-	Swal.fire({
-		icon: 'warning',
-		title: '<?php echo flashError("auth"); ?>'
-	});
-</script>
-<?php } ?>
+<?php $this->template->javascript->add('assets/vendor/parsley/i18n/' . strtolower(str_replace('-', '_', siteLang()['key'])) . '.js'); ?>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -104,29 +86,14 @@
 		var captcha = $('#g-recaptcha-response').val();
 
 		if (captcha == "" || captcha == undefined || captcha.length == 0) {
-			var errorMessage;
-
-			switch ('<?php echo sitelang(); ?>') {
-				case 'indonesian':
-					errorMessage = 'Captcha diperlukan';
-					break;
-				case 'japanese':
-					errorMessage = 'キャプチャが必要です';
-					break;
-				case 'korean':
-					errorMessage = '보안 문자가 필요합니다';
-					break;
-				case 'mandarin':
-					errorMessage = '必須輸入驗證碼';
-					break;
-				default:
-					errorMessage = 'Captcha is required';
-			}
-
-			Swal.fire({
-				icon: 'error',
-				title: errorMessage
+			var bsSwal = Swal.mixin({
+				customClass: {
+					confirmButton: 'btn btn-secondary rounded-0'
+				},
+				buttonsStyling: false
 			});
+
+			bsSwal.fire('<?php echo $this->lang->line('message')['error']['captcha']; ?>');
 
 			return false;
 		}

@@ -31,23 +31,28 @@
 				<div class="menu-lang mr-auto">
 					<div class="btn-group">
 						<button class="btn btn-outline-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<?php echo '<img src="' . base_url('assets/img/lang/' . sitelang() . '.png') . '" alt="' . sitelang() . '"> ' . sitelang(); ?>
+						<?php echo sitelang()['alias']; ?>
 						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							<?php echo '<a class="dropdown-item" href="' . base_url('lang/english') . '"><img src="' . base_url('assets/img/lang/english.png') . '" class="img-fluid"> English</a>
-							<a class="dropdown-item" href="' . base_url('lang/indonesian') . '"><img src="' . base_url('assets/img/lang/indonesian.png') . '" class="img-fluid"> Indonesian</a>
-							<a class="dropdown-item" href="' . base_url('lang/japanese') . '"><img src="' . base_url('assets/img/lang/japanese.png') . '" class="img-fluid"> Japanese</a>
-							<a class="dropdown-item" href="' . base_url('lang/korean') . '"><img src="' . base_url('assets/img/lang/korean.png') . '" class="img-fluid"> Korean</a>
-							<a class="dropdown-item" href="' . base_url('lang/mandarin') . '"><img src="' . base_url('assets/img/lang/mandarin.png') . '" class="img-fluid"> Mandarin</a>'; ?>
+						<div class="dropdown-menu">
+							<?php echo anchor(base_url('lang/en'), 'English', ['class' => 'dropdown-item']); ?>
+							<?php echo anchor(base_url('lang/id'), 'Bahasa', ['class' => 'dropdown-item']); ?>
+							<?php echo anchor(base_url('lang/ja'), '日本語', ['class' => 'dropdown-item']); ?>
+							<?php echo anchor(base_url('lang/ko'), '한국어', ['class' => 'dropdown-item']); ?>
+							<?php echo anchor(base_url('lang/zh-TW'), '繁體中文', ['class' => 'dropdown-item']); ?>
 						</div>
 					</div>
 				</div>
 				<div class="menu-user">
 					<ul class="list-inline mb-0">
 						<?php if (!$this->session->has_userdata('AuthUser')) {
-							echo '<li class="list-inline-item"><a href="' . base_url('auth') . '">' . $this->lang->line('header')['topbar']['login'] , '</a></li> <li class="list-inline-item"><a href="' . base_url('auth/register') . '">' . $this->lang->line('header')['topbar']['register'] , '</a></li>';
+							echo '<li class="list-inline-item">' . anchor(base_url('auth'), $this->lang->line('front')['topbar']['login']) . '</li>';
+							echo '<li class="list-inline-item">' . anchor(base_url('auth/register'), $this->lang->line('front')['topbar']['register']) . '</li>';
 						} else {
-							echo '<li class="list-inline-item"><a href="' . base_url('auth/logout') . '">' . $this->lang->line('header')['topbar']['logout'] , '</a></li>';
+							echo '<li class="list-inline-item dropdown">';
+								// echo anchor('#', $this->lang->line('front')['topbar']['welcome'] . ', ' . strtok($this->session->userdata('AuthUser')['fullname'], ' '), ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
+								echo anchor('#', $this->session->userdata('AuthUser')['fullname'], ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
+								echo '<div class="dropdown-menu dropdown-menu-right">' . anchor(base_url('auth/logout'), $this->lang->line('front')['topbar']['logout'], ['class' => 'dropdown-item']) . '</div>';
+							echo '</li>';
 						} ?>
 					</ul>
 				</div>
@@ -73,10 +78,10 @@
 					</div>
 
 					<ul>
-						<li><?php echo '<a href="' . base_url() . '">' . $this->lang->line('header')['navbar']['home'] . '</a>'; ?></li>
-						<li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('header')['navbar']['worker'] . '</a>'; ?></li>
-						<li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('header')['navbar']['about'] . '</a>'; ?></li>
-						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('header')['navbar']['contact'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url() . '">' . $this->lang->line('front')['navbar']['home'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('front')['navbar']['about'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('front')['navbar']['worker'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('front')['navbar']['contact'] . '</a>'; ?></li>
 						<!-- <li class="drop-down"><a href="">Drop Down</a>
 							<ul>
 								<li><a href="#">Drop Down 1</a></li>
@@ -111,31 +116,28 @@
 					<div class="row">
 						<div class="col-lg-4 col-md-6 footer-info">
 							<h3><?php echo $company['name']; ?></h3>
-							<p><?php echo $company['name'] . $this->lang->line('footer')['company']['desc']; ?></p>
+							<p><?php echo $company['name'] . $this->lang->line('front')['footer']['company']['desc']; ?></p>
 						</div>
 						<div class="col-lg-4 col-md-6 footer-link">
 							<h4><?php echo $this->lang->line('footer')['link']['title']; ?></h4>
 							<ul>
-								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('footer')['link']['home']; ?></a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('footer')['link']['worker']; ?></a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('footer')['link']['about']; ?></a></li>
-								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('footer')['link']['contact']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('front')['navbar']['about']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('front')['navbar']['worker']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('front')['navbar']['contact']; ?></a></li>
 							</ul>
 						</div>
 						<div class="col-lg-4 col-md-6 footer-contact">
-							<h4><?php echo $this->lang->line('footer')['contact']['title']; ?></h4>
-							<p><?php echo ((sitelang() == 'english') ? $company['address_eng'] : $company['address_ind']) . ', ' . $company['city'] . ', ' . $company['province'] . (!empty($company['zip_code']) ? ' - ' . $company['zip_code'] : ''); ?></p>
+							<h4><?php echo $this->lang->line('front')['footer']['contact']['title']; ?></h4>
+							<p><?php echo ((siteLang()['key'] == 'en') ? $company['address_eng'] : $company['address_ind']) . ', ' . $company['city'] . ', ' . $company['province'] . (!empty($company['zip_code']) ? ' - ' . $company['zip_code'] : ''); ?></p>
 							<p>
-								<?php echo '<strong>' . $this->lang->line('footer')['contact']['phone'] . ':</strong> ' . $company['phone_1'] . (!empty($company['phone_2']) ? ', ' . $company['phone_2'] : ''); ?>
+								<?php echo '<strong>' . $this->lang->line('front')['footer']['contact']['phone'] . ':</strong> ' . $company['phone_1'] . (!empty($company['phone_2']) ? ', ' . $company['phone_2'] : ''); ?>
 								<br>
-								<?php echo '<strong>' . $this->lang->line('footer')['contact']['email'] . ':</strong> <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a> ' . (!empty($company['email_2']) ? ', <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a>' : ''); ?>
+								<?php echo '<strong>' . $this->lang->line('front')['footer']['contact']['email'] . ':</strong> <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a> ' . (!empty($company['email_2']) ? ', <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a>' : ''); ?>
 							</p>
 							<div class="social">
-								<a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
 								<a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
 								<a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
-								<a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
-								<a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
 							</div>
 						</div>
 					</div>

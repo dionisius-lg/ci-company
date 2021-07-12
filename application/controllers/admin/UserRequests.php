@@ -8,9 +8,15 @@ class UserRequests extends CI_Controller {
 		date_default_timezone_set('Asia/Jakarta');
 
 		if (!$this->session->has_userdata('AuthUser')) {
+			// save referer to session
 			$this->session->set_userdata('referer', current_url());
-			$this->config->item('language', sitelang());
-			setFlashError($this->lang->line('error')['auth'], 'auth');
+
+			// set site languange
+			$this->config->set_item('language', siteLang()['name']);
+
+			// show error message and redirect to login
+			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 
@@ -28,6 +34,7 @@ class UserRequests extends CI_Controller {
 		$this->load->model('CompanyModel');
 		$this->load->model('UsersModel');
 		$this->load->model('UserLevelsModel');
+		$this->load->model('AgencyLocationsModel');
 		$this->load->model('EmailsModel');
 
 		// load default data
@@ -59,7 +66,8 @@ class UserRequests extends CI_Controller {
 			'like_fullname'			=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
 			'like_email'			=> array_key_exists('email', $params) ? $params['email'] : '',
 			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
-			'like_country'			=> array_key_exists('country', $params) ? $params['country'] : '',
+			'user_level_id'			=> array_key_exists('register_as', $params) ? $params['register_as'] : '',
+			'agency_location_id'	=> array_key_exists('agency_location', $params) ? $params['agency_location'] : '',
 			'order'					=> 'request_date',
 			'sort'					=> 'desc',
 			'is_request_register'	=> 1
@@ -67,7 +75,8 @@ class UserRequests extends CI_Controller {
 
 		$request = [
 			'users' => $this->UsersModel->getAll($clause),
-			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
+			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name', 'not_id' => 1]),
+			'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name'])
 		];
 
 		foreach ($request as $key => $val) {
@@ -171,9 +180,9 @@ class UserRequests extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-				$request = $this->UsersModel->getDetail($request['data']['id']);
+				// $request = $this->UsersModel->getDetail($request['data']['id']);
 
-				if ($request['status'] == 'success') {
+				// if ($request['status'] == 'success') {
 					// $data_email = $request['data'];
 					// $data_email['password'] = $data['password'];
 
@@ -183,7 +192,7 @@ class UserRequests extends CI_Controller {
 						setFlashSuccess('Data successfully registered.');
 						socketEmit('count-total');
 					// }
-				}
+				// }
 			}
 
 			echo json_encode($this->result); exit();
