@@ -17,7 +17,10 @@
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
 	},
 	"require-dev": {
-		"mikey179/vfsStream": "1.1.*",
-		"phpunit/phpunit": "4.* || 5.*"
+		"mikey179/vfsstream": "1.1.*",
+		"phpunit/phpunit": "4.* || 5.*",
+		"wisembly/elephant.io": "^3.3",
+		"phpmailer/phpmailer": "6.1.4",
+		"dompdf/dompdf": "0.8.3"
 	}
 }

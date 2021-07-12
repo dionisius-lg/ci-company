@@ -29,3 +29,20 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
+
+# Socket
+#-------------------------
+socket/package-lock.json
+socket/node_modules/*
+
+# Vendor
+#-------------------------
+vendor/*
+!vendor/index.html
+!vendor/.htaccess
+
+# Files
+#-------------------------
+files/*
+!files/index.html
+!files/.htaccess

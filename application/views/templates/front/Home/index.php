@@ -19,7 +19,7 @@
 <section class="blog" hidden>
 	<div class="container">
 		<div class="section-title">
-			<h2><?php echo $this->lang->line('section_title')['news']; ?></h2>
+			<h2><?php echo $this->lang->line('front')['section_title']['news']; ?></h2>
 		</div>
 
 		<div class="row">
@@ -89,7 +89,7 @@
 <section id="clients" hidden>
 	<div class="container">
 		<div class="section-title">
-			<h2><?php echo $this->lang->line('section_title')['clients']; ?></h2>
+			<h2><?php echo $this->lang->line('front')['section_title']['clients']; ?></h2>
 		</div>
 
 		<div class="client-slider owl-carousel owl-theme">

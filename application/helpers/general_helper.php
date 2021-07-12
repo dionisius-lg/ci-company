@@ -3,7 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if (!function_exists('strClean')) {
 	function strClean($str) {
-		return addslashes(htmlspecialchars(trim($str), ENT_QUOTES));
+		// return htmlentities(trim($str), ENT_QUOTES, 'UTF-8');
+		return addslashes(htmlspecialchars(trim($str), ENT_QUOTES, 'UTF-8'));
+	}
+}
+
+if (!function_exists('unStrClean')) {
+	function unStrClean($str) {
+		return stripslashes(html_entity_decode($str, ENT_QUOTES, 'UTF-8'));
 	}
 }
 
@@ -13,9 +20,33 @@ if (!function_exists('nl2space')) {
 	}
 }
 
-if (!function_exists('slugify')) {
-	function slugify($str) {
-		return strtolower(str_slug($str, '-'));
+if (!function_exists('base64url_encode')) {
+	function base64url_encode($str) {
+		if ($str) {
+			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+			$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+			$mcrypt_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $str, MCRYPT_MODE_ECB, $iv);
+			$base64_encode = strtr(base64_encode($mcrypt_encrypt), '+/', '-_');
+
+			return rtrim($base64_encode, '=');
+		}
+
+		return false;
+	}
+}
+
+if (!function_exists('base64url_decode')) {
+	function base64url_decode($str) {
+		if ($str) {
+			$base64_decode = base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
+			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+			$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+			$mcrypt_decrypt = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $base64_decode, MCRYPT_MODE_ECB, $iv);
+
+			return trim($mcrypt_decrypt);
+		}
+
+		return false;
 	}
 }
 
@@ -38,29 +69,82 @@ if (!function_exists('strRandom')) {
 	}
 }
 
-if (!function_exists('sitelang')) {
-	function sitelang($lang = null) {
+// if (!function_exists('sitelang')) {
+// 	function sitelang($lang = null) {
+// 		$ci = &get_instance();
+// 		$ci->load->library('session');
+// 		$ci->load->helper('language');
+
+// 		$allowed_lang = [
+// 			'english',
+// 			'indonesian',
+// 			'japanese',
+// 			'korean',
+// 			'mandarin'
+// 		];
+
+// 		if (!empty($lang) && in_array($lang, $allowed_lang)) {
+// 			$ci->session->set_userdata('SiteLang', $lang);
+// 		} else {
+//             if (!$ci->session->has_userdata('SiteLang')) {
+//                 $ci->session->set_userdata('SiteLang', $allowed_lang['0']);
+//             }
+// 		}
+
+// 		$ci->lang->load('content', $ci->session->userdata('SiteLang'));
+
+// 		return $ci->session->userdata('SiteLang');
+// 	}
+// }
+
+if (!function_exists('siteLang')) {
+	function siteLang($key = 0) {
 		$ci = &get_instance();
 		$ci->load->library('session');
 		$ci->load->helper('language');
 
-		$allowed_lang = [
-			'english',
-			'indonesian',
-			'japanese',
-			'korean',
-			'mandarin'
+		$lang = [
+			'en' => [
+				'key'    => 'en',
+				'name'  => 'english',
+				'alias' => 'english'
+			],
+			'id' => [
+				'key'    => 'id',
+				'name'  => 'indonesian',
+				'alias' => 'bahasa'
+			],
+			'ja' => [
+				'key'    => 'ja',
+				'name'  => 'japanese',
+				'alias' => '日本語'
+			],
+			'ko' => [
+				'key'    => 'ko',
+				'name'  => 'korean',
+				'alias' => '한국어'
+			],
+			'zh-TW' => [
+				'key'    => 'zh-TW',
+				'name'  => 'mandarin',
+				'alias' => '繁體中文'
+			],
+			'zh-TW' => [
+				'key'    => 'zh-TW',
+				'name'  => 'mandarin',
+				'alias' => '繁體中文'
+			],
 		];
 
-		if (!empty($lang) && in_array($lang, $allowed_lang)) {
-			$ci->session->set_userdata('SiteLang', $lang);
+		if (!empty($key) && array_key_exists($key, $lang)) {
+			$ci->session->set_userdata('SiteLang', $lang[$key]);
 		} else {
-            if (!$ci->session->has_userdata('SiteLang')) {
-                $ci->session->set_userdata('SiteLang', $allowed_lang['0']);
+			if (!$ci->session->has_userdata('SiteLang')) {
+                $ci->session->set_userdata('SiteLang', $lang['en']);
             }
 		}
 
-		$ci->lang->load('content', $ci->session->userdata('SiteLang'));
+		// $ci->lang->load('content', $ci->session->userdata('SiteLang')['name']);
 
 		return $ci->session->userdata('SiteLang');
 	}
@@ -122,26 +206,41 @@ if (!function_exists('bs4pagination')) {
 	}
 }
 
-/*
-function generate_url_slug($string,$table,$field='url_slug',$key=NULL,$value=NULL){
-	$t =& get_instance();
-	$slug = url_title($string);
-	$slug = strtolower($slug);
-	$i = 0;
-	$params = array ();
-	$params[$field] = $slug;
- 
-	if($key)$params["$key !="] = $value; 
- 
-	while ($t->db->where($params)->get($table)->num_rows())
-	{   
-		if (!preg_match ('/-{1}[0-9]+$/', $slug ))
-			$slug .= '-' . ++$i;
-		else
-			$slug = preg_replace ('/[0-9]+$/', ++$i, $slug );
-		 
-		$params [$field] = $slug;
-	}   
-	return $slug;   
+if (!function_exists('slugify')) {
+	function slugify($str = false, $table = null, $except = []) {
+		$ci = &get_instance();
+		$i = 0;
+		$conditions = [];
+
+		if ($str) {
+			$slug = url_title($str);
+			$slug = strtolower($slug);
+
+			if ($table) {
+				$conditions['slug'] = $slug;
+
+				if (!empty($except) && is_array($except)) {
+					foreach ($except as $key => $val) {
+						$conditions[$key . ' !='] = $val;
+					}
+				}
+
+				$query = $ci->db->where($conditions)->get($table);
+
+				while ($query->num_rows()) {
+					if (!preg_match ('/-{1}[0-9]+$/', $slug )) {
+						$slug .= '-' . ++$i;
+					} else {
+						$slug = preg_replace('/[0-9]+$/', ++$i, $slug);
+					}
+
+					$conditions['slug'] = $slug;
+				}
+			}
+
+			return $slug;
+		}
+
+		return false;
+	}
 }
-*/

@@ -20,8 +20,22 @@
 							<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'Company', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('company') ? $this->input->get('company') : '']); ?>
 						</div>
 						<div class="form-group col-md-2">
-							<?php echo form_label('Country', 'Country'); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'country', 'id' => 'Country', 'class' => 'form-control form-control-sm rounded-0', 'value' => $this->input->get('country') ? $this->input->get('country') : '']); ?>
+							<?php echo form_label('Register As', 'RegisterAs'); ?>
+							<select class="form-control select2 rounded-0" name="register_as" id="RegisterAs">
+								<option value="">Please Select</option>
+								<?php foreach ($user_levels as $register_as) {
+									echo '<option value="' .$register_as['id']. '">'. $register_as['name']. '</option>';
+								} ?>
+							</select>
+						</div>
+						<div class="form-group col-md-2">
+							<?php echo form_label('Agency Location', 'AgencyLocation'); ?>
+							<select class="form-control select2 rounded-0" name="agency_location" id="AgencyLocation">
+								<option value="">Please Select</option>
+								<?php foreach ($agency_locations as $agency_location) {
+									echo '<option value="' .$agency_location['id']. '">'. $agency_location['name']. '</option>';
+								} ?>
+							</select>
 						</div>
 					</div>
 					<div class="row">
@@ -45,7 +59,8 @@
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
 								<th class="text-nowrap">Company</th>
-								<th class="text-nowrap">Country</th>
+								<th class="text-nowrap">Register As</th>
+								<th class="text-nowrap">Agency Location</th>
 								<th class="text-nowrap">Request Date</th>
 								<th class="text-nowrap">Action</th>
 							</tr>
@@ -58,7 +73,8 @@
 									<td class="text-nowrap">' . $user['fullname'] . '</td>
 									<td class="text-nowrap">' . $user['email'] . '</td>
 									<td class="text-nowrap">' . $user['company'] . '</td>
-									<td class="text-nowrap">' . $user['country'] . '</td>
+									<td class="text-nowrap">' . $user['user_level'] . '</td>
+									<td class="text-nowrap">' . $user['agency_location'] . '</td>
 									<td class="text-nowrap">' . $user['request_date'] . '</td>
 									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-sm btn-secondary rounded-0', 'content' => 'Register', 'onclick' => 'detailData(' . $user['id'] . ')']) . '</td>
 								</tr>';
@@ -103,8 +119,8 @@
 							<?php echo form_label('User Level', null); ?>
 							<select name="user_level" class="form-control select2 rounded-0">
 								<option value="">Please Select</option>
-								<?php foreach ($user_levels as $user_level) {
-									echo '<option value="' .$user_level['id']. '">'. $user_level['name']. '</option>';
+								<?php foreach ($user_levels as $level) {
+									echo '<option value="' .$level['id']. '">'. $level['name']. '</option>';
 								} ?>
 							</select>
 							<span class="invalid-feedback"></span>
@@ -147,6 +163,22 @@
 	var modalData = $('#modalData'),
 		modalDataForm = $('#modalData form');
 
+	$(document).ready(function() {
+		// describe required variable
+		var filterRegisterAs = '<?php echo $this->input->get('register_as'); ?>',
+			filterAgencyLocation = '<?php echo $this->input->get('agency_location'); ?>';
+
+		// set value to element if variable true or numeric
+		if (filterRegisterAs && $.isNumeric(filterRegisterAs)) {
+			$('#RegisterAs').val(filterRegisterAs).trigger('change');
+		}
+
+		// set value to element if variable true or numeric
+		if (filterAgencyLocation && $.isNumeric(filterAgencyLocation)) {
+			$('#AgencyLocation').val(filterAgencyLocation).trigger('change');
+		}
+	});
+
 	// detail data by id
 	function detailData(id) {
 		if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
@@ -160,7 +192,7 @@
 					modalDataForm.attr('action', '<?php echo base_url("admin/user-requests/update/' + id + '"); ?>');
 					modalDataForm.find('input, select, textarea').removeClass('is-invalid');
 					modalDataForm.find('.invalid-feedback').empty();
-					modalDataForm.find('button[type="submit"]').val('Register');
+					modalDataForm.find('button[type="submit"]').html('Register');
 
 					modalData.find('.modal-header .modal-title').html('Register Data');
 				},
@@ -168,6 +200,7 @@
 					if (response !== null && typeof response === 'object') {
 						if (response.status === 'success') {
 							modalDataForm.find('input[name="username"]').val(response.data['email']);
+							modalDataForm.find('select[name="user_level"]').val(response.data['user_level_id']).trigger('change');
 							// $.each(response.data, function(key, val) {
 							// 	modalDataForm.find('[name="' + key + '"]').val(val);
 							// });

@@ -101,6 +101,11 @@
 		$('.venobox').venobox();
 	}
 
+	// initialize tooltip
+	if ($.isFunction($.fn.tooltip)) {
+		$('[data-toggle="tooltip"]').tooltip(); 
+	}
+
 	// autofocus on modal show
 	$('.modal').on('shown.bs.modal', function() {
 		$(this).find('[autofocus]').focus();
@@ -108,6 +113,27 @@
 
 	// custom ci3 pagination to bootstrap 4
 	$('ul.pagination-ci3-bs4 > li').find('a, span').addClass('page-link');
+
+	// Activate navigation on current page
+	$(document).ready(function() {
+		if (!window.location.origin){
+			// For IE
+			window.location.origin = window.location.protocol + "//" + (window.location.port ? ':' + window.location.port : '');      
+		}
+
+		var currentUrl = window.location.origin + window.location.pathname,
+			newCurrentUrl = currentUrl.split("/").splice(0, 6).join("/");
+
+		$('.main-sidebar nav li > a').each(function() {
+			var linkUrl = this.href;
+
+			if (linkUrl == newCurrentUrl) {
+				// $(this).remove();
+				$(this).addClass('active');
+				$(this).closest('li.has-treeview').addClass('menu-open').find('.treeview-link').addClass('active');
+			}
+		});
+	});
 })(jQuery);
 
 // request data cities
@@ -117,12 +143,6 @@ function requestCities(param, selected = 0, element = null) {
 	}
 
 	if (param !== null && typeof param === 'object') {
-		//$.ajaxSetup({
-		//	headers: {
-		//		'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-		//	}
-		//});
-
 		$.ajax({
 			type: 'post',
 			url: $('meta[name="url"]').attr('content') + 'remote/get-cities',
@@ -135,11 +155,13 @@ function requestCities(param, selected = 0, element = null) {
 				element.html('<option value="">Please Select</option>');
 
 				if (response !== null && typeof response === 'object') {
-					if (response.length > 0) {
-						for (i=0; i<response.length; i++) {
-							element.append('<option value="' + response[i]['id'] + '">' + response[i]['name'] + '</option>');
+					if (response.data.length > 0) {
+						for (i=0; i<response.data.length; i++) {
+							element.append('<option value="' + response.data[i]['id'] + '">' + response.data[i]['name'] + '</option>');
 						}
 					}
+
+					$('meta[name="x-csrf-hash"]').attr({'content': response.csrf_token}).trigger('change');
 				}
 
 				if (element.find('option[value="'+selected+'"]').length) {

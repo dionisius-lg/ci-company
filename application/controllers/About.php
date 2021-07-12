@@ -10,12 +10,8 @@ class About extends CI_Controller {
 		// set timezone
 		date_default_timezone_set('Asia/Jakarta');
 
-		// set referrer
-		setReferrer(current_url());
-
 		// set site languange
-		sitelang();
-		$this->config->set_item('language', sitelang());
+		$this->config->set_item('language', siteLang()['name']);
 
 		// set template layout
 		$this->template->set_template('layouts/front');
@@ -38,32 +34,7 @@ class About extends CI_Controller {
 	{
 		$session = $this->session->userdata('AuthUser');
 
-		$this->template->title = $this->_callbackPageTitle(sitelang());
 		$this->template->content->view('templates/front/About/index', $this->result);
 		$this->template->publish();
-	}
-
-	/**
-	 *  _callbackPageTitle method
-	 *  return title for login & register in multi lang
-	 */
-	private function _callbackPageTitle($lang) {
-		switch ($lang) {
-			case 'english':
-				return 'About Us';
-				break;
-			case 'indonesian':
-				return 'Tentang Kami';
-				break;
-			case 'korean':
-				return '우리에 대해';
-				break;
-			case 'japanese':
-				return '私たちに関しては';
-				break;
-			case 'mandarin':
-				return '关于我们';
-				break;
-		}
 	}
 }

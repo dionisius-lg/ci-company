@@ -59,20 +59,10 @@ $route['translate_uri_dashes'] = TRUE;
 $route['auth'] = 'auth/login';
 
 /**
- * CompanyAdvantagesController
- * Additional routes for administrator
- */
-$route['admin/company-advantages'] = 'admin/companyAdvantages';
-$route['admin/company-advantages/create'] = 'admin/companyAdvantages/create';
-$route['admin/company-advantages/detail/(:any)'] = 'admin/companyAdvantages/detail/$1';
-$route['admin/company-advantages/update/(:any)'] = 'admin/companyAdvantages/update/$1';
-$route['admin/company-advantages/delete/(:any)'] = 'admin/companyAdvantages/delete/$1';
-
-/**
  * DashboardController
  * Additional routes for administrator
  */
-$route['admin'] = 'admin/dashboard/index';
+$route['admin'] = 'admin/Dashboard/index';
 
 /**
  * UserRequestsController
@@ -86,32 +76,115 @@ $route['admin/user-requests/update/(:any)'] = 'admin/UserRequests/update/$1';
  * UsersController
  * Additional routes for administrator
  */
-$route['admin/users/get-list'] = 'admin/users/getList';
-$route['admin/users/change-password/(:any)'] = 'admin/users/changePassword/$1';
-$route['admin/users/reset-password/(:any)'] = 'admin/users/resetPassword/$1';
+$route['admin/users/get-list'] = 'admin/Users/getList';
+$route['admin/users/change-password/(:any)'] = 'admin/Users/changePassword/$1';
+$route['admin/users/reset-password/(:any)'] = 'admin/Users/resetPassword/$1';
 
 /**
  * WorkersController
  * Additional routes for administrator
  */
-$route['admin/workers/get-list'] = 'admin/workers/getList';
-$route['admin/workers/upload-photo/(:any)'] = 'admin/workers/uploadPhoto/$1';
-$route['admin/workers/upload-attachment/(:any)'] = 'admin/workers/uploadAttachment/$1';
-$route['admin/workers/delete-attachment/(:any)'] = 'admin/workers/deleteAttachment/$1';
+$route['admin/workers/get-list'] = 'admin/Workers/getList';
+$route['admin/workers/upload-photo/(:any)'] = 'admin/Workers/uploadPhoto/$1';
+$route['admin/workers/upload-attachment/(:any)'] = 'admin/Workers/uploadAttachment/$1';
+$route['admin/workers/delete-attachment/(:any)'] = 'admin/Workers/deleteAttachment/$1';
+$route['admin/workers/approve-booking/(:any)'] = 'admin/Workers/approveBooking/$1';
+$route['admin/workers/detail-previous-employment/(:any)'] = 'admin/Workers/detailPreviousEmployment/$1';
+$route['admin/workers/create-previous-employment/(:any)'] = 'admin/Workers/createPreviousEmployment/$1';
+$route['admin/workers/update-previous-employment/(:any)'] = 'admin/Workers/updatePreviousEmployment/$1';
+$route['admin/workers/delete-previous-employment/(:any)'] = 'admin/Workers/deletePreviousEmployment/$1';
+$route['admin/workers/detail-suplementary-question/(:any)'] = 'admin/Workers/detailSuplementaryQuestion/$1';
+$route['admin/workers/create-suplementary-question/(:any)'] = 'admin/Workers/createSuplementaryQuestion/$1';
+// $route['admin/workers/update-suplementary-question/(:any)'] = 'admin/Workers/updateSuplementaryQuestion/$1';
+$route['admin/workers/delete-suplementary-question/(:any)'] = 'admin/Workers/deleteSuplementaryQuestion/$1';
+
+/**
+ * BookingRequestsController
+ * Additional routes for administrator
+ */
+$route['admin/booking-requests'] = 'admin/BookingRequests';
+$route['admin/booking-requests/detail/(:any)'] = 'admin/BookingRequests/detail/$1';
+$route['admin/booking-requests/update/(:any)'] = 'admin/BookingRequests/update/$1';
+
+/**
+ * AgencyLocationsController
+ * Additional routes for administrator
+ */
+$route['admin/agency-locations'] = 'admin/AgencyLocations';
+// $route['admin/agency-locations/(:any)'] = 'admin/AgencyLocations';
+$route['admin/agency-locations/detail/(:num)'] = 'admin/AgencyLocations/detail/$1';
+$route['admin/agency-locations/create'] = 'admin/AgencyLocations/create';
+$route['admin/agency-locations/update/(:num)'] = 'admin/AgencyLocations/update/$1';
+$route['admin/agency-locations/delete/(:num)'] = 'admin/AgencyLocations/delete/$1';
+
+/**
+ * SkillExperiencesController
+ * Additional routes for administrator
+ */
+$route['admin/skill-experiences'] = 'admin/SkillExperiences';
+// $route['admin/skill-experiences/(:any)'] = 'admin/SkillExperiences';
+$route['admin/skill-experiences/detail/(:num)'] = 'admin/SkillExperiences/detail/$1';
+$route['admin/skill-experiences/create'] = 'admin/SkillExperiences/create';
+$route['admin/skill-experiences/update/(:num)'] = 'admin/SkillExperiences/update/$1';
+$route['admin/skill-experiences/delete/(:num)'] = 'admin/SkillExperiences/delete/$1';
+
+/**
+ * SuplementaryQuestionsController
+ * Additional routes for administrator
+ */
+$route['admin/suplementary-questions'] = 'admin/SuplementaryQuestions';
+// $route['admin/suplementary-questions/(:any)'] = 'admin/SuplementaryQuestions';
+$route['admin/suplementary-questions/detail/(:num)'] = 'admin/SuplementaryQuestions/detail/$1';
+$route['admin/suplementary-questions/create'] = 'admin/SuplementaryQuestions/create';
+$route['admin/suplementary-questions/update/(:num)'] = 'admin/SuplementaryQuestions/update/$1';
+$route['admin/suplementary-questions/delete/(:num)'] = 'admin/SuplementaryQuestions/delete/$1';
+
+/**
+ * LanguageAbilitiesController
+ * Additional routes for administrator
+ */
+$route['admin/language-abilities'] = 'admin/LanguageAbilities';
+// $route['admin/language-abilities/(:any)'] = 'admin/LanguageAbilities';
+$route['admin/language-abilities/detail/(:num)'] = 'admin/LanguageAbilities/detail/$1';
+$route['admin/language-abilities/create'] = 'admin/LanguageAbilities/create';
+$route['admin/language-abilities/update/(:num)'] = 'admin/LanguageAbilities/update/$1';
+$route['admin/language-abilities/delete/(:num)'] = 'admin/LanguageAbilities/delete/$1';
+
+/**
+ * CookingAbilitiesController
+ * Additional routes for administrator
+ */
+$route['admin/cooking-abilities'] = 'admin/CookingAbilities';
+// $route['admin/cooking-abilities/(:any)'] = 'admin/CookingAbilities';
+$route['admin/cooking-abilities/detail/(:num)'] = 'admin/CookingAbilities/detail/$1';
+$route['admin/cooking-abilities/create'] = 'admin/CookingAbilities/create';
+$route['admin/cooking-abilities/update/(:num)'] = 'admin/CookingAbilities/update/$1';
+$route['admin/cooking-abilities/delete/(:num)'] = 'admin/CookingAbilities/delete/$1';
 
 /**
  * RemoteController
  * Additional routes for global
  */
-$route['remote/get-cities'] = 'remote/getCities';
-$route['remote/get-users-list'] = 'remote/getUsersDatatable';
-$route['remote/get-employees-list'] = 'remote/getEmployeesDatatable';
-$route['remote/get-company-advantages-list'] = 'remote/getCompanyAdvantagesDatatable';
-$route['remote/get-sliders-list'] = 'remote/getSlidersDatatable';
-$route['remote/get-users'] = 'remote/getUsers';
-$route['remote/get-employees'] = 'remote/getEmployees';
-$route['remote/get-datatable-worker-attachments'] = 'remote/getWorkerAttachmentsDatatable';
-$route['remote/get-datatable-worker-attachments/(:any)'] = 'remote/getWorkerAttachmentsDatatable/$1';
+$route['remote/get-cities'] = 'Remote/getCities';
+$route['remote/get-users-list'] = 'Remote/getUsersDatatable';
+$route['remote/get-employees-list'] = 'Remote/getEmployeesDatatable';
+$route['remote/get-company-advantages-list'] = 'Remote/getCompanyAdvantagesDatatable';
+$route['remote/get-sliders-list'] = 'Remote/getSlidersDatatable';
+$route['remote/get-users'] = 'Remote/getUsers';
+$route['remote/get-suplementary-questions'] = 'Remote/getSuplementaryQuestions';
+$route['remote/get-worker-previous-employments-datatable'] = 'Remote/getWorkerPreviousEmploymentsDatatable';
+$route['remote/get-worker-previous-employments-datatable/(:any)'] = 'Remote/getWorkerPreviousEmploymentsDatatable/$1';
+$route['remote/get-worker-suplementary-questions-datatable'] = 'Remote/getWorkerSuplementaryQuestionsDatatable';
+$route['remote/get-worker-suplementary-questions-datatable/(:any)'] = 'Remote/getWorkerSuplementaryQuestionsDatatable/$1';
+$route['remote/get-worker-attachments-datatable'] = 'Remote/getWorkerAttachmentsDatatable';
+$route['remote/get-worker-attachments-datatable/(:any)'] = 'Remote/getWorkerAttachmentsDatatable/$1';
+
+/**
+ * WorkerController
+ * Additional routes for front
+ */
+$route['worker/download-attachment'] = 'Worker/downloadAttachment';
+$route['worker/download-profile'] = 'Worker/downloadProfile';
 
 /**
  * LanguageController

@@ -6,27 +6,42 @@ class Sliders extends CI_Controller {
 		parent::__construct();
 
 		date_default_timezone_set('Asia/Jakarta');
-		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			setFlashError('Please login first', 'auth');
+			// save referer to session
+			$this->session->set_userdata('referer', current_url());
+
+			// set site languange
+			$this->config->set_item('language', siteLang()['name']);
+
+			// show error message and redirect to login
+			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 
 		if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
-			hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
+			// redirect($_SERVER['HTTP_REFERER']);
+			redirect(base_url(), 'refresh');
 		}
 		
 		$this->template->set_template('layouts/back');
 		$this->template->title = 'Sliders';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
+		// load default models
+		$this->load->model('CompanyModel');
 		$this->load->model('SlidersModel');
+
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
@@ -96,7 +111,11 @@ class Sliders extends CI_Controller {
 				$this->result['data'] = [
 					'file' => @getimagesize(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
 					'order_number' => $request['data']['order_number'],
-					'link_to' => $request['data']['link_to']
+					'link_to' => $request['data']['link_to'],
+					'create_date' => $request['data']['create_date'],
+					'create_by' => $request['data']['create_by'],
+					'update_date' => $request['data']['update_date'],
+					'update_by' => $request['data']['update_by'],
 				];
 				unset($this->result['message']);
 			}
@@ -384,7 +403,7 @@ class Sliders extends CI_Controller {
 			[
 				'field' => 'link_to',
 				'label' => 'Link To',
-				'rules' => 'trim|valid_url|xss_clean'
+				'rules' => 'trim|valid_url|filterValidateUrl|xss_clean'
 			],
 		];
 

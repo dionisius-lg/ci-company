@@ -6,31 +6,48 @@ class UserRequests extends CI_Controller {
 		parent::__construct();
 
 		date_default_timezone_set('Asia/Jakarta');
-		setReferrer(current_url());
 
 		if (!$this->session->has_userdata('AuthUser')) {
-			setFlashError('Please login first', 'auth');
+			// save referer to session
+			$this->session->set_userdata('referer', current_url());
+
+			// set site languange
+			$this->config->set_item('language', siteLang()['name']);
+
+			// show error message and redirect to login
+			// setFlashError($this->lang->line('message')['error']['auth'], 'auth');
+			setFlashError('unauthorized', 'auth');
 			redirect('auth');
 		}
 
 		if ($this->session->userdata('AuthUser')['user_level_id'] != 1) {
-			hasReferrer() == true ? redirect(Referrer(), 'refresh') : redirect(base_url(), 'refresh');
+			// redirect($_SERVER['HTTP_REFERER']);
+			redirect(base_url(), 'refresh');
 		}
 		
 		$this->template->set_template('layouts/back');
 		$this->template->title = 'User Requests';
 
-		$this->load->library('user_agent');
+		// $this->load->library('user_agent');
 
+		// load default models
+		$this->load->model('CompanyModel');
 		$this->load->model('UsersModel');
 		$this->load->model('UserLevelsModel');
+		$this->load->model('AgencyLocationsModel');
 		$this->load->model('EmailsModel');
 
-		$this->result = [];
+		// load default data
+		$this->result['company'] = [];
+		if ($this->CompanyModel->get()['status'] == 'success') {
+			$this->result['company'] = $this->CompanyModel->get()['data'];
+		}
+
+		// load socket helper
+		$this->load->helper('socket');
 	}
 
 	private $upload_errors = [];
-	private $result = [];
 
 	/**
 	 *  index method
@@ -49,7 +66,8 @@ class UserRequests extends CI_Controller {
 			'like_fullname'			=> array_key_exists('fullname', $params) ? $params['fullname'] : '',
 			'like_email'			=> array_key_exists('email', $params) ? $params['email'] : '',
 			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
-			'like_country'			=> array_key_exists('country', $params) ? $params['country'] : '',
+			'user_level_id'			=> array_key_exists('register_as', $params) ? $params['register_as'] : '',
+			'agency_location_id'	=> array_key_exists('agency_location', $params) ? $params['agency_location'] : '',
 			'order'					=> 'request_date',
 			'sort'					=> 'desc',
 			'is_request_register'	=> 1
@@ -57,7 +75,8 @@ class UserRequests extends CI_Controller {
 
 		$request = [
 			'users' => $this->UsersModel->getAll($clause),
-			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name'])
+			'user_levels' => $this->UserLevelsModel->getAll(['order' => 'name', 'not_id' => 1]),
+			'agency_locations' => $this->AgencyLocationsModel->getAll(['order' => 'name'])
 		];
 
 		foreach ($request as $key => $val) {
@@ -161,18 +180,19 @@ class UserRequests extends CI_Controller {
 			$request = $this->UsersModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
-				$request = $this->UsersModel->getDetail($request['data']['id']);
+				// $request = $this->UsersModel->getDetail($request['data']['id']);
 
-				if ($request['status'] == 'success') {
-					$data_email = $request['data'];
-					$data_email['password'] = $data['password'];
+				// if ($request['status'] == 'success') {
+					// $data_email = $request['data'];
+					// $data_email['password'] = $data['password'];
 
-					if ($this->_emailNotification($data_email)) {
+					// if ($this->_emailNotification($data_email)) {
 						$this->result['status'] = 'success';
 						unset($this->result['message']);
 						setFlashSuccess('Data successfully registered.');
-					}
-				}
+						socketEmit('count-total');
+					// }
+				// }
 			}
 
 			echo json_encode($this->result); exit();
@@ -236,7 +256,7 @@ class UserRequests extends CI_Controller {
 
 			$this->load->model('CompanyModel');
 
-			$request  = $this->CompanyModel->getDetail();
+			$request  = $this->CompanyModel->get();
 
 			if ($request['status'] != 'success') {
 				return false;

@@ -33,64 +33,31 @@
 			</div>
 			<div class="card-body">
 				<?php echo form_open('admin/workers/create', ['method' => 'post', 'id' => 'formData', 'autocomplete' => 'off']); ?>
+					<?php echo form_label('Personal Data', null, ['class' => 'form-label border-bottom']); ?>
 					<div class="row">
-						<div class="form-group col-md-3">
-							<?php echo form_label('NIK <span class="text-danger">*</span>', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'nik', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('nik') ? ' is-invalid' : ''), 'maxlength' => '20', 'value' => oldInput('nik')]); ?>
-							<span class="invalid-feedback"><?php echo flashError('nik'); ?></span>
+						<div class="form-group col-md-4">
+							<?php echo form_label('Ref Number <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'ref_number', 'class' => 'form-control form-control-sm rounded-0 uppercase' . (hasFlashError('ref_number') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('ref_number')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('ref_number'); ?></span>
 						</div>
-						<div class="form-group col-md-5">
+						<div class="form-group col-md-8">
 							<?php echo form_label('Fullname <span class="text-danger">*</span>', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'fullname', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('fullname') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('fullname')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('fullname'); ?></span>
 						</div>
-						<div class="form-group col-md-4">
-							<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase' . (hasFlashError('email') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('email')]); ?>
-							<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
-						</div>
 						<div class="form-group col-md-3">
-							<?php echo form_label('Phone 1 <span class="text-danger">*</span>', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'phone_1', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone_1') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone_1')]); ?>
-							<span class="invalid-feedback"><?php echo flashError('phone_1'); ?></span>
-						</div>
-						<div class="form-group col-md-3">
-							<?php echo form_label('Phone 2', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'phone_2', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone_2') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone_2')]); ?>
-							<span class="invalid-feedback"><?php echo flashError('phone_2'); ?></span>
-						</div>
-						<div class="form-group col-md-3">
-							<?php echo form_label('Gender', null); ?>
-							<select name="gender" class="form-control select2 rounded-0 <?php echo (hasFlashError('gender')) ? 'is-invalid' : ''; ?>">
-								<option value="">Please Select</option>
-								<option value="1">Male</option>
-								<option value="2">Female</option>
-							</select>
-							<span class="invalid-feedback"><?php echo flashError('gender'); ?></span>
-						</div>
-						<div class="form-group col-md-3">
-							<?php echo form_label('Marital Status', null); ?>
-							<select name="marital_status" class="form-control select2 rounded-0 <?php echo (hasFlashError('marital_status')) ? 'is-invalid' : ''; ?>">
-								<option value="">Please Select</option>
-								<option value="1">Single</option>
-								<option value="2">Married</option>
-								<option value="3">Divorce</option>
-							</select>
-							<span class="invalid-feedback"><?php echo flashError('marital_status'); ?></span>
-						</div>
-						<div class="form-group col-md-3">
-							<?php echo form_label('Birth Place', null); ?>
+							<?php echo form_label('Birth Place <span class="text-danger">*</span>', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'birth_place', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('birth_place') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('birth_place')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('birth_place'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
-							<?php echo form_label('Birth Date', null); ?>
+							<?php echo form_label('Birth Date <span class="text-danger">*</span>', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'birth_date', 'class' => 'form-control form-control-sm rounded-0 date' . (hasFlashError('birth_date') ? ' is-invalid' : ''), 'maxlength' => '20', 'value' => oldInput('birth_date')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('birth_date'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
 							<?php echo form_label('Age', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric plaintext' . (hasFlashError('age') ? ' is-invalid' : ''), 'maxlength' => '3', 'value' => oldInput('age'), 'readonly' => true]); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'age', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('age') ? ' is-invalid' : ''), 'value' => oldInput('age'), 'readonly' => true]); ?>
 							<span class="invalid-feedback"><?php echo flashError('age'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
@@ -106,8 +73,35 @@
 							</select>
 							<span class="invalid-feedback"><?php echo flashError('religion'); ?></span>
 						</div>
-					</div>
-					<div class="row">
+						<div class="form-group col-md-3">
+							<?php echo form_label('Gender <span class="text-danger">*</span>', null); ?>
+							<select name="gender" class="form-control select2 rounded-0 <?php echo (hasFlashError('gender')) ? 'is-invalid' : ''; ?>">
+								<option value="">Please Select</option>
+								<option value="1">Male</option>
+								<option value="2">Female</option>
+							</select>
+							<span class="invalid-feedback"><?php echo flashError('gender'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Marital Status <span class="text-danger">*</span>', null); ?>
+							<select name="marital_status" class="form-control select2 rounded-0 <?php echo (hasFlashError('marital_status')) ? 'is-invalid' : ''; ?>">
+								<option value="">Please Select</option>
+								<option value="1">Single</option>
+								<option value="2">Married</option>
+								<option value="3">Divorce</option>
+							</select>
+							<span class="invalid-feedback"><?php echo flashError('marital_status'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase' . (hasFlashError('email') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('email')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Phone <span class="text-danger">*</span>', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'phone', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('phone'); ?></span>
+						</div>
 						<div class="form-group col-md-6">
 							<?php echo form_label('Address', null); ?>
 							<?php echo form_textarea(['name' => 'address', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('address') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('address')]); ?>
@@ -130,31 +124,143 @@
 							</select>
 							<span class="invalid-feedback"><?php echo flashError('city'); ?></span>
 						</div>
+						<div class="form-group col-md-6">
+							<?php echo form_label('Character Evaluation', null); ?>
+							<?php echo form_textarea(['name' => 'character_evaluation', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('character_evaluation') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('character_evaluation')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('character_evaluation'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Last Education', null); ?>
+							<select name="last_education" class="form-control select2 rounded-0 <?php echo (hasFlashError('last_education')) ? 'is-invalid' : ''; ?>">
+								<option value="">Please Select</option>
+								<option value="1">Kindergarten</option>
+								<option value="2">Primary School</option>
+								<option value="3">Junior High School</option>
+								<option value="4">Senior High School</option>
+								<option value="5">Diploma Degree</option>
+								<option value="6">Bachelor Degree</option>
+								<option value="7">Other</option>
+							</select>
+							<span class="invalid-feedback"><?php echo flashError('last_education'); ?></span>
+						</div>
 					</div>
+					<?php echo form_label('Family Background', null, ['class' => 'form-label border-bottom']); ?>
+					<div class="row">
+						<div class="form-group col-md-3">
+							<?php echo form_label('Spouse Name', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'spouse_name', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('spouse_name') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('spouse_name')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('spouse_name'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Spouse Occupation', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'spouse_occupation', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('spouse_occupation') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('spouse_occupation')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('spouse_occupation'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Children', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'children', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('children') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('children'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Children Age', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'children_age', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('children_age') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('children_age')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('children_age'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Father Name', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'father_name', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('father_name') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('father_name')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('father_name'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Father Occupation', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'father_occupation', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('father_occupation') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('father_occupation')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('father_occupation'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Mother Name', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'mother_name', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('mother_name') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('mother_name')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('mother_name'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Mother Occupation', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'mother_occupation', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('mother_occupation') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('mother_occupation')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('mother_occupation'); ?></span>
+						</div>
+					</div>
+					<?php echo form_label('Skills', null, ['class' => 'form-label border-bottom']); ?>
 					<div class="row">
 						<div class="form-group col-md-12">
+							<?php echo form_label('Skill Experience', null); ?>
+							<div class="d-flex flex-wrap">
+								<?php $skill_experience_ids = explode(',', oldInput('skill_experience')); ?>
+								<?php foreach ($skill_experiences as $skill_experience) { ?>
+									<div class="icheck-primary mr-4">
+										<?php echo form_checkbox(['name' => 'skill_experience[]', 'id' => 'SkillExperience' . $skill_experience['id'], 'value' => $skill_experience['id'], 'checked' => in_array($skill_experience['id'], $skill_experience_ids) ? true : false]); ?>
+										<?php echo form_label($skill_experience['name'], 'SkillExperience' . $skill_experience['id']); ?>
+									</div>
+								<?php } ?>
+							</div>
+							<span class="invalid-feedback"><?php echo flashError('skill_experience'); ?></span>
+						</div>
+						<div class="form-group col-md-12">
+							<?php echo form_label('Language Ability', null); ?>
+							<div class="d-flex flex-wrap">
+								<?php $language_ability_ids = explode(',', oldInput('language_ability')); ?>
+								<?php foreach ($language_abilities as $language_ability) { ?>
+									<div class="icheck-primary mr-4">
+										<?php echo form_checkbox(['name' => 'language_ability[]', 'id' => 'LanguageAbility' . $language_ability['id'], 'value' => $language_ability['id'], 'checked' => in_array($language_ability['id'], $language_ability_ids) ? true : false]); ?>
+										<?php echo form_label($language_ability['name'], 'LanguageAbility' . $language_ability['id']); ?>
+									</div>
+								<?php } ?>
+							</div>
+							<span class="invalid-feedback"><?php echo flashError('language_ability'); ?></span>
+						</div>
+						<div class="form-group col-md-12">
+							<?php echo form_label('Cooking Ability', null); ?>
+							<div class="d-flex flex-wrap">
+								<?php $cooking_ability_ids = explode(',', oldInput('cooking_ability')); ?>
+								<?php foreach ($cooking_abilities as $cooking_ability) { ?>
+									<div class="icheck-primary mr-4">
+										<?php echo form_checkbox(['name' => 'cooking_ability[]', 'id' => 'CookingAbility' . $cooking_ability['id'], 'value' => $cooking_ability['id'], 'checked' => in_array($cooking_ability['id'], $cooking_ability_ids) ? true : false]); ?>
+										<?php echo form_label($cooking_ability['name'], 'CookingAbility' . $cooking_ability['id']); ?>
+									</div>
+								<?php } ?>
+							</div>
+							<span class="invalid-feedback"><?php echo flashError('cooking_ability'); ?></span>
+						</div>
+						<div class="form-group col-md-12">
+							<?php echo form_label('Work Experience', null); ?>
+							<div class="d-flex flex-wrap">
+								<?php $work_experience_ids = explode(',', oldInput('work_experience')); ?>
+								<?php foreach ($agency_locations as $work_experience) { ?>
+									<div class="icheck-primary mr-4">
+										<?php echo form_checkbox(['name' => 'work_experience[]', 'id' => 'WorkExperience' . $work_experience['id'], 'value' => $work_experience['id'], 'checked' => in_array($work_experience['id'], $work_experience_ids) ? true : false]); ?>
+										<?php echo form_label($work_experience['name'], 'WorkExperience' . $work_experience['id']); ?>
+									</div>
+								<?php } ?>
+							</div>
+							<span class="invalid-feedback"><?php echo flashError('work_experience'); ?></span>
+						</div>
+					</div>
+					<?php echo form_label('Others', null, ['class' => 'form-label border-bottom']); ?>
+					<div class="row">
+						<div class="form-group col-md-6">
 							<?php echo form_label('Description', null); ?>
 							<?php echo form_textarea(['name' => 'description', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('description') ? ' is-invalid' : ''), 'rows' => '2', 'style' => 'resize:none;', 'value' => oldInput('description')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('description'); ?></span>
 						</div>
-						<div class="form-group col-md-12">
-							<?php echo form_label('Experience', null); ?>
-							<div class="d-flex flex-wrap">
-								<?php $experience_ids = explode(',', oldInput('experience')); ?>
-								<?php foreach ($experiences as $experience) { ?>
-									<div class="icheck-primary mr-4">
-										<?php echo form_checkbox(['name' => 'experience[]', 'id' => 'Experience' . $experience['id'], 'value' => $experience['id'], 'checked' => in_array($experience['id'], $experience_ids) ? true : false]); ?>
-										<?php echo form_label($experience['name'], 'Experience' . $experience['id']); ?>
-									</div>
-								<?php } ?>
-							</div>
-							<span class="invalid-feedback"><?php echo flashError('experience'); ?></span>
+						<div class="form-group col-md-6">
+							<?php echo form_label('Link Video', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'link_video', 'class' => 'form-control form-control-sm rounded-0' . (hasFlashError('link_video') ? ' is-invalid' : ''), 'value' => oldInput('link_video')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('link_video'); ?></span>
 						</div>
+					</div>
+					<div class="row">
 						<div class="form-group col-md-12">
 							<?php echo form_label('Ready to Placement', null); ?>
 							<div class="d-flex flex-wrap">
 								<?php $ready_placement_ids = explode(',', oldInput('ready_placement')); ?>
-								<?php foreach ($placements as $ready_placement) { ?>
+								<?php foreach ($agency_locations as $ready_placement) { ?>
 									<div class="icheck-primary mr-4">
 										<?php echo form_checkbox(['name' => 'ready_placement[]', 'id' => 'ReadyPlacement' . $ready_placement['id'], 'value' => $ready_placement['id'], 'checked' => in_array($ready_placement['id'], $ready_placement_ids) ? true : false]); ?>
 										<?php echo form_label($ready_placement['name'], 'ReadyPlacement' . $ready_placement['id']); ?>
@@ -164,11 +270,11 @@
 							<span class="invalid-feedback"><?php echo flashError('ready_placement'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
-							<?php echo form_label('Placement', null); ?>
+							<?php echo form_label('Placement Now', null); ?>
 							<select name="placement" class="form-control select2 rounded-0 <?php echo (hasFlashError('placement')) ? 'is-invalid' : ''; ?>">
 								<option value="">Please Select</option>
-								<?php foreach ($placements as $placement) {
-									echo '<option value="' .$placement['id']. '">'. $placement['name']. '</option>';
+								<?php foreach ($agency_locations as $placement) {
+									echo '<option value="' .$placement['id']. '">'. $placement['name'] . (($placement['is_local'] == 1) ? ' (Local)' : ' (Oversea)') . '</option>';
 								} ?>
 							</select>
 							<span class="invalid-feedback"><?php echo flashError('placement'); ?></span>
@@ -191,17 +297,12 @@
 <?php $this->template->stylesheet->add('assets/vendor/select2/css/select2-bootstrap4.min.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/vendor/datatables/css/dataTables.bootstrap4.min.css', ['type' => 'text/css']); ?>
-<?php $this->template->stylesheet->add('assets/css/bs4-datatables.css', ['type' => 'text/css']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/icheck-bootstrap/icheck-bootstrap.min.css', ['type' => 'text/css']); ?>
 
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/select2/js/select2.full.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/venobox/js/venobox.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/jquery.dataTables.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/datatables/js/dataTables.bootstrap4.min.js'); ?>
-<?php $this->template->javascript->add('assets/js/file-downloader.js'); ?>
 
 <!-- script for this page -->
 <script type="text/javascript">
@@ -256,7 +357,8 @@
 			var param = {
 				'province_id': provinceValue,
 				'order': 'name',
-				'limit': 100
+				'limit': 100,
+				'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
 			}
 
 			requestCities(param, cityValue, cityElement);
@@ -267,5 +369,19 @@
 	$('#formPhoto').on('submit', function(e) {
 		e.preventDefault();
 		return false;
+	});
+
+	// calculate age
+	$('#formData [name="birth_date"]').on('change', function () {
+		$('#formData [name="age"]').val(null);
+
+		if (Date.parse(this.value)) {
+			var today = new Date(),
+				birthdate = new Date($(this).datepicker('getDate'));
+
+			var age = today.getFullYear() - birthdate.getFullYear();
+
+			$('#formData [name="age"]').val(age);
+		}
 	});
 </script>

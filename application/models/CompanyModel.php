@@ -91,7 +91,7 @@ class CompanyModel extends CI_Model {
 	 *  private _getCount method
 	 *  return interger
 	 */
-	public function _getCount($table = null, $condition = [], $condition_like = [])
+	public function _getCount($table = null, $condition = [], $condition_like = [], $condition_inset = [], $condition_between = [])
 	{
 		if (!empty($table)) {
 			$this->db->from($table);
@@ -102,6 +102,36 @@ class CompanyModel extends CI_Model {
 
 			if (!empty($condition_like) && is_array($condition_like)) {
 				$this->db->like($condition_like);
+			}
+
+			if (!empty($condition_inset) && is_array($condition_inset)) {
+				foreach ($condition_inset as $key => $val) {
+					if (!empty($val) && is_array($val)) {
+						$term_inset = [];
+	
+						foreach ($val as $val) {
+							$term_inset[] = 'FIND_IN_SET(' . $val . ', ' . $key . ')';
+						}
+	
+						$term_inset = implode(' or ', $term_inset);
+	
+						$this->db->where($term_inset);
+					} else {
+						$this->db->where('FIND_IN_SET(' . $val . ', ' . $key . ')');
+					}
+				}
+			}
+
+			if (!empty($condition_between) && is_array($condition_between)) {
+				foreach ($condition_between as $key => $val) {
+					if (!empty($val) && is_array($val) && count($val) === 2) {
+						if (!empty($val[0]) && !empty($val[1])) {
+							$term_between = $key . ' BETWEEN ' . implode(' AND ', $val);
+	
+							$this->db->where($term_between);
+						}
+					}
+				}
 			}
 
 			return $this->db->count_all_results();

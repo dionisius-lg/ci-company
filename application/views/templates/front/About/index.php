@@ -3,8 +3,8 @@
 		<div class="d-flex justify-content-between align-items-center">
 			<h2><?php echo $this->template->title; ?></h2>
 			<ol>
-				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('header')['navbar']['home']; ?></a></li>
-				<li><?php echo $this->template->title; ?></li>
+				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
+				<li><?php echo $this->lang->line('front')['navbar']['about']; ?></li>
 			</ol>
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 <section id="clients">
 	<div class="container">
 		<div class="section-title">
-			<h2><?php echo $this->lang->line('section_title')['clients']; ?></h2>
+			<h2><?php echo $this->lang->line('front')['section_title']['clients']; ?></h2>
 		</div>
 
 		<div class="client-slider owl-carousel owl-theme">
