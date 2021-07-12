@@ -59,13 +59,13 @@ if (!function_exists('PdfWorkerDetail')) {
 
 				$output = $pdf->output();
 
-				$filepath = 'files/workers/' . $data['worker']['id'] . '/';
+				$filepath = 'files/workers/'.$data['worker']['id'].'/';
 
-				if (!is_dir('./' . $filepath)) {
-					mkdir('./' . $filepath, 0777, true);
+				if (!is_dir('./'.$filepath)) {
+					mkdir('./'.$filepath, 0777, true);
 				}
 
-				$filename = 'worker_' . base64url_encode($data['worker']['id']) . '.pdf';
+				$filename = 'biodata_'.base64url_encode($data['worker']['id']).'.pdf';
 
 				file_put_contents($filepath.$filename, $output);
 
