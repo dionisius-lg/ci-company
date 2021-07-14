@@ -6,11 +6,13 @@
 				<h3><?php echo $company['name']; ?></h3>
 
 				<?php if (siteLang()['key'] == 'en') { ?>
-					<p><?php echo $company['name']; ?> is a Recruitment and Placement Company that specializes in
-						skilled Indonesian workforce abroad. We are dedicated to providing greater opportunities for
-						fellow Indonesians not only to share their abilities and talents in working in areas where their
-						qualifications are most suitable, but also to get more and be compensated with better benefits
-						as well.</p>
+					<p><?php echo $company['name']; ?> is a limited company registered in Indonesia ( License No.165/
+						2016 ),
+						we are a Recruitment and Placement Company that specializes in skilled Indonesian workforce for
+						abroad placement.
+						We are dedicated to providing greater opportunities for fellow Indonesians not only to share
+						their abilities and talents in working in areas where their qualifications are most suitable,
+						but also to get more and be compensated with better benefits as well.</p>
 
 					<p><?php echo $company['name']; ?> understands that leadership capital plays a key role in the
 						performance of any organization. An organization's ability to profit, thrive, and grow depends
@@ -29,12 +31,13 @@
 				<?php } ?>
 
 				<?php if (siteLang()['key'] == 'id') { ?>
-					<p><?php echo $company['name']; ?> adalah Perusahaan Rekrutmen dan Penempatan yang mengkhususkan
-						diri dalam tenaga kerja trampil Indonesia di luar negeri. Kami berdedikasi untuk memberikan
-						kesempatan yang lebih besar kepada sesama orang Indonesia tidak hanya untuk berbagi kemampuan
-						dan bakat mereka dalam bekerja di berbagai bidang di mana kualifikasi mereka paling sesuai,
-						tetapi juga untuk mendapatkan lebih banyak dan diberi kompensasi dengan manfaat yang lebih baik
-						juga.</p>
+					<p><?php echo $company['name']; ?> adalah Perseroan Terbatas Jasa Penempatan Pekerja Migran
+						Indonesia dengan ijin No.165 Tahun 2016. Kami ada perusahaan Rekrutmen dan Penempatan yang
+						mengkhususkan diri dalam perkerja migran trampil Indonesia di luar negeri. Kami berdedikasi
+						untuk memberikan kesempatan yang lebih besar kepada sesama orang Indonesia tidak hanya untuk
+						berbagi kemampuan dan bakat mereka dalam bekerja di berbagai bidang di mana kualifikasi mereka
+						paling sesuai, tetapi juga untuk mendapatkan lebih banyak dan diberi kompensasi dengan manfaat
+						yang lebih baik juga.</p>
 
 					<p><?php echo $company['name']; ?> memahami bahwa modal kepemimpinan memainkan peran kunci dalam
 						kinerja organisasi mana pun. Kemampuan organisasi untuk memperoleh keuntungan, berkembang, dan
@@ -55,8 +58,8 @@
 				<?php } ?>
 
 				<?php if (siteLang()['key'] == 'ja') { ?>
-					<p><?php echo $company['name']; ?> は、海外で熟練したインドネシア人労働力を専門とする採用および配置会社です.
-						私たちは、仲間のインドネシア人が彼らの資格が最も適している分野で働く能力と才能を共有するだけでなく、より多くを得て、より良い利益で補償されるより大きな機会を提供することに専念しています.</p>
+					<p><?php echo $company['name']; ?>
+						は、インドネシアで登録された有限会社（ライセンス番号：165/2016）であり、海外での熟練したインドネシア人労働を専門とする採用および配置会社です。インドネシアの同胞に、共有できるだけでなく、より多くの機会を提供することに取り組んでいます。彼らの能力と才能は彼らの学歴に最も適した分野で働いており、彼らはまたより多くのより良い利益を得ることができます。</p>
 
 					<p><?php echo $company['name']; ?> は、リーダーシップ資本があらゆる組織のパフォーマンスにおいて重要な役割を果たすことを理解しています.
 						組織が利益を上げ、繁栄し、成長する能力は、その人々の才能とパフォーマンスに依存します.
@@ -70,9 +73,8 @@
 				<?php } ?>
 
 				<?php if (siteLang()['key'] == 'ko') { ?>
-					<p><?php echo $company['name']; ?> 는 해외에서 숙련 된 인도네시아 인력을 전문으로하는 채용 및 배치 회사입니다. 우리는 인도네시아 동료들이 자신의
-						자격이 가장 적합한 분야에서 일하면서 자신의 능력과 재능을 공유 할뿐만 아니라 더 많은 것을 얻고 더 나은 혜택으로 보상을받을 수있는 더 큰 기회를 제공하기 위해 최선을
-						다하고 있습니다.</p>
+					<p><?php echo $company['name']; ?> 는 인도네시아에 등록된 유한회사(라이센스 번호: 165/2016)로 해외에서 인도네시아의 숙련된 노동력을 전문으로
+						하는 채용 및 배치 회사입니다. 자신의 학력에 가장 적합한 분야에서 일할 수 있는 능력과 재능을 갖추고 더 많은 혜택을 받을 수 있습니다.</p>
 
 					<p><?php echo $company['name']; ?> 는 리더십 자본이 모든 조직의 성과에서 핵심적인 역할을한다는 것을 잘 알고 있습니다. 수익, 번영, 성장하는 조직의
 						능력은 직원의 재능과 성과에 달려 있습니다. 모빌리티 시대에 최고의 성과를내는 사람을 고용하면 성공과 실패의 진정한 차이를 만들 수 있습니다.</p>
@@ -85,8 +87,8 @@
 				<?php } ?>
 
 				<?php if (siteLang()['key'] == 'zh-TW') { ?>
-					<p><?php echo $company['name']; ?> 是一家招聘和安置公司, 專門 從事國外熟練的印度尼西亞勞動力, 我們致力於為印 尼同胞提供更多的機會, 不僅可以分享他們在最適
-						合其學歷的領域工作的能力和才華, 而且還可以獲 得更多並獲得更好的福利待遇.</p>
+					<p><?php echo $company['name']; ?> 是一家在印度尼西亞註冊的有限公司（牌照編號：165/ 2016), 我們是一家招聘和安置公司,
+						專門從事國外熟練的印度尼西亞勞動力. 我們致力於 為印尼同胞提供更多的機會, 不僅可以分享他們在 最適合其學歷的領域工作的能力和才華, 而且還可 以獲得更多並獲得更好的福利待遇.</p>
 
 					<p><?php echo $company['name']; ?> 理解領導力資本在任何組織的 績效中都起著關鍵作用. 組織的獲利, 蓬勃發展和成 長的能力取決於其人才和才能. 在出行時代, 僱用表
 						現最好的人可以在成功和失敗之間產生真正的區別.</p>
@@ -134,16 +136,20 @@
 
 				<?php if (siteLang()['key'] == 'id') { ?>
 					<ul>
-						<li>Menciptakan lapangan pekerjaan dan memberikan kesempatan kerja kepada masyarakat pencari kerja
-							yang berminat kerja ke luar negeri. Membekali Calon Tenaga Kerja Indonesia dengan pendidikan dan
+						<li>Menciptakan lapangan pekerjaan dan memberikan kesempatan kerja kepada masyarakat pencari
+							kerja
+							yang berminat kerja ke luar negeri. Membekali Calon Tenaga Kerja Indonesia dengan pendidikan
+							dan
 							keterampilan sehingga menjadi Sumber Daya Manusia yang professional.
 						</li>
 						<li>Membantu pemerintah dalam penanggulan masalah pengangguran dalam negeri dan mencetak tenaga
 							kerja yang memiliki keterampilan, pengetahuan, attitude dan pemasukan devisa negara serta
 							Mensejahterakan kehidupan tenaga kerja sendiri dan keluarga.
 						</li>
-						<li>Menyalurkan calon tenaga kerja Indonesia ke negara-negara yang membutuhkan tenaga kerja asing
-							yang professional. Memberikan pengawasan dan perlindungan kepada Tenaga Kerja Indonesia di luar
+						<li>Menyalurkan calon tenaga kerja Indonesia ke negara-negara yang membutuhkan tenaga kerja
+							asing
+							yang professional. Memberikan pengawasan dan perlindungan kepada Tenaga Kerja Indonesia di
+							luar
 							negeri.
 						</li>
 					</ul>
@@ -151,7 +157,8 @@
 				<?php if (siteLang()['key'] == 'en') { ?>
 					<ul>
 						<li>Creating job opportunities and providing job opportunities to job seekers
-							who are interested in working abroad. Equipping Prospective Indonesian Migrant Workers with education and
+							who are interested in working abroad. Equipping Prospective Indonesian Migrant Workers with
+							education and
 							skills so that they become professional Human Resources.
 						</li>
 						<li>Assist the government in overcoming the problem of domestic unemployment and create workers
@@ -169,30 +176,34 @@
 						<li>仕事の機会を創出し、求職者に仕事の機会を提供する
 							海外で働くことに興味のある人。将来のインドネシア移民労働者に教育と
 							彼らがプロの人材になるためのスキル。
-						</ li>
+						</
+						li>
 						<li>政府が国内失業の問題を​​克服し、労働者を創出するのを支援する
 							スキル、知識、態度、外国為替収入だけでなく、
 							労働者自身とその家族の生活を歓迎します。
-						</ li>
+						</
+						li>
 						<li>外国人労働者を必要とする国への将来のインドネシア人労働者の分配
 							プロのもの。海外のインドネシア移民労働者に監督と保護を提供する
 							国。
-						</ li>
+						</
+						li>
 					</ ul>
 				<?php } ?>
 				<?php if (siteLang()['key'] == 'ko') { ?>
-					<ul><li>구직자에게 일자리 창출 및 취업 기회 제공
-						해외 근무에 관심이있는 사람. 잠재적 인 인도네시아 이주 노동자들에게 교육과
-						그들이 전문적인 인적 자원이 될 수 있도록 기술.
-					</li>
-					<li> 정부가 국내 실업 문제를 극복하고 근로자를 창출하도록 돕습니다.
-						기술, 지식, 태도, 외환 수입이있는 일
-						근로자 자신과 가족의 삶을 환영합니다.
-					</li>
-					<li> 외국인 근로자가 필요한 국가에 잠재적 인 인도네시아 근로자를 배치
-						전문적인 것. 해외 인도네시아 이주 노동자에 대한 감독 및 보호 제공
-						국가.
-					</li>
+					<ul>
+						<li>구직자에게 일자리 창출 및 취업 기회 제공
+							해외 근무에 관심이있는 사람. 잠재적 인 인도네시아 이주 노동자들에게 교육과
+							그들이 전문적인 인적 자원이 될 수 있도록 기술.
+						</li>
+						<li> 정부가 국내 실업 문제를 극복하고 근로자를 창출하도록 돕습니다.
+							기술, 지식, 태도, 외환 수입이있는 일
+							근로자 자신과 가족의 삶을 환영합니다.
+						</li>
+						<li> 외국인 근로자가 필요한 국가에 잠재적 인 인도네시아 근로자를 배치
+							전문적인 것. 해외 인도네시아 이주 노동자에 대한 감독 및 보호 제공
+							국가.
+						</li>
 					</ul>
 				<?php } ?>
 				<?php if (siteLang()['key'] == 'zh-TW') { ?>

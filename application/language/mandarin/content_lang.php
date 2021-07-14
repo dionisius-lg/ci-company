@@ -17,7 +17,7 @@ $lang['front'] = [
 	],
 	'footer' => [
 		'company' => [
-			'desc'	=> 'PT. Amalia Rozikin Jaya 是一家招聘和安置公司，專門從事國外熟練的印度尼西亞勞動力.'
+			'desc'	=> '是一家招聘和安置公司，專門從事國外熟練的印度尼西亞勞動力.'
 		],
 		'link' => [
 			'title'		=> '有用的链接',
@@ -35,8 +35,8 @@ $lang['front'] = [
 		],
 	],
 	'section_title' => [
-		'advantages'	=> '分公司及夥伴',
-		// 'clients'		=> '信賴',
+		'advantages'	=> 'BRANCHES & PARTNERS 分公司及夥伴',
+		'clients'		=> '信賴',
 		'news'			=> '透明'
 	],
 	'page_contact' => [
