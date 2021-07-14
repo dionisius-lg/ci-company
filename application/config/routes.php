@@ -186,6 +186,9 @@ $route['remote/get-worker-attachments-datatable/(:any)'] = 'Remote/getWorkerAtta
 $route['worker/download-attachment'] = 'Worker/downloadAttachment';
 $route['worker/download-profile'] = 'Worker/downloadProfile';
 
+// email
+$route['contact/send-email'] = 'Contact/sendEmail';
+
 /**
  * LanguageController
  * Additional routes for front/main

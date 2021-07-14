@@ -50,7 +50,7 @@
 						</h5>
 					</div>
 					<div class="card-body infos">
-						<form action="" method="post" role="form">
+						<?php echo form_open('contact/sendEmail'); ?>
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label for="ContactName"><?php echo $this->lang->line('front')['page_contact']['message']['name']; ?></label>
@@ -73,15 +73,10 @@
 								<textarea class="form-control rounded-0 shadow-none" name="contact_message" id="ContactMessage" rows="10"></textarea>
 								<span class="invalid-feedback"></span>
 							</div>
-							<div class="mb-3">
-								<div class="loading">Loading</div>
-								<div class="error-message"></div>
-								<div class="sent-message">Your message has been sent. Thank you!</div>
-							</div>
 							<div class="text-center">
-								<button type="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('front')['page_contact']['message']['send']; ?></button>
+								<button type="submit" value="submit" class="btn btn-secondary rounded-0"><?php echo $this->lang->line('front')['page_contact']['message']['send']; ?></button>
 							</div>
-						</form>
+						<?php echo form_close(); ?>
 					</div>
 				</div>
 			</div>
