@@ -114,8 +114,8 @@ class Company extends CI_Controller {
 					'max_size' => '2048',
 					//'max_width' => '1024',
 					//'max_height' => '768',
-					'encrypt_name' => true,
-					//'file_name' => 'company_'.time()
+					// 'encrypt_name' => true,
+					'file_name' => 'logo_'.base64url_encode(time())
 				];
 
 				$this->load->library('upload', $config_file);

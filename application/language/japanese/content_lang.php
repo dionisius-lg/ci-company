@@ -35,8 +35,8 @@ $lang['front'] = [
 		],
 	],
 	'section_title' => [
-		'advantages'	=> '私たちの利点',
-		'clients'		=> '我々の顧客',
+		'advantages'	=> '支店とパートナー',
+		// 'clients'		=> '我々の顧客',
 		'news'			=> 'ニュース'
 	],
 	'page_contact' => [

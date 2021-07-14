@@ -548,8 +548,8 @@ class Workers extends CI_Controller {
 					'max_size' => '150',
 					// 'max_width' => '1024',
 					// 'max_height' => '768',
-					'encrypt_name' => true,
-					// 'file_name' => 'worker'.time()
+					// 'encrypt_name' => true,
+					'file_name' => 'photo_'.base64url_encode(time())
 				];
 
 				$this->load->library('upload', $config_file);
@@ -644,8 +644,8 @@ class Workers extends CI_Controller {
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png|doc|docx|xls|xlsx|pdf',
 					'max_size' => '5120',
-					'encrypt_name' => true,
-					// 'file_name' => 'worker'.time()
+					// 'encrypt_name' => true,
+					'file_name' => 'attachment_'.base64url_encode(time())
 				];
 
 				$this->load->library('upload', $config_file);
