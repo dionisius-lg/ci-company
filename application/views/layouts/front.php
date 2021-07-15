@@ -14,10 +14,12 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/font-awesome/css/font-awesome.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/bootstrap/css/bootstrap.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/animate/animate.min.css'); ?>">
-
+		
 		<?php echo $this->template->stylesheet; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/main.css?'.time()); ?>">
+		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/testimony.css'); ?>">
 
+		<script src="<?php echo base_url('assets/js/testimony.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/jquery-easing/jquery.easing.min.js'); ?>"></script>
@@ -82,6 +84,7 @@
 						<li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('front')['navbar']['about'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('front')['navbar']['worker'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('front')['navbar']['contact'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('testimony') . '">' . $this->lang->line('front')['navbar']['testimony'] . '</a>'; ?></li>
 						<!-- <li class="drop-down"><a href="">Drop Down</a>
 							<ul>
 								<li><a href="#">Drop Down 1</a></li>

@@ -28,7 +28,9 @@ $lang['front'] = [
 
 		'about'		=> 'Tentang Kami',
 
-		'contact'	=> 'Hubungi Kami'
+		'contact'	=> 'Hubungi Kami',
+
+		'testimony' => 'Testimoni'
 
 	],
 

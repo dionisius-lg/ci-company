@@ -13,7 +13,8 @@ $lang['front'] = [
 		'gallery'	=> '갤러리',
 		'dropdown'	=> '쓰러지 다',
 		'about'		=> '회사 소개',
-		'contact'	=> '문의하기'
+		'contact'	=> '문의하기',
+		'testimony' => '증명서'
 	],
 	'footer' => [
 		'company' => [

@@ -24,11 +24,11 @@ $lang['front'] = [
 
 		'about'		=> 'About Us',
 
-		'contact'	=> 'Contact Us'
+		'contact'	=> 'Contact Us',
 
 		// 'gallery'	=> 'Gallery',
 
-		// 'dropdown'	=> 'Dropdown',
+		'testimony' => 'Testimony'
 
 	],
 
