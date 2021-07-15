@@ -41,7 +41,6 @@
 		autoplayHoverPause: true,
 		smartSpeed: 500,
 		loop: true,
-		responsiveClass: true,
 		items: 6,
 		nav : false,
 		dots: false,
