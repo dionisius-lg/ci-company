@@ -154,7 +154,7 @@ class Sliders extends CI_Controller {
 			$config_file = [
 				'upload_path' => $file_path,
 				'allowed_types' => 'jpg|jpeg|png',
-				'max_size' => '500',
+				'max_size' => 512,
 				// 'encrypt_name' => true,
 				'file_name' => 'slider_'.base64url_encode(time())
 			];
@@ -169,11 +169,10 @@ class Sliders extends CI_Controller {
 					'source_image' => $upload_data['full_path'],
 					'create_thumb' => false,
 					'maintain_ratio' => true,
-					'quality' => '50%',
+					// 'quality' => '100%',
 					'width' => '1200',
-					'height' => '675',
-					'new_image' => $upload_data['full_path'],
-					//'new_image' => $file_path,
+					// 'height' => '675',
+					'new_image' => $upload_data['full_path']
 				];
 
 				$this->load->library('image_lib', $config_resize);
@@ -256,7 +255,7 @@ class Sliders extends CI_Controller {
 				$config_file = [
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png',
-					'max_size' => '500',
+					'max_size' => 512,
 					// 'encrypt_name' => true,
 					'file_name' => 'slider_'.base64url_encode(time())
 				];
@@ -273,9 +272,9 @@ class Sliders extends CI_Controller {
 						'source_image' => $upload_data['full_path'],
 						'create_thumb' => false,
 						'maintain_ratio' => true,
-						'quality' => '50%',
+						// 'quality' => '100%',
 						'width' => '1200',
-						'height' => '675',
+						// 'height' => '675',
 						'new_image' => $upload_data['full_path']
 					];
 

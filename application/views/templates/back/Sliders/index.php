@@ -73,6 +73,7 @@
 									<?php echo form_button(['type' => 'button', 'class' => 'btn btn-outline-success btn-sm rounded-0', 'content' => 'Browse', 'data-toggle' => 'browse']); ?>
 								</div>
 							</div>
+							<span class="form-text">Allowed type: jpg, jpeg, png. Max size: 500KB (For optimal page load).</span>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>
