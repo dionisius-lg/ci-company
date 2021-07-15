@@ -45,7 +45,7 @@
 					}
 
 					if ($worker['booking_status_id'] == 4) {
-						echo '<p class="booking-status">Hired by ' . $worker['booking_by'] . ' on ' . date('d-m-Y H:i:s', strtotime($worker['booking_date'])) . '</p>';
+						echo '<p class="booking-status">HIRED by ' . $worker['booking_by'] . ' on ' . date('d-m-Y H:i:s', strtotime($worker['booking_date'])) . '</p>';
 					} ?>
 				</div>
 

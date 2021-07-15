@@ -1127,7 +1127,7 @@ class Workers extends CI_Controller {
 			[
 				'field' => 'email',
 				'label' => 'Email',
-				'rules' => 'trim|required|max_length[100]|valid_email|checkWorkersEmail['.$id.']|xss_clean'
+				'rules' => 'trim|max_length[100]|valid_email|checkWorkersEmail['.$id.']|xss_clean'
 			],
 			[
 				'field' => 'phone',

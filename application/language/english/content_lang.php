@@ -20,7 +20,7 @@ $lang['front'] = [
 
 		'home'		=> 'Main Page',
 
-		'worker'	=> 'Worker Profile',
+		'worker'	=> 'Biodata',
 
 		'about'		=> 'About Us',
 
@@ -198,7 +198,7 @@ $lang['front'] = [
 
 			'last_education'		=> 'Last Education',
 
-			'character_evaluation'	=> 'Personal Character Evaluation',
+			'character_evaluation'	=> 'Other Personal Info',
 
 			'spouse_name'			=> 'Spouse Name',
 

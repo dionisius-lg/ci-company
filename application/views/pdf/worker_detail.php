@@ -206,7 +206,7 @@
 
 		<body id="content">
 			<div class="ref-number">
-				<span class="font-bold text-uppercase">Ref No.</span> <span class="font-chinese-bold">姓名</span> : <span class="font-bold text-uppercase"><?php echo $worker['ref_number']; ?></span>
+				<span class="font-bold text-uppercase">Ref No.</span> <span class="font-chinese-bold">工人編號</span> : <span class="font-bold text-uppercase"><?php echo $worker['ref_number']; ?></span>
 			</div>
 			<div class="border-top border-right border-bottom border-left px-2 text-center bg-red">
 				<span class="font-bold text-uppercase">Personal Data</span> <span class="font-chinese-bold">個人資料</span>
@@ -240,11 +240,11 @@
 									<td class="border-bottom border-left px-2"><?php echo $worker['marital_status']; ?></td>
 								</tr>
 								<tr>
-									<td class="border-bottom px-2">Height <span class="font-chinese">婚姻狀況</span></td>
+									<td class="border-bottom px-2">Height <span class="font-chinese">身高</span></td>
 									<td class="border-bottom border-left px-2"><?php echo $worker['height']; ?> cm</td>
 								</tr>
 								<tr>
-									<td class="px-2">Weight <span class="font-chinese">婚姻狀況</span></td>
+									<td class="px-2">Weight <span class="font-chinese">體重</span></td>
 									<td class="border-left px-2"><?php echo $worker['weight']; ?> kg</td>
 								</tr>
 							</table>
@@ -424,7 +424,7 @@
 				</table>
 			</div>
 			<div class="border-bottom border-right border-bottom border-left px-2 text-center bg-red">
-				<span class="font-bold text-uppercase">Personal Character Evaluation</span> <span class="font-chinese-bold">女傭總體評價</span>
+				<span class="font-bold text-uppercase">Other Personal Info </span> <span class="font-chinese-bold">女傭總體評價</span>
 			</div>
 			<div class="border-bottom border-right border-bottom border-left vertical-top px-2">
 				<span class="font-bold font-size-12"><?php echo $worker['character_evaluation']; ?></span>
