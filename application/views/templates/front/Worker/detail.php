@@ -50,11 +50,14 @@
 				</div>
 
 				<div class="profile-menu">
-					<?php if (isset($menu_booking)) echo form_button($menu_booking);
-
-					echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => base64url_encode($worker['id'])]); ?>
+					<?php if ($worker['booking_status_id'] == 4) { ?>
+						<?php echo form_hidden(['type' => 'button']); ?>
+					<?php } else { ?>
+						<?php echo form_button(['type' => 'button', 'class' => 'btn btn-outline-secondary btn-download-profile rounded-0', 'content' => '<i class="fa fa-download">&nbsp;</i> ' . $this->lang->line('front')['page_worker']['button']['download_data'], 'data-worker' => base64url_encode($worker['id'])]); ?>
+					<?php } ?>
 				</div>
-
+				
+			<?php if ($worker['booking_user_id'] == $_SESSION['AuthUser']['id']) : ?>
 				<?php if (count($attachments) > 0) { ?>
 					<div class="profile-menu text-left mt-4">
 						<div class="section-sub-title">
@@ -74,6 +77,7 @@
 						</ul>
 					</div>
 				<?php } ?>
+			<?php endif; ?>
 			</div>
 			<div class="col-lg-8">
 				<div class="section-sub-title">

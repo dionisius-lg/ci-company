@@ -121,6 +121,12 @@
 									<p>Sliders</p>
 								</a>
 							</li>
+							<li class="nav-item">
+								<a href="<?php echo site_url('admin/testimonies'); ?>" class="nav-link">
+									<i class="nav-icon fa fa-photo"></i>
+									<p>Testimonies</p>
+								</a>
+							</li>
 							<li class="nav-item has-treeview">
 								<a href="#" class="nav-link treeview-link">
 									<i class="nav-icon fa fa-cog"></i>
