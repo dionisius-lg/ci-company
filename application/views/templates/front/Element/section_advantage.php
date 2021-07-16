@@ -84,9 +84,9 @@
 						<h4>BERSAMA KIAN SUKSES (BKS) </h4>
 <h4>Skill Training Center</h4>
 
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, Solo, Central Java, Indonesia.
+						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, Solo, Central Java, Indonesia.</p>
 
-Tel: 0271-6497349.</p>
+<p>Tel: 0271-6497349.</p>
 
 					<?php } ?>
 
@@ -96,9 +96,9 @@ Tel: 0271-6497349.</p>
 
 						<h4>LPKS BLKLN BERSAMA KIAN SUKSES</h4>
 
-						<p>Jalan Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, Solo, Jawa Tengah
+						<p>Jalan Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, Solo, Jawa Tengah</p>
 
-Tel: 0271-6497349.</p>
+<p>Tel: 0271-6497349.</p>
 
 					<?php } ?>
 
@@ -109,7 +109,8 @@ Tel: 0271-6497349.</p>
 						<h4>BERSAMA KIAN SUKSES (BKS)</h4>
 <h4>スキルトレーニングセンター</h4>
 
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, ソロ、中部ジャワ、インドネシア。Tel: 0271-6497349</p>
+						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, ソロ、中部ジャワ、インドネシア。</p>
+						<p>Tel: 0271-6497349</p>
 
 					<?php } ?>
 
@@ -120,7 +121,8 @@ Tel: 0271-6497349.</p>
 						<h4>BERSAMA KIAN SUKSES (BKS)</h4>
 <h4> 기술 훈련 센터</h4>
 
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, 솔로, 중부 자바, 인도네시아。Tel: 0271-6497349</p>
+						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, 솔로, 중부 자바, 인도네시아。</p>
+						<p>Tel: 0271-6497349</p>
 
 					<?php } ?>
 
@@ -131,7 +133,8 @@ Tel: 0271-6497349.</p>
 						<h4>BERSAMA KIAN SUKSES (BKS) </h4>
 <h4>技能訓練中心</h4>
 
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, 梭羅，中爪哇，印尼Tel: 0271-6497349</p>
+						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, 梭羅，中爪哇，印尼</p>
+						<p>Tel: 0271-6497349</p>
 
 					<?php } ?>
 
