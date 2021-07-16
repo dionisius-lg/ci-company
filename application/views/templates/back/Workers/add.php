@@ -98,6 +98,16 @@
 							<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
 						</div>
 						<div class="form-group col-md-3">
+							<?php echo form_label('Height', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'height', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('height') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('height')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('height'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
+							<?php echo form_label('Weight', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'weight', 'class' => 'form-control form-control-sm rounded-0 capitalize' . (hasFlashError('weight') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('weight')]); ?>
+							<span class="invalid-feedback"><?php echo flashError('weight'); ?></span>
+						</div>
+						<div class="form-group col-md-3">
 							<?php echo form_label('Phone', null); ?>
 							<?php echo form_input(['type' => 'text', 'name' => 'phone', 'class' => 'form-control form-control-sm rounded-0 numeric' . (hasFlashError('phone') ? ' is-invalid' : ''), 'maxlength' => '30', 'value' => oldInput('phone')]); ?>
 							<span class="invalid-feedback"><?php echo flashError('phone'); ?></span>
