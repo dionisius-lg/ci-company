@@ -26,7 +26,7 @@ $lang['front'] = [
 
 		'contact'	=> 'Contact Us',
 
-		// 'gallery'	=> 'Gallery',
+		'gallery'	=> 'Gallery',
 
 		'testimony' => 'Testimony'
 

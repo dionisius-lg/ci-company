@@ -13,13 +13,10 @@ class Gallery extends CI_Controller {
 		// set site languange
 		$this->config->set_item('language', siteLang()['name']);
 
-		// set template layout
 		$this->template->set_template('layouts/front');
 
-		// load default models
 		$this->load->model('CompanyModel');
 
-		// load default data
 		$this->result['company'] = [];
 		if ($this->CompanyModel->get()['status'] == 'success') {
 			$this->result['company'] = $this->CompanyModel->get()['data'];
@@ -29,7 +26,7 @@ class Gallery extends CI_Controller {
 	public function index()
 	{
 		$session = $this->session->userdata('AuthUser');
-
+		// load views
 		$this->template->content->view('templates/front/Gallery/index', $this->result);
 		$this->template->publish();
 	}

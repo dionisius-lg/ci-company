@@ -83,6 +83,7 @@
 						<li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('front')['navbar']['about'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('front')['navbar']['worker'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('front')['navbar']['contact'] . '</a>'; ?></li>
+						<li><?php echo '<a href="' . base_url('gallery') . '">' . $this->lang->line('front')['navbar']['gallery'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('testimony') . '">' . $this->lang->line('front')['navbar']['testimony'] . '</a>'; ?></li>
 						<!-- <li class="drop-down"><a href="">Drop Down</a>
 							<ul>

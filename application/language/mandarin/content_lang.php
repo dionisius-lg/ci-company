@@ -12,8 +12,8 @@ $lang['front'] = [
 		'worker'	=> '工人資料',
 		'about'		=> '關於我們',
 		'contact'	=> '聯繫我們',
+		'gallery'	=> '畫廊',
 		'testimony' => '推薦信'
-		// 'gallery'	=> '画廊',
 		// 'dropdown'	=> '落下',
 	],
 	'footer' => [
