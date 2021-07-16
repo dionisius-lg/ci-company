@@ -22,31 +22,37 @@ if (!function_exists('nl2space')) {
 
 if (!function_exists('base64url_encode')) {
 	function base64url_encode($str) {
-		if ($str) {
-			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-			$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-			$mcrypt_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $str, MCRYPT_MODE_ECB, $iv);
-			$base64_encode = strtr(base64_encode($mcrypt_encrypt), '+/', '-_');
+		// kalo php 5 ajg dia jalan
 
-			return rtrim($base64_encode, '=');
-		}
+		// if ($str) {
+		// 	$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+		// 	$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+		// 	$mcrypt_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $str, MCRYPT_MODE_ECB, $iv);
+		// 	$base64_encode = strtr(base64_encode($mcrypt_encrypt), '+/', '-_');
 
-		return false;
+		// 	return rtrim($base64_encode, '=');
+		// }
+
+		// return false;
+		return str_replace('=', '', base64_encode('ptarj.com' . $str)); // ini buat php ver brapapun bisa
 	}
 }
 
 if (!function_exists('base64url_decode')) {
 	function base64url_decode($str) {
-		if ($str) {
-			$base64_decode = base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
-			$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-			$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-			$mcrypt_decrypt = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $base64_decode, MCRYPT_MODE_ECB, $iv);
+		// kalo php 5 ajg dia jalan
 
-			return trim($mcrypt_decrypt);
-		}
+		// if ($str) {
+		// 	$base64_decode = base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
+		// 	$iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+		// 	$iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+		// 	$mcrypt_decrypt = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $base64_decode, MCRYPT_MODE_ECB, $iv);
 
-		return false;
+		// 	return trim($mcrypt_decrypt);
+		// }
+
+		// return false;
+		return str_replace('ptarj.com', '', base64_decode($str . "=")); // ini buat php ver brapapun bisa
 	}
 }
 
