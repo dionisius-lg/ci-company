@@ -2,7 +2,7 @@ const currentProtocol = window.location.protocol;
 const currentLocation = window.location.hostname;
 // console.log(currentProtocol + '//socket.' + currentLocation);
 
-// const socket = io.connect(currentProtocol + '//socket.' + currentLocation);
+// const socket = io.connect(currentProtocol + '//socket.' + currentLocation.replace('www', ''));
 const socket = io.connect('http://localhost:62542');
 
 const base_url = $('meta[name="url"]').attr('content');
