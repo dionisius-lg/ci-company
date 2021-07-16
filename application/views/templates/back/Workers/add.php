@@ -311,6 +311,7 @@
 		var workerGender = '<?php echo oldInput('gender'); ?>',
 			workerMaritalStatus = '<?php echo oldInput('marital_status'); ?>',
 			workerReligion = '<?php echo oldInput('religion'); ?>',
+				workerEducation = '<?php echo oldInput('last_education'); ?>',
 			workerProvince = '<?php echo oldInput('province'); ?>',
 			workerPlacement = '<?php echo oldInput('placement'); ?>';
 
@@ -327,6 +328,11 @@
 		// set value to element if variable true or numeric
 		if (workerReligion && $.isNumeric(workerReligion)) {
 			$('#formData [name="religion"]').val(workerReligion).trigger('change');
+		}
+		//
+
+		if (workerEducation && $.isNumeric(workerEducation)) {
+			$('#formData [name="last_education"]').val(workerEducation).trigger('change');
 		}
 
 		// set value to element if variable true or numeric
