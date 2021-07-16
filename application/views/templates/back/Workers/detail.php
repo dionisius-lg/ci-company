@@ -59,7 +59,7 @@
 									<span class="invalid-feedback"><?php echo flashError('fullname'); ?></span>
 								</div>
 								<div class="form-group col-md-3">
-									<?php echo form_label('Email <span class="text-danger">*</span>', null); ?>
+									<?php echo form_label('Email ', null); ?>
 									<?php echo form_input(['type' => 'text', 'name' => 'email', 'class' => 'form-control form-control-sm rounded-0 lowercase' . (hasFlashError('email') ? ' is-invalid' : ''), 'maxlength' => '100', 'value' => oldInput('email', unStrClean($worker['email']))]); ?>
 									<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
 								</div>
@@ -817,11 +817,11 @@
 		var workerGender = '<?php echo oldInput('gender', $worker['gender_id']); ?>',
 			workerMaritalStatus = '<?php echo oldInput('marital_status', $worker['marital_status_id']); ?>',
 			workerReligion = '<?php echo oldInput('religion', $worker['religion_id']); ?>',
-				workerEducation = '<?php echo oldInput('last_education'); ?>',
+				workerEducation = '<?php echo oldInput('last_education'),$worker['last_education_id']; ?>',
 			workerProvince = '<?php echo oldInput('province', $worker['province_id']); ?>',
 			workerPlacement = '<?php echo oldInput('placement', $worker['placement_id']); ?>';
 
-		// set value to element if variable true or numeric
+		// set value to element if variable true or numerics
 		if (workerGender && $.isNumeric(workerGender)) {
 			$('#formData [name="gender"]').val(workerGender).trigger('change');
 		}
