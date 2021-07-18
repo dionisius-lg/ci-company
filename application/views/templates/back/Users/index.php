@@ -69,6 +69,7 @@
 								<th class="text-nowrap">User Level</th>
 								<th class="text-nowrap">Agency Location</th>
 								<th class="text-nowrap">Company</th>
+								<th class="text-nowrap">Phone</th>
 								<th class="text-nowrap">Is Worker</th>
 								<th class="text-nowrap">Action</th>
 							</tr>
@@ -84,6 +85,7 @@
 									<td class="text-nowrap">' . $user['user_level'] . '</td>
 									<td class="text-nowrap">' . $user['agency_location'] . '</td>
 									<td class="text-nowrap">' . $user['company'] . '</td>
+									<td class="text-nowrap">' . $user['phone'] . '</td>
 									<td class="text-nowrap">' . (($user['is_worker'] == 1) ? '<i class="fa fa-check text-primary"></i>' : '<i class="fa fa-close"></i>') . '</td>
 									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $user['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => ($this->session->userdata('AuthUser')['id'] == $user['id'] ? 'return toastr.error(\'Cannot delete your current account\');' : 'deleteData(' . $user['id'] . ')')]) . '</td>
 								</tr>';
@@ -135,17 +137,17 @@
 							<?php echo form_input(['type' => 'text', 'name' => 'username', 'class' => 'form-control form-control-sm rounded-0 lowercase', 'maxlength' => '30']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
-						<div class="form-group col-md-4">
-							<?php echo form_label('User Level <span class="text-danger">*</span>', null); ?>
-							<select class="form-control select2 rounded-0" name="user_level">
-								<option value="">Please Select</option>
-								<?php foreach ($user_levels as $level) {
-									echo '<option value="' .$level['id']. '">'. $level['name']. '</option>';
-								} ?>
-							</select>
+						<div class="form-group col-md-8">
+							<?php echo form_label('Company', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'company', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '200']); ?>
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
+							<?php echo form_label('Phone Number', null); ?>
+							<?php echo form_input(['type' => 'text', 'name' => 'phone', 'class' => 'form-control form-control-sm rounded-0 numeric', 'maxlength' => '15']); ?>
+							<span class="invalid-feedback"></span>
+						</div>
+						<div class="form-group col-md-8">
 							<?php echo form_label('Agency Location', null); ?>
 							<select class="form-control select2 rounded-0" name="agency_location">
 								<option value="">Please Select</option>
@@ -156,8 +158,13 @@
 							<span class="invalid-feedback"></span>
 						</div>
 						<div class="form-group col-md-4">
-							<?php echo form_label('Company', null); ?>
-							<?php echo form_input(['type' => 'text', 'name' => 'company', 'class' => 'form-control form-control-sm rounded-0 capitalize', 'maxlength' => '200']); ?>
+							<?php echo form_label('User Level <span class="text-danger">*</span>', null); ?>
+							<select class="form-control select2 rounded-0" name="user_level">
+								<option value="">Please Select</option>
+								<?php foreach ($user_levels as $level) {
+									echo '<option value="' .$level['id']. '">'. $level['name']. '</option>';
+								} ?>
+							</select>
 							<span class="invalid-feedback"></span>
 						</div>
 					</div>

@@ -37,10 +37,17 @@
 								<span class="invalid-feedback"><?php echo flashError('email'); ?></span>
 							</div>
 							<div class="col-md-6">
+								<?php echo form_label($this->lang->line('front')['page_register']['phone'] .'&nbsp;<span class="text-danger">*</span>' ,'phone'); ?>
+								<?php echo form_input(['type' => 'text', 'name' => 'phone', 'id' => 'Phone', 'class' => 'form-control numeric ' . (hasFlashError('phone') ? 'is-invalid' : ''), 'value' => oldInput('phone')]); ?>
+								<span class="invalid-feedback"><?php echo flashError('phone'); ?></span>
+							</div>
+							<div class="col-md-6">
 								<?php echo form_label($this->lang->line('front')['page_register']['company'], 'company'); ?>
 								<?php echo form_input(['type' => 'text', 'name' => 'company', 'id' => 'company', 'class' => 'form-control capitalize ' . (hasFlashError('company') ? 'is-invalid' : ''), 'value' => oldInput('company')]); ?>
 								<span class="invalid-feedback"><?php echo flashError('company'); ?></span>
 							</div>
+						</div>
+						<div class="form-row">
 							<div class="col-md-6">
 								<?php echo form_label($this->lang->line('front')['page_register']['register_as'] . '&nbsp;<span class="text-danger">*</span>', 'RegisterAs'); ?>
 								<select name="register_as" id="RegisterAs" class="form-control custom-select" required>

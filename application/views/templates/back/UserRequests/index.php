@@ -59,6 +59,7 @@
 								<th class="text-nowrap">Fullname</th>
 								<th class="text-nowrap">Email</th>
 								<th class="text-nowrap">Company</th>
+								<th class="text-nowrap">Phone Number</th>
 								<th class="text-nowrap">Register As</th>
 								<th class="text-nowrap">Agency Location</th>
 								<th class="text-nowrap">Request Date</th>
@@ -73,6 +74,7 @@
 									<td class="text-nowrap">' . $user['fullname'] . '</td>
 									<td class="text-nowrap">' . $user['email'] . '</td>
 									<td class="text-nowrap">' . $user['company'] . '</td>
+									<td class="text-nowrap">' . $user['phone'] . '</td>
 									<td class="text-nowrap">' . $user['user_level'] . '</td>
 									<td class="text-nowrap">' . $user['agency_location'] . '</td>
 									<td class="text-nowrap">' . $user['request_date'] . '</td>

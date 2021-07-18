@@ -136,6 +136,7 @@ class Auth extends CI_Controller {
 				'email'					=> strtolower($input['email']),
 				'user_level_id'			=> $input['register_as'],
 				'company'				=> ucwords($input['company']),
+				'phone'					=> $input['phone'],
 				'agency_location_id'	=> $input['agency_location'],
 				'is_request_register'	=> 1
 			];
@@ -199,6 +200,11 @@ class Auth extends CI_Controller {
 				'field' => 'company',
 				'label' => $this->lang->line('front')['page_register']['company'],
 				'rules' => 'trim|max_length[200]|regex_match[/^[a-zA-Z0-9 .,\-\&]*$/]|xss_clean'
+			],
+			[
+				'field' => 'phone',
+				'label' => $this->lang->line('front')['page_register']['phone'],
+				'rules' => 'required|trim|max_length[15]|xss_clean'
 			],
 			[
 				'field' => 'register_as',

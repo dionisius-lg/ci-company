@@ -140,6 +140,8 @@ $lang['front'] = [
 
 		'company'			=> 'Perusahaan',
 
+		'phone'				=> 'Nomor Telepon',
+
 		'submit'			=> 'Daftar'
 
 	],

@@ -69,6 +69,7 @@ $lang['front'] = [
 		'register_as'		=> '다른 이름으로 등록',
 		'agency_location'	=> '대리점 위치',
 		'company'			=> '회사',
+		'phone'				=> '전화 번호',
 		'submit'			=> '레지스터'
 	],
 	'page_worker' => [

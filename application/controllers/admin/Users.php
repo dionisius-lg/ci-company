@@ -69,6 +69,7 @@ class Users extends CI_Controller {
 			'user_level_id'			=> array_key_exists('user_level', $params) ? $params['user_level'] : '',
 			'agency_location_id'	=> array_key_exists('agency_location', $params) ? $params['agency_location'] : '',
 			'like_company'			=> array_key_exists('company', $params) ? $params['company'] : '',
+			'like_phone'			=> array_key_exists('phone', $params) ? $params['phone'] : '',
 			'order'					=> 'fullname',
 			'sort'					=> 'asc',
 			'is_register'			=> 1,
@@ -192,6 +193,7 @@ class Users extends CI_Controller {
 				'email'					=> strtolower($input['email']),
 				'agency_location_id'	=> $input['agency_location'],
 				'company'				=> ucwords($input['company']),
+				'phone'					=> $input['phone'],
 				'user_level_id'			=> $input['user_level'],
 				'register_user_id'		=> $session['id'],
 				'is_register'			=> 1
@@ -255,6 +257,7 @@ class Users extends CI_Controller {
 				'email'					=> strtolower($input['email']),
 				'agency_location_id'	=> $input['agency_location'],
 				'company'				=> ucwords($input['company']),
+				'phone'					=> $input['phone'],
 				'user_level_id'			=> $input['user_level'],
 				'update_user_id'		=> $session['id']
 			];
