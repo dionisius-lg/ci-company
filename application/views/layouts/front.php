@@ -32,14 +32,19 @@
 				<div class="menu-lang mr-auto">
 					<div class="btn-group">
 						<button class="btn btn-outline-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<?php echo sitelang()['alias']; ?>
+							<?php echo sitelang()['alias']; ?>
 						</button>
 						<div class="dropdown-menu">
-							<?php echo anchor(base_url('lang/en'), 'English', ['class' => 'dropdown-item']); ?>
+							<a class="dropdown-item" href="<?= base_url('lang/en') ?>">English</a>
+							<a class="dropdown-item" href="<?= base_url('lang/id') ?>">Bahasa</a>
+							<a class="dropdown-item" href="<?= base_url('lang/ja') ?>">日本語</a>
+							<a class="dropdown-item" href="<?= base_url('lang/ko') ?>">한국어</a>
+							<a class="dropdown-item" href="<?= base_url('lang/zh-TW') ?>">繁體中文</a>
+							<!-- <?php echo anchor(base_url('lang/en'), 'English', ['class' => 'dropdown-item']); ?>
 							<?php echo anchor(base_url('lang/id'), 'Bahasa', ['class' => 'dropdown-item']); ?>
 							<?php echo anchor(base_url('lang/ja'), '日本語', ['class' => 'dropdown-item']); ?>
 							<?php echo anchor(base_url('lang/ko'), '한국어', ['class' => 'dropdown-item']); ?>
-							<?php echo anchor(base_url('lang/zh-TW'), '繁體中文', ['class' => 'dropdown-item']); ?>
+							<?php echo anchor(base_url('lang/zh-TW'), '繁體中文', ['class' => 'dropdown-item']); ?> -->
 						</div>
 					</div>
 				</div>

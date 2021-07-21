@@ -55,9 +55,8 @@ class Testimonies extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'	=> 10,
+			'limit'	=> 4,
 			'page'	=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'order'	=> 'order_number',
 			'sort'	=> 'asc'
 		];
 
@@ -79,7 +78,7 @@ class Testimonies extends CI_Controller {
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/sliders', $total, $clause['limit'], $params);
+		$this->result['pagination'] = bs4pagination('admin/testimonies', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
 		$this->template->content->view('templates/back/Testimonies/index', $this->result);
@@ -104,18 +103,18 @@ class Testimonies extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->SlidersModel->getDetail($id);
+			$request = $this->TestimoniesModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
 				$this->result['data'] = [
-					'file' => @getimagesize(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
-					'order_number' => $request['data']['order_number'],
-					'link_to' => $request['data']['link_to'],
+					'file' => @getimagesize(base_url('files/testimonies/'.$request['data']['picture'])) ? base_url('files/testimonies/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
+					'fullname' => $request['data']['fullname'],
+					'description' => $request['data']['description'],
 					'create_date' => $request['data']['create_date'],
-					'create_by' => $request['data']['create_by'],
-					'update_date' => $request['data']['update_date'],
-					'update_by' => $request['data']['update_by'],
+					// 'create_by' => $request['data']['create_by'],
+					// 'update_date' => $request['data']['update_date'],
+					// 'update_by' => $request['data']['update_by'],
 				];
 				unset($this->result['message']);
 			}
@@ -145,7 +144,7 @@ class Testimonies extends CI_Controller {
 
 			$input['picture'] = $_FILES['picture'];
 
-			$file_path = './files/sliders/';
+			$file_path = './files/testimonies/';
 
 			if (!is_dir($file_path)) {
 				mkdir($file_path, 0777, true);
@@ -156,7 +155,7 @@ class Testimonies extends CI_Controller {
 				'allowed_types' => 'jpg|jpeg|png',
 				'max_size' => 512,
 				// 'encrypt_name' => true,
-				'file_name' => 'slider_'.base64url_encode(time())
+				'file_name' => 'img-testimonies'.base64url_encode(time())
 			];
 
 			$this->load->library('upload', $config_file);
@@ -196,16 +195,15 @@ class Testimonies extends CI_Controller {
 			}
 
 			$data = [
-				'order_number'		=> $input['order_number'],
-				'link_to'			=> $input['link_to'],
-				'create_user_id'	=> $session['id']
+				'description' => $input['description'],
+				'fullname' => $input['fullname']
 			];
 
 			$data = array_map('strClean', $data);
 
 			$data['picture'] = $upload_data['file_name'];
 
-			$request = $this->SlidersModel->insert($data);
+			$request = $this->TestimoniesModel->insert($data);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -246,7 +244,7 @@ class Testimonies extends CI_Controller {
 			}
 
 			if ($file) {
-				$file_path = './files/sliders/';
+				$file_path = './files/testimonies/';
 
 				if (!is_dir($file_path)) {
 					mkdir($file_path, 0777, true);
@@ -256,8 +254,7 @@ class Testimonies extends CI_Controller {
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png',
 					'max_size' => 512,
-					// 'encrypt_name' => true,
-					'file_name' => 'slider_'.base64url_encode(time())
+					'file_name' => 'img-testimonies_'.base64url_encode(time())
 				];
 
 				$this->load->library('upload', $config_file);
@@ -298,9 +295,8 @@ class Testimonies extends CI_Controller {
 			}
 
 			$data = [
-				'order_number'		=> $input['order_number'],
-				'link_to'			=> $input['link_to'],
-				'update_user_id'	=> $session['id']
+				'description' => $input['description'],
+				'fullname' => $input['fullname']
 			];
 
 			$data = array_map('strClean', $data);
@@ -308,7 +304,7 @@ class Testimonies extends CI_Controller {
 			if ($file) {
 				$data['picture'] = $upload_data['file_name'];
 
-				$request = $this->SlidersModel->getDetail($id);
+				$request = $this->TestimoniesModel->getDetail($id);
 
 				$file_old = null;
 
@@ -317,7 +313,7 @@ class Testimonies extends CI_Controller {
 				}
 			}
 
-			$request = $this->SlidersModel->update($data, $id);
+			$request = $this->TestimoniesModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -363,13 +359,13 @@ class Testimonies extends CI_Controller {
 
 			$file_old = null;
 
-			$request = $this->SlidersModel->getDetail($id);
+			$request = $this->TestimoniesModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
-				$file_old = './files/sliders/'.$request['data']['picture'];
+				$file_old = './files/testimonies/'.$request['data']['picture'];
 			}
 
-			$request = $this->SlidersModel->delete($id);
+			$request = $this->TestimoniesModel->delete($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -393,14 +389,14 @@ class Testimonies extends CI_Controller {
 	{
 		$validate = [
 			[
-				'field' => 'order_number',
-				'label' => 'Order',
-				'rules' => 'trim|is_natural_no_zero|xss_clean'
+				'field' => 'fullname',
+				'label' => 'Fullname',
+				'rules' => 'trim|required|xss_clean'
 			],
 			[
-				'field' => 'link_to',
-				'label' => 'Link To',
-				'rules' => 'trim|valid_url|filterValidateUrl|xss_clean'
+				'field' => 'description',
+				'label' => 'Description',
+				'rules' => 'trim|required|xss_clean'
 			],
 		];
 

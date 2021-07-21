@@ -18,7 +18,7 @@ class TestimoniesModel extends CI_Model {
 	{
 		$column		= $this->_getColumn($this->view_table);
 		$protected	= ['id'];
-
+		
 		$sort				= ['ASC', 'DESC'];
 		$clause				= ['order' => 'id', 'sort' => 'ASC', 'limit' => 10, 'page' => 1];
 		$error				= [];
@@ -27,24 +27,24 @@ class TestimoniesModel extends CI_Model {
 		$condition_like		= [];
 		$condition_inset	= [];
 		$condition_between	= [];
-
+		
 		$column_like = [
 			
 		];
-
+		
 		$column_inset = [
 			
 		];
-
+		
 		$column_date = [
 			'create_date',
 			'update_date'
 		];
-
+		
 		$column_between = [
 			
 		];
-
+		
 		if (!empty($data_temp) && is_array($data_temp)) {
 			foreach ($data_temp as $key => $val) {
 				if (in_array($key, $protected)) {
@@ -65,11 +65,11 @@ class TestimoniesModel extends CI_Model {
 				}
 			}
 		}
-
-		if ((!in_array($clause['order'], $column) && $clause['order'] !== 'rand()') || !is_numeric($clause['limit']) || !is_numeric($clause['page']) || !in_array(strtoupper($clause['sort']), $sort)) {
+		
+		if (!is_numeric($clause['limit']) || !is_numeric($clause['page']) || !in_array(strtoupper($clause['sort']), $sort)) {
 			return responseBadRequest();
 		}
-
+		
 		if (!empty($error) && is_array($error)) {
 			foreach ($error as $key => $val) {
 				if ($val['warning_count'] > 0 || $val['val'] > 0) {
@@ -211,7 +211,7 @@ class TestimoniesModel extends CI_Model {
 		$column		= $this->_getColumn($this->table);
 		$protected	= ['id'];
 		$data		= [];
-
+		
 		if (!empty($data_temp) && is_array($data_temp)) {
 			foreach ($data_temp as $key => $val) {
 				if (!in_array($key, $column) || in_array($key, $protected)) {
@@ -224,7 +224,7 @@ class TestimoniesModel extends CI_Model {
 			}
 		}
 
-		if (empty($data)) {
+		if (empty($key)) {
 			return responseBadRequest('Empty data');
 		}
 

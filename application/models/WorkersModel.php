@@ -293,7 +293,7 @@ class WorkersModel extends CI_Model {
 					} else {
 						if (in_array($key, ['is_active']) && $val === '0') {
 							$data[$key] = '0';
-						} elseif (in_array($key, ['placement_id']) && empty($val)) {
+						} elseif (in_array($key, ['placement_id', 'email', 'phone', 'height', 'weight', 'character_evaluation', 'spouse_name', 'spouse_occupation','children','children_age','father_name','mother_name','mother_occupation','description','link_video']) && empty($val)) {
 							$data[$key] = null;
 						}
 					}

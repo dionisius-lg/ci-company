@@ -11,8 +11,8 @@ if (!function_exists('socketEmit')) {
 	function socketEmit($event = false, $data = [], $nameserver = false, $namespace = false) {
 		if ($event) {
 			if (is_array($data)) {
-				$server = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://" . @$_SERVER['HTTP_HOST'] . ":62542";
-				// $server = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://socket." . @$_SERVER['HTTP_HOST'];
+				// $server = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://" . @$_SERVER['HTTP_HOST'] . ":62542";
+				$server = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http") . "://socket." . @$_SERVER['HTTP_HOST'];
 
 				$socket_server = ($nameserver) ? $nameserver : $server;
 				$parse = parse_url($socket_server);
