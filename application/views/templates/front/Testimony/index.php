@@ -47,11 +47,8 @@
 </section>
 
 
-<?php $this->template->stylesheet->add('assets/vendor/venobox/css/venobox.css', ['type' => 'text/css', 'media' => 'all']); ?>
-
-<?php $this->template->javascript->add('assets/vendor/venobox/js/venobox.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/isotope-layout/isotope.pkgd.min.js'); ?>
-<script type="text/javascript">
+<?php $this->template->stylesheet->add('assets/css/testimony.css', ['type' => 'text/css']); ?>
+<!-- <script type="text/javascript">
 	$(window).on('load', function() {
 		var galleryIsotope = $('#galleries .album').isotope({
 			itemSelector: '#galleries .item'
@@ -71,4 +68,4 @@
 			$('.venobox').venobox();
 		});
 	});
-</script>
+</script> -->

@@ -17,7 +17,6 @@
 		
 		<?php echo $this->template->stylesheet; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/main.css?'.time()); ?>" >
-		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/testimony.css'); ?>">
 
 		<script src="<?php echo base_url('assets/vendor/jquery/jquery.min.js'); ?>"></script>
 		<script src="<?php echo base_url('assets/vendor/bootstrap/js/bootstrap.bundle.min.js'); ?>"></script>

@@ -36,20 +36,11 @@ class Testimony extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit' => 3,
+			'limit' => 5,
 			'page' => (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
-			'order' => 'fullname',
-			'sort' => 'asc'
+			'order' => 'create_date',
+			'sort' => 'desc'
 		];
-
-		if (!$session) {
-			if ((($clause['page'] * $clause['limit']) - $clause['limit']) >= $clause['limit']) {
-				setFlashError($this->lang->line('message')['error']['auth'], 'worker');
-				redirect($_SERVER['HTTP_REFERER']);
-			}
-
-			$clause['page'] = 1;
-		}
 
 		$request = [
 			'testimonies' => $this->TestimoniesModel->getAll($clause),
