@@ -12,134 +12,24 @@
 
 <section id="galleries">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-12 d-flex justify-content-center">
-				<ul class="filter">
-					<li data-filter="*" class="active">All</li>
-					<li data-filter=".filter-app">App</li>
-					<li data-filter=".filter-card">Card</li>
-					<li data-filter=".filter-web">Web</li>
-				</ul>
-			</div>
-		</div>
-
 		<div class="row album">
+			<?php foreach($galleries AS $gallery) : ?>
 			<div class="col-lg-4 col-md-6 item filter-app">
 				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-1.jpg'); ?>" class="img-fluid" alt="">
+					<img src="<?= base_url('files/galleries/'.$gallery['picture']); ?>" class="img-fluid" alt="">
 					<div class="info">
-						<h4>App 1</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+						<h4><?= $gallery['pictname']; ?></h4>
+						<p><?= $gallery['description']; ?></p>
 						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-1.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="App 1">Zoom</a>
+							<a href="<?= base_url('files/galleries/'.$gallery['picture']) ?>" data-gall="portfolioGallery" class="venobox" title="<?= $gallery['pictname']; ?>"><i class="fa fa-search mt-3"></i></a>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-web">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-2.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>Web 3</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-2.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="Web 3">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-app">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-3.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>App 2</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-3.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="App 2">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-card">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-4.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>Card 2</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-4.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="Card 2">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-web">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-5.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>Web 2</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-5.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="Web 2">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-app">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-6.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>App 3</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-6.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="App 3">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-card">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-7.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>Card 1</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-7.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="Card 1">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-card">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-8.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>Card 3</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-8.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="Card 3">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-lg-4 col-md-6 item filter-web">
-				<div class="wrapper">
-					<img src="<?php echo base_url('assets/img/gallery/gallery-9.jpg'); ?>" class="img-fluid" alt="">
-					<div class="info">
-						<h4>Web 3</h4>
-						<p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
-						<div class="link">
-							<a href="<?php echo base_url('assets/img/gallery/gallery-9.jpg'); ?>" data-gall="portfolioGallery" class="venobox" title="Web 3">Zoom</a>
-						</div>
-					</div>
-				</div>
-			</div>
+			<?php endforeach; ?>
+		</div>
+		<div class="page-center mt-4">
+			<?php echo $pagination; ?>
 		</div>
 	</div>
 </section>

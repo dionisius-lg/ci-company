@@ -30,7 +30,6 @@ class Testimony extends CI_Controller {
 	public function index()
 	{
 		$session = $this->session->userdata('AuthUser');
-		$session	= $this->session->userdata('AuthUser');
 		$params		= $this->input->get();
 		$clause		= [];
 		$total		= 0;

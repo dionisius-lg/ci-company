@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Testimonies extends CI_Controller {
+class Galleries extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
@@ -26,13 +26,13 @@ class Testimonies extends CI_Controller {
 		}
 		
 		$this->template->set_template('layouts/back');
-		$this->template->title = 'Testimonies';
+		$this->template->title = 'Galleries';
 
 		// $this->load->library('user_agent');
 
 		// load default models
 		$this->load->model('CompanyModel');
-		$this->load->model('TestimoniesModel');
+		$this->load->model('GalleriesModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -55,13 +55,13 @@ class Testimonies extends CI_Controller {
 		$total		= 0;
 
 		$clause = [
-			'limit'	=> 4,
+			'limit'	=> 5,
 			'page'	=> (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
 			'sort'	=> 'asc'
 		];
 
 		$request = [
-			'testimonies' => $this->TestimoniesModel->getAll($clause)
+			'galleries' => $this->GalleriesModel->getAll($clause)
 		];
 
 		foreach ($request as $key => $val) {
@@ -71,17 +71,17 @@ class Testimonies extends CI_Controller {
 				if ($request[$key]['status'] == 'success') {
 					$this->result[$key] = $val['data'];
 
-					if ($key == 'testimonies') {
+					if ($key == 'galleries') {
 						$total = $val['total_data'];
 					}
 				}
 			}
 		}
 
-		$this->result['pagination'] = bs4pagination('admin/testimonies', $total, $clause['limit'], $params);
+		$this->result['pagination'] = bs4pagination('admin/galleries', $total, $clause['limit'], $params);
 		$this->result['no'] = (($clause['page'] * $clause['limit']) - $clause['limit']) + 1;
 
-		$this->template->content->view('templates/back/Testimonies/index', $this->result);
+		$this->template->content->view('templates/back/Galleries/index', $this->result);
 		$this->template->publish();
 	}
 
@@ -103,13 +103,13 @@ class Testimonies extends CI_Controller {
 				echo json_encode($this->result); exit();
 			}
 
-			$request = $this->TestimoniesModel->getDetail($id);
+			$request = $this->GalleriesModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
 				$this->result['data'] = [
-					'file' => @getimagesize(base_url('files/testimonies/'.$request['data']['picture'])) ? base_url('files/testimonies/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
-					'fullname' => $request['data']['fullname'],
+					'file' => @getimagesize(base_url('files/galleries/'.$request['data']['picture'])) ? base_url('files/galleries/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
+					'pictname' => $request['data']['pictname'],
 					'description' => $request['data']['description'],
 					'create_date' => $request['data']['create_date'],
 					// 'create_by' => $request['data']['create_by'],
@@ -144,7 +144,7 @@ class Testimonies extends CI_Controller {
 
 			$input['picture'] = $_FILES['picture'];
 
-			$file_path = './files/testimonies/';
+			$file_path = './files/galleries/';
 
 			if (!is_dir($file_path)) {
 				mkdir($file_path, 0777, true);
@@ -153,9 +153,9 @@ class Testimonies extends CI_Controller {
 			$config_file = [
 				'upload_path' => $file_path,
 				'allowed_types' => 'jpg|jpeg|png',
-				'max_size' => 512,
+				'max_size' => 1000,
 				// 'encrypt_name' => true,
-				'file_name' => 'img-testimonies'.base64url_encode(time())
+				'file_name' => 'img-galleries'.base64url_encode(time())
 			];
 
 			$this->load->library('upload', $config_file);
@@ -195,15 +195,15 @@ class Testimonies extends CI_Controller {
 			}
 
 			$data = [
-				'description' => $input['description'],
-				'fullname' => $input['fullname']
+				'pictname' => $input['pictname'],
+				'description' => $input['description']
 			];
-
-			$data = array_map('strClean', $data);
+			
+            $data = array_map('strClean', $data);
 
 			$data['picture'] = $upload_data['file_name'];
 
-			$request = $this->TestimoniesModel->insert($data);
+			$request = $this->GalleriesModel->insert($data);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -244,7 +244,7 @@ class Testimonies extends CI_Controller {
 			}
 
 			if ($file) {
-				$file_path = './files/testimonies/';
+				$file_path = './files/galleries/';
 
 				if (!is_dir($file_path)) {
 					mkdir($file_path, 0777, true);
@@ -253,8 +253,8 @@ class Testimonies extends CI_Controller {
 				$config_file = [
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png',
-					'max_size' => 512,
-					'file_name' => 'img-testimonies_'.base64url_encode(time())
+					'max_size' => 1000,
+					'file_name' => 'img-galleries'.base64url_encode(time())
 				];
 
 				$this->load->library('upload', $config_file);
@@ -295,8 +295,8 @@ class Testimonies extends CI_Controller {
 			}
 
 			$data = [
-				'description' => $input['description'],
-				'fullname' => $input['fullname']
+				'pictname' => $input['pictname'],
+				'description' => $input['description']
 			];
 
 			$data = array_map('strClean', $data);
@@ -304,7 +304,7 @@ class Testimonies extends CI_Controller {
 			if ($file) {
 				$data['picture'] = $upload_data['file_name'];
 
-				$request = $this->TestimoniesModel->getDetail($id);
+				$request = $this->GalleriesModel->getDetail($id);
 
 				$file_old = null;
 
@@ -313,7 +313,7 @@ class Testimonies extends CI_Controller {
 				}
 			}
 
-			$request = $this->TestimoniesModel->update($data, $id);
+			$request = $this->GalleriesModel->update($data, $id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -359,13 +359,13 @@ class Testimonies extends CI_Controller {
 
 			$file_old = null;
 
-			$request = $this->TestimoniesModel->getDetail($id);
+			$request = $this->GalleriesModel->getDetail($id);
 
 			if ($request['status'] == 'success') {
 				$file_old = './files/testimonies/'.$request['data']['picture'];
 			}
 
-			$request = $this->TestimoniesModel->delete($id);
+			$request = $this->GalleriesModel->delete($id);
 
 			if ($request['status'] == 'success') {
 				$this->result['status'] = 'success';
@@ -389,8 +389,8 @@ class Testimonies extends CI_Controller {
 	{
 		$validate = [
 			[
-				'field' => 'fullname',
-				'label' => 'Fullname',
+				'field' => 'pictname',
+				'label' => 'Picture Name',
 				'rules' => 'trim|required|xss_clean'
 			],
 			[

@@ -123,8 +123,14 @@
 							</li>
 							<li class="nav-item">
 								<a href="<?php echo site_url('admin/testimonies'); ?>" class="nav-link">
-									<i class="nav-icon fa fa-photo"></i>
+									<i class="nav-icon fa fa-commenting-o"></i>
 									<p>Testimonies</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<a href="<?php echo site_url('admin/galleries'); ?>" class="nav-link">
+									<i class="nav-icon fa fa-camera-retro"></i>
+									<p>Galleries</p>
 								</a>
 							</li>
 							<li class="nav-item has-treeview">

@@ -16,6 +16,7 @@ class Gallery extends CI_Controller {
 		$this->template->set_template('layouts/front');
 
 		$this->load->model('CompanyModel');
+		$this->load->model('GalleriesModel');
 
 		$this->result['company'] = [];
 		if ($this->CompanyModel->get()['status'] == 'success') {
@@ -26,7 +27,36 @@ class Gallery extends CI_Controller {
 	public function index()
 	{
 		$session = $this->session->userdata('AuthUser');
-		// load views
+		$params		= $this->input->get();
+		$clause		= [];
+		$total		= 0;
+
+		$clause = [
+			'limit' => 6,
+			'page' => (array_key_exists('page', $params) && is_numeric($params['page'])) ? $params['page'] : 1,
+			'order' => 'create_date',
+			'sort' => 'desc'
+		];
+
+		$request = [
+			'galleries' => $this->GalleriesModel->getAll($clause),
+		];
+
+		foreach ($request as $key => $val) {
+			$this->result[$key] = [];
+
+			if (is_array($request[$key]) && array_key_exists('status', $request[$key])) {
+				if ($request[$key]['status'] == 'success') {
+					$this->result[$key] = $val['data'];
+
+					if ($key == 'galleries') {
+						$total = $val['total_data'];
+					}
+				}
+			}
+		}
+
+		$this->result['pagination'] = bs4pagination('gallery', $total, $clause['limit'], $params);
 		$this->template->content->view('templates/front/Gallery/index', $this->result);
 		$this->template->publish();
 	}
