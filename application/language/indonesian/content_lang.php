@@ -224,7 +224,12 @@ $lang['front'] = [
 
 			'cooking_ability'		=> 'Keterampilan Memasak',
 
+			'pict_name' => 'Nama Gambar',
+
+			'description' => 'Deskripsi',
+
 		],
+
 
 		'button' => [
 
@@ -240,6 +245,13 @@ $lang['front'] = [
 
 		],
 
+	],
+
+	'gallery' => [
+
+		'pictname' => 'Nama Gambar',
+
+		'description' => 'Deskripsi',
 	],
 
 	'button' => [

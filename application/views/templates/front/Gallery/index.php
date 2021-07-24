@@ -18,8 +18,8 @@
 				<div class="wrapper">
 					<img src="<?= base_url('files/galleries/'.$gallery['picture']); ?>" class="img-fluid" alt="">
 					<div class="info">
-						<h4><?= $gallery['pictname']; ?></h4>
-						<p><?= $gallery['description']; ?></p>
+						<h4><?= $this->lang->line('front')['gallery']['pictname'] . ': ' . $gallery['pictname']; ?></h4>
+						<p><?= $this->lang->line('front')['gallery']['description'] . ': ' . $gallery['description']; ?></p>
 						<div class="link">
 							<a href="<?= base_url('files/galleries/'.$gallery['picture']) ?>" data-gall="portfolioGallery" class="venobox" title="<?= $gallery['pictname']; ?>"><i class="fa fa-search mt-3"></i></a>
 						</div>

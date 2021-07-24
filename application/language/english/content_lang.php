@@ -221,6 +221,10 @@ $lang['front'] = [
 			'language_ability'		=> 'Language Ability',
 
 			'cooking_ability'		=> 'Cooking Ability',
+			
+			'pict_name' => 'Picture Name',
+
+			'description' => 'Description',
 
 		],
 
@@ -238,6 +242,13 @@ $lang['front'] = [
 
 		],
 
+	],
+
+	'gallery' => [
+
+		'pictname' => 'Picture Name',
+
+		'description' => 'Description',
 	],
 
 	'button' => [
