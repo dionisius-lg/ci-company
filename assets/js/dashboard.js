@@ -1,6 +1,5 @@
 const currentProtocol = window.location.protocol;
 const currentLocation = window.location.hostname;
-// console.log(currentProtocol + '//socket.' + currentLocation);
 
 // const socket = io.connect(currentProtocol + '//socket.' + currentLocation);
 const socket = io.connect('http://localhost:62542');
@@ -89,25 +88,6 @@ socket.on('total', function(result) {
 
 $(function () {
 	socket.emit('count-total', {});
-
-	// socket.on('disconnect', function(reason) {
-	// 	var disconnect = iosOverlay({
-	// 		text: "Disconnected",
-	// 		icon: base_url + 'assets/vendor/iosoverlay/img/cross.png'
-	// 	});
-
-	// 	socket.on('reconnect', function(){
-	// 		disconnect.hide();
-
-	// 		var reconnect = iosOverlay({
-	// 			text: "Connected",
-	// 			duration: 2000,
-	// 			icon: base_url + 'assets/vendor/iosoverlay/img/check.png'
-	// 		});
-	// 	});
-
-	// 	return false;
-	// });
 });
 
 function isJson(str) {

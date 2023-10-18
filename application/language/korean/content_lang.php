@@ -2,18 +2,19 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> '로그인',
-		'register'	=> '레지스터',
-		'logout'	=> '로그 아웃',
-		'welcome'	=> '안녕하세요',
+		'login'			=> '로그인',
+		'register'		=> '레지스터',
+		'logout'		=> '로그 아웃',
+		'welcome'		=> '안녕하세요',
+		'administrator'	=> '관리자 페이지',
 	],
 	'navbar' => [
 		'home'		=> '메인 페이지',
 		'worker'	=> '노동자',
-		'gallery'	=> '갤러리',
-		'dropdown'	=> '쓰러지 다',
 		'about'		=> '회사 소개',
-		'contact'	=> '문의하기'
+		'contact'	=> '문의하기',
+		'gallery'	=> '갤러리',
+		'testimony'	=> '고백',
 	],
 	'footer' => [
 		'company' => [

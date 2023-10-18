@@ -2,18 +2,19 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> '登入',
-		'register'	=> '註冊',
-		'logout'	=> '登出',
-		'welcome'	=> '你好',
+		'login'			=> '登入',
+		'register'		=> '註冊',
+		'logout'		=> '登出',
+		'welcome'		=> '你好',
+		'administrator'	=> '管理頁面',
 	],
 	'navbar' => [
 		'home'		=> '主頁',
 		'worker'	=> '工人資料',
 		'about'		=> '關於我們',
-		'contact'	=> '聯繫我們'
-		// 'gallery'	=> '画廊',
-		// 'dropdown'	=> '落下',
+		'contact'	=> '聯繫我們',
+		'gallery'	=> '画廊',
+		'testimony'	=> '推薦信',
 	],
 	'footer' => [
 		'company' => [

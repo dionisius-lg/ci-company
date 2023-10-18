@@ -182,7 +182,7 @@ class BookingRequests extends CI_Controller {
 						$this->result['status'] = 'success';
 						unset($this->result['message']);
 						setFlashSuccess('Data successfully approved.');
-						socketEmit('count-total');
+						// socketEmit('count-total');
 					// }
 				// }
 			}
