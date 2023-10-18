@@ -4,7 +4,7 @@
 			<span class="info-box-icon bg-danger"><i class="fa fa-user-plus"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">Total User Requests</span>
-				<span class="info-box-number" id="TotalUserRequest">0</span>
+				<span class="info-box-number" id="TotalUserRequest"><?php echo isset($total) ? $total['user_request'] : 0; ?></span>
 			</div>
 		</div>
 	</div>
@@ -13,7 +13,7 @@
 			<span class="info-box-icon bg-primary"><i class="fa fa-users"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">Total Users</span>
-				<span class="info-box-number" id="TotalUser">0</span>
+				<span class="info-box-number" id="TotalUser"><?php echo isset($total) ? $total['user'] : 0; ?></span>
 			</div>
 		</div>
 	</div>
@@ -22,7 +22,7 @@
 			<span class="info-box-icon bg-info"><i class="fa fa-users"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">Total Workers</span>
-				<span class="info-box-number" id="TotalWorker">0</span>
+				<span class="info-box-number" id="TotalWorker"><?php echo isset($total) ? $total['worker'] : 0; ?></span>
 			</div>
 		</div>
 	</div>
@@ -31,7 +31,7 @@
 			<span class="info-box-icon bg-warning"><i class="fa fa-exclamation-triangle"></i></span>
 			<div class="info-box-content">
 				<span class="info-box-text">Total Booking Request</span>
-				<span class="info-box-number" id="TotalBookingRequest">0</span>
+				<span class="info-box-number" id="TotalBookingRequest"><?php echo isset($total) ? $total['booking_request'] : 0; ?></span>
 			</div>
 		</div>
 	</div>
@@ -57,46 +57,79 @@
 <!-- load required builded script for this page -->
 <?php $this->template->javascript->add('assets/vendor/iosoverlay/js/iosOverlay.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/chartjs/js/Chart.min.js'); ?>
-<?php $this->template->javascript->add('assets/vendor/socketio/socket.io.js'); ?>
-<?php $this->template->javascript->add('assets/js/dashboard.js'); ?>
+<?php
+	// $this->template->javascript->add('assets/vendor/socketio/socket.io.js');
+	// $this->template->javascript->add('assets/js/dashboard.js');
+?>
 
 <script type="text/javascript">
-// var ctx = $('#TotalChart');
-	
-// var ctx = document.getElementById('myChart').getContext('2d');
-// var TotalChart = new Chart(ctx, {
-//     type: 'bar',
-//     data: {
-//         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-//         datasets: [{
-//             label: 'Total Data',
-//             data: [12, 19, 3, 5, 2, 3],
-//             backgroundColor: [
-//                 'rgba(255, 99, 132, 0.2)',
-//                 'rgba(54, 162, 235, 0.2)',
-//                 'rgba(255, 206, 86, 0.2)',
-//                 'rgba(75, 192, 192, 0.2)',
-//                 'rgba(153, 102, 255, 0.2)',
-//                 'rgba(255, 159, 64, 0.2)'
-//             ],
-//             borderColor: [
-//                 'rgba(255, 99, 132, 1)',
-//                 'rgba(54, 162, 235, 1)',
-//                 'rgba(255, 206, 86, 1)',
-//                 'rgba(75, 192, 192, 1)',
-//                 'rgba(153, 102, 255, 1)',
-//                 'rgba(255, 159, 64, 1)'
-//             ],
-//             borderWidth: 1
-//         }]
-//     },
-//     options: {
-//         scales: {
-//             y: {
-//                 beginAtZero: true
-//             }
-//         }
-//     }
-// });
+	var totalChart = $('#TotalChart');
+	var totalData = '<?php echo isset($total) ? json_encode($total) : false; ?>';
 
+	if (totalData) {
+		totalData = JSON.parse(totalData);
+	}
+
+	new Chart(totalChart, {
+		type: 'bar',
+		data: {
+			labels: ['User Requests', 'User', 'Workers', 'Booking Requests',],
+			datasets: [{
+				label: 'Total Data',
+				data: [
+					totalData?.user_request || 0,
+					totalData?.user || 0,
+					totalData?.worker || 0,
+					totalData?.booking_request || 0
+				],
+				backgroundColor: [
+					'rgba(255, 99, 132, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(75, 192, 192, 0.2)',
+					'rgba(255, 206, 86, 0.2)'
+				],
+				borderColor: [
+					'rgba(255, 99, 132, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(75, 192, 192, 1)',
+					'rgba(255, 206, 86, 1)'
+				],
+				borderWidth: 1
+			}]
+		},
+		options: {
+			maintainAspectRatio: false,
+			tooltips: {
+				mode: 'index',
+				intersect: true
+			},
+			hover: {
+				mode: 'index',
+				intersect: true
+			},
+			legend: {
+				display: false
+			},
+			scales: {
+				yAxes: [{
+					ticks: $.extend({
+						beginAtZero: true,
+								
+						// Include a dollar sign in the ticks
+						callback: function (value, index, values) {
+							if (value >= 1000) {
+								value /= 1000
+								value += 'k'
+							}
+							
+							return value
+						}
+					}, {
+						fontColor: '#495057',
+						fontStyle: 'normal'
+					})
+				}]
+			}
+		}
+	});
 </script>

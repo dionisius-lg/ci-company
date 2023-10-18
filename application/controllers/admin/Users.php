@@ -205,7 +205,7 @@ class Users extends CI_Controller {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Data successfully created.');
-				socketEmit('count-total');
+				// socketEmit('count-total');
 			}
 
 			echo json_encode($this->result); exit();
@@ -299,7 +299,7 @@ class Users extends CI_Controller {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Data successfully deleted.');
-				socketEmit('count-total');
+				// socketEmit('count-total');
 			}
 
 			echo json_encode($this->result); exit();

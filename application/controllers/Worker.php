@@ -260,7 +260,7 @@ class Worker extends CI_Controller {
 					if ($request['status'] == 'success') {
 						$this->result['status'] = 'success';
 						// setFlashSuccess('Data successfully created.');
-						socketEmit('count-total');
+						// socketEmit('count-total');
 					}
 				}
 			}

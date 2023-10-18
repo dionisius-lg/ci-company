@@ -2,18 +2,19 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> 'Login',
-		'register'	=> 'Register',
-		'logout'	=> 'Logout',
-		'welcome'	=> 'Hi',
+		'login'			=> 'Login',
+		'register'		=> 'Register',
+		'logout'		=> 'Logout',
+		'welcome'		=> 'Hi',
+		'administrator'	=> 'Admin Page',
 	],
 	'navbar' => [
 		'home'		=> 'Main Page',
 		'worker'	=> 'Worker Profile',
 		'about'		=> 'About Us',
-		'contact'	=> 'Contact Us'
-		// 'gallery'	=> 'Gallery',
-		// 'dropdown'	=> 'Dropdown',
+		'contact'	=> 'Contact Us',
+		'gallery'	=> 'Gallery',
+		'testimony'	=> 'Testimony',
 	],
 	'footer' => [
 		'company' => [

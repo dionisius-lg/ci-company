@@ -2,18 +2,19 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> 'Masuk',
-		'register'	=> 'Daftar',
-		'logout'	=> 'Keluar',
-		'welcome'	=> 'Hai',
+		'login'			=> 'Masuk',
+		'register'		=> 'Daftar',
+		'logout'		=> 'Keluar',
+		'welcome'		=> 'Hai',
+		'administrator'	=> 'Halaman Admin',
 	],
 	'navbar' => [
 		'home'		=> 'Halaman Utama',
 		'worker'	=> 'Biodata',
-		'gallery'	=> 'Galeri',
-		'dropdown'	=> 'Turunan',
 		'about'		=> 'Tentang Kami',
-		'contact'	=> 'Hubungi Kami'
+		'contact'	=> 'Hubungi Kami',
+		'gallery'	=> 'Galeri',
+		'testimony'	=> 'testimoni',
 	],
 	'footer' => [
 		'company' => [
