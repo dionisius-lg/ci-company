@@ -297,7 +297,7 @@ class Workers extends CI_Controller {
 
 			if ($request['status'] == 'success') {
 				setFlashSuccess('Data successfully created.');
-				socketEmit('count-total');
+				// socketEmit('count-total');
 			} else {
 				setFlashError('An error occurred, please try again.');
 				setOldInput($input);
@@ -498,7 +498,7 @@ class Workers extends CI_Controller {
 					$this->result['status'] = 'success';
 					unset($this->result['message']);
 					setFlashSuccess('Data successfully deleted.');
-					socketEmit('count-total');
+					// socketEmit('count-total');
 				}
 			}
 
@@ -780,7 +780,7 @@ class Workers extends CI_Controller {
 				$this->result['status'] = 'success';
 				unset($this->result['message']);
 				setFlashSuccess('Booking request successfully approved.');
-				socketEmit('count-total');
+				// socketEmit('count-total');
 			}
 
 			echo json_encode($this->result); exit();
@@ -1127,7 +1127,7 @@ class Workers extends CI_Controller {
 			[
 				'field' => 'email',
 				'label' => 'Email',
-				'rules' => 'trim|max_length[100]|valid_email|checkWorkersEmail['.$id.']|xss_clean'
+				'rules' => 'trim|required|max_length[100]|valid_email|checkWorkersEmail['.$id.']|xss_clean'
 			],
 			[
 				'field' => 'phone',

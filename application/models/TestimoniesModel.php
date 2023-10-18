@@ -1,15 +1,28 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+<<<<<<<< HEAD:application/models/TestimoniesModel.php
 class TestimoniesModel extends CI_Model {
+========
+class SuplementaryQuestionsModel extends CI_Model {
+>>>>>>>> ecc634a28e8903c6ca5127fe1d4db9c32f1f468f:application/models/SuplementaryQuestionsModel.php
 	function __construct() {
 		parent::__construct();
 
 		$this->load->helper('response');
 	}
 
+<<<<<<<< HEAD:application/models/TestimoniesModel.php
 	public $table = 'testimonies';
 	public $view_table = 'view_testimonies';
+========
+	public $table = 'suplementary_questions';
+	public $view_table = 'view_suplementary_questions';
+>>>>>>>> ecc634a28e8903c6ca5127fe1d4db9c32f1f468f:application/models/SuplementaryQuestionsModel.php
 
+	/**
+	 *  getAll method
+	 *  get all data
+	 */
 	/**
 	 *  getAll method
 	 *  get all data
@@ -29,7 +42,11 @@ class TestimoniesModel extends CI_Model {
 		$condition_between	= [];
 
 		$column_like = [
+<<<<<<<< HEAD:application/models/TestimoniesModel.php
 			
+========
+			'like_question'
+>>>>>>>> ecc634a28e8903c6ca5127fe1d4db9c32f1f468f:application/models/SuplementaryQuestionsModel.php
 		];
 
 		$column_inset = [
@@ -392,8 +409,13 @@ class TestimoniesModel extends CI_Model {
 	 */
 	private function _getDatatablesQuery()
 	{
+<<<<<<<< HEAD:application/models/TestimoniesModel.php
 		$search	= ['link_to'];
 		$order	= [null, 'picture', 'order_number', 'link_to', null];
+========
+		$search	= ['question'];
+		$order	= [null, 'question', 'answer_type', null];
+>>>>>>>> ecc634a28e8903c6ca5127fe1d4db9c32f1f468f:application/models/SuplementaryQuestionsModel.php
 
 		$this->db->from($this->view_table)->where(['is_active' => 1]);
 
@@ -438,7 +460,11 @@ class TestimoniesModel extends CI_Model {
 		return json_decode(json_encode($result), true);
 	}
 
+<<<<<<<< HEAD:application/models/TestimoniesModel.php
 	/**
+========
+    /**
+>>>>>>>> ecc634a28e8903c6ca5127fe1d4db9c32f1f468f:application/models/SuplementaryQuestionsModel.php
 	 *  countDatatablesFilter method
 	 *  count filter data for datatables
 	 */

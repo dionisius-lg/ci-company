@@ -2,23 +2,23 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> '登入',
-		'register'	=> '註冊',
-		'logout'	=> '登出',
-		'welcome'	=> '你好',
+		'login'			=> '登入',
+		'register'		=> '註冊',
+		'logout'		=> '登出',
+		'welcome'		=> '你好',
+		'administrator'	=> '管理頁面',
 	],
 	'navbar' => [
 		'home'		=> '主頁',
 		'worker'	=> '工人資料',
 		'about'		=> '關於我們',
 		'contact'	=> '聯繫我們',
-		'gallery'	=> '畫廊',
-		'testimony' => '推薦信'
-		// 'dropdown'	=> '落下',
+		'gallery'	=> '画廊',
+		'testimony'	=> '推薦信',
 	],
 	'footer' => [
 		'company' => [
-			'desc'	=> '是一家招聘和安置公司，專門從事國外熟練的印度尼西亞勞動力.'
+			'desc'	=> 'PT. Amalia Rozikin Jaya 是一家招聘和安置公司，專門從事國外熟練的印度尼西亞勞動力.'
 		],
 		'link' => [
 			'title'		=> '有用的链接',
@@ -36,7 +36,7 @@ $lang['front'] = [
 		],
 	],
 	'section_title' => [
-		'advantages'	=> 'BRANCHES & PARTNERS 分公司及夥伴',
+		'advantages'	=> '我們的優勢',
 		'clients'		=> '信賴',
 		'news'			=> '透明'
 	],

@@ -14,7 +14,6 @@
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/font-awesome/css/font-awesome.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/bootstrap/css/bootstrap.min.css'); ?>">
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/animate/animate.min.css'); ?>">
-		
 		<?php echo $this->template->stylesheet; ?>
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/main.css?'.time()); ?>" >
 		<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/testimony.css'); ?>">
@@ -51,8 +50,11 @@
 						} else {
 							echo '<li class="list-inline-item dropdown">';
 								// echo anchor('#', $this->lang->line('front')['topbar']['welcome'] . ', ' . strtok($this->session->userdata('AuthUser')['fullname'], ' '), ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
-								echo anchor('#', $this->session->userdata('AuthUser')['fullname'], ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
-								echo '<div class="dropdown-menu dropdown-menu-right">' . anchor(base_url('auth/logout'), $this->lang->line('front')['topbar']['logout'], ['class' => 'dropdown-item']) . '</div>';
+								echo anchor('#', strtok($this->session->userdata('AuthUser')['fullname'], ' '), ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
+								echo '<div class="dropdown-menu dropdown-menu-right">';
+									echo anchor(base_url('admin'), $this->lang->line('front')['topbar']['administrator'], ['class' => 'dropdown-item']);
+									echo anchor(base_url('auth/logout'), $this->lang->line('front')['topbar']['logout'], ['class' => 'dropdown-item']);
+								echo '</div>';
 							echo '</li>';
 						} ?>
 					</ul>
@@ -62,9 +64,6 @@
 
 		<header id="header" class="fixed-top">
 			<div class="container d-flex align-items-center">
-
-				<!-- <h1 class="logo mr-auto"><a href="index.html">Green</a></h1> -->
-				<!-- Uncomment below if you prefer to use an image logo -->
 				<a href="<?php echo base_url(); ?>" class="logo mr-auto">
 					<?php if (@getimagesize(base_url('files/company/thumb/'.$company['logo']))) {
 						echo '<img src="' . base_url('files/company/thumb/'.$company['logo']) . '" alt="Company Logo" class="img-fluid">';
@@ -85,23 +84,6 @@
 						<li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('front')['navbar']['contact'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('gallery') . '">' . $this->lang->line('front')['navbar']['gallery'] . '</a>'; ?></li>
 						<li><?php echo '<a href="' . base_url('testimony') . '">' . $this->lang->line('front')['navbar']['testimony'] . '</a>'; ?></li>
-						<!-- <li class="drop-down"><a href="">Drop Down</a>
-							<ul>
-								<li><a href="#">Drop Down 1</a></li>
-								<li class="drop-down"><a href="#">Deep Drop Down</a>
-									<ul>
-										<li><a href="#">Deep Drop Down 1</a></li>
-										<li><a href="#">Deep Drop Down 2</a></li>
-										<li><a href="#">Deep Drop Down 3</a></li>
-										<li><a href="#">Deep Drop Down 4</a></li>
-										<li><a href="#">Deep Drop Down 5</a></li>
-									</ul>
-								</li>
-								<li><a href="#">Drop Down 2</a></li>
-								<li><a href="#">Drop Down 3</a></li>
-								<li><a href="#">Drop Down 4</a></li>
-							</ul>
-						</li> -->
 					</ul>
 				</nav>
 
@@ -128,6 +110,8 @@
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('front')['navbar']['about']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('front')['navbar']['worker']; ?></a></li>
 								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('front')['navbar']['contact']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('gallery'); ?>"><?php echo $this->lang->line('front')['navbar']['gallery']; ?></a></li>
+								<li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('testimony'); ?>"><?php echo $this->lang->line('front')['navbar']['testimony']; ?></a></li>
 							</ul>
 						</div>
 						<div class="col-lg-4 col-md-6 footer-contact">
@@ -155,7 +139,7 @@
 		</footer>
 
 		<a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
-		<div type="button" class="whatsapp-message" onclick="return window.open('https://wa.me/6281393240532', '_blank');" class="btn-whatsapp"><i class="fa fa-whatsapp"></button>
+		<div type="button" class="whatsapp-message" onclick="return window.open('https://web.whatsapp.com/send?phone=6285881239998', '_blank');" class="btn-whatsapp"><i class="fa fa-whatsapp"></button>
 		<script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 	</body>
 </html>

@@ -7,7 +7,6 @@ class Contact extends CI_Controller {
 	{
 		parent::__construct();
 
-		$this->load->helper('form');
 		// set timezone
 		date_default_timezone_set('Asia/Jakarta');
 

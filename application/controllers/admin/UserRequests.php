@@ -190,7 +190,7 @@ class UserRequests extends CI_Controller {
 						$this->result['status'] = 'success';
 						unset($this->result['message']);
 						setFlashSuccess('Data successfully registered.');
-						socketEmit('count-total');
+						// socketEmit('count-total');
 					// }
 				// }
 			}

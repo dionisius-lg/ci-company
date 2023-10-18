@@ -150,7 +150,7 @@ class Auth extends CI_Controller {
 
 			if ($request['status'] == 'success') {
 				setFlashSuccess($this->lang->line('message')['success']['register']);
-				socketEmit('count-total');
+				// socketEmit('count-total');
 			} else {
 				setFlashError($this->lang->line('message')['error']['default']);
 				setOldInput($input);

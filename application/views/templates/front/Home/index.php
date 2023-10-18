@@ -109,6 +109,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.match-height').matchHeight();
+		// $('.product-list > .filter .btn-filter-show').sameWidth();
 
 		sameWidth('.filter-workers ul > li span');
 	});

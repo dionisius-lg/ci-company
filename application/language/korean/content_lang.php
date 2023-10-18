@@ -2,19 +2,19 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> '로그인',
-		'register'	=> '레지스터',
-		'logout'	=> '로그 아웃',
-		'welcome'	=> '안녕하세요',
+		'login'			=> '로그인',
+		'register'		=> '레지스터',
+		'logout'		=> '로그 아웃',
+		'welcome'		=> '안녕하세요',
+		'administrator'	=> '관리자 페이지',
 	],
 	'navbar' => [
 		'home'		=> '메인 페이지',
 		'worker'	=> '노동자',
-		'gallery'	=> '갤러리',
-		'dropdown'	=> '쓰러지 다',
 		'about'		=> '회사 소개',
 		'contact'	=> '문의하기',
-		'testimony' => '증명서'
+		'gallery'	=> '갤러리',
+		'testimony'	=> '고백',
 	],
 	'footer' => [
 		'company' => [
@@ -36,7 +36,7 @@ $lang['front'] = [
 		],
 	],
 	'section_title' => [
-		'advantages'	=> '지점 및 파트너',
+		'advantages'	=> '우리의 장점',
 		'clients'		=> '우리의 클라이언트 ',
 		'news'			=> '뉴스'
 	],

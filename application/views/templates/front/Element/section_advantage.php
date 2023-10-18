@@ -1,205 +1,99 @@
 <section id="services" class="section-bg">
-
 	<div class="container">
-
 		<div class="section-title">
-
 			<h2><?php echo $this->lang->line('front')['section_title']['advantages']; ?></h2>
-
 		</div>
-
-
 
 		<div class="row">
-
 			<div class="col-lg-4 col-md-6 mt-md-0 mb-3">
-
 				<div class="item text-center match-height">
-
-					
-
+					<i class="fa fa-check-square-o"></i>
 					<?php if (siteLang()['key'] == 'en') { ?>
-
-						<h4>PT. AMALIA ROZIKIN JAYA</h4>
-
-						<h4>KENDAL Branch</h4> 
-						<p>JL. Lanji RT.002/001, Lanji, Patebon, Kendal, Central Java, Indonesia.</p>
-
+						<h4><a href="#">Reliable</a></h4>
+						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'id') { ?>
-
-						<h4>PT. AMALIA ROZIKIN JAYA</h4>
-
-						<h4>Cabang KENDAL </h4>
-<p>Jalan Lanji RT.002/001, Lanji, Patebon, Kab. Kendal, Jawa Tengah</p>
-
+						<h4><a href="#">Handal</a></h4>
+						<p>Ini adalah contoh dalam bahasa Indonesia. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'ja') { ?>
-
-						<h4>PT. AMALIA ROZIKIN JAYA</h4>
-
-						<h4>KENDAL 支店 </h4>
-<p>JL. Lanji RT.002/001, Lanji, Patebon, Kendal, インドネシア中部ジャワ。</p>
-
+						<h4><a href="#">信頼性のある</a></h4>
+						<p>これは日本語の例です. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'ko') { ?>
-
-						<h4>PT. AMALIA ROZIKIN JAYA</h4>
-
-						<h4>KENDAL 지점 </h4>
-<p>JL. Lanji RT.002/001, Lanji, Patebon, Kendal, 중부 자바，인도네시아</p>
-
+						<h4><a href="#">신뢰할 수있는</a></h4>
+						<p>이것은 한국어의 예입니다. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'zh-TW') { ?>
-
-						<h4>PT. AMALIA ROZIKIN JAYA</h4>
-
-						<h4>KENDAL 分公司</h4>
-<p> JL. Lanji RT.002/001, Lanji, Patebon, Kendal, 中爪哇，印尼。</p>
-
+						<h4><a href="#">可靠的</a></h4>
+						<p>这是英语的例子. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
 				</div>
-
 			</div>
-
 			<div class="col-lg-4 col-md-6 mt-md-0 mb-3">
-
 				<div class="item text-center match-height">
+					<i class="fa fa-check-square-o"></i>
 
 					<?php if (siteLang()['key'] == 'en') { ?>
-
-						<h4>BERSAMA KIAN SUKSES (BKS) </h4>
-<h4>Skill Training Center</h4>
-
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, Solo, Central Java, Indonesia.
-
-Tel: 0271-6497349.</p>
-
+						<h4><a href="#">Trusted</a></h4>
+						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'id') { ?>
-
-						<h4>LPKS BLKLN BERSAMA KIAN SUKSES</h4>
-
-						<p>Jalan Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, Solo, Jawa Tengah
-
-Tel: 0271-6497349.</p>
-
+						<h4><a href="#">Terpercaya</a></h4>
+						<p>Ini adalah contoh dalam bahasa Indonesia. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'ja') { ?>
-
-						<h4>BERSAMA KIAN SUKSES (BKS)</h4>
-<h4>スキルトレーニングセンター</h4>
-
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, ソロ、中部ジャワ、インドネシア。Tel: 0271-6497349</p>
-
+						<h4><a href="#">信頼できる</a></h4>
+						<p>これは日本語の例です. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'ko') { ?>
-
-						<h4>BERSAMA KIAN SUKSES (BKS)</h4>
-<h4> 기술 훈련 센터</h4>
-
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, 솔로, 중부 자바, 인도네시아。Tel: 0271-6497349</p>
-
+						<h4><a href="#">신뢰할 수있는 </a></h4>
+						<p>이것은 한국어의 예입니다. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'zh-TW') { ?>
-
-						<h4>BERSAMA KIAN SUKSES (BKS) </h4>
-<h4>技能訓練中心</h4>
-
-						<p>JL. Letjen Suprapto No.2, Ngijo, Tasikmadu, Karanganyar, 梭羅，中爪哇，印尼Tel: 0271-6497349</p>
-
+						<h4><a href="#">值得信赖</a></h4>
+						<p>这是英语的例子. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
 				</div>
-
 			</div>
-
 			<div class="col-lg-4 col-md-6 mt-md-0 mb-3">
-
 				<div class="item text-center match-height">
-
-
+					<i class="fa fa-check-square-o"></i>
 
 					<?php if (siteLang()['key'] == 'en') { ?>
-
-						<h4>CANA PLACEMENT SERVICES LIMITED</h4>
-
-						<p>Shop 88,G/F, Eastern Plaza. Koway Court, 111 Chai Wan Road, Hong Kong.</p>
-
+						<h4><a href="#">The Best</a></h4>
+						<p>This is example with english language. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'id') { ?>
-
-						<h4>CANA PLACEMENT SERVICES LIMITED</h4>
-
-						<p>Shop 88,G/F, Eastern Plaza. Koway Court, 111 Chai Wan Road, Hong Kong.</p>
-
+						<h4><a href="#">Terbaik</a></h4>
+						<p>Ini adalah contoh dalam bahasa indonesia. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'ja') { ?>
-
-						<h4>CANA PLACEMENT SERVICES LIMITED</h4>
-
-						<p>Shop 88,G/F, Eastern Plaza. Koway Court, 111 Chai Wan Road, Hong Kong.</p>
-
+						<h4><a href="#">最高の</a></h4>
+						<p>これは日本語の例です. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'ko') { ?>
-
-						<h4>CANA PLACEMENT SERVICES LIMITED</h4>
-
-						<p>Shop 88,G/F, Eastern Plaza. Koway Court, 111 Chai Wan Road, Hong Kong.</p>
-
+						<h4><a href="#">최고</a></h4>
+						<p>이것은 한국어의 예입니다. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
-
 
 					<?php if (siteLang()['key'] == 'zh-TW') { ?>
-
-						<h4>CANA PLACEMENT SERVICES LIMITED</h4>
-
-						<p>Shop 88,G/F, Eastern Plaza. Koway Court, 111 Chai Wan Road, Hong Kong.</p>
-
+						<h4><a href="#">最好的</a></h4>
+						<p>这是英语的例子. Magnam dolores commodi suscipit.</p>
 					<?php } ?>
-
 				</div>
-
 			</div>
-
 		</div>
-
 	</div>
-
 </section>
-

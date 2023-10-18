@@ -154,7 +154,7 @@ class Sliders extends CI_Controller {
 			$config_file = [
 				'upload_path' => $file_path,
 				'allowed_types' => 'jpg|jpeg|png',
-				'max_size' => 512,
+				'max_size' => '500',
 				// 'encrypt_name' => true,
 				'file_name' => 'slider_'.base64url_encode(time())
 			];
@@ -255,7 +255,7 @@ class Sliders extends CI_Controller {
 				$config_file = [
 					'upload_path' => $file_path,
 					'allowed_types' => 'jpg|jpeg|png',
-					'max_size' => 512,
+					'max_size' => '500',
 					// 'encrypt_name' => true,
 					'file_name' => 'slider_'.base64url_encode(time())
 				];

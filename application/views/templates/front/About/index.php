@@ -14,7 +14,7 @@
 
 <?php $this->load->view('templates/front/Element/section_advantage'); ?>
 
-<!-- <section id="clients">
+<section id="clients">
 	<div class="container">
 		<div class="section-title">
 			<h2><?php echo $this->lang->line('front')['section_title']['clients']; ?></h2>
@@ -28,7 +28,7 @@
 		<?php } ?>
 		</div>
 	</div>
-</section> -->
+</section>
 
 <?php $this->template->stylesheet->add('assets/vendor/owlcarousel/css/owl.carousel.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
 <?php $this->template->stylesheet->add('assets/vendor/owlcarousel/css/owl.theme.default.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
@@ -41,6 +41,7 @@
 		autoplayHoverPause: true,
 		smartSpeed: 500,
 		loop: true,
+		responsiveClass: true,
 		items: 6,
 		nav : false,
 		dots: false,

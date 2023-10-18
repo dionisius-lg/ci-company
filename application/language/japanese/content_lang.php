@@ -2,19 +2,19 @@
 
 $lang['front'] = [
 	'topbar' => [
-		'login'		=> 'ログインする',
-		'register'	=> '登録',
-		'logout'	=> 'ログアウト',
-		'welcome'	=> 'こんにちは',
+		'login'			=> 'ログインする',
+		'register'		=> '登録',
+		'logout'		=> 'ログアウト',
+		'welcome'		=> 'こんにちは',
+		'administrator'	=> '管理者ページ',
 	],
 	'navbar' => [
 		'home'		=> 'メインページ',
 		'worker'	=> '労働者',
-		'gallery'	=> 'ギャラリー',
-		'dropdown'	=> '落ちる',
 		'about'		=> '私たちに関しては',
 		'contact'	=> 'お問い合わせ',
-		'testimony' => 'お客様の声'
+		'gallery'	=> 'ギャラリー',
+		'testimony'	=> '証言',
 	],
 	'footer' => [
 		'company' => [
@@ -36,7 +36,7 @@ $lang['front'] = [
 		],
 	],
 	'section_title' => [
-		'advantages'	=> '支店とパートナー',
+		'advantages'	=> '私たちの利点',
 		'clients'		=> '我々の顧客',
 		'news'			=> 'ニュース'
 	],

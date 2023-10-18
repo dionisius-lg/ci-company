@@ -32,6 +32,7 @@ class Dashboard extends CI_Controller {
 
 		// load default models
 		$this->load->model('CompanyModel');
+		$this->load->model('DashboardModel');
 
 		// load default data
 		$this->result['company'] = [];
@@ -48,6 +49,12 @@ class Dashboard extends CI_Controller {
 	 */
 	public function index()
 	{
+		$request = $this->DashboardModel->getTotalData();
+
+		if ($request['status'] == 'success') {
+			$this->result['total'] = $request['data'];
+		}
+
 		$this->template->content->view('templates/back/Home/dashboard', $this->result);
 		$this->template->publish();
 	}
