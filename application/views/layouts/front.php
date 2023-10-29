@@ -52,7 +52,9 @@
 								// echo anchor('#', $this->lang->line('front')['topbar']['welcome'] . ', ' . strtok($this->session->userdata('AuthUser')['fullname'], ' '), ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
 								echo anchor('#', strtok($this->session->userdata('AuthUser')['fullname'], ' '), ['class' => 'dropdown-toggle', 'data-toggle' => 'dropdown']);
 								echo '<div class="dropdown-menu dropdown-menu-right">';
-									echo anchor(base_url('admin'), $this->lang->line('front')['topbar']['administrator'], ['class' => 'dropdown-item']);
+									if ($this->session->userdata('AuthUser')['user_level_id'] == 1) {
+										echo anchor(base_url('admin'), $this->lang->line('front')['topbar']['administrator'], ['class' => 'dropdown-item']);
+									}
 									echo anchor(base_url('auth/logout'), $this->lang->line('front')['topbar']['logout'], ['class' => 'dropdown-item']);
 								echo '</div>';
 							echo '</li>';
