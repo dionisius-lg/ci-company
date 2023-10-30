@@ -40,14 +40,12 @@ if (!function_exists('hasFlashSuccess')) {
 		$ci = &get_instance();
 		$ci->load->library('session');
 
-		if (!empty($key)) {
-			if ($ci->session->has_userdata('FlashSuccess_'.$key)) {
-				return true;
-			}
-		} else {
-			if ($ci->session->has_userdata('FlashSuccess')) {
-				return true;
-			}
+		if (!empty($key) && $ci->session->has_userdata('FlashSuccess_'.$key)) {
+			return true;
+		}
+
+		if (empty($key) && $ci->session->has_userdata('FlashSuccess')) {
+			return true;
 		}
 
 		return false;
@@ -59,14 +57,12 @@ if (!function_exists('hasFlashError')) {
 		$ci = &get_instance();
 		$ci->load->library('session');
 
-		if (!empty($key)) {
-			if ($ci->session->has_userdata('FlashError_'.$key)) {
-				return true;
-			}
-		} else {
-			if ($ci->session->has_userdata('FlashError')) {
-				return true;
-			}
+		if (!empty($key) && $ci->session->has_userdata('FlashError_'.$key)) {
+			return true;
+		}
+
+		if (empty($key) && $ci->session->has_userdata('FlashError')) {
+			return true;
 		}
 
 		return false;
@@ -78,14 +74,12 @@ if (!function_exists('flashSuccess')) {
 		$ci = &get_instance();
 		$ci->load->library('session');
 
-		if (!empty($key)) {
-			if ($ci->session->has_userdata('FlashSuccess_'.$key)) {
-				return $ci->session->flashdata('FlashSuccess_'.$key);
-			}
-		} else {
-			if ($ci->session->has_userdata('FlashSuccess')) {
-				return $ci->session->flashdata('FlashSuccess');
-			}
+		if (!empty($key) && $ci->session->has_userdata('FlashSuccess_'.$key)) {
+			return $ci->session->flashdata('FlashSuccess_'.$key);
+		}
+
+		if (empty($key) && $ci->session->has_userdata('FlashSuccess')) {
+			return $ci->session->flashdata('FlashSuccess');
 		}
 
 		return false;
@@ -97,15 +91,12 @@ if (!function_exists('flashError')) {
 		$ci = &get_instance();
 		$ci->load->library('session');
 
-		if (!empty($key)) {
-			if ($ci->session->has_userdata('FlashError_'.$key)) {
-				return $ci->session->flashdata('FlashError_'.$key);
-				
-			}
-		} else {
-			if ($ci->session->has_userdata('FlashError')) {
-				return $ci->session->flashdata('FlashError');
-			}
+		if (!empty($key) && $ci->session->has_userdata('FlashError_'.$key)) {
+			return $ci->session->flashdata('FlashError_'.$key);
+		}
+
+		if (empty($key) && $ci->session->has_userdata('FlashError')) {
+			return $ci->session->flashdata('FlashError');
 		}
 
 		return false;

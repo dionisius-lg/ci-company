@@ -123,7 +123,7 @@ class Auth extends CI_Controller {
 				}
 
 				if (!isset($verify_recaptcha['success']) || $verify_recaptcha['success'] <> true) {
-					setFlashError($this->lang->line('message')['error']['captcha']);
+					setFlashError($this->lang->line('message')['error']['captcha'], 'register');
 				}
 
 				setOldInput($input);
@@ -149,10 +149,10 @@ class Auth extends CI_Controller {
 			$request = $this->UsersModel->insert($data);
 
 			if ($request['status'] == 'success') {
-				setFlashSuccess($this->lang->line('message')['success']['register']);
+				setFlashSuccess($this->lang->line('message')['success']['register'], 'register');
 				// socketEmit('count-total');
 			} else {
-				setFlashError($this->lang->line('message')['error']['default']);
+				setFlashError($this->lang->line('message')['error']['default'], 'register');
 				setOldInput($input);
 			}
 
@@ -188,7 +188,7 @@ class Auth extends CI_Controller {
 			[
 				'field' => 'fullname',
 				'label' => $this->lang->line('front')['page_register']['fullname'],
-				'rules' => 'trim|required|max_length[100]|regex_match[/^[a-zA-Z ]*$/]|xss_clean'
+				'rules' => 'trim|required|max_length[100]|regex_match[/^[a-zA-Z09., ]*$/]|xss_clean'
 			],
 			[
 				'field' => 'email',
