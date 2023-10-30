@@ -137,6 +137,50 @@
 								</a>
 							</li>
 							<li class="nav-item">
+								<a href="<?php echo site_url('admin/testimonies'); ?>" class="nav-link">
+									<i class="nav-icon fa fa-photo"></i>
+									<p>Testimonies</p>
+								</a>
+							</li>
+							<li class="nav-item has-treeview">
+								<a href="#" class="nav-link treeview-link">
+									<i class="nav-icon fa fa-cog"></i>
+									<p>Settings <i class="right fa fa-angle-left"></i></p>
+								</a>
+								<ul class="nav nav-treeview">
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/skill-experiences'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Skill Experiences</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/language-abilities'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Language Abilities</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/cooking-abilities'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Cooking Abilities</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/agency-locations'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Agency Locations</p>
+										</a>
+									</li>
+									<li class="nav-item">
+										<a href="<?php echo site_url('admin/suplementary-questions'); ?>" class="nav-link">
+											<i class="fa fa-circle-thin nav-icon"></i>
+											<p>Suplementary Questions</p>
+										</a>
+									</li>
+								</ul>
+							</li>
+							<li class="nav-item">
 								<a href="<?php echo site_url('auth/logout'); ?>" class="nav-link">
 									<i class="nav-icon fa fa-sign-out"></i>
 									<p>Logout</p>

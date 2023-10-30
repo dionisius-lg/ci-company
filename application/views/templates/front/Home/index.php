@@ -106,7 +106,6 @@
 <?php $this->template->stylesheet->add('assets/vendor/owlcarousel/css/owl.theme.default.min.css', ['type' => 'text/css', 'media' => 'all']); ?>
 
 <?php $this->template->javascript->add('assets/vendor/owlcarousel/js/owl.carousel.min.js'); ?>
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('.match-height').matchHeight();
