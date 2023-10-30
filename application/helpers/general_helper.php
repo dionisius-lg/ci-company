@@ -22,12 +22,19 @@ if (!function_exists('nl2space')) {
 if (!function_exists('base64url_encode')) {
     function base64url_encode($str) {
         if ($str) {
-            $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-            $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-            $mcrypt_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $str, MCRYPT_MODE_ECB, $iv);
-            $base64_encode = strtr(base64_encode($mcrypt_encrypt), '+/', '-_');
+            $php_version = substr(phpversion(), 0, 1);
+            $encrypt_key = '**encryptedkey**';
 
-            return rtrim($base64_encode, '=');
+            if ($php_version <= 5) {
+                $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+                $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+                $mcrypt_encrypt = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $encrypt_key, $str, MCRYPT_MODE_ECB, $iv);
+                $base64_encode = strtr(base64_encode($mcrypt_encrypt), '+/', '-_');
+
+                return rtrim($base64_encode, '=');
+            }
+
+            return str_replace('=', '', base64_encode($encrypt_key . $str));
         }
 
         return false;
@@ -37,12 +44,19 @@ if (!function_exists('base64url_encode')) {
 if (!function_exists('base64url_decode')) {
     function base64url_decode($str) {
         if ($str) {
-            $base64_decode = base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
-            $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
-            $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
-            $mcrypt_decrypt = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, '**dionisius_lg**', $base64_decode, MCRYPT_MODE_ECB, $iv);
+            $php_version = substr(phpversion(), 0, 1);
+            $encrypt_key = '**encryptedkey**';
 
-            return trim($mcrypt_decrypt);
+            if ($php_version <= 5) {
+                $base64_decode = base64_decode(str_pad(strtr($str, '-_', '+/'), strlen($str) % 4, '=', STR_PAD_RIGHT));
+                $iv_size = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB);
+                $iv = mcrypt_create_iv($iv_size, MCRYPT_RAND);
+                $mcrypt_decrypt = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $encrypt_key, $base64_decode, MCRYPT_MODE_ECB, $iv);
+
+                return trim($mcrypt_decrypt);
+            }
+
+            return str_replace($encrypt_key, '', base64_decode($str . "="));
         }
 
         return false;
