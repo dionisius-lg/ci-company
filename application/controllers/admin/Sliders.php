@@ -197,9 +197,9 @@ class Sliders extends CI_Controller {
             }
 
             $data = [
-                'order_number'        => $input['order_number'],
-                'link_to'            => $input['link_to'],
-                'create_user_id'    => $session['id']
+                'order_number' => $input['order_number'],
+                'link_to'  => $input['link_to'],
+                'create_user_id' => $session['id']
             ];
 
             $data = array_map('strClean', $data);
