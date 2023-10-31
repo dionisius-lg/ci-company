@@ -229,7 +229,8 @@ if (!function_exists('checkRemoteFile')) {
         if ($url) {
             $context = stream_context_create([
                 'http' => [
-                    'method' => 'HEAD'
+                    'method' => 'HEAD',
+                    'ignore_errors' => true,
                 ],
                 'ssl' => [
                     'verify_peer' => false,
