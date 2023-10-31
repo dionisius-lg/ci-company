@@ -6,9 +6,9 @@
 					<div class="form-group text-center">
 						<div class="border">
 							<?php echo form_input(['type' => 'file', 'name' => 'photo', 'class' => 'hidden' . ((hasFlashError('photo')) ? 'is-invalid' : '')]); ?>
-							<img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="Worker Photo" class="img-fluid">
+							<img src="<?php echo checkRemoteFile(base_url('files/workers/'.$worker['id'].'/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="Worker Photo" class="img-fluid">
 							<div class="layer">
-								<button type="button" class="btn btn-xs btn-outline-primary rounded-0 venobox" <?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/'.$worker['photo'])) ? 'data-href="' . base_url('files/workers/'.$worker['id'].'/'.$worker['photo']) .'"' : 'hidden'; ?> data-toggle="view">View</button>
+								<button type="button" class="btn btn-xs btn-outline-primary rounded-0 venobox" <?php echo checkRemoteFile(base_url('files/workers/'.$worker['id'].'/'.$worker['photo'])) ? 'data-href="' . base_url('files/workers/'.$worker['id'].'/'.$worker['photo']) .'"' : 'hidden'; ?> data-toggle="view">View</button>
 								<?php echo form_button(['type' => 'button', 'class' => 'btn btn-xs btn-outline-success rounded-0', 'content' => 'Change', 'data-toggle' => 'browse']); ?>
 							</div>
 						</div>

@@ -109,7 +109,7 @@ class Sliders extends CI_Controller {
             if ($request['status'] == 'success') {
                 $this->result['status'] = 'success';
                 $this->result['data'] = [
-                    'file' => @getimagesize(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
+                    'file' => checkRemoteFile(base_url('files/sliders/'.$request['data']['picture'])) ? base_url('files/sliders/'.$request['data']['picture']) : base_url('assets/img/default-picture.jpg'),
                     'order_number' => $request['data']['order_number'],
                     'link_to' => $request['data']['link_to'],
                     'create_date' => $request['data']['create_date'],

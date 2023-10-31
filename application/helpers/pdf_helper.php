@@ -46,7 +46,7 @@ if (!function_exists('PdfWorkerDetail')) {
             }
 
             if (!empty($data['worker'])) {
-                $data['worker_photo'] = '<img class="worker-photo" src="'.((@getimagesize(FCPATH.'files/workers/'.$data['worker']['id'].'/'.$data['worker']['photo'])) ? FCPATH.'files/workers/'.$data['worker']['id'].'/'.$data['worker']['photo'] : FCPATH.'assets/img/default-avatar.jpg').'" alt="Worker Photo">';
+                $data['worker_photo'] = '<img class="worker-photo" src="'.((checkRemoteFile(FCPATH.'files/workers/'.$data['worker']['id'].'/'.$data['worker']['photo'])) ? FCPATH.'files/workers/'.$data['worker']['id'].'/'.$data['worker']['photo'] : FCPATH.'assets/img/default-avatar.jpg').'" alt="Worker Photo">';
 
                 $content = $ci->load->view('pdf/worker_detail', $data, true);
 

@@ -67,7 +67,7 @@
         <header id="header" class="fixed-top">
             <div class="container d-flex align-items-center">
                 <a href="<?php echo base_url(); ?>" class="logo mr-auto">
-                    <?php if (@getimagesize(base_url('files/company/thumb/'.$company['logo']))) {
+                    <?php if (checkRemoteFile(base_url('files/company/thumb/'.$company['logo']))) {
                         echo '<img src="' . base_url('files/company/thumb/'.$company['logo']) . '" alt="Company Logo" class="img-fluid">';
                     } else {
                         echo 'Company Logo';
