@@ -223,3 +223,81 @@ if (!function_exists('slugify')) {
         return false;
     }
 }
+
+if (!function_exists('checkRemoteFile')) {
+    function checkRemoteFile($url = null, $assoc = 0) {
+        if ($url) {
+            $context = stream_context_create([
+                'http' => [
+                    'method' => 'HEAD',
+                    'ignore_errors' => true,
+                ],
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ]);
+
+            $file_stream = fopen($url, 'r', null, $context);
+            $meta_data = stream_get_meta_data($file_stream);
+
+            fclose($file_stream);
+
+            $header_lines = $meta_data['wrapper_data'];
+
+            if (!$assoc) {
+                return stripos($header_lines[0], '200 OK') ? true : false;
+            }
+
+            $headers = [];
+
+            foreach($header_lines as $line) {
+                if (strpos($line, 'HTTP') === 0) {
+                    $headers[0] = $line;
+                    continue;
+                }
+
+                list($key, $value) = explode(': ', $line);
+                $headers[$key] = $value;
+            }
+
+            return stripos($headers[0], '200 OK') ? true : false;
+        }
+
+        return false;
+    }
+}
+
+if (!function_exists('getFileContent')) {
+    function getFileContent($url = null) {
+        if (file_get_contents(__FILE__) && ini_get('allow_url_fopen')) {
+            return file_get_contents($url);
+        }
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, [
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0
+        ]);
+
+        $httpCode = curl_getinfo($curl , CURLINFO_HTTP_CODE);
+        $response = curl_exec($curl);
+
+        if ($response === false) {
+            $response = curl_error($curl);
+        }
+
+        curl_close($curl);
+
+        return stripslashes($response);
+    }
+}

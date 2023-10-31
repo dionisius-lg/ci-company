@@ -1,13 +1,13 @@
 <section class="breadcrumbs">
-	<div class="container">
-		<div class="d-flex justify-content-between align-items-center">
-			<h2><?php echo $this->template->title; ?></h2>
-			<ol>
-				<li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
-				<li><?php echo $this->lang->line('front')['navbar']['testimony']; ?></li>
-			</ol>
-		</div>
-	</div>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2><?php echo $this->template->title; ?></h2>
+            <ol>
+                <li><a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
+                <li><?php echo $this->lang->line('front')['navbar']['testimony']; ?></li>
+            </ol>
+        </div>
+    </div>
 </section>
 
 <section class="section-medium section-arrow--bottom-center section-arrow-primary-color bg-primary">
@@ -96,23 +96,23 @@
 <?php $this->template->javascript->add('assets/vendor/venobox/js/venobox.min.js'); ?>
 <?php $this->template->javascript->add('assets/vendor/isotope-layout/isotope.pkgd.min.js'); ?>
 <script type="text/javascript">
-	$(window).on('load', function() {
-		var galleryIsotope = $('#galleries .album').isotope({
-			itemSelector: '#galleries .item'
-		});
+    $(window).on('load', function() {
+        var galleryIsotope = $('#galleries .album').isotope({
+            itemSelector: '#galleries .item'
+        });
 
-		$('#galleries .filter li').on('click', function() {
-			$('#galleries .filter li').removeClass('active');
-			$(this).addClass('active');
+        $('#galleries .filter li').on('click', function() {
+            $('#galleries .filter li').removeClass('active');
+            $(this).addClass('active');
 
-			galleryIsotope.isotope({
-				filter: $(this).data('filter')
-			});
-		});
+            galleryIsotope.isotope({
+                filter: $(this).data('filter')
+            });
+        });
 
-		// Initiate venobox (lightbox feature used in portofilo)
-		$(document).ready(function() {
-			$('.venobox').venobox();
-		});
-	});
+        // Initiate venobox (lightbox feature used in portofilo)
+        $(document).ready(function() {
+            $('.venobox').venobox();
+        });
+    });
 </script>
