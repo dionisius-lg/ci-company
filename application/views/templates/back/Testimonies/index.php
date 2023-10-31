@@ -25,7 +25,7 @@
 							foreach ($testimonies as $testimony) { echo
 								'<tr>
 									<td class="text-nowrap">' . $no . '</td>
-									<td class="text-nowrap">' . (@getimagesize(base_url('files/sliders/'.$testimony['picture'])) ? '<a href="' . base_url('files/sliders/'.$testimony['picture']) . '" class="venobox">View Slider</a>' : 'File not found') . '</td>
+									<td class="text-nowrap">' . (checkRemoteFile(base_url('files/sliders/'.$testimony['picture'])) ? '<a href="' . base_url('files/sliders/'.$testimony['picture']) . '" class="venobox">View Slider</a>' : 'File not found') . '</td>
 									<td class="text-nowrap">' . $testimony['fullname'] . '</td>
 									<td class="text-nowrap">' . $testimony['description'] . '</td>
 									<td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $testimony['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $slider['id'] . ')']) . '</td>
