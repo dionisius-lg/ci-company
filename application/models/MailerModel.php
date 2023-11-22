@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class MailerConfigModel extends CI_Model {
+class MailerModel extends CI_Model {
     function __construct() {
         parent::__construct();
 
         $this->load->helper('response');
     }
 
-    public $table = 'mailer_config';
-    public $view_table = 'mailer_config';
+    public $table = 'mailer';
+    public $view_table = 'mailer';
 
     /**
      *  get method

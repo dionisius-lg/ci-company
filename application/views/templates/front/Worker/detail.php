@@ -17,7 +17,7 @@
             <div class="col-lg-4">
                 <div class="profile-photo">
                     <div class="img-wrapper">
-                        <img src="<?php echo checkRemoteFile(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
+                        <img src="<?php echo @getimagesize(base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo'])) ? base_url('files/workers/'.$worker['id'].'/thumb/'.$worker['photo']) : base_url('assets/img/default-avatar.jpg'); ?>" alt="<?php echo $worker['fullname']; ?>" class="img-fluid">
 
                         <div class="layer">
                             <?php $attr_avatar = [
@@ -26,7 +26,7 @@
                                 'content' => $this->lang->line('front')['page_worker']['button']['view_avatar']
                             ];
 
-                            if (checkRemoteFile(base_url('files/workers/'.$worker['id'].'/'.$worker['photo']))) {
+                            if (@getimagesize(base_url('files/workers/'.$worker['id'].'/'.$worker['photo']))) {
                                 $attr_avatar['data-href'] = base_url('files/workers/'.$worker['id'].'/'.$worker['photo']);
                             } else {
                                 $attr_avatar['class'] = $attr_avatar['class'] . ' disabled';

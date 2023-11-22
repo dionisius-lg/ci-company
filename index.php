@@ -26,15 +26,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package    CodeIgniter
- * @author    EllisLab Dev Team
+ * @package      CodeIgniter
+ * @author       EllisLab Dev Team
  * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
  * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license    https://opensource.org/licenses/MIT    MIT License
- * @link    https://codeigniter.com
- * @since    Version 1.0.0
+ * @license      https://opensource.org/licenses/MIT    MIT License
+ * @link         https://codeigniter.com
+ * @since        Version 1.0.0
  * @filesource
  */
+    require __DIR__ . '/vendor/autoload.php';
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+    $dotenv->load();
+    $dotenv->required(['DB_HOST', 'DB_USER', 'DB_PASS', 'DB_NAME']);
 
 /*
  *---------------------------------------------------------------
@@ -48,17 +52,11 @@
  * This can be set to anything, but default usage is:
  *
  *     development
- *     testing
  *     production
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-    // define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-    if ($_SERVER['HTTP_HOST'] == 'localhost') {
-        define('ENVIRONMENT', 'development');
-    } else {
-        define('ENVIRONMENT', 'production');
-    }
+    define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
  *---------------------------------------------------------------
@@ -75,7 +73,6 @@ switch (ENVIRONMENT)
         ini_set('display_errors', 1);
     break;
 
-    case 'testing':
     case 'production':
         ini_set('display_errors', 0);
         if (version_compare(PHP_VERSION, '5.3', '>='))
@@ -317,4 +314,4 @@ switch (ENVIRONMENT)
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+    require_once BASEPATH.'core/CodeIgniter.php';

@@ -13,22 +13,22 @@
                         <thead>
                             <tr class="">
                                 <th class="text-nowrap">No.</th>
-                                <th class="text-nowrap">Slider</th>
-                                <th class="text-nowrap">Order</th>
-                                <th class="text-nowrap">Link To</th>
+                                <th class="text-nowrap">Image</th>
+                                <th class="text-nowrap">Picture Name</th>
+                                <th class="text-nowrap">Description</th>
                                 <th class="text-nowrap">Action</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                        ;
-                        <?php if (count($sliders) > 0) {
-                            foreach ($sliders as $slider) { echo
+                        <?php if (count($galleries) > 0) {
+                            foreach ($galleries as $gallery) { echo
                                 '<tr>
                                     <td class="text-nowrap">' . $no . '</td>
-                                    <td class="text-nowrap">' . (checkRemoteFile(base_url('files/sliders/'.$slider['picture'])) ? '<a href="' . base_url('files/sliders/'.$slider['picture']) . '" class="venobox">View Slider</a>' : 'File not found') . '</td>
-                                    <td class="text-nowrap">' . $slider['order_number'] . '</td>
-                                    <td class="text-nowrap">' . $slider['link_to'] . '</td>
-                                    <td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $slider['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $slider['id'] . ')']) . '</td>
+                                    <td class="text-nowrap">' . (@getimagesize(base_url('files/galleries/'.$gallery['picture'])) ? '<a href="' . base_url('files/galleries/'.$gallery['picture']) . '" class="venobox">View Picture</a>' : 'File not found') . '</td>
+                                    <td class="text-nowrap">' . $gallery['pictname'] . '</td>
+                                    <td class="text-nowrap">' . $gallery['description'] . '</td>
+                                    <td class="text-nowrap">' . form_button(['type' => 'button', 'class' => 'btn btn-info btn-xs rounded-0', 'content' => '<i class="fa fa-eye fa-fw"></i>', 'title' => 'Detail', 'onclick' => 'detailData(' . $gallery['id'] . ')']) . form_button(['type' => 'button', 'class' => 'btn btn-danger btn-xs rounded-0', 'content' => '<i class="fa fa-trash fa-fw"></i>', 'title' => 'Delete', 'onclick' => 'deleteData(' . $gallery['id'] . ')']) . '</td>
                                 </tr>';
 
                                 $no++;
@@ -65,7 +65,7 @@
                 <div class="modal-body">
                     <div class="row" id="previewAttachment">
                         <div class="form-group col-md-12 item py-1">
-                            <?php echo form_label('Slider <span class="text-danger">*</span>', null); ?>
+                            <?php echo form_label('Gallery <span class="text-danger">*</span>', null); ?>
                             <?php echo form_input(['type' => 'file', 'name' => 'picture', 'class' => 'hidden', 'data-toggle' => 'change']); ?>
                             <div class="border">
                                 <img src="" alt="Attachment Preview" class="img-fluid">
@@ -73,18 +73,21 @@
                                     <?php echo form_button(['type' => 'button', 'class' => 'btn btn-outline-success btn-sm rounded-0', 'content' => 'Browse', 'data-toggle' => 'browse']); ?>
                                 </div>
                             </div>
+                            <span class="form-text">Allowed type: jpg, jpeg, png. Max size: 1000KB (For optimal page load).</span>
                             <span class="invalid-feedback"></span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-md-2">
-                            <?php echo form_label('Order', null); ?>
-                            <?php echo form_input(['type' => 'text', 'name' => 'order_number', 'class' => 'form-control form-control-sm rounded-0 numeric', 'maxlength' => '3', 'autofocus' => true]); ?>
+                        <div class="form-group col-md-6">
+                            <?php echo form_label('Picture Name', null); ?>
+                            <?php echo form_input(['type' => 'text', 'name' => 'pictname', 'class' => 'form-control form-control-sm rounded-0', 'maxlength' => '50', 'autofocus' => true]); ?>
                             <span class="invalid-feedback"></span>
                         </div>
-                        <div class="form-group col-md-10">
-                            <?php echo form_label('Link To', null); ?>
-                            <?php echo form_input(['type' => 'text', 'name' => 'link_to', 'class' => 'form-control form-control-sm rounded-0']); ?>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <?php echo form_label('Description', null); ?>
+                            <textarea name="description" class="form-control" id="Description" cols="30" rows="5"></textarea>
                             <span class="invalid-feedback"></span>
                         </div>
                     </div>
@@ -92,21 +95,6 @@
                         <div class="form-group col-md-6">
                             <?php echo form_label('Create Date', null); ?>
                             <?php echo form_input(['type' => 'text', 'name' => 'create_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
-                            <span class="invalid-feedback"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <?php echo form_label('Create By', null); ?>
-                            <?php echo form_input(['type' => 'text', 'name' => 'create_by', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
-                            <span class="invalid-feedback"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <?php echo form_label('Last Update Date', null); ?>
-                            <?php echo form_input(['type' => 'text', 'name' => 'update_date', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
-                            <span class="invalid-feedback"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <?php echo form_label('Last Update By', null); ?>
-                            <?php echo form_input(['type' => 'text', 'name' => 'update_by', 'class' => 'form-control form-control-sm rounded-0', 'readonly' => true]); ?>
                             <span class="invalid-feedback"></span>
                         </div>
                     </div>
@@ -135,7 +123,7 @@
     function newData() {
         modalDataForm[0].reset();
         modalDataForm.find('select').val(null).trigger('change');
-        modalDataForm.attr({'action': '<?php echo base_url("admin/sliders/create"); ?>'});
+        modalDataForm.attr({'action': '<?php echo base_url("admin/galleries/create"); ?>'});
         modalDataForm.find('input, select, textarea').removeClass('is-invalid');
         modalDataForm.find('.invalid-feedback').empty();
         modalDataForm.find('.btn-submit').html('Create');
@@ -150,13 +138,13 @@
     function detailData(id) {
         if (id !== null && id !== undefined && id !== '' && $.isNumeric(id)) {
             $.ajax({
-                url: '<?php echo base_url("admin/sliders/detail/' + id + '"); ?>',
+                url: '<?php echo base_url("admin/galleries/detail/' + id + '"); ?>',
                 type: 'get',
                 dataType: 'json',
                 beforeSend: function() {
                     modalDataForm[0].reset();
                     modalDataForm.find('select').val(null).trigger('change');
-                    modalDataForm.attr({'action': '<?php echo base_url("admin/sliders/update/' + id + '"); ?>'});
+                    modalDataForm.attr({'action': '<?php echo base_url("admin/galleries/update/' + id + '"); ?>'});
                     modalDataForm.find('input, select, textarea').removeClass('is-invalid');
                     modalDataForm.find('.invalid-feedback').empty();
                     modalDataForm.find('.btn-submit').html('Update');
@@ -168,12 +156,12 @@
                     if (response !== null && typeof response === 'object') {
                         if (response.status === 'success') {
                             modalDataForm.find('img').attr({'src': response.data['file']});
-                            modalDataForm.find('[name="order_number"]').val(response.data['order_number']);
-                            modalDataForm.find('[name="link_to"]').val(response.data['link_to']);
+                            modalDataForm.find('[name="pictname"]').val(response.data['pictname']);
+                            modalDataForm.find('[name="description"]').val(response.data['description']);
                             modalDataForm.find('[name="create_date"]').val(response.data['create_date']);
-                            modalDataForm.find('[name="create_by"]').val(response.data['create_by']);
-                            modalDataForm.find('[name="update_date"]').val(response.data['update_date']);
-                            modalDataForm.find('[name="update_by"]').val(response.data['update_by']);
+                            // modalDataForm.find('[name="create_by"]').val(response.data['create_by']);
+                            // modalDataForm.find('[name="update_date"]').val(response.data['update_date']);
+                            // modalDataForm.find('[name="update_by"]').val(response.data['update_by']);
 
                             modalData.modal({'backdrop': 'static', 'keyboard': false, 'show': true});
                         }
@@ -206,7 +194,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '<?php echo base_url("admin/sliders/delete/' + id + '"); ?>',
+                        url: '<?php echo base_url("admin/galleries/delete/' + id + '"); ?>',
                         type: 'get',
                         dataType: 'json',
                         success: function(response) {

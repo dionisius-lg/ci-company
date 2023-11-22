@@ -83,7 +83,7 @@
                             }
                         } else { echo
                             '<tr>
-                                <td class="text-center" colspan="7">No data found</td>
+                                <td class="text-center" colspan="8">No data found</td>
                             </tr>';
                         } ?>
                         </tbody>

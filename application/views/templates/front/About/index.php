@@ -14,7 +14,7 @@
 
 <?php $this->load->view('templates/front/Element/section_advantage'); ?>
 
-<section id="clients">
+<section id="clients" hidden>
     <div class="container">
         <div class="section-title">
             <h2><?php echo $this->lang->line('front')['section_title']['clients']; ?></h2>

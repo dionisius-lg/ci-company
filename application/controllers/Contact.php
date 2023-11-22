@@ -18,6 +18,7 @@ class Contact extends CI_Controller {
 
         // load default models
         $this->load->model('CompanyModel');
+        $this->load->model('GuestBooksModel');
 
         // load default data
         $this->result['company'] = [];
@@ -38,42 +39,74 @@ class Contact extends CI_Controller {
         $this->template->publish();
     }
 
-    public function sendEmail() {
-        $config = [
-            'mailtype' => 'html',
-            'charset' => 'utf-8',
-            'protocol' => 'smtp',
-            'smtp_host' => 'smtp.googlemail.com',
-            'smtp_user' => 'arj.juta@gmail.com',
-            'smtp_pass' => 'Ironman3!',
-            'smtp_crypto' => 'ssl',
-            'smtp_port' => 465,
-            'crlf' => "\r\n",
-            'newline' => "\r\n"    
-        ];
-        
-        $this->load->library('email', $config);
-        $this->email->initialize($config);
+    public function send() {
+        if ($this->input->method() == 'post') {
+            $input    = array_map('trim', $this->input->post());
+            $validate = $this->validate();
 
-        $to_email = $config['smtp_user'];
-        $contact_name = $this->input->post('contact_name');
-        $from_email = $this->input->post('contact_email');
-        $subject = $this->input->post('contact_subject');
-        $message = $this->input->post('contact_message');
+            $this->form_validation->set_rules($validate);
+            $this->form_validation->set_error_delimiters('','');
 
-        $this->email->from($from_email, $contact_name);
-        $this->email->to($to_email);
-        $this->email->subject($subject);
-        $this->email->message($message);
+            if ($this->form_validation->run() == false) {
+                foreach ($input as $key => $val) {
+                    if (!empty(form_error($key))) {
+                        setFlashError(form_error($key), $key);
+                    }
+                }
 
-        if ($this->email->send()) {
-            echo "<script> alert('Your message has been sent. Thank you!')</script>";
-            $this->template->content->view('templates/front/Contact/index', $this->result);
-            $this->template->publish();
-        } else {
-            echo "<script> alert('Message failed to send !')</script>";
-            $this->template->content->view('templates/front/Contact/index', $this->result);
-            $this->template->publish();
+                setOldInput($input);
+                redirect('contact');
+            }
+
+            $data = [
+                'subject' => $input['contact_subject'],
+                'body' => nl2br($input['contact_message']),
+                'sender_name' => $input['contact_name'],
+                'sender_email' => strtolower($input['contact_email']),
+            ];
+
+            $data = array_map('strClean', $data);
+            $request = $this->GuestBooksModel->insert($data);
+
+            if ($request['status'] == 'success') {
+                setFlashSuccess('Your message has been sent, thank you.', 'contact');
+            } else {
+                setFlashError('An error occurred, please try again.', 'contact');
+            }
         }
+
+        redirect('contact');
+    }
+
+    /**
+     *  validate method
+     *  validate data before action
+     */
+    private function validate($file = false, $id = null)
+    {
+        $validate = [
+            [
+                'field' => 'contact_name',
+                'label' => 'Name',
+                'rules' => 'trim|required|max_length[100]|regexAlphaSpace|xss_clean'
+            ],
+            [
+                'field' => 'contact_email',
+                'label' => 'Email',
+                'rules' => 'trim|required|max_length[100]|valid_email|xss_clean'
+            ],
+            [
+                'field' => 'contact_subject',
+                'label' => 'Subject',
+                'rules' => 'trim|required|max_length[100]|regexAlphaSpace|xss_clean'
+            ],
+            [
+                'field' => 'contact_message',
+                'label' => 'Message',
+                'rules' => 'trim|max_length[255]|regexTextArea|xss_clean'
+            ],
+        ];
+
+        return $validate;
     }
 }

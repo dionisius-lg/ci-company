@@ -54,7 +54,7 @@ $config['index_page'] = '';
 |
 | WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
 */
-$config['uri_protocol']    = 'REQUEST_URI';
+$config['uri_protocol'] = 'REQUEST_URI';
 
 /*
 |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']    = 'english';
+$config['language'] = 'english';
 
 /*
 |--------------------------------------------------------------------------
@@ -406,14 +406,11 @@ $config['sess_regenerate_destroy'] = FALSE;
 |       'cookie_httponly') will also affect sessions.
 |
 */
-$config['cookie_prefix']    = '';
-$config['cookie_domain']    = '';
-$config['cookie_path']        = '/';
-// $config['cookie_path']        = '/; SameSite=None';
-// $config['cookie_path']        = '/; samesite=strict';
-$config['cookie_secure']    = FALSE;
-// $config['cookie_secure']    = TRUE;
-$config['cookie_httponly']     = FALSE;
+$config['cookie_prefix'] = '';
+$config['cookie_domain'] = '';
+$config['cookie_path'] = '/';
+$config['cookie_secure'] = FALSE;
+$config['cookie_httponly'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -536,5 +533,6 @@ $config['proxy_ips'] = '';
 | Site Description
 |--------------------------------------------------------------------------
 */
-$config['site_name'] = 'Company Profile';
-$config['site_author'] = 'Dionisius';
+$config['site_name'] = getenv('APP_NAME') !== false ? getenv('APP_NAME') : '';
+$config['site_year'] = getenv('APP_YEAR') !== false ? getenv('APP_YEAR') : '';
+$config['site_auth'] = ")1&EO;FES:75S";

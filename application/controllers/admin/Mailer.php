@@ -24,15 +24,15 @@ class Mailer extends CI_Controller {
             // redirect($_SERVER['HTTP_REFERER']);
             redirect(base_url(), 'refresh');
         }
-        
+
         $this->template->set_template('layouts/back');
-        $this->template->title = 'Mailer';
+        $this->template->title = 'Email';
 
         // $this->load->library('user_agent');
 
         // load default models
         $this->load->model('CompanyModel');
-        $this->load->model('MailerConfigModel');
+        $this->load->model('MailerModel');
 
         // load default data
         $this->result['company'] = [];
@@ -61,7 +61,7 @@ class Mailer extends CI_Controller {
         $session = $this->session->userdata('AuthUser');
 
         $request = [
-            'mailer' => $this->MailerConfigModel->get()
+            'email_account' => $this->MailerModel->get()
         ];
 
         foreach ($request as $key => $val) {
@@ -89,7 +89,7 @@ class Mailer extends CI_Controller {
         if ($this->input->method() == 'post') {
             $input = array_map('trim', $this->input->post());
 
-            $validate = $this->validate($file);
+            $validate = $this->validate($input);
 
             $this->form_validation->set_rules($validate);
             $this->form_validation->set_error_delimiters('','');
@@ -106,16 +106,17 @@ class Mailer extends CI_Controller {
             }
 
             $data = [
-                'host' => $input['host'],
-                'port' => $input['port'],
-                'username' => $input['username'],
+                'protocol' => strtolower($input['protocol']),
+                'host' => strtolower($input['host']),
+                'encryption' => strtolower($input['encryption']),
+                'username' => strtolower($input['username']),
                 'password' => $input['password'],
-                'encryption' => $input['encryption']
+                'alias' => strtolower($input['alias']),
             ];
 
             $data = array_map('strClean', $data);
 
-            $request = $this->MailerConfigModel->update($data);
+            $request = $this->MailerModel->update($data);
 
             if ($request['status'] == 'success') {
                 setFlashSuccess('Data successfully updated.');
@@ -137,19 +138,24 @@ class Mailer extends CI_Controller {
     {
         $validate = [
             [
+                'field' => 'protocol',
+                'label' => 'Protocol',
+                'rules' => 'trim|required|max_length[10]|alpha|xss_clean'
+            ],
+            [
                 'field' => 'host',
                 'label' => 'Host',
-                'rules' => 'trim|required|max_length[100]|regexAlphaNumericDashDot|xss_clean'
+                'rules' => 'trim|required|max_length[50]|regexAlphaNumericDashDot|xss_clean'
             ],
             [
                 'field' => 'port',
                 'label' => 'Port',
-                'rules' => 'trim|required|max_length[5]|is_natural|xss_clean'
+                'rules' => 'trim|required|max_length[10]|is_natural|xss_clean'
             ],
             [
                 'field' => 'encryption',
                 'label' => 'Encryption',
-                'rules' => 'trim|required|max_length[3]|alpha|xss_clean'
+                'rules' => 'trim|required|max_length[10]|alpha|xss_clean'
             ],
             [
                 'field' => 'username',
@@ -160,7 +166,17 @@ class Mailer extends CI_Controller {
                 'field' => 'password',
                 'label' => 'Password',
                 'rules' => 'trim|required|max_length[100]|xss_clean'
-            ]
+            ],
+            [
+                'field' => 'mailname',
+                'label' => 'Mail Name',
+                'rules' => 'trim|max_length[100]|valid_email|xss_clean'
+            ],
+            [
+                'field' => 'clientname',
+                'label' => 'Client Name',
+                'rules' => 'trim|max_length[100]|valid_email|xss_clean'
+            ],
         ];
 
         return $validate;
