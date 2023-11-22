@@ -75,15 +75,14 @@ $query_builder = TRUE;
 
 $db['default'] = array(
     'dsn'          => '',
-    'hostname'     => 'localhost',
-    'username'     => 'root',
-    'password'     => '',
-    'database'     => 'ci_company',
+    'hostname'     => getenv('DB_HOST') !== false ? getenv('DB_HOST') : 'localhost',
+    'username'     => getenv('DB_USER') !== false ? getenv('DB_USER') : 'root',
+    'password'     => getenv('DB_PASS') !== false ? getenv('DB_PASS') : '',
+    'database'     => getenv('DB_NAME') !== false ? getenv('DB_NAME') : '',
     'dbdriver'     => 'mysqli',
     'dbprefix'     => '',
     'pconnect'     => FALSE,
-    'db_debug'     => (ENVIRONMENT !== 'production'), // local
-    // 'db_debug'     => FALSE, // production
+    'db_debug'     => getenv('DB_DEBUG') !== false && strtoupper(getenv('DB_DEBUG')) === 'ON',
     'cache_on'     => FALSE,
     'cachedir'     => '',
     'char_set'     => 'utf8',

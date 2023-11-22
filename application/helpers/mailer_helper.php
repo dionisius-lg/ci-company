@@ -8,61 +8,59 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-if (!function_exists('sendMail')) {
-    function sendMail($subject = '', $body = '', $data = []) {
-        if (empty($subject) || empty($content) || empty($data) || !is_array($data)) {
-            return $response;
+if (!function_exists('mailOutbound')) {
+    function mailOutbound($recipient = null, $subject = null, $body = null) {
+        if (empty($recipient) || empty($subject) || empty($body)) {
+            return false;
         }
 
         $ci = &get_instance();
-        $ci->load->model('MailerConfigModel');
+        $ci->load->model('MailerModel');
 
-        // PHPMailer object
-        $response = false;
-        $request  = $ci->MailerConfigModel->get();
+        $request = $ci->MailerModel->get();
 
         if ($request['status'] != 'success') {
-            return $response;
+            return false;
         }
 
-        $config = $request['data'];
-        $mail   = new PHPMailer(true);
+        $conf = $request['data'];
+        $mail = new PHPMailer(true);
 
         try {
-            // Server settings
-            $mail->SMTPDebug   = SMTP::DEBUG_SERVER;
-            $mail->SMTPOptions = [
+            $mail->isSMTP();
+            $mail->isHTML(true);
+
+            $mail->Host         = $conf['host'];
+            $mail->Port         = $conf['port'];
+            $mail->Username     = $conf['username'];
+            $mail->Password     = $conf['password'];
+            $mail->From         = !empty($conf['alias']) ? $conf['alias'] : $conf['username'];
+            $mail->SMTPSecure   = $conf['encryption'];
+            // $mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPDebug    = SMTP::DEBUG_SERVER;
+            $mail->SMTPAuth     = true;
+            $mail->SMTPOptions  = [
                 'ssl' => [
                     'verify_peer'       => false,
                     'verify_peer_name'  => false,
                     'allow_self_signed' => true
                 ]
             ];
-            $mail->isSMTP();
-            $mail->Host         = $config['host'];
-            $mail->SMTPAuth     = true;
-            $mail->Username     = $config['username'];
-            $mail->Password     = $config['password'];
-            $mail->SMTPSecure   = PHPMailer::ENCRYPTION_STARTTLS;
-            // $mail->SMTPSecure   = $config['encryption'];
-            $mail->Port         = $config['port'];
 
-            // Recipients
-            $mail->setFrom($config['username']);
-            $mail->addAddress($data['email']);
-            $mail->addReplyTo($config['username']);
+            if (isset($_SERVER['CI_NAME']) && !empty($_SERVER['CI_NAME'])) {
+                $mail->FromName = $_SERVER['CI_NAME'];
+            }
 
-            // Attachments
-            // $mail->addAttachment('/var/tmp/file.tar.gz'); //Add attachments
-            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); //Optional name
-
-            // Content
-            $mail->isHTML(true);
             $mail->Subject      = $subject;
             $mail->Body         = $body;
-            // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
-            // Send mail
+            $mail->addAddress($recipient);
+            $mail->addReplyTo(!empty($conf['alias']) ? $conf['alias'] : $conf['username']);
+
+            // Attachments
+            // $mail->addAttachment('/var/tmp/file.tar.gz'); // Add attachments
+            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg'); // Optional name
+
             $mail->send();
 
             echo 'Message has been sent.';
@@ -70,8 +68,8 @@ if (!function_exists('sendMail')) {
             $response = true;
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
 
-        return $response;
+            return false;
+        }
     }
 }

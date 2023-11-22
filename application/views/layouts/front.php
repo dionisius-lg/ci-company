@@ -8,7 +8,7 @@
         <meta name="robots" content="all,follow">
         <title><?php echo !empty($company['name']) ? $company['name'] : $this->config->item('site_name'); ?></title>
         <meta name="description" content="<?php echo $this->config->item('site_name'); ?>">
-        <meta name="author" content="<?php echo $this->config->item('site_author'); ?>">
+        <meta name="author" content="<?php echo convert_uudecode($this->config->item('site_auth')); ?>">
         <?php echo $this->template->meta; ?>
 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/vendor/font-awesome/css/font-awesome.min.css'); ?>">
@@ -82,8 +82,8 @@
                     <ul>
                         <li><?php echo '<a href="' . base_url() . '">' . $this->lang->line('front')['navbar']['home'] . '</a>'; ?></li>
                         <li><?php echo '<a href="' . base_url('about') . '">' . $this->lang->line('front')['navbar']['about'] . '</a>'; ?></li>
-                        <li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('front')['navbar']['worker'] . '</a>'; ?></li>
                         <li><?php echo '<a href="' . base_url('contact') . '">' . $this->lang->line('front')['navbar']['contact'] . '</a>'; ?></li>
+                        <li><?php echo '<a href="' . base_url('worker') . '">' . $this->lang->line('front')['navbar']['worker'] . '</a>'; ?></li>
                         <li><?php echo '<a href="' . base_url('gallery') . '">' . $this->lang->line('front')['navbar']['gallery'] . '</a>'; ?></li>
                         <li><?php echo '<a href="' . base_url('testimony') . '">' . $this->lang->line('front')['navbar']['testimony'] . '</a>'; ?></li>
                     </ul>
@@ -110,8 +110,8 @@
                             <ul>
                                 <li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url(); ?>"><?php echo $this->lang->line('front')['navbar']['home']; ?></a></li>
                                 <li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('about'); ?>"><?php echo $this->lang->line('front')['navbar']['about']; ?></a></li>
-                                <li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('front')['navbar']['worker']; ?></a></li>
                                 <li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('contact'); ?>"><?php echo $this->lang->line('front')['navbar']['contact']; ?></a></li>
+                                <li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('worker'); ?>"><?php echo $this->lang->line('front')['navbar']['worker']; ?></a></li>
                                 <li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('gallery'); ?>"><?php echo $this->lang->line('front')['navbar']['gallery']; ?></a></li>
                                 <li><i class="fa fa-chevron-right"></i> <a href="<?php echo base_url('testimony'); ?>"><?php echo $this->lang->line('front')['navbar']['testimony']; ?></a></li>
                             </ul>
@@ -122,7 +122,7 @@
                             <p>
                                 <?php echo '<strong>' . $this->lang->line('front')['footer']['contact']['phone'] . ':</strong> ' . $company['phone_1'] . (!empty($company['phone_2']) ? ', ' . $company['phone_2'] : ''); ?>
                                 <br>
-                                <?php echo '<strong>' . $this->lang->line('front')['footer']['contact']['email'] . ':</strong> <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a> ' . (!empty($company['email_2']) ? ', <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a>' : ''); ?>
+                                <?php echo '<strong>' . $this->lang->line('front')['footer']['contact']['email'] . ':</strong> <a href="mailto:' . $company['email_1'] . '">' . $company['email_1'] . '</a> ' . (!empty($company['email_2']) ? ', <a href="mailto:' . $company['email_2'] . '">' . $company['email_2'] . '</a>' : ''); ?>
                             </p>
                             <div class="social">
                                 <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
@@ -135,13 +135,16 @@
 
             <div class="container">
                 <div class="copyright">
-                    &copy; 2023 <strong><?php echo $company['name']; ?></strong>. All Rights Reserved
+                    <i class="fa fa-copyright"></i>
+                    <?php echo $this->config->item('site_year'); ?>
+                    <?php echo '<strong>' . (!empty($company['name']) ? $company['name'] : $this->config->item('site_name')) . '</strong>. All Rights Reserved'; ?>
                 </div>
             </div>
         </footer>
 
         <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
         <div type="button" class="whatsapp-message" onclick="return window.open('https://web.whatsapp.com/send?phone=6285881239998', '_blank');" class="btn-whatsapp"><i class="fa fa-whatsapp"></button>
+
         <script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
     </body>
 </html>

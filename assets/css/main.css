@@ -1214,6 +1214,12 @@ section {
 	font-weight: 600;
 }
 
+.contact form .flash-message {
+	text-align: center;
+	padding: 12px;
+	font-weight: 600;
+}
+
 .contact form input:focus,
 .contact form textarea:focus {
 	border-color: #424242;

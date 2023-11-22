@@ -195,11 +195,29 @@ CREATE TABLE `galleries` (
   `is_active` int(1) DEFAULT 1,
   `create_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `galleries` */
 
-insert  into `galleries`(`id`,`picture`,`pictname`,`description`,`is_active`,`create_date`) values (3,'img-galleriescHRhcmouY29tMTYyNzAwMjU4NA.png','ssssss edited','ssssss edited',1,'2021-07-23 08:09:44'),(4,'img-galleriescHRhcmouY29tMTYyNzAwMjczOA.jpg','cucucufcu','ctxtzytztzt',1,'2021-07-23 08:12:18'),(5,'img-galleriescHRhcmouY29tMTYyNzAwNDA4OA.jpg','ssss','ssssss',1,'2021-07-23 08:34:48'),(6,'img-galleriescHRhcmouY29tMTYyNzAwNDA5Nw.jpg','evceveve','veveveve',1,'2021-07-23 08:34:58'),(7,'img-galleriescHRhcmouY29tMTYyNzAwNDExMQ.jpg','scscs','escdscd',1,'2021-07-23 08:35:11'),(8,'img-galleriescHRhcmouY29tMTYyNzAwNDEyOQ.jpg','sxsxscxs','sxsxscs',1,'2021-07-23 08:35:29'),(9,'img-galleriescHRhcmouY29tMTYyNzAwNDE1MA.jpg','scxscs','csxsxscs',1,'2021-07-23 08:35:50');
+/*Table structure for table `guest_books` */
+
+DROP TABLE IF EXISTS `guest_books`;
+
+CREATE TABLE `guest_books` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `subject` varchar(100) DEFAULT NULL,
+  `body` varchar(255) DEFAULT NULL,
+  `sender_name` varchar(100) DEFAULT NULL,
+  `sender_email` varchar(100) DEFAULT NULL,
+  `status_id` tinyint(1) unsigned DEFAULT 1,
+  `create_date` datetime NOT NULL DEFAULT current_timestamp(),
+  `update_date` datetime DEFAULT NULL,
+  `update_user_id` int(11) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+/*Data for the table `guest_books` */
 
 /*Table structure for table `language_abilities` */
 
@@ -223,19 +241,21 @@ CREATE TABLE `language_abilities` (
 
 insert  into `language_abilities`(`id`,`name`,`name_chn`,`slug`,`create_date`,`create_user_id`,`update_date`,`update_user_id`,`update_count`,`is_active`) values (1,'English','英文','english','2021-06-08 14:57:05',1,'2021-07-09 22:55:17',1,2,1),(2,'Cantonese','廣東話','cantonese','2021-06-08 14:57:20',1,'2021-07-09 22:55:07',1,2,1),(3,'Mandarin','國語','mandarin','2021-06-08 14:58:26',1,'2021-07-09 22:55:42',1,2,1),(4,'Hokkian','福建話','hokkian','2021-06-08 14:58:30',1,'2021-07-09 22:55:27',1,2,1);
 
-/*Table structure for table `mailer_config` */
+/*Table structure for table `mailer` */
 
-DROP TABLE IF EXISTS `mailer_config`;
+DROP TABLE IF EXISTS `mailer`;
 
-CREATE TABLE `mailer_config` (
-  `host` varchar(100) DEFAULT NULL,
-  `port` int(11) DEFAULT NULL,
+CREATE TABLE `mailer` (
+  `protocol` varchar(10) DEFAULT NULL,
+  `host` varchar(50) DEFAULT NULL,
+  `port` varchar(10) DEFAULT NULL,
+  `encryption` varchar(10) DEFAULT NULL,
   `username` varchar(100) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL,
-  `encryption` varchar(10) DEFAULT NULL
+  `alias` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-/*Data for the table `mailer_config` */
+/*Data for the table `mailer` */
 
 /*Table structure for table `provinces` */
 
@@ -290,11 +310,9 @@ CREATE TABLE `sliders` (
   `update_count` int(11) NOT NULL DEFAULT 0,
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*Data for the table `sliders` */
-
-insert  into `sliders`(`id`,`picture`,`order_number`,`link_to`,`create_date`,`create_user_id`,`update_date`,`update_user_id`,`update_count`,`is_active`) values (1,'slider_KdaeAQe6Q8JPbkUKN3k9PAZy6E5QlrtRQI2PgjQFU-k.jpg',1,'https://www.youtube.com/watch?v=VwU3SlQ723Q','2021-07-12 10:15:04',1,'2021-07-14 17:59:26',1,4,1),(2,'slider_QzDZfMdTIO-7upZVQdQ281fy3eoWWlfkG0u4JEIqysg.jpg',2,NULL,'2021-07-12 10:15:24',1,'2021-07-14 18:01:27',1,8,1),(3,'slider_6VoIZW57DbtTbHLly-BbppWiMn-UiaQfewMVsmlfu0Q.jpg',3,NULL,'2021-07-14 17:11:34',1,'2021-07-14 18:02:14',1,2,1);
 
 /*Table structure for table `suplementary_questions` */
 
@@ -316,6 +334,22 @@ CREATE TABLE `suplementary_questions` (
 /*Data for the table `suplementary_questions` */
 
 insert  into `suplementary_questions`(`id`,`question`,`answer_type_id`,`create_date`,`create_user_id`,`update_date`,`update_user_id`,`update_count`,`is_active`) values (1,'Will You Work Where There Are Pets?',1,'2021-07-06 19:42:53',1,NULL,NULL,0,1),(2,'Do You Have Any Allergies (such As Skin Allergy)?',1,'2021-07-06 19:44:33',1,NULL,NULL,0,1),(3,'Do you have any knowledge in gardening?',2,'2021-07-06 19:45:57',1,'2021-07-08 14:23:10',1,3,1),(4,'Can you handle and cook pork?',1,'2021-07-06 19:49:53',1,NULL,NULL,0,1);
+
+/*Table structure for table `testimonies` */
+
+DROP TABLE IF EXISTS `testimonies`;
+
+CREATE TABLE `testimonies` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `picture` varchar(255) DEFAULT NULL,
+  `fullname` varchar(50) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `is_active` int(11) DEFAULT 1,
+  `create_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
+
+/*Data for the table `testimonies` */
 
 /*Table structure for table `user_levels` */
 
@@ -364,11 +398,11 @@ CREATE TABLE `users` (
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_email` (`username`,`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `users` */
 
-insert  into `users`(`id`,`username`,`password`,`fullname`,`email`,`phone`,`agency_location_id`,`country_id`,`company`,`user_level_id`,`host_address`,`ip_address`,`last_event_date`,`last_event_id`,`request_date`,`register_date`,`register_user_id`,`update_date`,`update_user_id`,`update_count`,`verification_code`,`is_request_password`,`is_request_register`,`is_register`,`is_active`) values (1,'dion','$2y$10$0fs3zNwpuTsug793bwo6hu6ecK1azoNYXFg4Q8xDj4Uj2GIHvIVRC','Dionisius','dion@jsm.co.id',NULL,1,NULL,NULL,1,NULL,NULL,NULL,NULL,'2021-04-03 23:52:21','2021-04-04 22:01:14',1,'2023-10-29 22:12:56',1,23,'kjfQexoDw7dO0OT+CReoTRGsH4m2qOID2G80G+buCraRzEg4e8yfEaSM4PGXg53WbNXdOfgcgJs/KZs8Qdwg6Q==',1,0,1,1),(2,'ridho','$2y$10$.y.tPzuHYsvbiHPaT/bMCOZdsreiIFMMkTgPXQ0QG1HBQI12g0F5q','Muhammad Ridho','ridho@jsm.co.id',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,'2021-04-03 23:52:22','2021-04-04 02:10:54',2,'2021-04-08 23:45:47',2,18,NULL,0,0,1,1),(3,'employer1','$2y$10$JDgo2Ilr2QnTnRILB4ETy.LSF9gwJTqxV4SIvrq4o4WC/a7WHxpDG','User Employer 1','employer1@email.com',NULL,NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,'2021-05-02 00:08:29','2021-05-02 00:08:29',1,'2021-05-02 00:23:02',1,3,NULL,0,0,1,1),(4,'agency1','$2y$10$tgLIP9pgC32N8qSpB3aVo.fsWZC5k5WPWCwYmS64Rn5oE23x9bkte','User Agency 1','agency1@email.com',NULL,2,NULL,NULL,3,NULL,NULL,NULL,NULL,'2021-05-02 00:09:07','2021-05-02 00:09:07',1,'2021-07-04 22:32:45',1,8,NULL,0,0,1,1),(5,'agency2','$2y$10$13Pv9eO//JCnQSx44eSKtOS7G0G9.CPNM35775EdAdWgwS3J1/5fy','User Agency 2','agency2@email.com',NULL,5,NULL,NULL,3,NULL,NULL,NULL,NULL,'2021-05-02 00:09:51','2021-05-02 00:09:51',1,'2021-05-06 00:09:32',1,4,NULL,0,0,1,1),(6,'worker1','$2y$10$S4Hob90h4zy8M2FOCF8qMuhzSHTJcIcAoWPdTc1eYz7kZNsJ6tb3G','User Worker 1','worker1@email.com',NULL,NULL,NULL,NULL,4,NULL,NULL,NULL,NULL,'2021-05-02 00:10:47','2021-05-02 00:10:47',1,'2021-05-02 00:22:36',1,1,NULL,0,0,1,1);
+insert  into `users`(`id`,`username`,`password`,`fullname`,`email`,`phone`,`agency_location_id`,`country_id`,`company`,`user_level_id`,`host_address`,`ip_address`,`last_event_date`,`last_event_id`,`request_date`,`register_date`,`register_user_id`,`update_date`,`update_user_id`,`update_count`,`verification_code`,`is_request_password`,`is_request_register`,`is_register`,`is_active`) values (1,'dion','$2y$10$0fs3zNwpuTsug793bwo6hu6ecK1azoNYXFg4Q8xDj4Uj2GIHvIVRC','Dionisius','dion@jsm.co.id',NULL,1,NULL,NULL,1,NULL,NULL,NULL,NULL,'2021-04-03 23:52:21','2021-04-04 22:01:14',1,'2023-10-29 22:12:56',1,23,'kjfQexoDw7dO0OT+CReoTRGsH4m2qOID2G80G+buCraRzEg4e8yfEaSM4PGXg53WbNXdOfgcgJs/KZs8Qdwg6Q==',1,0,1,1),(2,'ridho','$2y$10$.y.tPzuHYsvbiHPaT/bMCOZdsreiIFMMkTgPXQ0QG1HBQI12g0F5q','Muhammad Ridho','ridho@jsm.co.id',NULL,NULL,NULL,NULL,1,NULL,NULL,NULL,NULL,'2021-04-03 23:52:22','2021-04-04 02:10:54',2,'2021-04-08 23:45:47',2,18,NULL,0,0,1,1),(3,'employer1','$2y$10$JDgo2Ilr2QnTnRILB4ETy.LSF9gwJTqxV4SIvrq4o4WC/a7WHxpDG','User Employer 1','employer1@email.com',NULL,NULL,NULL,NULL,2,NULL,NULL,NULL,NULL,'2021-05-02 00:08:29','2021-05-02 00:08:29',1,'2021-05-02 00:23:02',1,3,NULL,0,0,1,1),(4,'agency1','$2y$10$tgLIP9pgC32N8qSpB3aVo.fsWZC5k5WPWCwYmS64Rn5oE23x9bkte','User Agency 1','agency1@email.com',NULL,2,NULL,NULL,3,NULL,NULL,NULL,NULL,'2021-05-02 00:09:07','2021-05-02 00:09:07',1,'2021-07-04 22:32:45',1,8,NULL,0,0,1,1),(5,'worker1','$2y$10$S4Hob90h4zy8M2FOCF8qMuhzSHTJcIcAoWPdTc1eYz7kZNsJ6tb3G','User Worker 1','worker1@email.com',NULL,NULL,NULL,NULL,4,NULL,NULL,NULL,NULL,'2021-05-02 00:10:47','2021-05-02 00:10:47',1,'2023-11-21 16:21:48',1,2,NULL,0,0,1,1);
 
 /*Table structure for table `worker_attachments` */
 
@@ -912,6 +946,45 @@ DROP TABLE IF EXISTS `view_cooking_abilities`;
  `is_active` tinyint(1) 
 )*/;
 
+/*Table structure for table `view_galleries` */
+
+DROP TABLE IF EXISTS `view_galleries`;
+
+/*!50001 DROP VIEW IF EXISTS `view_galleries` */;
+/*!50001 DROP TABLE IF EXISTS `view_galleries` */;
+
+/*!50001 CREATE TABLE  `view_galleries`(
+ `id` int(11) ,
+ `picture` varchar(255) ,
+ `pictname` varchar(50) ,
+ `description` varchar(255) ,
+ `create_date` timestamp ,
+ `is_active` int(1) 
+)*/;
+
+/*Table structure for table `view_guest_books` */
+
+DROP TABLE IF EXISTS `view_guest_books`;
+
+/*!50001 DROP VIEW IF EXISTS `view_guest_books` */;
+/*!50001 DROP TABLE IF EXISTS `view_guest_books` */;
+
+/*!50001 CREATE TABLE  `view_guest_books`(
+ `id` int(11) ,
+ `subject` varchar(100) ,
+ `body` varchar(255) ,
+ `sender_name` varchar(100) ,
+ `sender_email` varchar(100) ,
+ `status_id` tinyint(1) unsigned ,
+ `create_date` datetime ,
+ `update_date` datetime ,
+ `update_user_id` int(11) ,
+ `is_active` tinyint(1) ,
+ `status` varchar(6) ,
+ `update_username` varchar(30) ,
+ `update_fullname` varchar(100) 
+)*/;
+
 /*Table structure for table `view_language_abilities` */
 
 DROP TABLE IF EXISTS `view_language_abilities`;
@@ -999,6 +1072,22 @@ DROP TABLE IF EXISTS `view_suplementary_questions`;
  `update_user_id` int(11) ,
  `update_by` varchar(30) ,
  `is_active` tinyint(1) 
+)*/;
+
+/*Table structure for table `view_testimonies` */
+
+DROP TABLE IF EXISTS `view_testimonies`;
+
+/*!50001 DROP VIEW IF EXISTS `view_testimonies` */;
+/*!50001 DROP TABLE IF EXISTS `view_testimonies` */;
+
+/*!50001 CREATE TABLE  `view_testimonies`(
+ `id` int(11) ,
+ `picture` varchar(255) ,
+ `fullname` varchar(50) ,
+ `description` varchar(255) ,
+ `create_date` timestamp ,
+ `is_active` int(11) 
 )*/;
 
 /*Table structure for table `view_total_data` */
@@ -1237,6 +1326,20 @@ DROP TABLE IF EXISTS `view_workers`;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_cooking_abilities` AS select `cooking_abilities`.`id` AS `id`,`cooking_abilities`.`name` AS `name`,`cooking_abilities`.`name_chn` AS `name_chn`,`cooking_abilities`.`slug` AS `slug`,(select count(`workers`.`id`) from `workers` where find_in_set(`cooking_abilities`.`id`,`workers`.`cooking_ability_ids`)) AS `total_worker`,`cooking_abilities`.`create_date` AS `create_date`,`cooking_abilities`.`create_user_id` AS `create_user_id`,(select `users`.`username` from `users` where `users`.`id` = `cooking_abilities`.`create_user_id`) AS `create_by`,`cooking_abilities`.`update_date` AS `update_date`,`cooking_abilities`.`update_user_id` AS `update_user_id`,(select `users`.`username` from `users` where `users`.`id` = `cooking_abilities`.`update_user_id`) AS `update_by`,`cooking_abilities`.`update_count` AS `update_count`,`cooking_abilities`.`is_active` AS `is_active` from `cooking_abilities` group by `cooking_abilities`.`id` */;
 
+/*View structure for view view_galleries */
+
+/*!50001 DROP TABLE IF EXISTS `view_galleries` */;
+/*!50001 DROP VIEW IF EXISTS `view_galleries` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_galleries` AS select `galleries`.`id` AS `id`,`galleries`.`picture` AS `picture`,`galleries`.`pictname` AS `pictname`,`galleries`.`description` AS `description`,`galleries`.`create_date` AS `create_date`,`galleries`.`is_active` AS `is_active` from `galleries` group by `galleries`.`id` */;
+
+/*View structure for view view_guest_books */
+
+/*!50001 DROP TABLE IF EXISTS `view_guest_books` */;
+/*!50001 DROP VIEW IF EXISTS `view_guest_books` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_guest_books` AS select `guest_books`.`id` AS `id`,`guest_books`.`subject` AS `subject`,`guest_books`.`body` AS `body`,`guest_books`.`sender_name` AS `sender_name`,`guest_books`.`sender_email` AS `sender_email`,`guest_books`.`status_id` AS `status_id`,`guest_books`.`create_date` AS `create_date`,`guest_books`.`update_date` AS `update_date`,`guest_books`.`update_user_id` AS `update_user_id`,`guest_books`.`is_active` AS `is_active`,case `guest_books`.`status_id` when '1' then 'Unread' when '2' then 'Read' else NULL end AS `status`,`update_users`.`username` AS `update_username`,`update_users`.`fullname` AS `update_fullname` from (`guest_books` left join `users` `update_users` on(`update_users`.`id` = `guest_books`.`update_user_id`)) group by `guest_books`.`id` */;
+
 /*View structure for view view_language_abilities */
 
 /*!50001 DROP TABLE IF EXISTS `view_language_abilities` */;
@@ -1264,6 +1367,13 @@ DROP TABLE IF EXISTS `view_workers`;
 /*!50001 DROP VIEW IF EXISTS `view_suplementary_questions` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_suplementary_questions` AS select `suplementary_questions`.`id` AS `id`,`suplementary_questions`.`question` AS `question`,`suplementary_questions`.`answer_type_id` AS `answer_type_id`,case `suplementary_questions`.`answer_type_id` when 1 then 'Option' when 2 then 'Text' else NULL end AS `answer_type`,`suplementary_questions`.`create_date` AS `create_date`,`suplementary_questions`.`create_user_id` AS `create_user_id`,(select `user_creates`.`username` from `users` `user_creates` where `user_creates`.`id` = `suplementary_questions`.`create_user_id`) AS `create_by`,`suplementary_questions`.`update_date` AS `update_date`,`suplementary_questions`.`update_user_id` AS `update_user_id`,(select `user_updates`.`username` from `users` `user_updates` where `user_updates`.`id` = `suplementary_questions`.`update_user_id`) AS `update_by`,`suplementary_questions`.`is_active` AS `is_active` from `suplementary_questions` group by `suplementary_questions`.`id` */;
+
+/*View structure for view view_testimonies */
+
+/*!50001 DROP TABLE IF EXISTS `view_testimonies` */;
+/*!50001 DROP VIEW IF EXISTS `view_testimonies` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_testimonies` AS select `testimonies`.`id` AS `id`,`testimonies`.`picture` AS `picture`,`testimonies`.`fullname` AS `fullname`,`testimonies`.`description` AS `description`,`testimonies`.`create_date` AS `create_date`,`testimonies`.`is_active` AS `is_active` from `testimonies` group by `testimonies`.`id` */;
 
 /*View structure for view view_total_data */
 

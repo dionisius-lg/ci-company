@@ -42,7 +42,7 @@
                 <div class="form-group col-md-2">
                     <?php echo form_label($this->lang->line('front')['page_worker']['worker_data']['age'], null); ?>
                     <div class="d-flex flex-wrap">
-                        <div class="input-group input-group-sm input-daterange">
+                        <div class="input-group input-daterange">
                             <?php echo form_input(['type' => 'text', 'name' => 'age_start', 'class' => 'form-control numeric age-range', 'value' => $this->input->get('age_start') ? $this->input->get('age_start') : '']); ?>
                             <div class="input-group-prepend input-group-append">
                                 <span class="input-group-text">to</span>

@@ -162,6 +162,14 @@ $route['admin/cooking-abilities/update/(:num)'] = 'admin/CookingAbilities/update
 $route['admin/cooking-abilities/delete/(:num)'] = 'admin/CookingAbilities/delete/$1';
 
 /**
+ * GuestBooksController
+ * Additional routes for administrator
+ */
+$route['admin/guest-books'] = 'admin/GuestBooks';
+$route['admin/guest-books/detail/(:num)'] = 'admin/GuestBooks/detail/$1';
+$route['admin/guest-books/delete/(:num)'] = 'admin/GuestBooks/delete/$1';
+
+/**
  * RemoteController
  * Additional routes for global
  */
